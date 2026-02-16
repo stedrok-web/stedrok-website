@@ -5,7 +5,7 @@
   --bg-dark: #0b1220;
   --bg-card: #151e2e;
   --text-primary: #e5e7eb;
-  --text-secondary: #9ca3af;
+  --text-secondary: #d1d5db;
   --accent-green: #22c55e;
   --accent-green-dark: #16a34a;
   --accent-red: #ef4444;
@@ -649,6 +649,24 @@ footer {
 
 .legal-notice a:hover {
   text-decoration: underline;
+}
+
+/* Pillar cards for methodology */
+.pillar-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  padding: 24px;
+}
+
+.pillar-value { border-color: rgba(250, 204, 21, 0.6); }
+.pillar-quality { border-color: rgba(59, 130, 246, 0.6); }
+.pillar-safety { border-color: rgba(239, 68, 68, 0.6); }
+.pillar-dip { border-color: rgba(34, 197, 94, 0.6); }
+
+.pillar-card h3 {
+  color: var(--text-primary);
+  margin-bottom: 16px;
 }
 
 /* Grid utilities */
