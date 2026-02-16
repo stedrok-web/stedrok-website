@@ -15,27 +15,37 @@ const CONFIG = {
   API_BASE_URL: 'https://stedrok-api.stedrok.workers.dev',
 };
 
-// Initialize Supabase client and expose it on window for other scripts
-;(function initSupabase() {
+// Initialize Supabase client once and expose it as `window.supabaseClient`.
+// Do NOT declare a top-level `supabase` variable here to avoid redeclaration
+// conflicts with the CDN or other scripts.
+;(function initSupabaseClient() {
   try {
-    // The CDN exposes a global `supabase` namespace with `createClient`.
-    const lib = window.supabase || window.Supabase || null;
-
-    if (lib && typeof lib.createClient === 'function') {
-      // Create client and set both `window.supabase` and `window.supabaseClient`
-      const client = lib.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
-      window.supabase = client;
-      window.supabaseClient = client;
-      console.log('✅ Supabase client initialized')
+    if (window.supabaseClient) {
+      // Already initialized
+      console.log('ℹ️ Supabase client already initialized')
       return;
     }
 
-    // Fallback: if createClient is available globally
-    if (typeof createClient === 'function') {
-      const client = createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
-      window.supabase = client;
+    // The CDN exposes a global namespace that should contain `createClient`.
+    const lib = (window.supabase && typeof window.supabase.createClient === 'function')
+      ? window.supabase
+      : (window.Supabase && typeof window.Supabase.createClient === 'function')
+        ? window.Supabase
+        : null;
+
+    let client = null;
+
+    if (lib) {
+      client = lib.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+    } else if (typeof createClient === 'function') {
+      // Legacy global function available in some bundles
+      client = createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+    }
+
+    if (client) {
+      // Expose only `supabaseClient` to avoid clobbering any existing `supabase` symbol.
       window.supabaseClient = client;
-      console.log('✅ Supabase client initialized (fallback)')
+      console.log('✅ Supabase client initialized')
       return;
     }
 

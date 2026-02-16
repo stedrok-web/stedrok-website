@@ -10,7 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const password = document.getElementById('password').value;
 
       try {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const client = window.supabaseClient;
+        if (!client || !client.auth || typeof client.auth.signInWithPassword !== 'function') {
+          throw new Error('Supabase client not initialized or auth.signInWithPassword unavailable.');
+        }
+
+        const { data, error } = await client.auth.signInWithPassword({
           email,
           password
         });
@@ -35,12 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const password = document.getElementById('password').value;
 
       try {
-        if (!window.supabase || !window.supabase.auth || typeof window.supabase.auth.signUp !== 'function') {
+        const client = window.supabaseClient;
+        if (!client || !client.auth || typeof client.auth.signUp !== 'function') {
           throw new Error('Supabase client not initialized or auth.signUp unavailable. Check `js/config.js` and CDN include.');
         }
 
         // Create user account
-        const { data, error } = await window.supabase.auth.signUp({
+        const { data, error } = await client.auth.signUp({
           email,
           password
         });
