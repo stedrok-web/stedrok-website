@@ -120,6 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Setup filters and sorting
   setupFilters();
+  setupSorting();
 });
 
 // ============================================================
@@ -340,6 +341,40 @@ function setupFilters() {
   document.getElementById('decisionFilter')?.addEventListener('change', applyFilters);
 }
 
+function setupSorting() {
+  // Add click handlers to all sortable column headers
+  const headers = document.querySelectorAll('#stocksTable th[data-sort]');
+  headers.forEach(header => {
+    header.style.cursor = 'pointer';
+    header.addEventListener('click', () => {
+      const column = header.getAttribute('data-sort');
+      
+      // Toggle direction if same column, otherwise default to descending
+      if (currentSortColumn === column) {
+        currentSortDirection = currentSortDirection === 'desc' ? 'asc' : 'desc';
+      } else {
+        currentSortColumn = column;
+        currentSortDirection = 'desc';
+      }
+      
+      // Update visual indicators
+      headers.forEach(h => {
+        const col = h.getAttribute('data-sort');
+        const text = h.textContent.replace(' ↑', '').replace(' ↓', '').replace(' ↕', '');
+        if (col === currentSortColumn) {
+          h.textContent = text + (currentSortDirection === 'desc' ? ' ↓' : ' ↑');
+          h.style.color = 'var(--accent-green)';
+        } else {
+          h.textContent = text + ' ↕';
+          h.style.color = '';
+        }
+      });
+      
+      applyFilters();
+    });
+  });
+}
+
 function applyFilters() {
   let filtered = [...allStocks];
 
@@ -382,6 +417,26 @@ function applyFilters() {
   if (decisionFilter) {
     filtered = filtered.filter(s => s.decision === decisionFilter);
   }
+
+  // Apply sorting
+  filtered.sort((a, b) => {
+    let aVal = a[currentSortColumn];
+    let bVal = b[currentSortColumn];
+    
+    // Handle null/undefined values
+    if (aVal == null) aVal = currentSortDirection === 'desc' ? -Infinity : Infinity;
+    if (bVal == null) bVal = currentSortDirection === 'desc' ? -Infinity : Infinity;
+    
+    // String comparison for text columns
+    if (typeof aVal === 'string') {
+      return currentSortDirection === 'desc' 
+        ? bVal.localeCompare(aVal)
+        : aVal.localeCompare(bVal);
+    }
+    
+    // Numeric comparison
+    return currentSortDirection === 'desc' ? bVal - aVal : aVal - bVal;
+  });
 
   renderTable(filtered);
 }
