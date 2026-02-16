@@ -1,7 +1,26 @@
 // Account management page (PayPal-based subscriptions)
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const { data: { session } } = await supabase.auth.getSession();
+  const client = window.supabaseClient;
+  if (!client || !client.auth) {
+    console.error('Supabase client not initialized on account page');
+    window.location.href = 'login.html';
+    return;
+  }
+
+  // Basic session check
+  let session = null;
+  try {
+    if (typeof client.auth.getSession === 'function') {
+      const res = await client.auth.getSession();
+      session = (res && res.data && res.data.session) ? res.data.session : res.session || null;
+    } else if (typeof client.auth.getUser === 'function') {
+      const res = await client.auth.getUser();
+      session = (res && res.data && res.data.user) ? { user: res.data.user } : null;
+    }
+  } catch (e) {
+    console.warn('Session fetch failed on account page:', e);
+  }
 
   if (!session) {
     window.location.href = 'login.html';
@@ -12,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('userEmail').textContent = user.email;
 
   // Load subscription status
-  const { data: profile } = await supabase
+  const { data: profile } = await client
     .from('profiles')
     .select('*')
     .eq('id', user.id)
@@ -55,7 +74,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Logout
   document.getElementById('logoutBtn').addEventListener('click', async () => {
-    await supabase.auth.signOut();
+    try {
+      if (client.auth && typeof client.auth.signOut === 'function') {
+        await client.auth.signOut();
+      }
+    } catch (e) {
+      console.error('Logout failed:', e);
+    }
     window.location.href = 'index.html';
   });
 
@@ -68,7 +93,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Sign out (actual deletion requires server-side admin API or Supabase Edge Function)
     alert('Please email contact@stedrok.org to complete account deletion. You will be logged out now.');
-    await supabase.auth.signOut();
+    try {
+      if (client.auth && typeof client.auth.signOut === 'function') {
+        await client.auth.signOut();
+      }
+    } catch (e) {
+      console.error('Sign out during account delete failed:', e);
+    }
     window.location.href = 'index.html';
   });
 });
