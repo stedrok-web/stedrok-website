@@ -38,8 +38,32 @@ document.addEventListener('DOMContentLoaded', () => {
           // Handle specific error cases
           if (error.message.includes('Invalid login credentials')) {
             throw new Error('Invalid email or password. Please try again.');
-          } else if (error.message.includes('Email not confirmed')) {
-            throw new Error('Please check your email and confirm your account first.');
+          } else if (error.message.includes('Email not confirmed') || error.message.includes('email_not_confirmed')) {
+            // Show resend confirmation option
+            errorEl.innerHTML = `
+              Please check your email and confirm your account first.
+              <br><br>
+              <button id="resendConfirmation" class="btn btn-sm btn-secondary" style="margin-top: 10px;">
+                Resend Confirmation Email
+              </button>
+            `;
+            
+            // Add click handler for resend button
+            setTimeout(() => {
+              document.getElementById('resendConfirmation')?.addEventListener('click', async () => {
+                try {
+                  await client.auth.resend({
+                    type: 'signup',
+                    email: email
+                  });
+                  errorEl.textContent = '✓ Confirmation email sent! Please check your inbox.';
+                  errorEl.style.color = 'green';
+                } catch (err) {
+                  errorEl.textContent = 'Failed to resend email. Please try again later.';
+                }
+              });
+            }, 0);
+            return;
           } else {
             throw error;
           }
