@@ -35,8 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const password = document.getElementById('password').value;
 
       try {
+        if (!window.supabase || !window.supabase.auth || typeof window.supabase.auth.signUp !== 'function') {
+          throw new Error('Supabase client not initialized or auth.signUp unavailable. Check `js/config.js` and CDN include.');
+        }
+
         // Create user account
-        const { data, error } = await supabase.auth.signUp({
+        const { data, error } = await window.supabase.auth.signUp({
           email,
           password
         });
@@ -47,7 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('Account created successfully!');
         window.location.href = 'dashboard.html';
       } catch (error) {
-        document.getElementById('error').textContent = error.message;
+        const el = document.getElementById('error');
+        el.textContent = error.message || String(error);
+        console.error('Registration error:', error);
       }
     });
   }
