@@ -3,19 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Account – Stedrok</title>
+  <title>Account Settings – Stedrok</title>
+  <meta name="description" content="Manage your Stedrok account, subscription, and billing settings.">
   <link rel="stylesheet" href="css/main.css">
+  <style>
+    .footer-main { display: flex; justify-content: space-between; align-items: flex-start; padding: 40px 0 20px; border-top: 1px solid var(--border-color); }
+    .footer-left { flex: 1; }
+    .footer-tagline { color: var(--text-secondary); font-size: 14px; margin-top: 8px; max-width: 600px; }
+    .footer-meta { padding: 20px 0; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-secondary); font-size: 13px; }
+  </style>
 </head>
 <body>
   <header>
     <div class="container">
       <nav class="navbar">
-        <div class="logo">Stedrok</div>
+        <a href="index.html" class="logo" aria-label="Stedrok home">Stedrok</a>
         <ul class="nav-links">
           <li><a href="dashboard.html">Dashboard</a></li>
-          <li><a href="account.html" class="active">Account</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
-        <button id="logoutBtn" class="btn-secondary">Log Out</button>
+        <div class="auth-buttons">
+          <a href="account.html" class="btn-secondary active">Account</a>
+          <button id="logoutBtn" class="btn-secondary">Log Out</button>
+        </div>
       </nav>
     </div>
   </header>
@@ -40,12 +52,37 @@
 
         <div class="card">
           <h2 style="color:var(--accent-red);">Danger Zone</h2>
-          <p style="color:var(--text-secondary); margin-bottom:12px;">This action is irreversible.</p>
+          <p style="color:var(--text-secondary); margin-bottom:12px;">
+            This will permanently delete your account and remove your personal data from Stedrok.
+            Payment records may be retained for tax and audit purposes as explained in our <a href="privacy.html" style="color:var(--accent-green);">Privacy Policy</a>.
+          </p>
           <button id="deleteAccountBtn" class="btn-danger">Delete Account</button>
         </div>
       </div>
     </div>
   </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-left">
+          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
+          <p class="footer-tagline">
+            Stedrok is an educational stock research tool. It does not provide personal financial advice.
+          </p>
+        </div>
+        <nav class="footer-links">
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="methodology.html">Methodology</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-meta">
+        <p>Stedrok Pty Ltd · ABN [Your ABN] · Sydney, Australia</p>
+      </div>
+    </div>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>

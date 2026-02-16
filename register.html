@@ -4,7 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Up – Stedrok</title>
+  <meta name="description" content="Create your free Stedrok account. Start with 3 stocks, upgrade to Pro for 100+ stocks.">
   <link rel="stylesheet" href="css/main.css">
+  <style>
+    .form-legal { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); font-size: 13px; color: var(--text-secondary); text-align: center; }
+    .form-legal a { color: var(--accent-green); text-decoration: underline; }
+  </style>
 </head>
 <body>
   <div class="auth-container">
@@ -17,12 +22,16 @@
           <input type="email" id="email" required placeholder="your@email.com">
         </div>
         <div class="form-group">
-          <label>Password</label>
+          <label for="password">Password</label>
           <input type="password" id="password" required minlength="8" placeholder="At least 8 characters">
           <small>At least 8 characters</small>
         </div>
         <button type="submit" class="btn-primary btn-block">Create Account</button>
         <div id="error" class="error-message"></div>
+        <p class="form-legal">
+          By continuing, you confirm you have read and agree to our
+          <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.
+        </p>
         <div class="form-footer">
           Already have an account? <a href="login.html">Log in</a>
         </div>

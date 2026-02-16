@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pricing – Stedrok</title>
+  <title>Pricing – Stedrok Stock Screener</title>
+  <meta name="description" content="Simple, transparent pricing for institutional-grade stock screening. $3/month for full access to 100+ ranked stocks. Free tier available.">
+  <meta property="og:title" content="Pricing – Stedrok Stock Screener">
+  <meta property="og:description" content="Simple, transparent pricing. $3/month for full access to 100+ ranked stocks. Free tier available.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://stedrok.org/pricing.html">
+  <meta property="og:site_name" content="Stedrok">
   <link rel="stylesheet" href="css/main.css">
   <style>
     #paypal-button-container { margin-top: 20px; min-height: 50px; }
@@ -15,19 +21,30 @@
     .pricing-card.free-tier { border-color: var(--border-color); box-shadow: none; }
     .pricing-card.pro-tier { border-color: var(--accent-green); box-shadow: 0 20px 60px rgba(34,197,94,0.2); }
     .free-tier .price { color: var(--text-primary); }
+    .footer-main { display: flex; justify-content: space-between; align-items: flex-start; padding: 40px 0 20px; border-top: 1px solid var(--border-color); }
+    .footer-left { flex: 1; }
+    .footer-tagline { color: var(--text-secondary); font-size: 14px; margin-top: 8px; max-width: 600px; }
+    .footer-meta { padding: 20px 0; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-secondary); font-size: 13px; }
+    .legal-note { padding: 16px; background: rgba(59,130,246,0.08); border-radius: 8px; margin-bottom: 24px; font-size: 14px; color: var(--text-secondary); text-align: center; }
   </style>
 </head>
 <body>
   <header>
     <div class="container">
       <nav class="navbar">
-        <div class="logo">Stedrok</div>
+        <a href="index.html" class="logo" aria-label="Stedrok home">Stedrok</a>
         <ul class="nav-links">
-          <li><a href="index.html">Home</a></li>
           <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
           <li><a href="pricing.html" class="active">Pricing</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
-        <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+          <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+          <a href="dashboard.html" class="btn-primary" id="dashboardBtn" style="display:none;">Dashboard</a>
+          <button class="btn-secondary" id="logoutBtn" style="display:none;">Log Out</button>
+        </div>
       </nav>
     </div>
   </header>
@@ -36,7 +53,10 @@
     <div class="container">
       <div class="pricing-section">
         <h1>Simple, Transparent Pricing</h1>
-        <p class="subtitle">No hidden fees. Cancel anytime.</p>
+        <p class="subtitle">All prices in USD. No hidden fees. Cancel anytime.</p>
+        <div class="legal-note">
+          Monthly subscription, renews automatically until cancelled. 30-day money-back guarantee for new subscribers. See <a href="terms.html" style="color:var(--accent-green); text-decoration:underline;">Terms</a> for details.
+        </div>
 
         <div class="pricing-grid">
           <div class="pricing-card free-tier">
@@ -65,7 +85,7 @@
               <li>✓ 30-day money-back guarantee</li>
             </ul>
             <button class="btn-primary btn-large btn-block" onclick="document.getElementById('checkout-container').scrollIntoView({behavior:'smooth'})">Subscribe Now</button>
-            <p class="payment-note">Secure payment by PayPal.</p>
+            <p class="payment-note">Secure payment by PayPal. Stedrok never sees or stores your card details – all billing data is handled by PayPal.</p>
           </div>
         </div>
 
@@ -99,7 +119,7 @@
           </div>
           <div class="faq-item">
             <h3>Can I cancel anytime?</h3>
-            <p>Yes. Go to Account → Manage Subscription. Cancel in 2 clicks. No questions asked.</p>
+            <p>Yes. Cancel online at any time from your account or PayPal. No lock-in contracts.</p>
           </div>
           <div class="faq-item">
             <h3>What payment methods do you accept?</h3>
@@ -113,6 +133,10 @@
             <h3>How do I reset my password?</h3>
             <p>Click "Forgot Password" on the login page. You'll receive a reset link via email.</p>
           </div>
+          <div class="faq-item">
+            <h3>Is this financial advice?</h3>
+            <p>No. Stedrok provides an educational research tool and model-based stock scores. It does not provide personal financial advice or recommendations.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -120,12 +144,23 @@
 
   <footer>
     <div class="container">
-      <p>&copy; 2026 Stedrok. Educational tool for value investors.</p>
-      <nav class="footer-links">
-        <a href="terms.html">Terms</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="contact.html">Contact</a>
-      </nav>
+      <div class="footer-main">
+        <div class="footer-left">
+          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
+          <p class="footer-tagline">
+            Stedrok is an educational stock research tool. It does not provide personal financial advice.
+          </p>
+        </div>
+        <nav class="footer-links">
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="methodology.html">Methodology</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-meta">
+        <p>Stedrok Pty Ltd · ABN [Your ABN] · Sydney, Australia</p>
+      </div>
     </div>
   </footer>
 
@@ -134,6 +169,20 @@
   <script src="js/config.js"></script>
 
   <script>
+    // Auth-aware navigation
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        document.getElementById('loginBtn').style.display = 'none';
+        document.getElementById('registerBtn').style.display = 'none';
+        document.getElementById('dashboardBtn').style.display = 'inline-block';
+        document.getElementById('logoutBtn').style.display = 'inline-block';
+      }
+    });
+    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.reload();
+    });
+
     let currentUser = null;
 
     document.addEventListener('DOMContentLoaded', async () => {

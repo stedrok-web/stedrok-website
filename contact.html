@@ -4,20 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Us – Stedrok</title>
+  <meta name="description" content="Get in touch with Stedrok. We typically respond within one business day.">
   <link rel="stylesheet" href="css/main.css">
+  <style>
+    .footer-main { display: flex; justify-content: space-between; align-items: flex-start; padding: 40px 0 20px; border-top: 1px solid var(--border-color); }
+    .footer-left { flex: 1; }
+    .footer-tagline { color: var(--text-secondary); font-size: 14px; margin-top: 8px; max-width: 600px; }
+    .footer-meta { padding: 20px 0; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-secondary); font-size: 13px; }
+  </style>
 </head>
 <body>
   <header>
     <div class="container">
       <nav class="navbar">
-        <div class="logo">Stedrok</div>
+        <a href="index.html" class="logo" aria-label="Stedrok home">Stedrok</a>
         <ul class="nav-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="pricing.html">Pricing</a></li>
           <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="contact.html" class="active">Contact</a></li>
         </ul>
-        <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
-        <button id="logoutBtn" class="btn-secondary" style="display:none;">Log Out</button>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+          <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+          <a href="dashboard.html" class="btn-primary" id="dashboardBtn" style="display:none;">Dashboard</a>
+          <button class="btn-secondary" id="logoutBtn" style="display:none;">Log Out</button>
+        </div>
       </nav>
     </div>
   </header>
@@ -28,7 +40,7 @@
         <div class="card" style="padding:40px;">
           <h1 style="text-align:center; margin-bottom:8px;">Contact Us</h1>
           <p style="text-align:center; color:var(--text-secondary); margin-bottom:32px;">
-            Have questions or feedback? We typically respond within 24 hours.
+            Have questions or feedback? We typically respond within one business day.
           </p>
 
           <div id="statusMessage" style="display:none; padding:16px; border-radius:10px; margin-bottom:20px;"></div>
@@ -83,8 +95,17 @@
           </div>
 
           <div style="margin-bottom:16px;">
+            <strong style="color:var(--accent-green);">📍 Address</strong>
+            <p style="color:var(--text-secondary); margin-top:4px;">
+              Stedrok Pty Ltd<br>
+              [Your Mailing Address]<br>
+              Sydney, NSW, Australia
+            </p>
+          </div>
+
+          <div style="margin-bottom:16px;">
             <strong style="color:var(--accent-green);">⏱️ Response Time</strong>
-            <p style="color:var(--text-secondary); margin-top:4px;">Typically 24 hours or less (business days)</p>
+            <p style="color:var(--text-secondary); margin-top:4px;">Typically within one business day</p>
           </div>
 
           <div>
@@ -94,18 +115,33 @@
             </p>
           </div>
         </div>
+
+        <p style="margin-top:24px; padding-top:24px; border-top:1px solid var(--border-color); font-size:14px; color:var(--text-secondary);">
+          Note: This form is for demonstration. For urgent issues, email <a href="mailto:contact@stedrok.org" style="color:var(--accent-green);">contact@stedrok.org</a> directly.
+        </p>
       </div>
     </div>
   </main>
 
   <footer>
     <div class="container">
-      <p>&copy; 2026 Stedrok. All rights reserved.</p>
-      <nav class="footer-links">
-        <a href="terms.html">Terms</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="contact.html">Contact</a>
-      </nav>
+      <div class="footer-main">
+        <div class="footer-left">
+          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
+          <p class="footer-tagline">
+            Stedrok is an educational stock research tool. It does not provide personal financial advice.
+          </p>
+        </div>
+        <nav class="footer-links">
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="methodology.html">Methodology</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-meta">
+        <p>Stedrok Pty Ltd · ABN [Your ABN] · Sydney, Australia</p>
+      </div>
     </div>
   </footer>
 
@@ -116,6 +152,8 @@
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         document.getElementById('loginBtn').style.display = 'none';
+        document.getElementById('registerBtn').style.display = 'none';
+        document.getElementById('dashboardBtn').style.display = 'inline-block';
         document.getElementById('logoutBtn').style.display = 'inline-block';
         document.getElementById('email').value = session.user.email;
       }

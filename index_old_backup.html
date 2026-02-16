@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stedrok – Institutional-Grade Value Stock Screener</title>
+  <meta name="description" content="Professional value stock screener for conservative investors. 100+ global stocks ranked daily by value, quality, and resilience. $3/month. Free tier available.">
+  <meta property="og:title" content="Stedrok – Institutional-Grade Value Stock Screener">
+  <meta property="og:description" content="Professional value stock screener for conservative investors. 100+ global stocks ranked daily.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://stedrok.org/">
+  <meta property="og:site_name" content="Stedrok">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .trust-strip { margin-top: 24px; padding: 16px; background: rgba(34,197,94,0.08); border-radius: 8px; color: var(--text-secondary); font-size: 14px; }
+    .trust-strip.secondary { background: rgba(59,130,246,0.08); margin-top: 12px; }
+    .how-it-works { padding: 80px 0; background: var(--bg-card); }
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 40px; }
+    .step-card { text-align: center; padding: 32px; background: var(--bg-dark); border: 1px solid var(--border-color); border-radius: 12px; }
+    .step-number { width: 48px; height: 48px; margin: 0 auto 16px; background: var(--accent-green); color: var(--bg-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; }
+    @media (max-width: 768px) { .steps-grid { grid-template-columns: 1fr; } }
+    .footer-main { display: flex; justify-content: space-between; align-items: flex-start; padding: 40px 0 20px; border-top: 1px solid var(--border-color); }
+    .footer-left { flex: 1; }
+    .footer-tagline { color: var(--text-secondary); font-size: 14px; margin-top: 8px; max-width: 600px; }
+    .footer-meta { padding: 20px 0; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-secondary); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo" aria-label="Stedrok home">Stedrok</a>
+        <ul class="nav-links">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+          <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+          <a href="dashboard.html" class="btn-primary" id="dashboardBtn" style="display:none;">Dashboard</a>
+          <button class="btn-secondary" id="logoutBtn" style="display:none;">Log Out</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Institutional-Grade Value Screening<br><span class="gradient-text">for Serious Investors</span></h1>
+        <p class="lead">
+          Stedrok ranks 100+ global stocks by value, business strength, and resilience.
+          Built for conservative, long-term investors. <strong>$3/month.</strong> Start free with 3 stocks.
+        </p>
+        <div class="cta-buttons">
+          <a href="register.html" class="btn-primary btn-large">Start Free (3 Stocks)</a>
+          <a href="pricing.html" class="btn-secondary btn-large">View Pricing</a>
+        </div>
+        <p class="trust-badges">
+          ✓ Free Forever Tier &nbsp;&nbsp; ✓ Cancel Anytime &nbsp;&nbsp; ✓ 30-Day Money-Back
+        </p>
+        <div class="trust-strip">
+          Data pipeline secured by Supabase and Cloudflare Workers. Payments handled by PayPal.
+        </div>
+        <div class="trust-strip secondary">
+          Stedrok is an educational research tool – it does not provide personal financial advice.
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <h2>What You Get</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>100+ Stocks Ranked Daily</h3>
+            <p>Transparent scoring across four pillars: value, business strength, resilience, and price context – updated every market day.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Your Private Account</h3>
+            <p>Secure login. Save watchlists. Set price alerts. Export to CSV. Full control over your data.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Simple Billing</h3>
+            <p>$3/month via PayPal. Cancel online at any time from your account or PayPal. No lock-in contracts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works">
+      <div class="container">
+        <h2 style="text-align:center;">How Stedrok Works</h2>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h3>Create Your Account</h3>
+            <p>Start free in under 60 seconds. No credit card required. Access 3 ranked stocks immediately.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h3>Browse Ranked Opportunities</h3>
+            <p>See our top-rated stocks based on value, quality, resilience, and price context. Updated daily.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h3>Drill Into the Methodology</h3>
+            <p>Understand exactly how each score is calculated. Transparent, repeatable, data-driven.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-left">
+          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
+          <p class="footer-tagline">
+            Stedrok is an educational stock research tool. It does not provide personal financial advice.
+          </p>
+        </div>
+        <nav class="footer-links">
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="methodology.html">Methodology</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-meta">
+        <p>Stedrok Pty Ltd · ABN [Your ABN] · Sydney, Australia</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script>
+    // Auth-aware navigation: show Dashboard/Logout if logged in
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        document.getElementById('loginBtn').style.display = 'none';
+        document.getElementById('registerBtn').style.display = 'none';
+        document.getElementById('dashboardBtn').style.display = 'inline-block';
+        document.getElementById('logoutBtn').style.display = 'inline-block';
+      }
+    });
+    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>

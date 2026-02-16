@@ -3,172 +3,400 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Methodology – Stedrok Stock Screener</title>
+  <title>Methodology – Stedrok</title>
+  <meta name="description" content="Understand how Stedrok evaluates companies using four pillars: value, business strength, resilience, and price context. Clear, transparent, investor-friendly methodology.">
+  <meta property="og:title" content="Methodology – Stedrok">
+  <meta property="og:description" content="How Stedrok evaluates and ranks companies across value, quality, resilience, and price context.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://stedrok.org/methodology.html">
+  <meta property="og:site_name" content="Stedrok">
   <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* Hero section */
+    .hero { padding: 60px 0 40px; background: linear-gradient(135deg, rgba(34,197,94,0.03) 0%, rgba(59,130,246,0.03) 100%); }
+    .hero-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+    .hero h1 { font-size: 42px; margin-bottom: 20px; }
+    .hero-tagline { font-size: 20px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; }
+    .hero-subtext { font-size: 15px; color: var(--text-secondary); font-style: italic; opacity: 0.85; }
+
+    /* Section layouts */
+    .section { padding: 48px 0; }
+    .section--light { background: rgba(249,250,251,0.5); }
+    .section--border-top { border-top: 1px solid var(--border-color); }
+    .section h2 { font-size: 32px; margin-bottom: 20px; }
+    .section-lead { font-size: 18px; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.7; }
+
+    /* Four pillars grid */
+    .pillars-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0; }
+    .pillar-card { padding: 32px; border-radius: 12px; border: 1px solid; }
+    .pillar-card h3 { margin-bottom: 16px; font-size: 22px; }
+    .pillar-card p { color: var(--text-secondary); margin-bottom: 14px; line-height: 1.7; }
+    .pillar-note { font-size: 14px; margin-top: 20px; font-style: italic; opacity: 0.85; border-left: 3px solid currentColor; padding-left: 16px; }
+    .pillar-card--value { background: rgba(34,197,94,0.05); border-color: rgba(34,197,94,0.25); color: var(--accent-green); }
+    .pillar-card--quality { background: rgba(59,130,246,0.05); border-color: rgba(59,130,246,0.25); color: #3b82f6; }
+    .pillar-card--resilience { background: rgba(239,68,68,0.05); border-color: rgba(239,68,68,0.25); color: var(--accent-red); }
+    .pillar-card--price { background: rgba(250,204,21,0.05); border-color: rgba(250,204,21,0.25); color: #facc15; }
+
+    /* Rating table */
+    .table-container { overflow-x: auto; margin: 32px 0; }
+    .rating-table { width: 100%; border-collapse: collapse; }
+    .rating-table th { text-align: left; padding: 16px; background: var(--bg-card); border-bottom: 2px solid var(--border-color); }
+    .rating-table td { padding: 20px 16px; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+    .rating-table td:first-child { width: 120px; }
+    .badge { display: inline-block; padding: 6px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .badge-buy { background: var(--accent-green); color: white; }
+    .badge-watch { background: rgba(250,204,21,0.2); color: #b8860b; border: 1px solid rgba(250,204,21,0.4); }
+    .badge-avoid { background: rgba(239,68,68,0.15); color: var(--accent-red); border: 1px solid rgba(239,68,68,0.3); }
+
+    /* Usage grid */
+    .usage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 32px 0; }
+    .usage-card { padding: 28px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; }
+    .usage-card h3 { font-size: 18px; margin-bottom: 12px; }
+    .usage-card p { color: var(--text-secondary); line-height: 1.7; }
+
+    /* Two column layout */
+    .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin: 32px 0; }
+    .two-column h3 { font-size: 20px; margin-bottom: 12px; }
+    .two-column p { color: var(--text-secondary); margin-bottom: 16px; line-height: 1.7; }
+
+    /* Disclaimer card */
+    .disclaimer-card { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 32px; margin-top: 40px; }
+    .disclaimer-card h3 { color: var(--accent-red); margin-bottom: 12px; }
+    .disclaimer-card p { color: var(--text-secondary); line-height: 1.8; }
+
+    .text-muted { color: var(--text-secondary); font-style: italic; }
+
+    /* Footer */
+    .footer-main { display: flex; justify-content: space-between; align-items: flex-start; padding: 40px 0 20px; border-top: 1px solid var(--border-color); }
+    .footer-left { flex: 1; }
+    .footer-tagline { color: var(--text-secondary); font-size: 14px; margin-top: 8px; max-width: 600px; }
+    .footer-meta { padding: 20px 0; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-secondary); font-size: 13px; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .pillars-grid { grid-template-columns: 1fr; }
+      .usage-grid { grid-template-columns: 1fr; }
+      .two-column { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 32px; }
+    }
+  </style>
 </head>
 <body>
   <header>
     <div class="container">
       <nav class="navbar">
-        <div class="logo">Stedrok</div>
+        <a href="index.html" class="logo" aria-label="Stedrok home">Stedrok</a>
         <ul class="nav-links">
-          <li><a href="index.html">Home</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="methodology.html" class="active">Methodology</a></li>
           <li><a href="pricing.html">Pricing</a></li>
-          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
-        <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+        <div class="auth-buttons">
+          <a href="login.html" class="btn-secondary">Log In</a>
+          <a href="register.html" class="btn-primary">Start Free Trial</a>
+        </div>
       </nav>
     </div>
   </header>
 
   <main>
-    <div class="container">
-      <section style="max-width:900px; margin:60px auto;">
-        <h1>How Stedrok Ranks Stocks</h1>
-        <p style="color:var(--text-secondary); font-size:16px; margin-bottom:40px;">
-          Transparent, repeatable, data-driven scoring
+    <!-- Hero / Intro -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <h1>How Stedrok Scores Companies</h1>
+          <p class="hero-tagline">
+            A transparent, disciplined framework for value‑oriented investors.
+            No black boxes, no hype – just a clear view of how each company is evaluated.
+          </p>
+          <p class="hero-subtext">
+            Stedrok does not provide personal financial advice. The scores are
+            research tools to help you focus your own analysis.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Philosophy -->
+    <section class="section section--light">
+      <div class="container">
+        <h2>Investment philosophy</h2>
+        <p>
+          Stedrok is built for patient, conservative investors who care about
+          paying sensible prices for resilient businesses. The methodology is
+          grounded in long‑standing value principles: focus on underlying cash
+          generation, protect the downside, and look for opportunities when
+          share prices are temporarily out of favour.
+        </p>
+        <p>
+          Rather than chasing themes or short‑term noise, we concentrate on the
+          relationship between business strength, balance sheet resilience,
+          valuation, and where the current price sits in its recent history.
+        </p>
+      </div>
+    </section>
+
+    <!-- Four Pillars -->
+    <section class="section">
+      <div class="container">
+        <h2>The four pillars of the Stedrok model</h2>
+        <p class="section-lead">
+          Every company in Stedrok is evaluated through four main lenses:
+          value, business strength, resilience, and price context.
+          Each pillar brings together several underlying metrics. No single
+          ratio is ever decisive on its own.
         </p>
 
-        <!-- The Four Pillars -->
-        <div style="background:var(--bg-card); border:1px solid var(--border-color); padding:32px; border-radius:12px; margin-bottom:32px;">
-          <h2 style="margin-bottom:24px;">The Four Pillars</h2>
-          <p style="color:var(--text-secondary); margin-bottom:24px;">Stedrok evaluates every stock across 4 dimensions:</p>
+        <div class="pillars-grid">
+          <article class="pillar-card pillar-card--value">
+            <h3>Value &mdash; what we pay</h3>
+            <p>
+              The value pillar considers whether the current share price is
+              reasonable relative to the profits, cash generation, and assets
+              of the business. The focus is on companies that appear modestly
+              priced given their underlying economics, rather than on
+              speculative stories.
+            </p>
+            <p class="pillar-note">
+              Typical inputs include earnings, cash flow, and balance sheet
+              measures compared with the price investors are asked to pay.
+            </p>
+          </article>
 
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:28px;">
+          <article class="pillar-card pillar-card--quality">
+            <h3>Business strength &mdash; how the company performs</h3>
+            <p>
+              This pillar looks at the quality of the business itself.
+              It emphasises consistent profitability, sensible use of capital,
+              and a track record of reinvesting in a disciplined way.
+              Businesses that steadily create value for shareholders over time
+              tend to be rewarded more strongly.
+            </p>
+            <p class="pillar-note">
+              We give greater emphasis to enduring performance and returns on
+              capital than to short bursts of growth.
+            </p>
+          </article>
 
-            <div style="background:rgba(34,197,94,0.05); border:1px solid rgba(34,197,94,0.2); border-radius:10px; padding:24px;">
-              <h3 style="margin-bottom:8px;">📊 Value (40%)</h3>
-              <p style="color:var(--text-secondary); font-size:14px; margin-bottom:10px;"><strong style="color:var(--text-primary);">Measures:</strong> How cheap is the stock relative to earnings and assets?</p>
-              <ul style="color:var(--text-secondary); font-size:14px; margin-left:16px;">
-                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">P/E Ratio:</strong> Lower = cheap relative to profits</li>
-                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">P/B Ratio:</strong> Lower = cheap relative to book value</li>
-                <li><strong style="color:var(--text-primary);">P/CF Ratio:</strong> Lower = cheap relative to cash flow</li>
-              </ul>
-            </div>
+          <article class="pillar-card pillar-card--resilience">
+            <h3>Resilience &mdash; ability to withstand stress</h3>
+            <p>
+              Before giving weight to value or growth, the model asks a simple
+              question: can this company reasonably withstand a difficult
+              period. The resilience pillar focuses on liquidity, leverage,
+              and the tendency to avoid sustained losses.
+            </p>
+            <p class="pillar-note">
+              If a company fails to meet basic resilience expectations, its
+              overall rating is constrained regardless of how cheap it looks.
+            </p>
+          </article>
 
-            <div style="background:rgba(59,130,246,0.05); border:1px solid rgba(59,130,246,0.2); border-radius:10px; padding:24px;">
-              <h3 style="margin-bottom:8px;">🏆 Quality (30%)</h3>
-              <p style="color:var(--text-secondary); font-size:14px; margin-bottom:10px;"><strong style="color:var(--text-primary);">Measures:</strong> How strong is the business fundamentally?</p>
-              <ul style="color:var(--text-secondary); font-size:14px; margin-left:16px;">
-                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">ROE:</strong> Higher = better profits on shareholder capital</li>
-                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">Debt/Equity:</strong> Lower = less financial risk</li>
-                <li><strong style="color:var(--text-primary);">Revenue Growth:</strong> Consistent 5%+ = healthy organic growth</li>
-              </ul>
-            </div>
+          <article class="pillar-card pillar-card--price">
+            <h3>Price context &mdash; where we are in the range</h3>
+            <p>
+              Even a strong business at a fair valuation can become more
+              interesting when the price has retreated from a previously
+              elevated level. The price context pillar looks at where the
+              current share price sits in relation to its recent range and
+              trend, with emphasis on orderly pullbacks rather than extreme
+              volatility.
+            </p>
+            <p class="pillar-note">
+              The aim is to highlight situations where sentiment has softened
+              while the underlying business remains sound.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-            <div style="background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.2); border-radius:10px; padding:24px;">
-              <h3 style="margin-bottom:8px;">🛡️ Safety (Gate)</h3>
-              <p style="color:var(--text-secondary); font-size:14px; margin-bottom:10px;"><strong style="color:var(--text-primary);">Measures:</strong> Can this company survive a downturn?</p>
-              <ul style="color:var(--text-secondary); font-size:14px; margin-left:16px;">
-                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">Current Ratio:</strong> Assets ÷ Liabilities &gt; 1.5</li>
-                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">Debt Service:</strong> Can pay interest 3x over</li>
-                <li><strong style="color:var(--text-primary);">No Recent Losses:</strong> 2+ years of profitability</li>
-              </ul>
-              <p style="color:var(--accent-red); font-size:13px; margin-top:12px; font-weight:600;">
-                If SAFETY fails, stock auto-fails screening. Quality and Value don't matter if company might go bankrupt.
-              </p>
-            </div>
+    <!-- Overall Score -->
+    <section class="section section--border-top">
+      <div class="container">
+        <h2>From pillars to a single rating</h2>
+        <p>
+          Behind the scenes, each pillar is transformed onto a common scale and
+          then combined into one overall rating. Valuation carries greater
+          influence, followed by business strength and price context, while
+          resilience acts as a strict safety gate.
+        </p>
+        <p>
+          The exact blends and thresholds are deliberately kept flexible.
+          This allows the model to evolve as new research, data, and investor
+          feedback emerge, while keeping the core philosophy unchanged.
+        </p>
+        <p class="text-muted">
+          The rating is a tool for prioritisation. It is not a shortcut around
+          doing your own homework, and it is never a guarantee of future
+          returns.
+        </p>
+      </div>
+    </section>
 
-            <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.2); border-radius:10px; padding:24px;">
-              <h3 style="margin-bottom:8px;">⚡ Dip Timing (30%)</h3>
-              <p style="color:var(--text-secondary); font-size:14px; margin-bottom:10px;"><strong style="color:var(--text-primary);">Measures:</strong> Has the stock recently fallen relative to its history?</p>
-              <ul style="color:var(--text-secondary); font-size:14px; margin-left:16px;">
-                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">52-Week Change:</strong> Down 20%+ from high = high dip score</li>
-                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">Momentum:</strong> Recent downward trend</li>
-                <li><strong style="color:var(--text-primary);">Technical Bounce:</strong> Oversold indicators (RSI &lt; 30)</li>
-              </ul>
-            </div>
+    <!-- Rating Levels -->
+    <section class="section section--light">
+      <div class="container">
+        <h2>How to read Stedrok ratings</h2>
+        <p class="section-lead">
+          Stedrok groups companies into broad bands to help you decide where
+          to spend your research time first.
+        </p>
 
+        <div class="table-container">
+          <table class="stock-table rating-table">
+            <thead>
+              <tr>
+                <th>Rating</th>
+                <th>What it usually signals</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span class="badge badge-buy">Buy</span>
+                </td>
+                <td>
+                  High conviction ideas based on the model. These companies
+                  combine attractive valuation, strong underlying business
+                  quality, and a sound resilience profile. For a
+                  value‑orientated investor, they may deserve deeper,
+                  case‑by‑case analysis.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="badge badge-watch">Watch</span>
+                </td>
+                <td>
+                  Interesting candidates that clear the main quality and
+                  resilience checks but may need either a more attractive
+                  entry price or further improvement in fundamentals.
+                  Many investors use this band as a personal watchlist.
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="badge badge-avoid">Avoid</span>
+                </td>
+                <td>
+                  Companies that currently sit outside our preferred range on
+                  valuation, business strength, or resilience. These names
+                  usually do not justify further work for conservative,
+                  long‑term investors under the current conditions.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Use the Ratings -->
+    <section class="section">
+      <div class="container">
+        <h2>How investors typically use Stedrok</h2>
+        <div class="usage-grid">
+          <article class="usage-card">
+            <h3>Screen for ideas, then investigate</h3>
+            <p>
+              Many users start by filtering for companies with stronger
+              ratings, then dig deeper into the financial statements,
+              industry dynamics, and management quality before making any
+              decisions.
+            </p>
+          </article>
+
+          <article class="usage-card">
+            <h3>Cross‑check existing holdings</h3>
+            <p>
+              Stedrok can act as a second lens on companies you already own
+              or follow. A weaker rating does not automatically mean a sale,
+              but it can prompt a closer look at valuation or resilience.
+            </p>
+          </article>
+
+          <article class="usage-card">
+            <h3>Stay grounded in data</h3>
+            <p>
+              By focusing on fundamentals and balance sheet strength, the
+              model is designed to keep attention on long‑term drivers of
+              value rather than on short‑term market noise or headlines.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data & Limitations -->
+    <section class="section section--light">
+      <div class="container">
+        <h2>Data, updates, and limitations</h2>
+        <div class="two-column">
+          <div>
+            <h3>Data and refresh</h3>
+            <p>
+              Stedrok relies on public market data from reputable providers.
+              Company information is refreshed on a regular schedule aligned
+              with trading days and financial statement releases.
+            </p>
+            <p>
+              While every effort is made to keep information current and
+              accurate, delays, revisions, and occasional data issues are
+              still possible.
+            </p>
+          </div>
+          <div>
+            <h3>Important limitations</h3>
+            <p>
+              The model does not incorporate every factor that may matter to
+              you, such as qualitative assessments of management, detailed
+              industry structure, or your personal tax and risk situation.
+            </p>
+            <p>
+              A high rating is never a prediction that a share will rise, and
+              a low rating is not a prediction that it will fall. Markets are
+              uncertain by nature, and losses are always possible.
+            </p>
           </div>
         </div>
 
-        <!-- Total Score Formula -->
-        <div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.3); border-radius:12px; padding:32px; margin-bottom:32px;">
-          <h2 style="margin-bottom:16px;">Total Score = The Final Grade</h2>
-          <p style="font-size:20px; font-weight:700; color:var(--accent-green); margin-bottom:16px;">
-            Score = (Value × 0.40) + (Quality × 0.30) + (Dip × 0.30)
-          </p>
-          <ul style="color:var(--text-secondary); font-size:15px; list-style:none; padding:0;">
-            <li style="margin-bottom:8px;"><strong style="color:var(--text-primary);">40% Value:</strong> The stock must be cheap — that's the foundation</li>
-            <li style="margin-bottom:8px;"><strong style="color:var(--text-primary);">30% Quality:</strong> But it must be a good business, not a value trap</li>
-            <li style="margin-bottom:8px;"><strong style="color:var(--text-primary);">30% Dip Timing:</strong> And ideally bought after a recent decline</li>
-          </ul>
-          <p style="color:var(--accent-red); font-weight:600; margin-top:16px;">
-            ⚠️ Safety is a GATING REQUIREMENT: If a stock fails safety checks, it's immediately disqualified.
+        <div class="disclaimer-card">
+          <h3>Disclaimer</h3>
+          <p>
+            Stedrok is an educational research tool only. It does not provide
+            personal financial advice, recommendations, or offers to buy or
+            sell any security. Any decisions you make are your own and should
+            take into account your personal objectives, financial situation,
+            and needs. If you are unsure, consider speaking with a licensed
+            financial adviser.
           </p>
         </div>
-
-        <!-- Rating Tiers -->
-        <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:32px; margin-bottom:32px;">
-          <h2 style="margin-bottom:24px;">Our Three Recommendation Tiers</h2>
-          <div class="table-container" style="margin:0; border:none;">
-            <table class="stock-table" style="min-width:auto;">
-              <thead>
-                <tr>
-                  <th>Rating</th>
-                  <th>Score Range</th>
-                  <th>What It Means</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><span class="badge badge-buy">BUY</span></td>
-                  <td><strong>75+</strong></td>
-                  <td>Excellent opportunity. Cheap, quality, and timing is favorable.</td>
-                </tr>
-                <tr>
-                  <td><span class="badge badge-watch">WATCH</span></td>
-                  <td><strong>50–74</strong></td>
-                  <td>Good potential. Watch for price dip or fundamental improvement.</td>
-                </tr>
-                <tr>
-                  <td><span class="badge badge-avoid">AVOID</span></td>
-                  <td><strong>&lt;50</strong></td>
-                  <td>Overvalued, low quality, or unsafe. Doesn't fit our criteria.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Update Frequency -->
-        <div style="background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.3); border-radius:12px; padding:32px; margin-bottom:32px;">
-          <h2 style="margin-bottom:16px;">🔄 Update Frequency</h2>
-          <p style="color:var(--text-secondary);"><strong style="color:var(--text-primary);">Daily:</strong> All rankings recalculated every 24 hours using latest market data</p>
-          <p style="color:var(--text-secondary); margin-top:10px;"><strong style="color:var(--text-primary);">Data Source:</strong> Yahoo Finance API, SEC filings, real-time prices</p>
-        </div>
-
-        <!-- Disclaimer -->
-        <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3); border-radius:12px; padding:32px; margin-bottom:48px;">
-          <h2 style="margin-bottom:16px;">⚖️ Disclaimer</h2>
-          <p style="color:var(--text-secondary);">
-            Stedrok is an educational tool for value investing analysis. Scores are algorithmic and do not guarantee performance.
-            <strong style="color:var(--text-primary);">Past patterns ≠ future results.</strong> Always do your own research before investing. We assume no liability.
-            See our <a href="terms.html" style="color:var(--accent-green);">Terms</a> and <a href="privacy.html" style="color:var(--accent-green);">Privacy Policy</a> for full details.
-          </p>
-        </div>
-
-        <!-- CTA -->
-        <div style="text-align:center; padding:48px 0; border-top:1px solid var(--border-color);">
-          <h2>Ready to See the Scores?</h2>
-          <p style="color:var(--text-secondary); margin:16px 0;">Create a free account to explore 100+ stocks scored with our methodology.</p>
-          <a href="register.html" class="btn-primary btn-large">Start Free (3 Stocks)</a>
-          <p style="margin-top:16px; font-size:14px; color:var(--text-secondary);">No credit card required.</p>
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
   </main>
 
   <footer>
     <div class="container">
-      <p>&copy; 2026 Stedrok. Educational stock screener for value investors.</p>
-      <nav class="footer-links">
-        <a href="terms.html">Terms</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="contact.html">Contact</a>
-        <a href="methodology.html">Methodology</a>
-      </nav>
+      <div class="footer-main">
+        <div class="footer-left">
+          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
+          <p class="footer-tagline">
+            Stedrok is an educational stock research tool. It does not provide personal financial advice.
+          </p>
+        </div>
+        <nav class="footer-links">
+          <a href="methodology.html">Methodology</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-meta">
+        <p>Stedrok Pty Ltd · ABN [Your ABN] · Sydney, Australia</p>
+      </div>
     </div>
   </footer>
 </body>
