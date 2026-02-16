@@ -21,6 +21,11 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://stedrok.org/philosophy.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://stedrok.org/about.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
