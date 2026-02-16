@@ -8,8 +8,8 @@ const CONFIG = {
   SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InppeXNqeXpkYm1ndm16amNqYmpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwNzA1NTQsImV4cCI6MjA4NjY0NjU1NH0.HACx7ufiaD40jACPbV4b9stPisShMNpBdlPKg5lM0as',
 
   // PayPal (get from: developer.paypal.com → Apps)
-  PAYPAL_CLIENT_ID: 'YOUR_PAYPAL_CLIENT_ID',              // ← REPLACE
-  PAYPAL_PLAN_ID: 'YOUR_PAYPAL_PLAN_ID',                  // ← REPLACE
+  PAYPAL_CLIENT_ID: 'AZETIp6rtlrLz5pBX_qA68RuPlFNd0ldBLhmB6XOuna_IpEJcN242mmE1xsJSQ5PnI_6HgUk5g1-ZLbF',
+  PAYPAL_PLAN_ID: 'P-87988230Y6727160CNGJQFNI',
 
   // Cloudflare Worker API
   API_BASE_URL: 'https://stedrok-api.stedrok.workers.dev',

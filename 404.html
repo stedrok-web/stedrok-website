@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 Page Not Found – Stedrok</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .error-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .error-code {
+      font-size: 120px;
+      font-weight: 800;
+      color: var(--accent-green);
+      line-height: 1;
+      margin: 0;
+    }
+    .error-title {
+      font-size: 32px;
+      margin: 16px 0;
+      color: var(--text-primary);
+    }
+    .error-desc {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      max-width: 600px;
+    }
+    .error-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo" aria-label="Stedrok home">STEDROK</a>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="auth-buttons">
+          <a href="login.html" class="btn-secondary">Log In</a>
+          <a href="register.html" class="btn-primary">Start Free</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="container">
+      <div class="error-container">
+        <h1 class="error-code">404</h1>
+        <h2 class="error-title">Page Not Found</h2>
+        <p class="error-desc">
+          The page you're looking for doesn't exist or has been moved. 
+          Try navigating back to one of our main pages below.
+        </p>
+        <div class="error-links">
+          <a href="index.html" class="btn-primary">Home</a>
+          <a href="dashboard.html" class="btn-secondary">Dashboard</a>
+          <a href="methodology.html" class="btn-secondary">Methodology</a>
+          <a href="pricing.html" class="btn-secondary">Pricing</a>
+          <a href="contact.html" class="btn-secondary">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-left">
+          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
+          <p class="footer-tagline">
+            Stedrok is an independent stock research platform for long term investors.
+            Content is general information only. It is not personal financial advice or a recommendation to buy or sell any security.
+          </p>
+        </div>
+        <nav class="footer-links">
+          <a href="methodology.html">Methodology</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-meta">
+        <p>Stedrok Pty Ltd</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/mobile-menu.js"></script>
+</body>
+</html>

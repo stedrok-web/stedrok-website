@@ -11,6 +11,9 @@
         content="stock screener pricing, value investing subscription, fundamental research tool">
 
   <link rel="canonical" href="https://stedrok.org/pricing.html">
+  
+  <meta property="og:image" content="https://stedrok.org/img/og-home.jpg">
+  <meta property="twitter:image" content="https://stedrok.org/img/og-home.jpg">
 
   <link rel="stylesheet" href="css/main.css">
 
@@ -176,6 +179,7 @@
   </style>
 </head>
 <body>
+  <a href="#main" class="skip-link">Skip to content</a>
   <header>
     <div class="container">
       <nav class="navbar">
@@ -201,7 +205,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main">
     <!-- Hero -->
     <section class="pricing-hero">
       <div class="container">
@@ -536,7 +540,7 @@
       currentUser = session.user;
 
       // Check if already premium
-      const { data: profile } = await supabase
+      const { data: profile } = await client
         .from('profiles')
         .select('subscription_status, paid_until')
         .eq('id', currentUser.id)
