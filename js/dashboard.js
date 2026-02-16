@@ -5,6 +5,8 @@
 let currentUser = null;
 let userProfile = null;
 let allStocks = [];
+let currentSortColumn = 'value_score';
+let currentSortDirection = 'desc';
 
 // API URL from central config (js/config.js must be loaded before this file)
 const API_URL = CONFIG.API_BASE_URL;
@@ -447,7 +449,8 @@ function applyFilters() {
 // Utility: Format market cap
 // ============================================================
 function formatMarketCap(value) {
-  if (value == null || value === 0) return '-';
+  if (value == null) return '-';
+  if (value === 0) return '$0';
   
   const absValue = Math.abs(value);
   
