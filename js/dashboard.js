@@ -12,14 +12,37 @@ const API_URL = CONFIG.API_BASE_URL;
 document.addEventListener('DOMContentLoaded', async () => {
   // Use the shared Supabase client initialized in js/config.js
   const client = window.supabaseClient;
-  if (!client || !client.auth || typeof client.auth.getSession !== 'function') {
-    console.error('Supabase client not initialized or auth.getSession unavailable.');
+  if (!client || !client.auth) {
+    console.error('Supabase client not initialized or auth unavailable.');
     window.location.href = 'login.html';
     return;
   }
 
+  // Compatibility helper: supabase-js has changed APIs across versions.
+  // Try multiple methods to obtain the current session.
+  async function fetchSessionCompat() {
+    try {
+      if (client.auth && typeof client.auth.getSession === 'function') {
+        const res = await client.auth.getSession();
+        return (res && res.data && res.data.session) ? res.data.session : res.session || null;
+      }
+      if (client.auth && typeof client.auth.session === 'function') {
+        // older builds may return a session object directly
+        const res = await client.auth.session();
+        return (res && res.data && res.data.session) ? res.data.session : res.session || res || null;
+      }
+      if (client.auth && typeof client.auth.getUser === 'function') {
+        const res = await client.auth.getUser();
+        return (res && res.data && res.data.user) ? { user: res.data.user } : null;
+      }
+    } catch (e) {
+      console.warn('fetchSessionCompat error:', e);
+    }
+    return null;
+  }
+
   // Check authentication
-  const { data: { session } } = await client.auth.getSession();
+  const session = await fetchSessionCompat();
 
   if (!session) {
     window.location.href = 'login.html';
