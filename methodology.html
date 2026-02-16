@@ -2,15 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Methodology – Stedrok</title>
-  <meta name="description" content="Understand how Stedrok evaluates companies using four pillars: value, business strength, resilience, and price context. Clear, transparent, investor-friendly methodology.">
-  <meta property="og:title" content="Methodology – Stedrok">
-  <meta property="og:description" content="How Stedrok evaluates and ranks companies across value, quality, resilience, and price context.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://stedrok.org/methodology.html">
-  <meta property="og:site_name" content="Stedrok">
+  <title>Stedrok Methodology, Value Stock Scoring Framework</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description"
+        content="How the Stedrok value stock scoring framework works. Companies are ranked on valuation, business quality, balance sheet resilience and price context using a transparent rules based model.">
+  <meta name="keywords"
+        content="stock screener methodology, value investing model, fundamental scoring, downside risk framework">
+
+  <link rel="canonical" href="https://stedrok.org/methodology.html">
+
   <link rel="stylesheet" href="css/main.css">
+
+  <!-- JSON-LD: TechArticle / methodology -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Stedrok value stock scoring methodology",
+    "description": "Detailed explanation of the Stedrok scoring framework for value stocks, including valuation, business quality, resilience and price context pillars.",
+    "author": {
+      "@type": "Organization",
+      "name": "Stedrok"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Stedrok",
+      "url": "https://stedrok.org"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://stedrok.org/methodology.html"
+    }
+  }
+  </script>
   <style>
     /* Hero section */
     .hero { padding: 60px 0 40px; background: linear-gradient(135deg, rgba(34,197,94,0.03) 0%, rgba(59,130,246,0.03) 100%); }
@@ -86,7 +111,12 @@
     <div class="container">
       <nav class="navbar">
         <a href="index.html" class="logo" aria-label="Stedrok home">STEDROK</a>
-        <ul class="nav-links">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
           <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="methodology.html" class="active">Methodology</a></li>
           <li><a href="pricing.html">Pricing</a></li>
@@ -365,7 +395,7 @@
         <div class="disclaimer-card">
           <h3>Disclaimer</h3>
           <p>
-            Stedrok is an educational research tool only. It does not provide
+            Stedrok is a stock research platform only. It does not provide
             personal financial advice, recommendations, or offers to buy or
             sell any security. Any decisions you make are your own and should
             take into account your personal objectives, financial situation,
@@ -399,5 +429,6 @@
       </div>
     </div>
   </footer>
+  <script src="js/mobile-menu.js"></script>
 </body>
 </html>

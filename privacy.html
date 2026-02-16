@@ -7,6 +7,7 @@
   <meta name="description" content="Stedrok's Privacy Policy explains how we collect, use, and protect your personal data.">
   <meta property="og:title" content="Privacy Policy – Stedrok">
   <meta property="og:description" content="Learn how Stedrok handles your privacy and data protection.">
+  <link rel="canonical" href="https://stedrok.org/privacy.html">
   <link rel="stylesheet" href="css/main.css">
   <style>
     .legal-content { max-width: 800px; margin: 48px auto; }
@@ -25,7 +26,12 @@
     <div class="container">
       <nav class="navbar">
         <a href="index.html" class="logo">STEDROK</a>
-        <ul class="nav-links">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
           <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="methodology.html">Methodology</a></li>
           <li><a href="pricing.html">Pricing</a></li>
@@ -164,5 +170,6 @@
       </nav>
     </div>
   </footer>
+  <script src="js/mobile-menu.js"></script>
 </body>
 </html>

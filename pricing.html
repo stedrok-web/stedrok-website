@@ -2,15 +2,100 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pricing – Stedrok Stock Screener</title>
-  <meta name="description" content="Simple, transparent pricing for professional stock screening. $3/month for full access to 100+ ranked stocks. Free tier available forever. 30-day money-back guarantee.">
-  <meta property="og:title" content="Pricing – Stedrok Stock Screener">
-  <meta property="og:description" content="Professional value stock screening at $3/month. Free tier available. Cancel anytime.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://stedrok.org/pricing.html">
-  <meta property="og:site_name" content="Stedrok">
+  <title>Stedrok Pricing, Value Stock Screener Subscription</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description"
+        content="Stedrok Pro gives full access to the value stock screener for three dollars per month. Free tier includes three companies so you can try the framework with live data.">
+  <meta name="keywords"
+        content="stock screener pricing, value investing subscription, fundamental research tool">
+
+  <link rel="canonical" href="https://stedrok.org/pricing.html">
+
   <link rel="stylesheet" href="css/main.css">
+
+  <!--JSON-LD: SoftwareApplication / Product -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Stedrok Pro",
+    "applicationCategory": "FinancialApplication",
+    "operatingSystem": "Web",
+    "description": "Independent stock research platform for long term value investors. Stedrok Pro unlocks the full universe of ranked companies and export tools.",
+    "offers": {
+      "@type": "Offer",
+      "price": "3.00",
+      "priceCurrency": "USD",
+      "category": "subscription",
+      "url": "https://stedrok.org/pricing.html"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "When will I be charged?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your first charge occurs immediately when you subscribe. Subsequent charges occur on the same day each month (e.g., if you subscribe on the 15th, you'll be charged on the 15th of every month). You'll receive an email receipt for each payment."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if my payment fails?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "If a payment fails, we'll automatically retry for 3 days. You'll receive an email notification asking you to update your payment method. Your account will remain active during this grace period. If payment isn't resolved after 3 days, your account reverts to the free tier."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens if I cancel?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your Pro access continues until the end of your current billing period. After that, your account automatically reverts to the free tier. You keep your account, saved preferences, and historical data – you just lose access to the full 100+ stock list and premium features."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I get a refund?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. If you're not satisfied within 30 days of your first payment, email us at contact@stedrok.org for a full refund. We typically process refunds within 3 business days. After the 30-day window, refunds are handled on a case-by-case basis (e.g., technical issues, billing errors)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you offer annual billing or discounts?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Currently we only offer monthly billing at $3/month. We keep pricing simple and transparent. There are no annual plans, no enterprise tiers, and no promotional discounts. Everyone pays the same fair price."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this financial advice?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Stedrok is a stock research platform. The scores and ratings are model outputs based on historical data and public information. They are designed for screening and research, not for automatic buy or sell decisions. Always consider your own objectives, financial situation, and risk tolerance."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if I have billing issues or questions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Contact us at contact@stedrok.org with 'Billing' in the subject line. Pro subscribers receive priority support with responses typically within 24 hours. Free tier users receive responses within 3 business days."
+        }
+      }
+    ]
+  }
+  </script>
   <style>
     /* Hero */
     .pricing-hero { padding: 60px 0 40px; background: linear-gradient(135deg, rgba(34,197,94,0.04) 0%, rgba(59,130,246,0.04) 100%); text-align: center; }
@@ -95,7 +180,12 @@
     <div class="container">
       <nav class="navbar">
         <a href="index.html" class="logo" aria-label="Stedrok home">STEDROK</a>
-        <ul class="nav-links">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
           <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="methodology.html">Methodology</a></li>
           <li><a href="pricing.html" class="active">Pricing</a></li>
@@ -144,8 +234,7 @@
               <li>✓ Refreshed every 24 hours</li>
               <li>✓ Read full methodology documentation</li>
               <li class="disabled">✗ No full stock list access</li>
-              <li class="disabled">✗ No CSV export or watchlist features</li>
-              <li class="disabled">✗ No saved preferences</li>
+              <li class="disabled">✗ No CSV export</li>
             </ul>
             <a href="register.html" class="btn-secondary btn-large btn-block">Start Free</a>
             <p class="payment-note">
@@ -163,7 +252,6 @@
               <li>✓ Daily updates with fresh market data</li>
               <li>✓ Detailed pillar scores for every company</li>
               <li>✓ Export full list to CSV</li>
-              <li>✓ Save watchlist and set price alerts</li>
               <li>✓ Priority email support (within 24 hours)</li>
               <li>✓ 30-day money-back guarantee</li>
             </ul>
@@ -219,16 +307,6 @@
               <td style="text-align:center;" class="check-yes">✓</td>
             </tr>
             <tr>
-              <td>Watchlist and price alerts</td>
-              <td style="text-align:center;" class="check-no">✗</td>
-              <td style="text-align:center;" class="check-yes">✓</td>
-            </tr>
-            <tr>
-              <td>Save user preferences</td>
-              <td style="text-align:center;" class="check-no">✗</td>
-              <td style="text-align:center;" class="check-yes">✓</td>
-            </tr>
-            <tr>
               <td>Email support</td>
               <td style="text-align:center;">Community</td>
               <td style="text-align:center;">Priority (24h)</td>
@@ -253,9 +331,9 @@
 
         <div class="use-cases-grid">
           <div class="use-case-card">
-            <h3>Build a focused watchlist</h3>
+            <h3>Monitor high-conviction ideas</h3>
             <p>
-              Screen the full 100+ stock list for your highest-scoring opportunities, then monitor them over time. Set price alerts so you're notified when targets hit your desired entry levels.
+              Access the full 100+ stock list daily. Identify your highest-scoring opportunities and track them over time as new data refreshes the rankings.
             </p>
           </div>
 
@@ -383,7 +461,7 @@
           <div class="faq-item">
             <h3>Is this financial advice?</h3>
             <p>
-              No. Stedrok is an educational research tool. The scores and ratings are model outputs based on historical data and public information. They are designed for screening and research, not for automatic buy or sell decisions. Always consider your own objectives, financial situation, and risk tolerance.
+              No. Stedrok is a stock research platform. The scores and ratings are model outputs based on historical data and public information. They are designed for screening and research, not for automatic buy or sell decisions. Always consider your own objectives, financial situation, and risk tolerance.
             </p>
           </div>
 
@@ -424,10 +502,13 @@
   <!-- Supabase Client -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
+  <script src="js/mobile-menu.js"></script>
 
   <script>
+    const client = window.supabaseClient;
+
     // Auth-aware navigation
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    client.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         document.getElementById('loginBtn').style.display = 'none';
         document.getElementById('registerBtn').style.display = 'none';
@@ -437,14 +518,14 @@
     });
 
     document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-      await supabase.auth.signOut();
+      await client.auth.signOut();
       window.location.reload();
     });
 
     let currentUser = null;
 
     document.addEventListener('DOMContentLoaded', async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await client.auth.getSession();
 
       if (!session) {
         document.getElementById('login-required').style.display = 'block';
@@ -495,8 +576,8 @@
           document.getElementById('payment-status').style.display = 'block';
           document.getElementById('payment-status').className = 'status-msg status-success';
           document.getElementById('payment-status-text').innerHTML =
-            '<strong>✓ Payment received!</strong><br>Your account is being upgraded...';
-          setTimeout(() => { window.location.href = 'dashboard.html'; }, 2500);
+            '<strong>✓ Payment received!</strong><br>Your account is being upgraded. If Pro access isn\'t visible within 2 minutes, refresh the page or contact support at contact@stedrok.org.';
+          setTimeout(() => { window.location.href = 'dashboard.html'; }, 3000);
         },
         onError: function(err) {
           document.getElementById('payment-status').style.display = 'block';

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact Us – Stedrok</title>
   <meta name="description" content="Get in touch with Stedrok. We typically respond within one business day.">
+  <link rel="canonical" href="https://stedrok.org/contact.html">
   <link rel="stylesheet" href="css/main.css">
   <style>
     .footer-main { display: flex; justify-content: space-between; align-items: flex-start; padding: 40px 0 20px; border-top: 1px solid var(--border-color); }
@@ -18,7 +19,12 @@
     <div class="container">
       <nav class="navbar">
         <a href="index.html" class="logo" aria-label="Stedrok home">STEDROK</a>
-        <ul class="nav-links">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
           <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="methodology.html">Methodology</a></li>
           <li><a href="pricing.html">Pricing</a></li>
@@ -143,9 +149,12 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
+  <script src="js/mobile-menu.js"></script>
   <script>
+    const client = window.supabaseClient;
+
     // Auth-aware nav
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    client.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         document.getElementById('loginBtn').style.display = 'none';
         document.getElementById('registerBtn').style.display = 'none';
@@ -156,7 +165,7 @@
     });
 
     document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-      await supabase.auth.signOut();
+      await client.auth.signOut();
       window.location.href = 'index.html';
     });
 

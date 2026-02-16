@@ -222,45 +222,47 @@ function renderTable(stocks) {
     return;
   }
 
+  // Use profile subscription status, not missing fields
+  const isFreeUser = userProfile && userProfile.subscription_status === 'free';
+
   stocks.forEach(stock => {
     const tr = document.createElement('tr');
     const decisionClass = stock.decision === 'BUY' ? 'badge-buy' : 
                          stock.decision === 'WATCH' ? 'badge-watch' : 'badge-avoid';
 
-    // Check if this is a free user (limited fields)
-    const isFree = !stock.fair_value;
-
-    if (isFree) {
-      // Free user: Show only basic info
-      tr.innerHTML = `
-        <td><strong>${stock.ticker}</strong></td>
-        <td>${stock.company_name || '-'}</td>
-        <td>${stock.sector || '-'}</td>
-        <td>${stock.total_score ? stock.total_score.toFixed(1) : '-'}</td>
-        <td colspan="9" style="text-align:center; color:#999;">
-          <a href="pricing.html" style="color:#667eea; font-weight:bold;">
-            Upgrade to see full metrics →
-          </a>
-        </td>
-      `;
-    } else {
-      // Paid user: Show full data
+    if (isFreeUser) {
+      // Free user: Show only ticker, company, country, sector, then upgrade prompt
       tr.innerHTML = `
         <td><strong>${stock.ticker}</strong></td>
         <td>${stock.company_name || '-'}</td>
         <td>${stock.country || '-'}</td>
         <td>${stock.sector || '-'}</td>
-        <td>${stock.exchange || '-'}</td>
-        <td>$${stock.current_price ? stock.current_price.toFixed(2) : '-'}</td>
-        <td>$${stock.fair_value ? stock.fair_value.toFixed(2) : '-'}</td>
-        <td class="${stock.discount_pct < 0 ? 'negative' : 'positive'}">
-          ${stock.discount_pct ? stock.discount_pct.toFixed(1) : '-'}%
+        <td colspan="9" style="text-align:center; color:var(--text-secondary);">
+          <a href="pricing.html" style="color:var(--accent-green); font-weight:bold;">
+            Upgrade to Pro for full metrics →
+          </a>
         </td>
+      `;
+    } else {
+      // Paid user: Show all columns matching header order
+      // 1. Symbol, 2. Company, 3. Country, 4. Sector, 5. Rating, 6. Total Score,
+      // 7. Value, 8. Quality, 9. Risk, 10. Dip, 11. Price, 12. Fair Value, 13. Discount
+      tr.innerHTML = `
+        <td><strong>${stock.ticker}</strong></td>
+        <td>${stock.company_name || '-'}</td>
+        <td>${stock.country || '-'}</td>
+        <td>${stock.sector || '-'}</td>
+        <td><span class="badge ${decisionClass}">${stock.decision || '-'}</span></td>
+        <td>${stock.total_score ? stock.total_score.toFixed(1) : '-'}</td>
         <td>${stock.value_score ? stock.value_score.toFixed(1) : '-'}</td>
         <td>${stock.quality_score ? stock.quality_score.toFixed(1) : '-'}</td>
         <td>${stock.risk_score ? stock.risk_score.toFixed(1) : '-'}</td>
-        <td>${stock.total_score ? stock.total_score.toFixed(1) : '-'}</td>
-        <td><span class="badge ${decisionClass}">${stock.decision || '-'}</span></td>
+        <td>${stock.dip_score ? stock.dip_score.toFixed(1) : '-'}</td>
+        <td>$${stock.current_price ? stock.current_price.toFixed(2) : '-'}</td>
+        <td>$${stock.fair_value ? stock.fair_value.toFixed(2) : '-'}</td>
+        <td class="${stock.discount_pct > 0 ? 'positive' : 'negative'}">
+          ${stock.discount_pct != null ? stock.discount_pct.toFixed(1) + '%' : '-'}
+        </td>
       `;
     }
 
@@ -323,37 +325,63 @@ function exportToCSV() {
 // Filters and sorting
 // ============================================================
 function setupFilters() {
+  // Search filter
+  document.getElementById('searchInput')?.addEventListener('input', applyFilters);
+  
+  // Country filter
+  document.getElementById('countryFilter')?.addEventListener('input', applyFilters);
+  
   // Sector filter
-  document.getElementById('sectorFilter')?.addEventListener('change', applyFilters);
+  document.getElementById('sectorFilter')?.addEventListener('input', applyFilters);
+  
+  // Min score filter
+  document.getElementById('minScoreFilter')?.addEventListener('input', applyFilters);
   
   // Decision filter
   document.getElementById('decisionFilter')?.addEventListener('change', applyFilters);
-  
-  // Sort options
-  document.getElementById('sortBy')?.addEventListener('change', applyFilters);
 }
 
 function applyFilters() {
   let filtered = [...allStocks];
 
+  // Apply search filter (ticker or company name)
+  const searchTerm = document.getElementById('searchInput')?.value?.toLowerCase();
+  if (searchTerm) {
+    filtered = filtered.filter(s => 
+      (s.ticker && s.ticker.toLowerCase().includes(searchTerm)) ||
+      (s.company_name && s.company_name.toLowerCase().includes(searchTerm))
+    );
+  }
+
+  // Apply country filter
+  const countryTerm = document.getElementById('countryFilter')?.value?.toLowerCase();
+  if (countryTerm) {
+    filtered = filtered.filter(s => 
+      s.country && s.country.toLowerCase().includes(countryTerm)
+    );
+  }
+
   // Apply sector filter
-  const sectorFilter = document.getElementById('sectorFilter')?.value;
-  if (sectorFilter && sectorFilter !== 'all') {
-    filtered = filtered.filter(s => s.sector === sectorFilter);
+  const sectorTerm = document.getElementById('sectorFilter')?.value?.toLowerCase();
+  if (sectorTerm) {
+    filtered = filtered.filter(s => 
+      s.sector && s.sector.toLowerCase().includes(sectorTerm)
+    );
   }
 
-  // Apply decision filter
+  // Apply minimum score filter
+  const minScore = document.getElementById('minScoreFilter')?.value;
+  if (minScore && !isNaN(minScore)) {
+    const threshold = parseFloat(minScore);
+    filtered = filtered.filter(s => 
+      s.total_score != null && s.total_score >= threshold
+    );
+  }
+
+  // Apply decision/rating filter
   const decisionFilter = document.getElementById('decisionFilter')?.value;
-  if (decisionFilter && decisionFilter !== 'all') {
+  if (decisionFilter) {
     filtered = filtered.filter(s => s.decision === decisionFilter);
-  }
-
-  // Apply sorting
-  const sortBy = document.getElementById('sortBy')?.value;
-  if (sortBy === 'score') {
-    filtered.sort((a, b) => (b.total_score || 0) - (a.total_score || 0));
-  } else if (sortBy === 'discount') {
-    filtered.sort((a, b) => (a.discount_pct || 0) - (b.discount_pct || 0));
   }
 
   renderTable(filtered);

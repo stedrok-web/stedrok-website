@@ -130,8 +130,15 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        alert('Account created successfully! You can now log in.');
-        window.location.href = 'login.html';
+        const successEl = document.getElementById('success');
+        if (successEl) {
+          successEl.textContent = '✓ Account created successfully! Redirecting to login...';
+          successEl.style.display = 'block';
+          document.getElementById('registerForm').style.display = 'none';
+        }
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 2000);
       } catch (error) {
         errorEl.textContent = error.message || 'Registration failed. Please try again.';
         console.error('Registration error:', error);

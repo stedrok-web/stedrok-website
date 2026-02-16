@@ -91,15 +91,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     );
     if (!confirmed) return;
 
-    // Sign out (actual deletion requires server-side admin API or Supabase Edge Function)
-    alert('Please email contact@stedrok.org to complete account deletion. You will be logged out now.');
-    try {
-      if (client.auth && typeof client.auth.signOut === 'function') {
-        await client.auth.signOut();
-      }
-    } catch (e) {
-      console.error('Sign out during account delete failed:', e);
+    const messageDiv = document.getElementById('deleteMessage');
+    if (messageDiv) {
+      messageDiv.textContent = 'To complete account deletion, please email contact@stedrok.org with "Delete Account" in the subject line. You will be logged out now.';
+      messageDiv.style.display = 'block';
     }
-    window.location.href = 'index.html';
+
+    // Sign out after 4 seconds
+    setTimeout(async () => {
+      try {
+        if (client.auth && typeof client.auth.signOut === 'function') {
+          await client.auth.signOut();
+        }
+      } catch (e) {
+        console.error('Sign out during account delete failed:', e);
+      }
+      window.location.href = 'index.html';
+    }, 4000);
   });
 });

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>Dashboard – Stedrok Stock Screener</title>
   <meta name="description" content="Browse 100+ stocks ranked by value, business strength, and resilience. Updated daily for serious value investors.">
   <link rel="stylesheet" href="css/main.css">
@@ -12,7 +13,12 @@
     <div class="container">
       <nav class="navbar">
         <a href="index.html" class="logo" aria-label="Stedrok home">STEDROK</a>
-        <ul class="nav-links">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
           <li><a href="dashboard.html" class="active">Dashboard</a></li>
           <li><a href="methodology.html">Methodology</a></li>
           <li><a href="pricing.html">Pricing</a></li>
@@ -124,5 +130,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/dashboard.js"></script>
+  <script src="js/mobile-menu.js"></script>
 </body>
 </html>

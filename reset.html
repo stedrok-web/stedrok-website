@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>Set New Password – Stedrok</title>
   <meta name="description" content="Create a new password for your Stedrok account.">
   <link rel="stylesheet" href="css/main.css">
@@ -49,9 +50,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script>
+    const client = window.supabaseClient;
+
     document.addEventListener('DOMContentLoaded', async () => {
       // Supabase automatically detects the recovery token from the URL hash
-      const { data: { session }, error } = await supabase.auth.getSession();
+      const { data: { session }, error } = await client.auth.getSession();
 
       if (error || !session) {
         document.getElementById('loading-state').style.display = 'none';
@@ -67,7 +70,7 @@
     });
 
     // Listen for auth state change (recovery event)
-    supabase.auth.onAuthStateChange(async (event, session) => {
+    client.auth.onAuthStateChange(async (event, session) => {
       if (event === 'PASSWORD_RECOVERY') {
         document.getElementById('loading-state').style.display = 'none';
         document.getElementById('reset-form').style.display = 'block';
@@ -90,7 +93,7 @@
       submitBtn.textContent = 'Updating...';
 
       try {
-        const { error } = await supabase.auth.updateUser({ password });
+        const { error } = await client.auth.updateUser({ password });
 
         if (error) {
           document.getElementById('error-alert').style.display = 'block';

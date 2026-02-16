@@ -7,6 +7,7 @@
   <meta name="description" content="Stedrok's Terms of Service. Please read these terms carefully before using our stock screening platform.">
   <meta property="og:title" content="Terms of Service – Stedrok">
   <meta property="og:description" content="Legal terms and conditions for using Stedrok's value investing research platform.">
+  <link rel="canonical" href="https://stedrok.org/terms.html">
   <link rel="stylesheet" href="css/main.css">
   <style>
     .legal-content { max-width: 800px; margin: 48px auto; }
@@ -25,7 +26,12 @@
     <div class="container">
       <nav class="navbar">
         <a href="index.html" class="logo">STEDROK</a>
-        <ul class="nav-links">
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
           <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="methodology.html">Methodology</a></li>
           <li><a href="pricing.html">Pricing</a></li>
@@ -151,5 +157,6 @@
       </nav>
     </div>
   </footer>
+  <script src="js/mobile-menu.js"></script>
 </body>
 </html>

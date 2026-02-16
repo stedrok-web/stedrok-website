@@ -2,15 +2,78 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stedrok – Value Stock Screener for Long-Term Investors</title>
-  <meta name="description" content="Professional value stock screener ranking 100+ companies by value, business strength, and resilience. Built for conservative investors. $3/month. Free tier available.">
-  <meta property="og:title" content="Stedrok – Value Stock Screener for Long-Term Investors">
-  <meta property="og:description" content="Institutional-grade stock screening for patient investors. Transparent methodology, daily updates, $3/month.">
+  <title>Stedrok Value Stock Screener for Long Term Investors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description"
+        content="Stedrok is an independent stock research platform for long term value investors. Companies are ranked on valuation, business strength, resilience and price context using a rules based framework.">
+  <meta name="keywords"
+        content="value stock screener, stock research platform, fundamental analysis, downside risk, long term investing">
+
+  <link rel="canonical" href="https://stedrok.org/">
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
+  <meta property="og:title" content="Stedrok Value Stock Screener">
+  <meta property="og:description"
+        content="Quantitative research for long term value investors. Ranked company list based on valuation, business strength and resilience.">
   <meta property="og:url" content="https://stedrok.org/">
   <meta property="og:site_name" content="Stedrok">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stedrok Value Stock Screener">
+  <meta name="twitter:description"
+        content="Independent stock research platform for long term investors. Focus on downside risk, valuation and quality.">
+
+  <!-- CSS -->
   <link rel="stylesheet" href="css/main.css">
+
+  <!-- JSON-LD: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Stedrok",
+    "url": "https://stedrok.org",
+    "foundingLocation": "Australia",
+    "email": "contact@stedrok.org"
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage (homepage FAQ) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Stedrok?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Stedrok is an independent stock research platform for long term investors. It ranks a curated list of companies based on valuation, business strength, resilience and price context. Scores are for research and idea generation only and are not personal financial advice."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Stedrok giving me stock tips?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Stedrok does not give tips or signals to buy or sell. It applies a rules based framework over public company data so you can focus your own research on ideas that fit a value style. You remain responsible for your own decisions."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Who is Stedrok for?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Stedrok is built for patient investors who care about downside risk and fundamentals. It suits value focused investors who want a simple screening tool instead of a complex trading terminal."
+        }
+      }
+    ]
+  }
+  </script>
   <style>
     /* Hero */
     .hero { padding: 80px 0 60px; background: linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(59,130,246,0.08) 100%); }
@@ -126,12 +189,13 @@
     <!-- Hero -->
     <section class="hero">
       <div class="container">
-        <h1>Institutional-style value research<br><span class="gradient-text">for long-term investors</span></h1>
+        <h1>Institutional style value research<br><span class="gradient-text">for long term investors</span></h1>
         <p class="lead">
-          Stedrok is a quantitative stock research platform that ranks a curated universe of global companies on valuation, business strength, and resilience. Built for investors who care more about downside protection than short-term noise.
+          Stedrok ranks companies using a rules based value framework that weighs valuation, business strength, balance sheet resilience and price context. 
+          It is built for investors who care more about downside protection than short term noise.
         </p>
         <div class="cta-buttons">
-          <a href="register.html" class="btn-primary btn-large">Start Free – No Card Required</a>
+          <a href="register.html" class="btn-primary btn-large">Start Free, no card required</a>
           <a href="methodology.html" class="btn-secondary btn-large">See How It Works</a>
         </div>
         <p class="trust-badges">
@@ -141,7 +205,9 @@
           <strong>Security:</strong> Data pipeline secured by Supabase and Cloudflare Workers. Payments processed by PayPal. Stedrok never sees your card details.
         </div>
         <div class="trust-strip disclaimer">
-          <strong>Disclaimer:</strong> Stedrok is an independent stock research platform. Content is general information only and does not constitute personal financial advice.
+          <strong>Research only.</strong>
+          Stedrok is an independent stock research platform for general information. 
+          It does not provide personal financial advice or recommendations.
         </div>
       </div>
     </section>
@@ -231,8 +297,8 @@
             <div class="feature-icon">⚙️</div>
             <h3>Your Private Account</h3>
             <p>
-              Secure login with Supabase authentication. Save watchlists, set price alerts, and
-              export data to CSV. Full control over your account and data.
+              Secure login with Supabase authentication. Export data to CSV for your own analysis.
+              Full control over your account and data.
             </p>
           </div>
 
@@ -421,7 +487,7 @@
           <div class="faq-item">
             <h3>Is this financial advice?</h3>
             <p>
-              No. Stedrok is an educational research tool. The scores are model outputs based on
+              No. Stedrok is a stock research platform. The scores are model outputs based on
               historical data and public information. They are designed for screening and research,
               not for automatic buy or sell decisions. Always consider your own objectives, financial
               situation, and risk tolerance before making investment decisions.
@@ -513,7 +579,8 @@
         <div class="footer-left">
           <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
           <p class="footer-tagline">
-            Stedrok is an independent stock research platform. Content is general information only and does not constitute personal financial advice.
+            Stedrok is an independent stock research platform for long term investors.
+            Content is general information only. It is not personal financial advice or a recommendation to buy or sell any security.
           </p>
         </div>
         <nav class="footer-links">
@@ -535,7 +602,8 @@
   <script src="js/mobile-menu.js"></script>
   <script>
     // Auth-aware navigation
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const client = window.supabaseClient;
+    client.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         document.getElementById('loginBtn').style.display = 'none';
         document.getElementById('registerBtn').style.display = 'none';
@@ -545,7 +613,7 @@
     });
 
     document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-      await supabase.auth.signOut();
+      await client.auth.signOut();
       window.location.reload();
     });
   </script>
