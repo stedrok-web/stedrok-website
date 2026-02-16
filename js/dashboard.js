@@ -145,17 +145,16 @@ function showFreeUserBanner(count) {
   if (gate) {
     gate.style.display = 'block';
     gate.innerHTML = `
-      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                  color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-        <h3 style="margin: 0 0 10px 0;">🎁 Free Tier Preview</h3>
-        <p style="margin: 0 0 15px 0;">
-          You're viewing <strong>${count} random stocks</strong> from our screener. 
-          Upgrade to see <strong>100+ carefully selected opportunities</strong> with full metrics!
+      <div style="background: rgba(102,126,234,0.1); border: 1px solid rgba(102,126,234,0.3);
+                  color: var(--text-primary); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <h3 style="margin: 0 0 10px 0; color: var(--text-primary);">Free Tier Access</h3>
+        <p style="margin: 0 0 15px 0; color: var(--text-secondary);">
+          You're viewing a random sample of <strong>${count} stocks</strong> from the full research universe. 
+          Pro membership provides access to 100+ ranked opportunities with full fundamental metrics, updated daily.
         </p>
         <a href="pricing.html" class="btn-primary" 
-           style="display: inline-block; background: white; color: #667eea; 
-                  padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold;">
-          ⚡ Upgrade to Pro - Only $3/month
+           style="display: inline-block; padding: 12px 24px; border-radius: 6px; text-decoration: none;">
+          View Pricing
         </a>
       </div>
     `;
@@ -179,8 +178,9 @@ function showPaidUserStatus(paidUntil, count) {
     
     gate.style.display = 'block';
     gate.innerHTML = `
-      <div style="background: #10b981; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-        ✓ <strong>Pro Member</strong> - Viewing ${count} stocks | 
+      <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); 
+                  color: var(--text-primary); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        <strong>Pro Membership Active</strong> - Full research universe (${count} stocks) | 
         Subscription renews in ${daysLeft} days
       </div>
     `;

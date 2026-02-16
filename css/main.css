@@ -69,6 +69,37 @@ header {
 
 .auth-buttons { display: flex; gap: 12px; }
 
+/* Mobile menu toggle */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.mobile-menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text-primary);
+  transition: all 0.3s;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
 /* Buttons */
 .btn-primary, .btn-secondary, .btn-danger {
   display: inline-block;
@@ -692,7 +723,29 @@ footer {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .nav-links { display: none; }
+  .mobile-menu-toggle { display: flex; }
+  
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: rgba(15, 23, 42, 0.98);
+    padding: 20px;
+    gap: 16px;
+    border-bottom: 1px solid var(--border-color);
+    display: none;
+  }
+  
+  .nav-links.active {
+    display: flex;
+  }
+  
+  .navbar {
+    position: relative;
+  }
+  
   .hero h1 { font-size: 32px; }
   .cta-buttons { flex-direction: column; }
   .feature-grid { grid-template-columns: 1fr; }
