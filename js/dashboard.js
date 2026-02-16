@@ -10,8 +10,16 @@ let allStocks = [];
 const API_URL = CONFIG.API_BASE_URL;
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Use the shared Supabase client initialized in js/config.js
+  const client = window.supabaseClient;
+  if (!client || !client.auth || typeof client.auth.getSession !== 'function') {
+    console.error('Supabase client not initialized or auth.getSession unavailable.');
+    window.location.href = 'login.html';
+    return;
+  }
+
   // Check authentication
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await client.auth.getSession();
 
   if (!session) {
     window.location.href = 'login.html';
@@ -70,7 +78,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Setup event listeners
   document.getElementById('logoutBtn').addEventListener('click', async () => {
-    await supabase.auth.signOut();
+    try {
+      if (!client || !client.auth || typeof client.auth.signOut !== 'function') {
+        throw new Error('Supabase client not initialized or signOut unavailable');
+      }
+      await client.auth.signOut();
+    } catch (e) {
+      console.error('Logout failed:', e);
+    }
     window.location.href = 'index.html';
   });
 
