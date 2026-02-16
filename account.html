@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account – Stedrok</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">Stedrok</div>
+        <ul class="nav-links">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="account.html" class="active">Account</a></li>
+        </ul>
+        <button id="logoutBtn" class="btn-secondary">Log Out</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="account-section">
+        <h1>Account Settings</h1>
+
+        <div class="card">
+          <h2>Subscription Status</h2>
+          <div id="subscriptionStatus">
+            <p style="color:var(--text-secondary);">Loading...</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Account Details</h2>
+          <p><strong>Email:</strong> <span id="userEmail" style="color:var(--text-secondary);">Loading...</span></p>
+          <a href="reset-password.html" class="btn-secondary" style="margin-top:12px; display:inline-block;">Change Password</a>
+        </div>
+
+        <div class="card">
+          <h2 style="color:var(--accent-red);">Danger Zone</h2>
+          <p style="color:var(--text-secondary); margin-bottom:12px;">This action is irreversible.</p>
+          <button id="deleteAccountBtn" class="btn-danger">Delete Account</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/account.js"></script>
+</body>
+</html>

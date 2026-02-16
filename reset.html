@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Set New Password – Stedrok</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <h1>Set New Password</h1>
+
+      <div id="success-alert" style="display:none; padding:16px; border-radius:10px; background:rgba(34,197,94,0.15); color:var(--accent-green); border-left:4px solid var(--accent-green); margin-bottom:20px;">
+        <strong>Password updated!</strong>
+        <p style="margin-top:8px;">Redirecting to dashboard...</p>
+      </div>
+
+      <div id="error-alert" class="error-message" style="display:none;"></div>
+
+      <div id="loading-state" style="text-align:center; padding:20px;">
+        <p style="color: var(--text-secondary);">Verifying reset link...</p>
+      </div>
+
+      <form id="reset-form" style="display:none;">
+        <div class="form-group">
+          <label>New Password</label>
+          <input type="password" id="password" placeholder="At least 8 characters" required minlength="8">
+          <small>At least 8 characters with a mix of letters, numbers, and symbols.</small>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input type="password" id="password-confirm" placeholder="Confirm your password" required minlength="8">
+        </div>
+        <button type="submit" class="btn-primary btn-block" id="submit-btn">Update Password</button>
+        <div class="form-footer">
+          <a href="login.html">Back to Login</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Supabase automatically detects the recovery token from the URL hash
+      const { data: { session }, error } = await supabase.auth.getSession();
+
+      if (error || !session) {
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('error-alert').style.display = 'block';
+        document.getElementById('error-alert').textContent =
+          'Invalid or expired reset link. Please request a new one.';
+        return;
+      }
+
+      // Show the password form
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('reset-form').style.display = 'block';
+    });
+
+    // Listen for auth state change (recovery event)
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('reset-form').style.display = 'block';
+      }
+    });
+
+    document.getElementById('reset-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('password-confirm').value;
+      const submitBtn = document.getElementById('submit-btn');
+
+      if (password !== confirm) {
+        document.getElementById('error-alert').style.display = 'block';
+        document.getElementById('error-alert').textContent = 'Passwords do not match.';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Updating...';
+
+      try {
+        const { error } = await supabase.auth.updateUser({ password });
+
+        if (error) {
+          document.getElementById('error-alert').style.display = 'block';
+          document.getElementById('error-alert').textContent = error.message;
+        } else {
+          document.getElementById('reset-form').style.display = 'none';
+          document.getElementById('success-alert').style.display = 'block';
+          setTimeout(() => { window.location.href = 'dashboard.html'; }, 2000);
+        }
+      } catch (err) {
+        document.getElementById('error-alert').style.display = 'block';
+        document.getElementById('error-alert').textContent = 'Something went wrong.';
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Update Password';
+    });
+  </script>
+</body>
+</html>

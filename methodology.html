@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methodology – Stedrok Stock Screener</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">Stedrok</div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="methodology.html" class="active">Methodology</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+        <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section style="max-width:900px; margin:60px auto;">
+        <h1>How Stedrok Ranks Stocks</h1>
+        <p style="color:var(--text-secondary); font-size:16px; margin-bottom:40px;">
+          Transparent, repeatable, data-driven scoring
+        </p>
+
+        <!-- The Four Pillars -->
+        <div style="background:var(--bg-card); border:1px solid var(--border-color); padding:32px; border-radius:12px; margin-bottom:32px;">
+          <h2 style="margin-bottom:24px;">The Four Pillars</h2>
+          <p style="color:var(--text-secondary); margin-bottom:24px;">Stedrok evaluates every stock across 4 dimensions:</p>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:28px;">
+
+            <div style="background:rgba(34,197,94,0.05); border:1px solid rgba(34,197,94,0.2); border-radius:10px; padding:24px;">
+              <h3 style="margin-bottom:8px;">📊 Value (40%)</h3>
+              <p style="color:var(--text-secondary); font-size:14px; margin-bottom:10px;"><strong style="color:var(--text-primary);">Measures:</strong> How cheap is the stock relative to earnings and assets?</p>
+              <ul style="color:var(--text-secondary); font-size:14px; margin-left:16px;">
+                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">P/E Ratio:</strong> Lower = cheap relative to profits</li>
+                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">P/B Ratio:</strong> Lower = cheap relative to book value</li>
+                <li><strong style="color:var(--text-primary);">P/CF Ratio:</strong> Lower = cheap relative to cash flow</li>
+              </ul>
+            </div>
+
+            <div style="background:rgba(59,130,246,0.05); border:1px solid rgba(59,130,246,0.2); border-radius:10px; padding:24px;">
+              <h3 style="margin-bottom:8px;">🏆 Quality (30%)</h3>
+              <p style="color:var(--text-secondary); font-size:14px; margin-bottom:10px;"><strong style="color:var(--text-primary);">Measures:</strong> How strong is the business fundamentally?</p>
+              <ul style="color:var(--text-secondary); font-size:14px; margin-left:16px;">
+                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">ROE:</strong> Higher = better profits on shareholder capital</li>
+                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">Debt/Equity:</strong> Lower = less financial risk</li>
+                <li><strong style="color:var(--text-primary);">Revenue Growth:</strong> Consistent 5%+ = healthy organic growth</li>
+              </ul>
+            </div>
+
+            <div style="background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.2); border-radius:10px; padding:24px;">
+              <h3 style="margin-bottom:8px;">🛡️ Safety (Gate)</h3>
+              <p style="color:var(--text-secondary); font-size:14px; margin-bottom:10px;"><strong style="color:var(--text-primary);">Measures:</strong> Can this company survive a downturn?</p>
+              <ul style="color:var(--text-secondary); font-size:14px; margin-left:16px;">
+                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">Current Ratio:</strong> Assets ÷ Liabilities &gt; 1.5</li>
+                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">Debt Service:</strong> Can pay interest 3x over</li>
+                <li><strong style="color:var(--text-primary);">No Recent Losses:</strong> 2+ years of profitability</li>
+              </ul>
+              <p style="color:var(--accent-red); font-size:13px; margin-top:12px; font-weight:600;">
+                If SAFETY fails, stock auto-fails screening. Quality and Value don't matter if company might go bankrupt.
+              </p>
+            </div>
+
+            <div style="background:rgba(250,204,21,0.05); border:1px solid rgba(250,204,21,0.2); border-radius:10px; padding:24px;">
+              <h3 style="margin-bottom:8px;">⚡ Dip Timing (30%)</h3>
+              <p style="color:var(--text-secondary); font-size:14px; margin-bottom:10px;"><strong style="color:var(--text-primary);">Measures:</strong> Has the stock recently fallen relative to its history?</p>
+              <ul style="color:var(--text-secondary); font-size:14px; margin-left:16px;">
+                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">52-Week Change:</strong> Down 20%+ from high = high dip score</li>
+                <li style="margin-bottom:6px;"><strong style="color:var(--text-primary);">Momentum:</strong> Recent downward trend</li>
+                <li><strong style="color:var(--text-primary);">Technical Bounce:</strong> Oversold indicators (RSI &lt; 30)</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Total Score Formula -->
+        <div style="background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.3); border-radius:12px; padding:32px; margin-bottom:32px;">
+          <h2 style="margin-bottom:16px;">Total Score = The Final Grade</h2>
+          <p style="font-size:20px; font-weight:700; color:var(--accent-green); margin-bottom:16px;">
+            Score = (Value × 0.40) + (Quality × 0.30) + (Dip × 0.30)
+          </p>
+          <ul style="color:var(--text-secondary); font-size:15px; list-style:none; padding:0;">
+            <li style="margin-bottom:8px;"><strong style="color:var(--text-primary);">40% Value:</strong> The stock must be cheap — that's the foundation</li>
+            <li style="margin-bottom:8px;"><strong style="color:var(--text-primary);">30% Quality:</strong> But it must be a good business, not a value trap</li>
+            <li style="margin-bottom:8px;"><strong style="color:var(--text-primary);">30% Dip Timing:</strong> And ideally bought after a recent decline</li>
+          </ul>
+          <p style="color:var(--accent-red); font-weight:600; margin-top:16px;">
+            ⚠️ Safety is a GATING REQUIREMENT: If a stock fails safety checks, it's immediately disqualified.
+          </p>
+        </div>
+
+        <!-- Rating Tiers -->
+        <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:32px; margin-bottom:32px;">
+          <h2 style="margin-bottom:24px;">Our Three Recommendation Tiers</h2>
+          <div class="table-container" style="margin:0; border:none;">
+            <table class="stock-table" style="min-width:auto;">
+              <thead>
+                <tr>
+                  <th>Rating</th>
+                  <th>Score Range</th>
+                  <th>What It Means</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="badge badge-buy">BUY</span></td>
+                  <td><strong>75+</strong></td>
+                  <td>Excellent opportunity. Cheap, quality, and timing is favorable.</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-watch">WATCH</span></td>
+                  <td><strong>50–74</strong></td>
+                  <td>Good potential. Watch for price dip or fundamental improvement.</td>
+                </tr>
+                <tr>
+                  <td><span class="badge badge-avoid">AVOID</span></td>
+                  <td><strong>&lt;50</strong></td>
+                  <td>Overvalued, low quality, or unsafe. Doesn't fit our criteria.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Update Frequency -->
+        <div style="background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.3); border-radius:12px; padding:32px; margin-bottom:32px;">
+          <h2 style="margin-bottom:16px;">🔄 Update Frequency</h2>
+          <p style="color:var(--text-secondary);"><strong style="color:var(--text-primary);">Daily:</strong> All rankings recalculated every 24 hours using latest market data</p>
+          <p style="color:var(--text-secondary); margin-top:10px;"><strong style="color:var(--text-primary);">Data Source:</strong> Yahoo Finance API, SEC filings, real-time prices</p>
+        </div>
+
+        <!-- Disclaimer -->
+        <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3); border-radius:12px; padding:32px; margin-bottom:48px;">
+          <h2 style="margin-bottom:16px;">⚖️ Disclaimer</h2>
+          <p style="color:var(--text-secondary);">
+            Stedrok is an educational tool for value investing analysis. Scores are algorithmic and do not guarantee performance.
+            <strong style="color:var(--text-primary);">Past patterns ≠ future results.</strong> Always do your own research before investing. We assume no liability.
+            See our <a href="terms.html" style="color:var(--accent-green);">Terms</a> and <a href="privacy.html" style="color:var(--accent-green);">Privacy Policy</a> for full details.
+          </p>
+        </div>
+
+        <!-- CTA -->
+        <div style="text-align:center; padding:48px 0; border-top:1px solid var(--border-color);">
+          <h2>Ready to See the Scores?</h2>
+          <p style="color:var(--text-secondary); margin:16px 0;">Create a free account to explore 100+ stocks scored with our methodology.</p>
+          <a href="register.html" class="btn-primary btn-large">Start Free (3 Stocks)</a>
+          <p style="margin-top:16px; font-size:14px; color:var(--text-secondary);">No credit card required.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Stedrok. Educational stock screener for value investors.</p>
+      <nav class="footer-links">
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html">Contact</a>
+        <a href="methodology.html">Methodology</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

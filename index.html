@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stedrok – $3/month Value Stock Screener</title>
+  <meta name="description" content="Institutional-grade value stock screener. 100+ global stocks ranked daily. $3/month. Free tier available.">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">Stedrok</div>
+        <ul class="nav-links">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+        </ul>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+          <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+          <a href="dashboard.html" class="btn-primary" id="dashboardBtn" style="display:none;">Dashboard</a>
+          <button class="btn-secondary" id="logoutBtn" style="display:none;">Log Out</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Stop Overpaying for<br><span class="gradient-text">Stock Screeners</span></h1>
+        <p class="lead">
+          Stedrok ranks 100+ global stocks by value, quality, and safety.
+          Built for conservative investors. <strong>$3/month.</strong> Start free with 3 stocks.
+        </p>
+        <div class="cta-buttons">
+          <a href="register.html" class="btn-primary btn-large">Start Free (3 Stocks)</a>
+          <a href="pricing.html" class="btn-secondary btn-large">View Pricing</a>
+        </div>
+        <p class="trust-badges">
+          ✓ Free Forever Tier &nbsp;&nbsp; ✓ Cancel Anytime &nbsp;&nbsp; ✓ 30-Day Money-Back
+        </p>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <h2>What You Get</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="icon">📊</div>
+            <h3>100+ Stocks Ranked Daily</h3>
+            <p>Transparent scoring: Value (40%), Quality (30%), Risk (gate), Dip timing (30%).</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">🔐</div>
+            <h3>Your Private Account</h3>
+            <p>Secure login. Save watchlists. Set price alerts. Export to CSV.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">💳</div>
+            <h3>Simple Billing</h3>
+            <p>$3/month via PayPal. Manage subscription anytime. Cancel in 2 clicks.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Stedrok. Educational tool for value investors.</p>
+      <nav class="footer-links">
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script>
+    // Auth-aware navigation: show Dashboard/Logout if logged in
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        document.getElementById('loginBtn').style.display = 'none';
+        document.getElementById('registerBtn').style.display = 'none';
+        document.getElementById('dashboardBtn').style.display = 'inline-block';
+        document.getElementById('logoutBtn').style.display = 'inline-block';
+      }
+    });
+    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>

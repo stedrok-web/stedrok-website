@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard – Stedrok</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">Stedrok</div>
+        <ul class="nav-links">
+          <li><a href="dashboard.html" class="active">Dashboard</a></li>
+          <li><a href="account.html">Account</a></li>
+        </ul>
+        <button id="logoutBtn" class="btn-secondary">Log Out</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="dashboard-header">
+        <h1>Top 100 Value Stocks</h1>
+        <p class="last-updated">Last updated: <span id="lastUpdated">Loading...</span></p>
+      </div>
+
+      <!-- Subscription gate -->
+      <div id="subscriptionGate" style="display:none;"></div>
+
+      <!-- Loading state -->
+      <div id="loadingState" style="text-align:center; padding:40px; color:var(--text-secondary);">
+        Loading stock data...
+      </div>
+
+      <div class="filters">
+        <input type="text" id="searchInput" placeholder="Search symbol or company...">
+        <input type="text" id="countryFilter" placeholder="Country...">
+        <input type="text" id="sectorFilter" placeholder="Sector...">
+        <input type="number" id="minScoreFilter" placeholder="Min score" min="0" max="100">
+        <select id="decisionFilter">
+          <option value="">All Ratings</option>
+          <option value="BUY">BUY Only</option>
+          <option value="WATCH">WATCH Only</option>
+          <option value="AVOID">AVOID Only</option>
+        </select>
+      </div>
+
+      <div class="table-container">
+        <table class="stock-table" id="stocksTable">
+          <thead>
+            <tr>
+              <th data-sort="ticker">Symbol ↕</th>
+              <th data-sort="company_name">Company ↕</th>
+              <th data-sort="country">Country ↕</th>
+              <th data-sort="sector">Sector ↕</th>
+              <th data-sort="decision">Rating ↕</th>
+              <th data-sort="total_score">Total Score ↕</th>
+              <th data-sort="value_score">Value ↕</th>
+              <th data-sort="quality_score">Quality ↕</th>
+              <th data-sort="risk_score">Risk ↕</th>
+              <th data-sort="dip_score">Dip ↕</th>
+              <th data-sort="current_price">Price ↕</th>
+              <th data-sort="fair_value">Fair Value ↕</th>
+              <th data-sort="discount_pct">Discount ↕</th>
+            </tr>
+          </thead>
+          <tbody id="stocksTableBody">
+            <tr><td colspan="13" style="text-align:center;padding:30px;color:var(--text-secondary);">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="export-section">
+        <button id="exportCsvBtn" class="btn-secondary">Export to CSV</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

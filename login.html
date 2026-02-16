@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In – Stedrok</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <h1>Welcome Back</h1>
+      <p class="subtitle">Log in to access your stock screener.</p>
+      <form id="loginForm">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="email" required placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" required placeholder="Your password">
+        </div>
+        <button type="submit" class="btn-primary btn-block">Log In</button>
+        <div id="error" class="error-message"></div>
+        <div class="form-footer">
+          <a href="reset-password.html">Forgot password?</a>
+          <span style="margin: 0 8px;">·</span>
+          <a href="register.html">Create account</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
