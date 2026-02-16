@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing – Stedrok Stock Screener</title>
+  <meta name="description" content="Simple, transparent pricing for institutional-grade stock screening. $3/month for full access to 100+ ranked stocks. Free tier available.">
+  <meta property="og:title" content="Pricing – Stedrok Stock Screener">
+  <meta property="og:description" content="Simple, transparent pricing. $3/month for full access to 100+ ranked stocks. Free tier available.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://stedrok.org/pricing.html">
+  <meta property="og:site_name" content="Stedrok">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    #paypal-button-container { margin-top: 20px; min-height: 50px; }
+    .status-msg { margin-top: 20px; padding: 16px; border-radius: 10px; display: none; }
+    .status-success { background: rgba(34,197,94,0.15); color: var(--accent-green); border-left: 4px solid var(--accent-green); }
+    .status-error { background: rgba(239,68,68,0.15); color: var(--accent-red); border-left: 4px solid var(--accent-red); }
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 48px; }
+    @media (max-width: 768px) { .pricing-grid { grid-template-columns: 1fr; } }
+    .pricing-card.free-tier { border-color: var(--border-color); box-shadow: none; }
+    .pricing-card.pro-tier { border-color: var(--accent-green); box-shadow: 0 20px 60px rgba(34,197,94,0.2); }
+    .free-tier .price { color: var(--text-primary); }
+    .footer-main { display: flex; justify-content: space-between; align-items: flex-start; padding: 40px 0 20px; border-top: 1px solid var(--border-color); }
+    .footer-left { flex: 1; }
+    .footer-tagline { color: var(--text-secondary); font-size: 14px; margin-top: 8px; max-width: 600px; }
+    .footer-meta { padding: 20px 0; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-secondary); font-size: 13px; }
+    .legal-note { padding: 16px; background: rgba(59,130,246,0.08); border-radius: 8px; margin-bottom: 24px; font-size: 14px; color: var(--text-secondary); text-align: center; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo" aria-label="Stedrok home">Stedrok</a>
+        <ul class="nav-links">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="pricing.html" class="active">Pricing</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+          <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+          <a href="dashboard.html" class="btn-primary" id="dashboardBtn" style="display:none;">Dashboard</a>
+          <button class="btn-secondary" id="logoutBtn" style="display:none;">Log Out</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="pricing-section">
+        <h1>Simple, Transparent Pricing</h1>
+        <p class="subtitle">All prices in USD. No hidden fees. Cancel anytime.</p>
+        <div class="legal-note">
+          Monthly subscription, renews automatically until cancelled. 30-day money-back guarantee for new subscribers. See <a href="terms.html" style="color:var(--accent-green); text-decoration:underline;">Terms</a> for details.
+        </div>
+
+        <div class="pricing-grid">
+          <div class="pricing-card free-tier">
+            <div class="price-badge">Free</div>
+            <div class="price">$0<span>/forever</span></div>
+            <p class="price-note">No credit card required.</p>
+            <ul class="benefits">
+              <li>✓ Access to 3 random stocks daily</li>
+              <li>✓ Basic stock information</li>
+              <li>✓ Refreshed every 24 hours</li>
+              <li style="color:var(--accent-red);">✗ No full metrics or CSV export</li>
+            </ul>
+            <a href="register.html" class="btn-secondary btn-large btn-block">Start Free</a>
+          </div>
+
+          <div class="pricing-card pro-tier">
+            <div class="price-badge">Stedrok Pro</div>
+            <div class="price">$3<span>/month</span></div>
+            <p class="price-note">Billed monthly. Cancel anytime.</p>
+            <ul class="benefits">
+              <li>✓ Full access to 100+ ranked stocks</li>
+              <li>✓ Daily updates with fresh scores</li>
+              <li>✓ CSV export (download your data)</li>
+              <li>✓ Save watchlist & set price alerts</li>
+              <li>✓ Email support (24-hour response)</li>
+              <li>✓ 30-day money-back guarantee</li>
+            </ul>
+            <button class="btn-primary btn-large btn-block" onclick="document.getElementById('checkout-container').scrollIntoView({behavior:'smooth'})">Subscribe Now</button>
+            <p class="payment-note">Secure payment by PayPal. Stedrok never sees or stores your card details – all billing data is handled by PayPal.</p>
+          </div>
+        </div>
+
+        <!-- PAYMENT CHECKOUT SECTION -->
+        <div id="checkout-container" style="max-width:500px; margin:0 auto 60px; padding:32px; background:var(--bg-card); border:1px solid var(--border-color); border-radius:12px;">
+          <h2 style="text-align:center; margin-bottom:24px;">Upgrade to Pro</h2>
+
+          <div id="login-required" class="status-msg status-error" style="display:none;">
+            <p><strong>Please log in first</strong> before upgrading.</p>
+            <a href="login.html" class="btn-secondary" style="margin-top:10px; display:inline-block;">Go to Login</a>
+          </div>
+
+          <div id="already-premium" class="status-msg status-success" style="display:none;">
+            <p><strong>✓ You are already a Pro member!</strong></p>
+            <p id="premium-until" style="margin-top:8px;"></p>
+          </div>
+
+          <div id="paypal-button-container"></div>
+
+          <div id="payment-status" class="status-msg">
+            <p id="payment-status-text"></p>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq-section">
+          <h2>Frequently Asked Questions</h2>
+          <div class="faq-item">
+            <h3>How does the free tier work?</h3>
+            <p>Create an account and get access to 3 randomly selected stocks updated daily. No credit card required. Upgrade anytime for full access to 100+ stocks.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Can I cancel anytime?</h3>
+            <p>Yes. Cancel online at any time from your account or PayPal. No lock-in contracts.</p>
+          </div>
+          <div class="faq-item">
+            <h3>What payment methods do you accept?</h3>
+            <p>All PayPal payment methods: credit cards, debit cards, and PayPal balance. Secure and encrypted.</p>
+          </div>
+          <div class="faq-item">
+            <h3>What if my payment fails?</h3>
+            <p>We'll retry automatically for 3 days. You'll get an email if we need you to update your payment method.</p>
+          </div>
+          <div class="faq-item">
+            <h3>How do I reset my password?</h3>
+            <p>Click "Forgot Password" on the login page. You'll receive a reset link via email.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Is this financial advice?</h3>
+            <p>No. Stedrok provides an educational research tool and model-based stock scores. It does not provide personal financial advice or recommendations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-left">
+          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
+          <p class="footer-tagline">
+            Stedrok is an educational stock research tool. It does not provide personal financial advice.
+          </p>
+        </div>
+        <nav class="footer-links">
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="methodology.html">Methodology</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-meta">
+        <p>Stedrok Pty Ltd · ABN [Your ABN] · Sydney, Australia</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Supabase Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+
+  <script>
+    // Auth-aware navigation
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        document.getElementById('loginBtn').style.display = 'none';
+        document.getElementById('registerBtn').style.display = 'none';
+        document.getElementById('dashboardBtn').style.display = 'inline-block';
+        document.getElementById('logoutBtn').style.display = 'inline-block';
+      }
+    });
+    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.reload();
+    });
+
+    let currentUser = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (!session) {
+        document.getElementById('login-required').style.display = 'block';
+        return;
+      }
+
+      currentUser = session.user;
+
+      // Check if already premium
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('subscription_status, paid_until')
+        .eq('id', currentUser.id)
+        .single();
+
+      if (profile?.subscription_status === 'active' && profile?.paid_until) {
+        const paidUntil = new Date(profile.paid_until).toLocaleDateString();
+        document.getElementById('already-premium').style.display = 'block';
+        document.getElementById('premium-until').textContent = 'Paid until: ' + paidUntil;
+        return;
+      }
+
+      // Load PayPal SDK dynamically with correct client ID
+      const script = document.createElement('script');
+      script.src = `https://www.paypal.com/sdk/js?client-id=${CONFIG.PAYPAL_CLIENT_ID}&vault=true&intent=subscription`;
+      script.setAttribute('data-sdk-integration-source', 'button-factory');
+      script.onload = () => initializePayPal(currentUser.id);
+      script.onerror = () => {
+        document.getElementById('payment-status').style.display = 'block';
+        document.getElementById('payment-status').className = 'status-msg status-error';
+        document.getElementById('payment-status-text').textContent = 'Failed to load PayPal. Please refresh.';
+      };
+      document.body.appendChild(script);
+    });
+
+    function initializePayPal(userId) {
+      if (typeof paypal === 'undefined') return;
+
+      paypal.Buttons({
+        style: { shape: 'rect', color: 'gold', layout: 'vertical', label: 'subscribe' },
+        createSubscription: function(data, actions) {
+          return actions.subscription.create({
+            plan_id: CONFIG.PAYPAL_PLAN_ID,
+            custom_id: userId,  // Links PayPal payment to correct Supabase user
+          });
+        },
+        onApprove: function(data) {
+          document.getElementById('payment-status').style.display = 'block';
+          document.getElementById('payment-status').className = 'status-msg status-success';
+          document.getElementById('payment-status-text').innerHTML =
+            '<strong>✓ Payment received!</strong><br>Your account is being upgraded...';
+          setTimeout(() => { window.location.href = 'dashboard.html'; }, 2500);
+        },
+        onError: function(err) {
+          document.getElementById('payment-status').style.display = 'block';
+          document.getElementById('payment-status').className = 'status-msg status-error';
+          document.getElementById('payment-status-text').innerHTML =
+            '<strong>Payment Error:</strong> Unable to process. Please try again.';
+        },
+        onCancel: function() {
+          document.getElementById('payment-status').style.display = 'block';
+          document.getElementById('payment-status').className = 'status-msg status-error';
+          document.getElementById('payment-status-text').textContent =
+            'Payment cancelled. No charge has been made.';
+        }
+      }).render('#paypal-button-container');
+    }
+  </script>
+</body>
+</html>
