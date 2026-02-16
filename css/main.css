@@ -4,11 +4,13 @@
 :root {
   --bg-dark: #0b1220;
   --bg-card: #151e2e;
-  --text-primary: #e5e7eb;
-  --text-secondary: #d1d5db;
-  --accent-green: #22c55e;
+  --text-primary: #e5e7eb;      /* Bright text - headings & important content */
+  --text-secondary: #d1d5db;    /* Body text - main readable content */
+  --text-muted: #9ca3af;        /* Subtle text - footer & less important */
+  --accent-green: #4ade80;      /* Bright green for highlights */
   --accent-green-dark: #16a34a;
-  --accent-red: #ef4444;
+  --accent-red: #fb7185;        /* Rose/pink for warnings */
+  --accent-red-dark: #ef4444;
   --border-color: rgba(148, 163, 184, 0.2);
   --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }

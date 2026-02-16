@@ -13,41 +13,41 @@
   <link rel="stylesheet" href="css/main.css">
   <style>
     /* Hero */
-    .hero { padding: 80px 0 60px; background: linear-gradient(135deg, rgba(34,197,94,0.04) 0%, rgba(59,130,246,0.04) 100%); }
+    .hero { padding: 80px 0 60px; background: linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(59,130,246,0.08) 100%); }
     .hero h1 { font-size: 52px; line-height: 1.15; margin-bottom: 24px; }
-    .hero .lead { font-size: 22px; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.6; max-width: 720px; }
+    .hero .lead { font-size: 22px; color: #d1d5db; margin-bottom: 32px; line-height: 1.6; max-width: 720px; }
     .cta-buttons { display: flex; gap: 16px; margin-bottom: 24px; }
-    .trust-badges { font-size: 15px; color: var(--text-secondary); margin-bottom: 32px; }
+    .trust-badges { font-size: 15px; color: #d1d5db; margin-bottom: 32px; }
 
     /* Trust strips */
-    .trust-strip { padding: 16px 24px; background: rgba(34,197,94,0.08); border-radius: 10px; border-left: 3px solid var(--accent-green); color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+    .trust-strip { padding: 16px 24px; background: rgba(34,197,94,0.08); border-radius: 10px; border-left: 3px solid var(--accent-green); color: #d1d5db; font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
     .trust-strip.security { background: rgba(59,130,246,0.08); border-left-color: #3b82f6; }
     .trust-strip.disclaimer { background: rgba(250,204,21,0.08); border-left-color: #facc15; }
 
     /* Problem/Solution */
     .section { padding: 64px 0; }
-    .section--light { background: rgba(249,250,251,0.5); }
+    .section--light { background: rgba(15, 23, 42, 0.4); }
     .section--border { border-top: 1px solid var(--border-color); }
     .section h2 { font-size: 36px; margin-bottom: 16px; text-align: center; }
-    .section-lead { font-size: 18px; color: var(--text-secondary); text-align: center; max-width: 700px; margin: 0 auto 48px; line-height: 1.7; }
+    .section-lead { font-size: 18px; color: #d1d5db; text-align: center; max-width: 700px; margin: 0 auto 48px; line-height: 1.7; }
 
     /* Problem cards */
     .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 48px; }
-    .problem-card { padding: 28px; background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.2); border-radius: 10px; }
-    .problem-card h3 { font-size: 18px; margin-bottom: 12px; color: var(--accent-red); }
-    .problem-card p { color: var(--text-secondary); font-size: 15px; line-height: 1.6; }
+    .problem-card { padding: 28px; background: var(--bg-card); border: 1px solid rgba(239,68,68,0.35); border-radius: 10px; }
+    .problem-card h3 { font-size: 18px; margin-bottom: 12px; color: #fb7185; }
+    .problem-card p { color: #e5e7eb; font-size: 15px; line-height: 1.6; }
 
     /* Solution box */
-    .solution-box { padding: 40px; background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(59,130,246,0.1) 100%); border: 1px solid rgba(34,197,94,0.3); border-radius: 12px; text-align: center; }
-    .solution-box h3 { font-size: 28px; margin-bottom: 16px; color: var(--accent-green); }
-    .solution-box p { font-size: 17px; color: var(--text-secondary); line-height: 1.7; max-width: 680px; margin: 0 auto 24px; }
+    .solution-box { padding: 40px; background: var(--bg-card); border: 2px solid rgba(34,197,94,0.5); border-radius: 12px; text-align: center; }
+    .solution-box h3 { font-size: 28px; margin-bottom: 16px; color: #4ade80; }
+    .solution-box p { font-size: 17px; color: #e5e7eb; line-height: 1.7; max-width: 680px; margin: 0 auto 24px; }
 
     /* Features */
     .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
     .feature-card { padding: 32px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; transition: transform 0.2s, box-shadow 0.2s; }
     .feature-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
     .feature-card h3 { font-size: 20px; margin-bottom: 12px; }
-    .feature-card p { color: var(--text-secondary); font-size: 15px; line-height: 1.7; }
+    .feature-card p { color: #d1d5db; font-size: 15px; line-height: 1.7; }
     .feature-icon { width: 56px; height: 56px; margin-bottom: 16px; background: linear-gradient(135deg, var(--accent-green), #16a34a); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
 
     /* How it works */
@@ -55,38 +55,38 @@
     .step-card { text-align: center; padding: 36px 28px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; }
     .step-number { width: 64px; height: 64px; margin: 0 auto 20px; background: linear-gradient(135deg, var(--accent-green), #16a34a); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 700; }
     .step-card h3 { font-size: 20px; margin-bottom: 12px; }
-    .step-card p { color: var(--text-secondary); font-size: 15px; line-height: 1.6; }
+    .step-card p { color: #d1d5db; font-size: 15px; line-height: 1.6; }
 
     /* Who it's for */
     .audience-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
     .audience-card { padding: 28px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; }
-    .audience-card h3 { font-size: 18px; margin-bottom: 10px; color: var(--accent-green); }
-    .audience-card p { color: var(--text-secondary); font-size: 15px; line-height: 1.6; }
+    .audience-card h3 { font-size: 18px; margin-bottom: 10px; color: #4ade80; }
+    .audience-card p { color: #e5e7eb; font-size: 15px; line-height: 1.6; }
 
     /* Why Stedrok table */
     .comparison-table { width: 100%; border-collapse: collapse; margin: 32px 0; background: var(--bg-card); }
     .comparison-table th { text-align: left; padding: 16px 20px; background: var(--bg-dark); border-bottom: 2px solid var(--border-color); font-size: 15px; }
-    .comparison-table td { padding: 16px 20px; border-bottom: 1px solid var(--border-color); }
-    .comparison-table td:first-child { font-weight: 600; }
-    .check-yes { color: var(--accent-green); font-weight: 600; }
-    .check-no { color: var(--text-secondary); opacity: 0.5; }
+    .comparison-table td { padding: 16px 20px; border-bottom: 1px solid var(--border-color); color: #d1d5db; }
+    .comparison-table td:first-child { font-weight: 600; color: var(--text-primary); }
+    .check-yes { color: #4ade80; font-weight: 600; }
+    .check-no { color: #9ca3af; opacity: 0.5; }
 
     /* FAQ */
     .faq-grid { max-width: 800px; margin: 0 auto; }
     .faq-item { margin-bottom: 28px; padding: 24px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; }
     .faq-item h3 { font-size: 18px; margin-bottom: 10px; color: var(--text-primary); }
-    .faq-item p { color: var(--text-secondary); font-size: 15px; line-height: 1.7; }
+    .faq-item p { color: #d1d5db; font-size: 15px; line-height: 1.7; }
 
     /* CTA Section */
     .cta-section { background: linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(59,130,246,0.08) 100%); padding: 64px 0; text-align: center; }
     .cta-section h2 { font-size: 38px; margin-bottom: 16px; }
-    .cta-section p { font-size: 19px; color: var(--text-secondary); margin-bottom: 32px; }
+    .cta-section p { font-size: 19px; color: #d1d5db; margin-bottom: 32px; }
 
     /* Footer */
     .footer-main { display: flex; justify-content: space-between; align-items: flex-start; padding: 40px 0 20px; border-top: 1px solid var(--border-color); }
     .footer-left { flex: 1; }
-    .footer-tagline { color: var(--text-secondary); font-size: 14px; margin-top: 8px; max-width: 600px; }
-    .footer-meta { padding: 20px 0; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-secondary); font-size: 13px; }
+    .footer-tagline { color: #9ca3af; font-size: 14px; margin-top: 8px; max-width: 600px; }
+    .footer-meta { padding: 20px 0; border-top: 1px solid var(--border-color); text-align: center; color: #9ca3af; font-size: 13px; }
 
     /* Responsive */
     @media (max-width: 768px) {
