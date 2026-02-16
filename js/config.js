@@ -15,8 +15,8 @@ const CONFIG = {
   API_BASE_URL: 'https://stedrok-api.stedrok.workers.dev',
 };
 
-// Initialize Supabase client
-const supabase = window.supabase.createClient(
+// Initialize Supabase client and expose it on window for other scripts
+window.supabase = window.supabase.createClient(
   CONFIG.SUPABASE_URL,
   CONFIG.SUPABASE_ANON_KEY
 );
