@@ -6,21 +6,12 @@
   <title>Dashboard – Stedrok Stock Screener</title>
   <meta name="description" content="Browse 100+ stocks ranked by value, business strength, and resilience. Updated daily for serious value investors.">
   <link rel="stylesheet" href="css/main.css">
-  <style>
-    .dashboard-disclaimer { padding: 16px; background: rgba(239,68,68,0.08); border-radius: 8px; margin-bottom: 24px; font-size: 14px; color: var(--text-secondary); }
-    .dashboard-disclaimer strong { color: var(--text-primary); }
-    .data-refresh-note { margin-top: 24px; text-align: center; color: var(--text-secondary); font-size: 14px; }
-    .footer-main { display: flex; justify-content: space-between; align-items: flex-start; padding: 40px 0 20px; border-top: 1px solid var(--border-color); }
-    .footer-left { flex: 1; }
-    .footer-tagline { color: var(--text-secondary); font-size: 14px; margin-top: 8px; max-width: 600px; }
-    .footer-meta { padding: 20px 0; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-secondary); font-size: 13px; }
-  </style>
 </head>
 <body>
   <header>
     <div class="container">
       <nav class="navbar">
-        <a href="index.html" class="logo" aria-label="Stedrok home">Stedrok</a>
+        <a href="index.html" class="logo" aria-label="Stedrok home">STEDROK</a>
         <ul class="nav-links">
           <li><a href="dashboard.html" class="active">Dashboard</a></li>
           <li><a href="methodology.html">Methodology</a></li>
@@ -40,8 +31,9 @@
       <div class="dashboard-header">
         <h1>Top 100 Value Stocks</h1>
         <p class="last-updated">Last updated: <span id="lastUpdated">Loading...</span></p>
-        <div class="dashboard-disclaimer">
-          <strong>Educational research tool – not a recommendation.</strong> Scores are model outputs based on public data. They are designed for screening and research, not for automatic buy or sell decisions. Always do your own due diligence.
+        
+        <div class="callout callout--warning">
+          <strong>Not financial advice.</strong> Scores are for screening and research only. Always do your own due diligence before making investment decisions.
         </div>
       </div>
 
@@ -64,6 +56,16 @@
           <option value="WATCH">WATCH Only</option>
           <option value="AVOID">AVOID Only</option>
         </select>
+      </div>
+
+      <!-- Legend -->
+      <div class="callout callout--info" style="margin-top: 24px;">
+        <strong>How to read the table:</strong>
+        <p style="margin-top: 8px; font-size: 13px;">
+          <strong>Discount</strong> shows the gap between current price and estimated fair value (positive = trading below fair value).
+          <strong>BUY</strong> = strong fundamentals with solid discount. <strong>WATCH</strong> = quality company, less clear value case. <strong>AVOID</strong> = fails resilience tests or significantly overvalued.
+          See <a href="methodology.html" style="color: var(--accent-green); text-decoration: underline;">Methodology</a> for full scoring details.
+        </p>
       </div>
 
       <div class="table-container">
@@ -94,31 +96,25 @@
       <div class="export-section">
         <button id="exportCsvBtn" class="btn-secondary">Export to CSV</button>
       </div>
-      <div class="data-refresh-note">
-        Data refreshed once per trading day. See <a href="methodology.html" style="color:var(--accent-green);">Methodology</a> for how scores are calculated.
-      </div>
+      
+      <p style="margin-top: 24px; text-align: center; color: var(--text-secondary); font-size: 14px;">
+        Data refreshed once per trading day.
+      </p>
     </div>
   </main>
 
   <footer>
     <div class="container">
-      <div class="footer-main">
-        <div class="footer-left">
-          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
-          <p class="footer-tagline">
-            Stedrok is an educational stock research tool. It does not provide personal financial advice.
-          </p>
-        </div>
-        <nav class="footer-links">
-          <a href="terms.html">Terms</a>
-          <a href="privacy.html">Privacy</a>
-          <a href="methodology.html">Methodology</a>
-          <a href="contact.html">Contact</a>
-        </nav>
-      </div>
-      <div class="footer-meta">
-        <p>Stedrok Pty Ltd · ABN [Your ABN] · Sydney, Australia</p>
-      </div>
+      <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved. ABN [Your ABN] · Sydney, Australia</p>
+      <p style="margin-top:8px; font-size:14px; opacity:0.75;">
+        Stedrok is an educational stock research tool. It does not provide personal financial advice.
+      </p>
+      <nav class="footer-links">
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="methodology.html">Methodology</a>
+        <a href="contact.html">Contact</a>
+      </nav>
     </div>
   </footer>
 

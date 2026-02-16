@@ -6,16 +6,18 @@
   <title>Sign Up – Stedrok</title>
   <meta name="description" content="Create your free Stedrok account. Start with 3 stocks, upgrade to Pro for 100+ stocks.">
   <link rel="stylesheet" href="css/main.css">
-  <style>
-    .form-legal { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); font-size: 13px; color: var(--text-secondary); text-align: center; }
-    .form-legal a { color: var(--accent-green); text-decoration: underline; }
-  </style>
 </head>
 <body>
-  <div class="auth-container">
+  <div class="auth-full-screen">
     <div class="auth-card">
+      <div class="auth-branding">
+        <a href="index.html" class="logo">STEDROK</a>
+        <p class="tagline">Educational research tool for value investors</p>
+      </div>
+
       <h1>Create Your Account</h1>
       <p class="subtitle">Start free (3 stocks). Upgrade to Pro ($3/month) for 100+ stocks.</p>
+
       <form id="registerForm">
         <div class="form-group">
           <label>Email</label>
@@ -28,10 +30,12 @@
         </div>
         <button type="submit" class="btn-primary btn-block">Create Account</button>
         <div id="error" class="error-message"></div>
-        <p class="form-legal">
+
+        <div class="legal-notice">
           By continuing, you confirm you have read and agree to our
           <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.
-        </p>
+        </div>
+
         <div class="form-footer">
           Already have an account? <a href="login.html">Log in</a>
         </div>

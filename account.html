@@ -6,18 +6,12 @@
   <title>Account Settings – Stedrok</title>
   <meta name="description" content="Manage your Stedrok account, subscription, and billing settings.">
   <link rel="stylesheet" href="css/main.css">
-  <style>
-    .footer-main { display: flex; justify-content: space-between; align-items: flex-start; padding: 40px 0 20px; border-top: 1px solid var(--border-color); }
-    .footer-left { flex: 1; }
-    .footer-tagline { color: var(--text-secondary); font-size: 14px; margin-top: 8px; max-width: 600px; }
-    .footer-meta { padding: 20px 0; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-secondary); font-size: 13px; }
-  </style>
 </head>
 <body>
   <header>
     <div class="container">
       <nav class="navbar">
-        <a href="index.html" class="logo" aria-label="Stedrok home">Stedrok</a>
+        <a href="index.html" class="logo" aria-label="Stedrok home">STEDROK</a>
         <ul class="nav-links">
           <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="methodology.html">Methodology</a></li>
@@ -45,6 +39,17 @@
         </div>
 
         <div class="card">
+          <h2>Billing</h2>
+          <p style="color:var(--text-secondary); margin-bottom:12px;">
+            All payments are processed securely through PayPal. To update your payment method, 
+            cancel your subscription, or view invoices, visit your PayPal account.
+          </p>
+          <a href="https://www.paypal.com/myaccount/autopay/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+            Manage Subscription on PayPal →
+          </a>
+        </div>
+
+        <div class="card">
           <h2>Account Details</h2>
           <p><strong>Email:</strong> <span id="userEmail" style="color:var(--text-secondary);">Loading...</span></p>
           <a href="reset-password.html" class="btn-secondary" style="margin-top:12px; display:inline-block;">Change Password</a>
@@ -53,8 +58,8 @@
         <div class="card">
           <h2 style="color:var(--accent-red);">Danger Zone</h2>
           <p style="color:var(--text-secondary); margin-bottom:12px;">
-            This will permanently delete your account and remove your personal data from Stedrok.
-            Payment records may be retained for tax and audit purposes as explained in our <a href="privacy.html" style="color:var(--accent-green);">Privacy Policy</a>.
+            Deleting your account removes your personal data from Stedrok. We must keep minimal payment 
+            records for tax and audit purposes. See <a href="privacy.html" style="color:var(--accent-green);">Privacy Policy</a> for details.
           </p>
           <button id="deleteAccountBtn" class="btn-danger">Delete Account</button>
         </div>
@@ -64,23 +69,16 @@
 
   <footer>
     <div class="container">
-      <div class="footer-main">
-        <div class="footer-left">
-          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
-          <p class="footer-tagline">
-            Stedrok is an educational stock research tool. It does not provide personal financial advice.
-          </p>
-        </div>
-        <nav class="footer-links">
-          <a href="terms.html">Terms</a>
-          <a href="privacy.html">Privacy</a>
-          <a href="methodology.html">Methodology</a>
-          <a href="contact.html">Contact</a>
-        </nav>
-      </div>
-      <div class="footer-meta">
-        <p>Stedrok Pty Ltd · ABN [Your ABN] · Sydney, Australia</p>
-      </div>
+      <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved. ABN [Your ABN] · Sydney, Australia</p>
+      <p style="margin-top:8px; font-size:14px; opacity:0.75;">
+        Stedrok is an educational stock research tool. It does not provide personal financial advice.
+      </p>
+      <nav class="footer-links">
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="methodology.html">Methodology</a>
+        <a href="contact.html">Contact</a>
+      </nav>
     </div>
   </footer>
 
