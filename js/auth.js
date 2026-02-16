@@ -6,27 +6,50 @@ document.addEventListener('DOMContentLoaded', () => {
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = document.getElementById('email').value;
+      const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('error');
+
+      // Clear previous errors
+      errorEl.textContent = '';
+
+      // Validate inputs
+      if (!email || !email.includes('@')) {
+        errorEl.textContent = 'Please enter a valid email address.';
+        return;
+      }
+      if (!password || password.length < 6) {
+        errorEl.textContent = 'Password must be at least 6 characters.';
+        return;
+      }
 
       try {
         const client = window.supabaseClient;
         if (!client || !client.auth || typeof client.auth.signInWithPassword !== 'function') {
-          throw new Error('Supabase client not initialized or auth.signInWithPassword unavailable.');
+          throw new Error('Authentication system not ready. Please refresh the page.');
         }
 
         const { data, error } = await client.auth.signInWithPassword({
-          email,
-          password
+          email: email,
+          password: password
         });
 
-        if (error) throw error;
+        if (error) {
+          // Handle specific error cases
+          if (error.message.includes('Invalid login credentials')) {
+            throw new Error('Invalid email or password. Please try again.');
+          } else if (error.message.includes('Email not confirmed')) {
+            throw new Error('Please check your email and confirm your account first.');
+          } else {
+            throw error;
+          }
+        }
 
-        // No need to check subscription - all users can login
-        // Free users see 3 stocks, paid users see all
+        // Success - redirect to dashboard
         window.location.href = 'dashboard.html';
       } catch (error) {
-        document.getElementById('error').textContent = error.message;
+        console.error('Login error:', error);
+        errorEl.textContent = error.message || 'Login failed. Please try again.';
       }
     });
   }
@@ -36,29 +59,57 @@ document.addEventListener('DOMContentLoaded', () => {
   if (registerForm) {
     registerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = document.getElementById('email').value;
+      const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('error');
+
+      // Clear previous errors
+      errorEl.textContent = '';
+
+      // Validate inputs
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        errorEl.textContent = 'Please enter a valid email address (e.g., name@example.com).';
+        return;
+      }
+      if (!password || password.length < 8) {
+        errorEl.textContent = 'Password must be at least 8 characters long.';
+        return;
+      }
 
       try {
         const client = window.supabaseClient;
         if (!client || !client.auth || typeof client.auth.signUp !== 'function') {
-          throw new Error('Supabase client not initialized or auth.signUp unavailable. Check `js/config.js` and CDN include.');
+          throw new Error('Authentication system not ready. Please refresh the page.');
         }
 
         // Create user account
         const { data, error } = await client.auth.signUp({
-          email,
-          password
+          email: email,
+          password: password
         });
 
-        if (error) throw error;
+        if (error) {
+          // Handle specific error cases
+          if (error.message.includes('User already registered')) {
+            throw new Error('This email is already registered. Please log in instead.');
+          } else if (error.message.includes('Password should be')) {
+            throw new Error('Password must be at least 8 characters with a mix of letters and numbers.');
+          } else {
+            throw error;
+          }
+        }
 
         // Profile is auto-created by Supabase trigger with 'free' status
-        alert('Account created successfully!');
-        window.location.href = 'dashboard.html';
+        if (data.user && data.user.identities && data.user.identities.length === 0) {
+          // Email already exists
+          errorEl.textContent = 'This email is already registered. Please log in instead.';
+          return;
+        }
+
+        alert('Account created successfully! You can now log in.');
+        window.location.href = 'login.html';
       } catch (error) {
-        const el = document.getElementById('error');
-        el.textContent = error.message || String(error);
+        errorEl.textContent = error.message || 'Registration failed. Please try again.';
         console.error('Registration error:', error);
       }
     });
