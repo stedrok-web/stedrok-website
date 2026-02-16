@@ -237,7 +237,7 @@ function renderTable(stocks) {
         <td>${stock.company_name || '-'}</td>
         <td>${stock.country || '-'}</td>
         <td>${stock.sector || '-'}</td>
-        <td colspan="9" style="text-align:center; color:var(--text-secondary);">
+        <td colspan="8" style="text-align:center; color:var(--text-secondary);">
           <a href="pricing.html" style="color:var(--accent-green); font-weight:bold;">
             Upgrade to Pro for full metrics →
           </a>
@@ -245,15 +245,14 @@ function renderTable(stocks) {
       `;
     } else {
       // Paid user: Show all columns matching header order
-      // 1. Symbol, 2. Company, 3. Country, 4. Sector, 5. Rating, 6. Total Score,
-      // 7. Value, 8. Quality, 9. Risk, 10. Dip, 11. Price, 12. Fair Value, 13. Discount
+      // 1. Symbol, 2. Company, 3. Country, 4. Sector, 5. Rating,
+      // 6. Value, 7. Quality, 8. Risk, 9. Dip, 10. Price, 11. Fair Value, 12. Discount
       tr.innerHTML = `
         <td><strong>${stock.ticker}</strong></td>
         <td>${stock.company_name || '-'}</td>
         <td>${stock.country || '-'}</td>
         <td>${stock.sector || '-'}</td>
         <td><span class="badge ${decisionClass}">${stock.decision || '-'}</span></td>
-        <td>${stock.total_score ? stock.total_score.toFixed(1) : '-'}</td>
         <td>${stock.value_score ? stock.value_score.toFixed(1) : '-'}</td>
         <td>${stock.quality_score ? stock.quality_score.toFixed(1) : '-'}</td>
         <td>${stock.risk_score ? stock.risk_score.toFixed(1) : '-'}</td>
@@ -288,8 +287,8 @@ function exportToCSV() {
 
   // Generate CSV
   const headers = ['Ticker', 'Company', 'Country', 'Sector', 'Price', 'Fair Value', 
-                   'Discount %', 'Value Score', 'Quality Score', 'Risk Score', 
-                   'Total Score', 'Decision'];
+                   'Discount %', 'Value Score', 'Quality Score', 'Risk Score', 'Dip Score', 
+                   'Decision'];
   
   const rows = allStocks.map(s => [
     s.ticker,
@@ -302,7 +301,7 @@ function exportToCSV() {
     s.value_score,
     s.quality_score,
     s.risk_score,
-    s.total_score,
+    s.dip_score,
     s.decision
   ]);
 
@@ -369,12 +368,12 @@ function applyFilters() {
     );
   }
 
-  // Apply minimum score filter
+  // Apply minimum score filter (uses Value Score)
   const minScore = document.getElementById('minScoreFilter')?.value;
   if (minScore && !isNaN(minScore)) {
     const threshold = parseFloat(minScore);
     filtered = filtered.filter(s => 
-      s.total_score != null && s.total_score >= threshold
+      s.value_score != null && s.value_score >= threshold
     );
   }
 
