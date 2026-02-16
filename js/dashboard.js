@@ -240,7 +240,7 @@ function renderTable(stocks) {
         <td>${stock.company_name || '-'}</td>
         <td>${stock.country || '-'}</td>
         <td>${stock.sector || '-'}</td>
-        <td colspan="9" style="text-align:center; color:var(--text-secondary);">
+        <td colspan="10" style="text-align:center; color:var(--text-secondary);">
           <a href="pricing.html" style="color:var(--accent-green); font-weight:bold;">
             Upgrade to Pro for full metrics →
           </a>
@@ -248,19 +248,20 @@ function renderTable(stocks) {
       `;
     } else {
       // Paid user: Show all columns matching header order
-      // 1. Symbol, 2. Company, 3. Country, 4. Sector, 5. Rating,
-      // 6. Value, 7. Quality, 8. Risk, 9. Dip, 10. Mkt Cap, 11. Price, 12. Fair Value, 13. Discount
+      // 1. Symbol, 2. Company, 3. Country, 4. Sector, 5. Rating, 6. Mkt Cap, 7. Confidence,
+      // 8. Value, 9. Quality, 10. Risk, 11. Dip, 12. Price, 13. Fair Value, 14. Discount
       tr.innerHTML = `
         <td><strong>${stock.ticker}</strong></td>
         <td>${stock.company_name || '-'}</td>
         <td>${stock.country || '-'}</td>
         <td>${stock.sector || '-'}</td>
         <td><span class="badge ${decisionClass}">${stock.decision || '-'}</span></td>
+        <td>${formatMarketCap(stock.market_cap)}</td>
+        <td>${stock.confidence != null ? stock.confidence.toFixed(1) + '%' : '-'}</td>
         <td>${stock.value_score != null ? stock.value_score.toFixed(1) : '-'}</td>
         <td>${stock.quality_score != null ? stock.quality_score.toFixed(1) : '-'}</td>
         <td>${stock.risk_score != null ? stock.risk_score.toFixed(1) : '-'}</td>
         <td>${stock.dip_score != null ? stock.dip_score.toFixed(1) : '-'}</td>
-        <td>${formatMarketCap(stock.market_cap)}</td>
         <td>$${stock.current_price != null ? stock.current_price.toFixed(2) : '-'}</td>
         <td>$${stock.fair_value != null ? stock.fair_value.toFixed(2) : '-'}</td>
         <td class="${stock.discount_pct > 0 ? 'positive' : 'negative'}">
@@ -290,7 +291,7 @@ function exportToCSV() {
   }
 
   // Generate CSV
-  const headers = ['Ticker', 'Company', 'Country', 'Sector', 'Market Cap', 'Price', 'Fair Value', 
+  const headers = ['Ticker', 'Company', 'Country', 'Sector', 'Market Cap', 'Confidence', 'Price', 'Fair Value', 
                    'Discount %', 'Value Score', 'Quality Score', 'Risk Score', 'Dip Score', 
                    'Decision'];
   
@@ -300,6 +301,7 @@ function exportToCSV() {
     s.country,
     s.sector,
     s.market_cap || 0,
+    s.confidence || 0,
     s.current_price,
     s.fair_value,
     s.discount_pct,
