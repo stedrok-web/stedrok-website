@@ -217,7 +217,7 @@ function renderTable(stocks) {
   if (stocks.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="13" style="text-align:center; padding:40px; color:#999;">
+        <td colspan="14" style="text-align:center; padding:40px; color:#999;">
           No stocks available right now. Check back later!
         </td>
       </tr>
