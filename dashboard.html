@@ -72,25 +72,6 @@
         </select>
       </div>
 
-      <!-- Legend -->
-      <div class="callout callout--info" style="margin-top: 24px;">
-        <strong>Understanding the Metrics:</strong>
-        <p style="margin-top: 12px; font-size: 13px; line-height: 1.7;">
-          <strong>Value:</strong> Quantifies undervaluation relative to intrinsic worth. Higher scores reflect deeper discounts to fair value.<br>
-          <strong>Quality:</strong> Measures financial health, competitive positioning, and operational efficiency.<br>
-          <strong>Risk:</strong> Evaluates balance sheet strength and earnings stability. Higher scores indicate greater resilience in downturns.<br>
-          <strong>Dip:</strong> Captures recent price weakness from historical peaks, identifying potential entry points.<br>
-          <strong>Confidence:</strong> Indicates data quality and prediction reliability (0-100%). Higher values reflect more complete financial data.<br>
-          <strong>Discount:</strong> Current price versus estimated fair value. Positive percentages indicate undervaluation.<br>
-          <strong>Rating:</strong> BUY = compelling risk-reward with margin of safety | WATCH = quality business, limited upside | AVOID = overvalued or weak fundamentals.
-        </p>
-        <p style="margin-top: 8px; font-size: 12px; color: var(--text-secondary);">
-          Scores are model outputs for research. They are not advice.
-          <a href="methodology.html" style="color: var(--accent-green); text-decoration: underline;">How the model works</a> · 
-          <a href="value-investing-glossary.html" style="color: var(--accent-green); text-decoration: underline;">Glossary of terms</a>
-        </p>
-      </div>
-
       <div class="table-container">
         <table class="stock-table" id="stocksTable">
           <thead>
@@ -120,6 +101,25 @@
       <div class="export-section">
         <button id="exportCsvBtn" class="btn-secondary">Export to CSV</button>
       </div>
+
+      <!-- Metrics Legend -->
+      <details open style="margin: 32px 0 24px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 16px; background: rgba(255,255,255,0.03);">
+        <summary style="cursor: pointer; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; user-select: none;">Understanding the Metrics</summary>
+        <div style="font-size: 14px; line-height: 1.8; color: var(--text-secondary); margin-top: 12px;">
+          <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Value:</strong> Quantifies undervaluation relative to intrinsic worth. Higher scores reflect deeper discounts to fair value.</p>
+          <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Quality:</strong> Measures financial health, competitive positioning, and operational efficiency.</p>
+          <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Risk:</strong> Evaluates balance sheet strength and earnings stability. Higher scores indicate greater resilience in downturns.</p>
+          <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Dip:</strong> Captures recent price weakness from historical peaks, identifying potential entry points.</p>
+          <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Confidence:</strong> Indicates data quality and prediction reliability (0-100%). Higher values reflect more complete financial data.</p>
+          <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Discount:</strong> Current price versus estimated fair value. Positive percentages indicate undervaluation.</p>
+          <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Rating:</strong> BUY = compelling risk-reward with margin of safety | WATCH = quality business, limited upside | AVOID = overvalued or weak fundamentals.</p>
+          <p style="margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 13px;">
+            Scores are model outputs for research purposes only, not advice. 
+            <a href="methodology.html" style="color: var(--accent-green); text-decoration: underline;">How the model works</a> · 
+            <a href="value-investing-glossary.html" style="color: var(--accent-green); text-decoration: underline;">Glossary of terms</a>
+          </p>
+        </div>
+      </details>
       
       <p style="margin-top: 24px; text-align: center; color: var(--text-secondary); font-size: 14px;">
         Data is refreshed once per trading day. Scores may change as new market data arrives.
