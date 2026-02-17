@@ -156,6 +156,9 @@
     .footer-left { flex: 1; }
     .footer-tagline { color: #9ca3af; font-size: 14px; margin-top: 8px; max-width: 600px; }
     .footer-meta { padding: 20px 0; border-top: 1px solid var(--border-color); text-align: center; color: #9ca3af; font-size: 13px; }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { color: #9ca3af; text-decoration: none; }
+    .footer-links a:hover { color: var(--text-primary); }
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -515,9 +518,9 @@
           <div class="faq-item">
             <h3>How Often Is Data Updated?</h3>
             <p>
-              Market prices and scores are refreshed once per trading day. Financial statement data
-              is updated shortly after companies report earnings. We prioritise accuracy over
-              real-time speed – this is a tool for long-term investors, not day traders.
+              Market prices and scores are refreshed at least once per trading day, and in practice
+              the engine usually runs twice each trading day. Financial statement data is updated
+              shortly after companies report earnings. This is built for long term investors, not day traders.
             </p>
           </div>
 
@@ -614,9 +617,6 @@
           <a href="privacy.html">Privacy</a>
           <a href="contact.html">Contact</a>
         </nav>
-      </div>
-      <div class="footer-meta">
-        <p>Stedrok Pty Ltd</p>
       </div>
     </div>
   </footer>
