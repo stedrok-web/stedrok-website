@@ -258,10 +258,10 @@ function renderTable(stocks) {
         <td><span class="badge ${decisionClass}">${stock.decision || '-'}</span></td>
         <td>${formatMarketCap(stock.market_cap)}</td>
         <td>${stock.confidence != null ? stock.confidence.toFixed(1) + '%' : '-'}</td>
-        <td>${stock.value_score != null ? stock.value_score.toFixed(1) : '-'}</td>
-        <td>${stock.quality_score != null ? stock.quality_score.toFixed(1) : '-'}</td>
-        <td>${stock.risk_score != null ? stock.risk_score.toFixed(1) : '-'}</td>
-        <td>${stock.dip_score != null ? stock.dip_score.toFixed(1) : '-'}</td>
+        <td>${stock.value_score != null ? stock.value_score.toFixed(1) + '%' : '-'}</td>
+        <td>${stock.quality_score != null ? stock.quality_score.toFixed(1) + '%' : '-'}</td>
+        <td>${stock.risk_score != null ? stock.risk_score.toFixed(1) + '%' : '-'}</td>
+        <td>${stock.dip_score != null ? stock.dip_score.toFixed(1) + '%' : '-'}</td>
         <td>$${stock.current_price != null ? stock.current_price.toFixed(2) : '-'}</td>
         <td>$${stock.fair_value != null ? stock.fair_value.toFixed(2) : '-'}</td>
         <td class="${stock.discount_pct > 0 ? 'positive' : 'negative'}">
