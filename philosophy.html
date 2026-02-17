@@ -1,58 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Philosophy – Stedrok</title>
+  <title>Investment Philosophy – Stedrok</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <meta name="description"
-        content="Stedrok's philosophy: disciplined value, fundamentals and risk controls, scanning thousands of companies twice daily, dollar-cost averaging, and a two-minute check before you place a trade.">
+        content="Stedrok's investment philosophy. A disciplined, rules based value framework that scans thousands of companies twice per day and focuses on downside risk, fundamentals and price discipline.">
   <link rel="canonical" href="https://stedrok.org/philosophy.html">
 
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="Stedrok Philosophy">
-  <meta property="og:description" content="A transparent and disciplined value process that puts downside first.">
-  <meta property="og:url" content="https://stedrok.org/philosophy.html">
+  <meta property="og:title" content="Investment Philosophy – Stedrok">
+  <meta property="og:description" content="A transparent, disciplined framework for long term value investors who want to avoid concentration risk and guesswork.">
   <meta property="og:image" content="https://stedrok.org/img/og-home.jpg">
+  <meta property="twitter:image" content="https://stedrok.org/img/og-home.jpg">
 
   <link rel="stylesheet" href="css/main.css">
 
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Article",
-    "headline":"Stedrok Philosophy",
-    "description":"A transparent, disciplined value framework with a focus on resilience and sensible prices.",
-    "author":{"@type":"Organization","name":"Stedrok"},
-    "mainEntityOfPage":"https://stedrok.org/philosophy.html"
-  }
-  </script>
   <style>
-    .philo-hero { padding: 72px 0 36px; background: linear-gradient(135deg, rgba(34,197,94,.06), rgba(59,130,246,.06)); }
-    .philo-hero h1 { font-size: 44px; margin-bottom: 12px; }
-    .philo-hero p { color: var(--text-secondary); font-size: 18px; max-width: 800px; }
-    .pillars { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; margin: 28px 0; }
-    .pillar { background: var(--bg-card); border:1px solid var(--border-color); border-radius:12px; padding:24px; }
-    .pillar h3 { margin-bottom: 12px; color: var(--text-primary); }
-    .pillar p { color: var(--text-secondary); line-height: 1.7; }
-    .section { padding: 52px 0; }
-    .section h2 { font-size: 28px; margin-bottom: 16px; }
-    .section p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px; }
-    .section ol { color: var(--text-secondary); line-height: 1.9; margin-left: 20px; margin-bottom: 20px; }
-    .section ol li { margin-bottom: 8px; }
-    .section--light { background: rgba(15, 23, 42, 0.4); }
-    .callout { background: rgba(34,197,94,.10); border-left:4px solid var(--accent-green); padding:20px; border-radius:10px; margin: 24px 0; }
-    .callout strong { color: var(--text-primary); }
-    .callout p { color: var(--text-secondary); margin-top: 8px; }
-    .brokers-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; }
-    .disclaimer-box { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 24px; margin-top: 32px; }
-    .disclaimer-box strong { color: var(--accent-red); }
-    .disclaimer-box p { color: var(--text-secondary); line-height: 1.7; margin-top: 8px; }
-    .text-muted { color: var(--text-secondary); font-style: italic; font-size: 14px; }
+    .page-main { padding: 60px 0; }
+    .section--narrow { max-width: 900px; margin: 0 auto; }
+    .section--narrow h1 { font-size: 42px; margin-bottom: 24px; }
+    .section--narrow h2 { font-size: 28px; margin-top: 40px; margin-bottom: 16px; color: var(--text-primary); }
+    .section--narrow h3 { font-size: 22px; margin-top: 26px; margin-bottom: 10px; color: var(--text-primary); }
+    .section--narrow p { color: var(--text-secondary); line-height: 1.9; margin-bottom: 18px; font-size: 17px; }
+    .lead { font-size: 20px; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.8; }
+    .highlight-box {
+      margin: 28px 0;
+      padding: 20px 24px;
+      border-radius: 10px;
+      border-left: 4px solid var(--accent-green);
+      background: rgba(15,23,42,0.7);
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+    .risk-box {
+      border-left-color: #facc15;
+      background: rgba(30,64,175,0.4);
+    }
+    .broker-list {
+      margin: 16px 0 10px;
+      padding-left: 0;
+      list-style: none;
+    }
+    .broker-list li::before {
+      content: "• ";
+      color: var(--accent-green);
+    }
+    .pillars-inline {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
     .footer-main { display: flex; justify-content: space-between; align-items: flex-start; padding: 40px 0 20px; border-top: 1px solid var(--border-color); }
     .footer-left { flex: 1; }
     .footer-tagline { color: var(--text-secondary); font-size: 14px; margin-top: 8px; max-width: 600px; }
     .footer-meta { padding: 20px 0; border-top: 1px solid var(--border-color); text-align: center; color: var(--text-secondary); font-size: 13px; }
-    @media (max-width: 768px) { .pillars, .brokers-grid { grid-template-columns: 1fr; } .philo-hero h1 { font-size: 36px; } }
+
+    @media (max-width: 768px) {
+      .section--narrow h1 { font-size: 32px; }
+      .section--narrow h2 { font-size: 24px; }
+    }
   </style>
 </head>
 <body>
@@ -73,137 +80,134 @@
           <li><a href="pricing.html">Pricing</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
-        <div class="auth-buttons" id="authButtons">
-          <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
-          <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
-          <a href="dashboard.html" class="btn-primary" id="dashboardBtn" style="display:none;">Dashboard</a>
-          <button class="btn-secondary" id="logoutBtn" style="display:none;">Log Out</button>
+        <div class="auth-buttons">
+          <a href="login.html" class="btn-secondary">Log In</a>
+          <a href="register.html" class="btn-primary">Start Free</a>
         </div>
       </nav>
     </div>
   </header>
 
-  <main id="main">
-    <section class="philo-hero">
+  <main class="page-main" id="main">
+    <section class="section section--narrow">
       <div class="container">
-        <h1>Stedrok philosophy</h1>
+        <h1>Our Investment Philosophy</h1>
+        <p class="lead">
+          Stedrok exists for long term investors who want sensible businesses at sensible prices and who care more about downside risk than market stories.
+          The platform is built around a single idea, do the heavy quantitative work at scale so you can spend your time on judgment and real due diligence.
+        </p>
+
+        <h2>The Problem with Crowded Index Bets</h2>
         <p>
-          Scan a broad universe. Apply a transparent value lens. Keep risk in view. Make the next decision simple.
-          We scan thousands of companies twice daily, sanitise the inputs, and surface a shortlist of stronger,
-          lower-risk ideas from available data.
+          Most investors are told that broad index funds give simple diversification.
+          In practice a large share of the S&amp;P 500 today sits in a small group of mega cap names.
+          The top ten companies control around forty percent of the index value which is far above the long run average and higher than many past peaks.
         </p>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <h2>What we look for</h2>
-        <div class="pillars">
-          <div class="pillar">
-            <h3>Value, not hype</h3>
-            <p>We seek a clear discount to a conservative view of intrinsic worth, verified against multiple valuation anchors — not a single ratio taken in isolation.</p>
-          </div>
-          <div class="pillar">
-            <h3>Quality that endures</h3>
-            <p>Healthy cash generation, sensible reinvestment, prudent capital allocation, and accounting that matches economics — quality that survives a cycle.</p>
-          </div>
-          <div class="pillar">
-            <h3>Resilience first</h3>
-            <p>Balance-sheet strength and liquidity matter. We avoid fragile structures, serial diluters, and "cheap for a reason" profiles.</p>
-          </div>
-          <div class="pillar">
-            <h3>Market context</h3>
-            <p>We want calm price behaviour relative to business value. Parabolic moves and crowding are red flags; quiet compounding is a feature.</p>
-          </div>
-        </div>
-
-        <div class="callout">
-          <strong>Discipline over prediction.</strong>
-          <p>We do not forecast markets. We run the same process every day and let the math do the boring work while you dollar-cost average into a few names.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--light">
-      <div class="container">
-        <h2>Your two-minute check before buying</h2>
-        <ol>
-          <li><strong>Earnings and calendar:</strong> Check the next report date and any guidance changes.</li>
-          <li><strong>News:</strong> Scan for litigation, regulatory action, credit downgrades, or restatements.</li>
-          <li><strong>Liquidity:</strong> Confirm average daily turnover is adequate for your order size.</li>
-          <li><strong>Position sizing:</strong> Keep it small and repeatable — dollar-cost average over days or weeks.</li>
-          <li><strong>Broker ticket:</strong> Use limit orders when spreads are wide.</li>
-        </ol>
-        <p class="text-muted">This is research guidance, not personal advice. See <a href="terms.html" style="color:var(--accent-green);">Terms</a>.</p>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <h2>Why we care about index concentration</h2>
         <p>
-          Market-cap weighting can morph "diversification" into a concentrated bet. The top companies
-          in broad indexes can represent a surprisingly large share of the total value — levels that
-          make stock selection and valuation discipline more, not less, relevant today.
-          A value lens helps you avoid paying any price for growth and can help you keep fragile names out of the portfolio.
+          That means a basic S&amp;P 500 fund is not a quiet basket of five hundred companies.
+          It is a heavy bet on a handful of giants where one earnings miss or regulatory shock can move the whole index at once.
+          What should be single company risk becomes index risk.
         </p>
-        <p class="text-muted">Concentration levels fluctuate. We highlight the risk to illustrate why a value process matters.</p>
-      </div>
-    </section>
-
-    <section class="section section--light">
-      <div class="container">
-        <h2>Dollar-cost averaging</h2>
-        <p>
-          Many long-term investors prefer steady amounts (daily or weekly) to reduce timing risk and decision stress.
-          Research shows lump-sum often wins in rising markets, but dollar-cost averaging can improve investor experience
-          by reducing regret and volatility. Use the approach that fits your temperament and stick with it.
-        </p>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <h2>How this became a product</h2>
-        <p>
-          We built these screens for our own research and used them for years. We kept the scope focused — value and resilience.
-          We are now sharing the same engine for a small fee that covers servers and support.
-          Past outcomes do not promise future outcomes. This is research only.
-        </p>
-      </div>
-    </section>
-
-    <section class="section section--light">
-      <div class="container">
-        <h2>Getting started without a big account</h2>
-        <p>
-          Many investors like to start with micro-sized orders through low-cost brokers. Popular names include
-          Interactive Brokers, Stake, Trading 212 and eToro. Fees and features change by region, so always check
-          local terms and charges before you act. None of these are sponsored mentions.
-        </p>
-        <p class="text-muted">We have no affiliation or sponsorship with any broker or platform listed. Always read the PDS and terms.</p>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <h2>Price</h2>
-        <p>We charge a small monthly fee to cover servers, data, hosting, and support. No tiers, no upsells. Cancel anytime.</p>
-        <a href="pricing.html" class="btn-primary">View Pricing</a>
-
-        <p class="text-muted" style="margin-top: 16px;">
-          We charge a small monthly fee to cover servers and support. There are no add ons. Past outcomes do not promise future outcomes.
-        </p>
-      </div>
-    </section>
-
-    <section class="section section--light">
-      <div class="container">
-        <div class="disclaimer-box">
-          <strong>Important</strong>
+        <div class="highlight-box risk-box">
+          <strong>Our View on This Risk</strong>
           <p>
-            Stedrok is an independent stock research platform. It does not give personal financial advice.
-            Always consider your situation and seek advice if you need it. See <a href="terms.html" style="color:var(--accent-green);">Terms</a> and <a href="privacy.html" style="color:var(--accent-green);">Privacy</a>.
+            Market cap weighting can work when the leaders keep growing.
+            Once concentration stretches this far it becomes fragile.
+            We prefer to look directly at individual businesses and their fundamentals instead of riding a crowded index that answers only to size.
+          </p>
+        </div>
+
+        <h2>What Stedrok Does Instead</h2>
+        <p>
+          Stedrok tracks more than seven thousand listed companies across major markets.
+          Twice each trading day our scripts refresh prices and fundamentals, then apply a disciplined model that scores every stock on four simple ideas:
+          <span class="pillars-inline">value</span>,
+          <span class="pillars-inline">business strength</span>,
+          <span class="pillars-inline">balance sheet resilience</span>,
+          and <span class="pillars-inline">price context</span>.
+        </p>
+        <p>
+          Companies that clear a set of basic quality and resilience checks then rise through the value and price filters.
+          Fragile balance sheets and weak economics are pushed to the bottom of the list regardless of how exciting the story looks.
+        </p>
+        <div class="highlight-box">
+          <strong>The Goal</strong>
+          <p>
+            Turn a universe of thousands into a short ranked list of candidates that already pass a first round of fundamental checks.
+            That lets you spend your energy on reading reports, understanding the business, and deciding if the risk suits you instead of trying to scan raw data on your own.
+          </p>
+        </div>
+
+        <h2>How We Expect Investors to Use This</h2>
+        <p>
+          Stedrok is a research engine, not a tip sheet.
+          The model narrows the field and gives a clear written explanation for each score.
+          You then run your own two or three minute sanity check on news and filings and decide if the idea deserves deeper work.
+        </p>
+        <p>
+          A simple way to use the platform is to build a short watchlist from the higher ranked ideas and then add in small, regular amounts.
+          Dollar cost averaging into sensible businesses can smooth volatility and reduce the temptation to time the market.
+        </p>
+
+        <h2>Micro Investing Alongside Real Brokers</h2>
+        <p>
+          Stedrok does not touch client money and does not run trades.
+          You keep full control and place orders through your preferred broker.
+          Many investors use low cost apps that support small and frequent orders.
+          Well known examples include:
+        </p>
+        <ul class="broker-list">
+          <li>Interactive Brokers</li>
+          <li>Stake</li>
+          <li>Trading 212</li>
+          <li>eToro</li>
+          <li>and similar regulated discount brokers in each region</li>
+        </ul>
+        <p>
+          These platforms often support small trade sizes and in some cases fractional shares.
+          That makes it easier to spread a daily or weekly contribution across more than one company instead of placing a single large bet.
+          Stedrok stays on the research side and never receives any commission from these brokers.
+        </p>
+
+        <h2>A Rules Based Framework, Not a Black Box</h2>
+        <p>
+          The scoring model is fully transparent.
+          The methodology page shows the pillars, the inputs behind them and how they roll up into a simple rating such as Buy, Watch or Avoid.
+          Every company shares the same rule set which keeps the process repeatable.
+        </p>
+        <p>
+          The framework has been used and refined in private portfolios for around five years.
+          Over that time we have adjusted thresholds and weights when evidence supported the change and removed metrics that added noise without improving decision quality.
+          The result is a cleaner rule book that focuses on what actually matters to a long term value investor.
+        </p>
+
+        <h2>Why the Price Is Three Dollars a Month</h2>
+        <p>
+          The platform is intentionally priced at three dollars per month.
+          That level is designed to cover data, servers, hosting and support.
+          It keeps the service sustainable without turning it into an aggressive sales machine.
+        </p>
+        <p>
+          The free tier remains a permanent part of the platform so that new investors can start with a small set of ideas while they learn the process.
+          When you are ready to see the full ranked list, the upgrade is there.
+        </p>
+
+        <h2>What Stedrok Is and What It Is Not</h2>
+        <p>
+          Stedrok is an independent stock research platform for value oriented investors.
+          It is a quantitative filter backed by real data and a clear written explanation for every rated company.
+        </p>
+        <p>
+          Stedrok is not personal financial advice and it is not a trading signal service.
+          It will never tell you what to buy or sell.
+          You remain responsible for your own decisions, position sizes and risk.
+        </p>
+        <div class="highlight-box risk-box">
+          <strong>Risk Statement</strong>
+          <p>
+            All investing involves risk, including the risk of permanent loss of capital.
+            Past results from any approach do not guarantee future outcomes.
+            You should consider your own objectives, financial situation and needs, and consider speaking with a licensed adviser before acting on any idea.
           </p>
         </div>
       </div>
@@ -217,7 +221,7 @@
           <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
           <p class="footer-tagline">
             Stedrok is an independent stock research platform for long term investors.
-            Content is general information only. It is not personal financial advice or a recommendation to buy or sell any security.
+            Content is general information only and is not personal financial advice or a recommendation to buy or sell any security.
           </p>
         </div>
         <nav class="footer-links">
@@ -235,22 +239,6 @@
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/config.js"></script>
   <script src="js/mobile-menu.js"></script>
-  <script>
-    const client = window.supabaseClient;
-    client.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        document.getElementById('loginBtn').style.display = 'none';
-        document.getElementById('registerBtn').style.display = 'none';
-        document.getElementById('dashboardBtn').style.display = 'inline-block';
-        document.getElementById('logoutBtn').style.display = 'inline-block';
-      }
-    });
-    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-      await client.auth.signOut(); window.location.href = 'index.html';
-    });
-  </script>
 </body>
 </html>

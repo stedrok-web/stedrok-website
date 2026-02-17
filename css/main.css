@@ -817,3 +817,34 @@ footer {
   .feature-grid { grid-template-columns: 1fr; }
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
 }
+
+/* === Stedrok visual polish overrides === */
+
+/* Make light sections darker so grey text stands out */
+.section.section--light {
+  background: rgba(15, 23, 42, 0.75);
+}
+
+/* Increase contrast inside trust strips and disclaimers */
+.trust-strip {
+  color: #e5e7eb;
+}
+.trust-strip.disclaimer {
+  background: rgba(250, 204, 21, 0.16);
+  border-left-color: #facc15;
+  color: #f9fafb;
+}
+
+/* Improve legibility for secondary body text on dark backgrounds */
+body,
+.section p,
+.section-lead,
+.footer-tagline {
+  color: #d4d4d8;
+}
+
+/* Step bubbles: ensure text is strong and readable */
+.step-number {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
