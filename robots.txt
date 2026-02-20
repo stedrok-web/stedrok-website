@@ -1,9 +1,13 @@
 User-agent: *
+Allow: /
 Disallow: /login.html
 Disallow: /register.html
 Disallow: /reset.html
 Disallow: /reset-password.html
 Disallow: /dashboard.html
 Disallow: /account.html
+Disallow: /scripts/
+Disallow: /supabase/
+Disallow: /workers/
 
 Sitemap: https://stedrok.org/sitemap.xml

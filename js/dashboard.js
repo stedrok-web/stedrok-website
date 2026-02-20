@@ -527,11 +527,20 @@ function buildExchangePoints(stocks) {
 
     const country = normalizeCountryName(stock.country);
     if (!grouped.has(exchange)) {
-      grouped.set(exchange, { exchange, count: 0, countries: new Set() });
+      grouped.set(exchange, {
+        exchange,
+        count: 0,
+        countries: new Set(),
+        marketCapSum: 0
+      });
     }
     const item = grouped.get(exchange);
     item.count += 1;
     if (country) item.countries.add(country);
+    const marketCap = Number(stock.market_cap);
+    if (Number.isFinite(marketCap) && marketCap > 0) {
+      item.marketCapSum += marketCap;
+    }
   });
 
   return Array.from(grouped.values())
@@ -540,13 +549,25 @@ function buildExchangePoints(stocks) {
       const coords = getCoordinatesForExchange(item.exchange, firstCountry);
       if (!coords) return null;
 
+      let size;
+      let metricLabel;
+      if (item.marketCapSum > 0) {
+        const logCap = Math.log10(item.marketCapSum + 1);
+        size = Math.max(9, Math.min(22, 9 + (logCap - 8) * 4.2));
+        metricLabel = `Total market cap: ${formatMarketCap(item.marketCapSum)}`;
+      } else {
+        size = Math.max(9, Math.min(18, 8 + item.count * 0.18));
+        metricLabel = `Stocks: ${item.count}`;
+      }
+
       return {
         exchange: item.exchange,
         count: item.count,
         country: firstCountry,
         lat: coords.lat,
         lng: coords.lng,
-        size: Math.min(20, 8 + item.count * 0.18)
+        size,
+        metricLabel
       };
     })
     .filter(Boolean)
@@ -564,15 +585,36 @@ function createExchangeDot(point) {
   const dot = document.createElement('button');
   dot.type = 'button';
   dot.className = `exchange-marker${point.active ? ' exchange-marker--active' : ''}`;
-  dot.style.width = `${Math.round(point.size)}px`;
-  dot.style.height = `${Math.round(point.size)}px`;
-  dot.title = `${point.exchange} (${point.count} stocks)`;
+  dot.style.setProperty('--orb-size', `${Math.round(point.size)}px`);
+  dot.style.setProperty('--orb-halo-size', `${Math.max(18, Math.round(point.size * 2.5))}px`);
+  dot.title = `${point.exchange} (${point.count} stocks)\n${point.metricLabel || ''}`;
   dot.setAttribute('aria-label', `${point.exchange} exchange filter`);
-  dot.addEventListener('click', event => {
+  let lastActivationMs = 0;
+  const activateFilter = event => {
+    const now = Date.now();
+    if (now - lastActivationMs < 220) return;
+    lastActivationMs = now;
     event.preventDefault();
     event.stopPropagation();
     setExchangeFilter(point.exchange);
+  };
+
+  // Prevent orbit controls from hijacking marker taps/drags.
+  dot.addEventListener('pointerdown', event => {
+    event.stopPropagation();
   });
+
+  // Pointer-up is more reliable than click on mobile inside draggable canvases.
+  dot.addEventListener('pointerup', activateFilter);
+  dot.addEventListener('click', activateFilter);
+
+  // Keyboard support for accessibility.
+  dot.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      activateFilter(event);
+    }
+  });
+
   return dot;
 }
 
@@ -657,13 +699,14 @@ function setupExchangeGlobe(stocks) {
     globeView = window.Globe()(globeEl)
       .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
       .backgroundColor('rgba(0,0,0,0)')
+      .enablePointerInteraction(true)
       .showAtmosphere(true)
       .atmosphereColor('#7dd3fc')
       .atmosphereAltitude(0.12)
       .showGraticules(true)
       .htmlLat('lat')
       .htmlLng('lng')
-      .htmlAltitude(0.01)
+      .htmlAltitude(point => (point.active ? 0.07 : 0.05))
       .htmlElement(point => createExchangeDot(point))
       .htmlTransitionDuration(200);
 
