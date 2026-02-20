@@ -531,11 +531,11 @@ header {
   border-radius: 50%;
   border: 1px solid rgba(15, 23, 42, 0.78);
   background:
-    radial-gradient(circle at 32% 30%, #e2f3ff 0%, #7dd3fc 35%, #0ea5e9 74%, #0369a1 100%);
+    radial-gradient(circle at 32% 30%, #f0fdf4 0%, #bbf7d0 30%, #4ade80 68%, #16a34a 100%);
   box-shadow:
-    0 0 0 4px rgba(56, 189, 248, 0.16),
-    0 0 16px rgba(56, 189, 248, 0.7),
-    0 0 30px rgba(16, 185, 129, 0.35);
+    0 0 0 4px rgba(74, 222, 128, 0.2),
+    0 0 18px rgba(74, 222, 128, 0.78),
+    0 0 34px rgba(34, 197, 94, 0.45);
   transform: translate(-50%, -72%);
   cursor: pointer;
   padding: 0;
@@ -555,9 +555,9 @@ header {
   height: calc(var(--orb-halo-size) * 0.38);
   transform: translate(-50%, -50%) scale(0.74);
   border-radius: 999px;
-  border: 1px solid rgba(125, 211, 252, 0.62);
-  background: radial-gradient(ellipse at center, rgba(125, 211, 252, 0.22) 0%, rgba(125, 211, 252, 0.02) 68%);
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+  border: 1px solid rgba(134, 239, 172, 0.72);
+  background: radial-gradient(ellipse at center, rgba(134, 239, 172, 0.3) 0%, rgba(134, 239, 172, 0.03) 68%);
+  box-shadow: 0 0 14px rgba(74, 222, 128, 0.5);
   pointer-events: none;
   animation: exchange-halo-pulse 2.1s ease-out infinite;
 }
@@ -567,7 +567,7 @@ header {
   position: absolute;
   inset: -45%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(14, 165, 233, 0.15) 45%, transparent 78%);
+  background: radial-gradient(circle, rgba(74, 222, 128, 0.38) 0%, rgba(34, 197, 94, 0.18) 45%, transparent 78%);
   filter: blur(2px);
   pointer-events: none;
   z-index: -1;
@@ -575,18 +575,18 @@ header {
 
 .exchange-marker--active {
   background:
-    radial-gradient(circle at 32% 30%, #ecfdf5 0%, #86efac 35%, #22c55e 74%, #15803d 100%);
+    radial-gradient(circle at 32% 30%, #dcfce7 0%, #4ade80 28%, #15803d 68%, #14532d 100%);
   box-shadow:
-    0 0 0 6px rgba(34, 197, 94, 0.2),
-    0 0 18px rgba(34, 197, 94, 0.74),
-    0 0 34px rgba(16, 185, 129, 0.44);
+    0 0 0 6px rgba(22, 163, 74, 0.26),
+    0 0 18px rgba(22, 163, 74, 0.82),
+    0 0 36px rgba(20, 83, 45, 0.52);
   transform: translate(-50%, -76%) scale(1.06);
 }
 
 .exchange-marker--active::before {
-  border-color: rgba(110, 231, 183, 0.78);
-  background: radial-gradient(ellipse at center, rgba(110, 231, 183, 0.28) 0%, rgba(110, 231, 183, 0.02) 70%);
-  box-shadow: 0 0 16px rgba(34, 197, 94, 0.5);
+  border-color: rgba(74, 222, 128, 0.85);
+  background: radial-gradient(ellipse at center, rgba(74, 222, 128, 0.34) 0%, rgba(74, 222, 128, 0.02) 70%);
+  box-shadow: 0 0 16px rgba(21, 128, 61, 0.6);
 }
 
 @keyframes exchange-halo-pulse {
