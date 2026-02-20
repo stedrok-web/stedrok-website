@@ -59,26 +59,6 @@
         Loading stock data...
       </div>
 
-      <section class="exchange-globe-panel" id="exchangeGlobePanel" aria-label="Exchange globe filter">
-        <div class="exchange-globe-head">
-          <div>
-            <h2>Global Exchange Filter</h2>
-            <p>Drag to rotate and tap a marker to filter. On mobile, the exchange chips below are a precise fallback selector.</p>
-          </div>
-          <button id="clearExchangeFilterBtn" class="btn-secondary" type="button">Show All Exchanges</button>
-        </div>
-        <div class="exchange-globe-layout">
-          <div id="exchangeGlobe" class="exchange-globe-canvas" role="img" aria-label="Interactive globe to filter exchanges"></div>
-          <aside class="exchange-globe-sidebar">
-            <div class="exchange-selected">
-              <span>Selected Exchange</span>
-              <strong id="selectedExchangeLabel">All Exchanges</strong>
-            </div>
-            <div id="exchangeChipList" class="exchange-chip-list"></div>
-          </aside>
-        </div>
-      </section>
-
       <div class="filters">
         <input type="text" id="searchInput" placeholder="Search symbol or company...">
         <input type="text" id="countryFilter" placeholder="Country...">
@@ -121,6 +101,26 @@
       <div class="export-section">
         <button id="exportCsvBtn" class="btn-secondary">Export to CSV</button>
       </div>
+
+      <section class="exchange-globe-panel" id="exchangeGlobePanel" aria-label="Exchange globe filter">
+        <div class="exchange-globe-head">
+          <div>
+            <h2>Global Exchange Filter</h2>
+            <p>Drag the globe and tap a dot to filter by exchange. Use chips for precise selection on dense regions.</p>
+          </div>
+          <button id="clearExchangeFilterBtn" class="btn-secondary" type="button">Show All Exchanges</button>
+        </div>
+        <div class="exchange-globe-layout">
+          <div id="exchangeGlobe" class="exchange-globe-canvas" role="img" aria-label="Interactive globe to filter exchanges"></div>
+          <aside class="exchange-globe-sidebar">
+            <div class="exchange-selected">
+              <span>Selected Exchange</span>
+              <strong id="selectedExchangeLabel">All Exchanges</strong>
+            </div>
+            <div id="exchangeChipList" class="exchange-chip-list"></div>
+          </aside>
+        </div>
+      </section>
 
       <!-- Metrics Legend -->
       <details open style="margin: 32px 0 24px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 16px; background: rgba(255,255,255,0.03);">

@@ -27,10 +27,20 @@ const EXCHANGE_COORDINATES = {
   'Madrid (Spain)': { lat: 40.415, lng: -3.694 }, // Bolsa de Madrid
   'Copenhagen (Denmark)': { lat: 55.676, lng: 12.568 }, // Nasdaq Copenhagen
   'Oslo (Norway)': { lat: 59.913, lng: 10.739 }, // Oslo Bors
-  'Toronto (Canada)': { lat: 43.653, lng: -79.383 },
-  'SIX (Switzerland)': { lat: 47.376, lng: 8.541 },
+  'Milan (Italy)': { lat: 45.464, lng: 9.191 }, // Borsa Italiana
   'Stockholm (Sweden)': { lat: 59.334, lng: 18.066 }, // Nasdaq Stockholm
-  'Tokyo (Japan)': { lat: 35.676, lng: 139.650 }
+  'Brussels (Belgium)': { lat: 50.850, lng: 4.352 }, // Euronext Brussels
+  'Helsinki (Finland)': { lat: 60.170, lng: 24.941 }, // Nasdaq Helsinki
+  'SIX (Switzerland)': { lat: 47.376, lng: 8.541 }, // SIX Swiss Exchange
+  'Lisbon (Portugal)': { lat: 38.722, lng: -9.139 }, // Euronext Lisbon
+  'Vienna (Austria)': { lat: 48.208, lng: 16.373 }, // Wiener Borse
+  'Warsaw (Poland)': { lat: 52.229, lng: 21.012 }, // Warsaw Stock Exchange
+  'Athens (Greece)': { lat: 37.983, lng: 23.727 }, // Athens Exchange
+  'Abu Dhabi (UAE)': { lat: 24.453, lng: 54.377 }, // ADX
+  'Singapore': { lat: 1.290, lng: 103.851 }, // SGX
+  'Toronto (Canada)': { lat: 43.653, lng: -79.383 }, // TSX
+  'Tokyo (Japan)': { lat: 35.676, lng: 139.650 }, // JPX
+  'Prague (Czech Republic)': { lat: 50.076, lng: 14.427 } // Prague Stock Exchange
 };
 
 const COUNTRY_COORDINATES = {
@@ -63,6 +73,74 @@ const EXCHANGE_COORDINATE_RULES = [
   { regex: /(oslo|bors)/i, key: 'Oslo (Norway)' },
   { regex: /(london|lse)/i, key: 'London (UK)' }
 ];
+
+// Derived from the 2026-02-21 scored CSV universe where exchange can be blank.
+const EXCHANGE_FROM_SUFFIX = {
+  AX: 'Australia (ASX)',
+  L: 'London (UK)',
+  HK: 'Hong Kong',
+  OL: 'Oslo (Norway)',
+  DE: 'Frankfurt (Germany)',
+  PA: 'Paris (France)',
+  MI: 'Milan (Italy)',
+  ST: 'Stockholm (Sweden)',
+  MC: 'Madrid (Spain)',
+  AE: 'Abu Dhabi (UAE)',
+  BR: 'Brussels (Belgium)',
+  HE: 'Helsinki (Finland)',
+  CO: 'Copenhagen (Denmark)',
+  AS: 'Amsterdam (Netherlands)',
+  SW: 'SIX (Switzerland)',
+  LS: 'Lisbon (Portugal)',
+  VI: 'Vienna (Austria)',
+  WA: 'Warsaw (Poland)',
+  AT: 'Athens (Greece)',
+  TO: 'Toronto (Canada)',
+  T: 'Tokyo (Japan)',
+  PR: 'Prague (Czech Republic)'
+};
+
+const EXCHANGE_DEFAULT_BY_COUNTRY = {
+  'United States': 'USA (NYSE/NASDAQ)',
+  'Australia': 'Australia (ASX)',
+  'United Kingdom': 'London (UK)',
+  'China': 'Hong Kong',
+  'Canada': 'Toronto (Canada)',
+  'Germany': 'Frankfurt (Germany)',
+  'France': 'Paris (France)',
+  'Norway': 'Oslo (Norway)',
+  'Italy': 'Milan (Italy)',
+  'Netherlands': 'Amsterdam (Netherlands)',
+  'Switzerland': 'SIX (Switzerland)',
+  'Spain': 'Madrid (Spain)',
+  'Israel': 'USA (NYSE/NASDAQ)',
+  'Sweden': 'Stockholm (Sweden)',
+  'Ireland': 'London (UK)',
+  'United Arab Emirates': 'Abu Dhabi (UAE)',
+  'Hong Kong': 'Hong Kong',
+  'Denmark': 'Copenhagen (Denmark)',
+  'Belgium': 'Brussels (Belgium)',
+  'Finland': 'Helsinki (Finland)',
+  'Brazil': 'USA (NYSE/NASDAQ)',
+  'Luxembourg': 'Paris (France)',
+  'Singapore': 'Singapore',
+  'New Zealand': 'Australia (ASX)',
+  'Greece': 'Athens (Greece)',
+  'Japan': 'Tokyo (Japan)',
+  'Mexico': 'USA (NYSE/NASDAQ)',
+  'Argentina': 'USA (NYSE/NASDAQ)',
+  'Portugal': 'Lisbon (Portugal)',
+  'South Africa': 'London (UK)',
+  'Austria': 'Vienna (Austria)',
+  'India': 'USA (NYSE/NASDAQ)',
+  'Taiwan': 'USA (NYSE/NASDAQ)',
+  'Poland': 'Warsaw (Poland)',
+  'South Korea': 'USA (NYSE/NASDAQ)',
+  'Chile': 'USA (NYSE/NASDAQ)',
+  'Jersey': 'London (UK)',
+  'Bermuda': 'USA (NYSE/NASDAQ)',
+  'Cayman Islands': 'USA (NYSE/NASDAQ)'
+};
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Use the shared Supabase client initialized in js/config.js
@@ -390,6 +468,37 @@ function normalizeExchangeLabel(exchange) {
     .trim();
 }
 
+function normalizeCountryName(country) {
+  return String(country || '')
+    .replace(/\s+/g, ' ')
+    .replace(/\u00a0/g, ' ')
+    .trim();
+}
+
+function extractTickerSuffix(symbol) {
+  const value = String(symbol || '').trim().toUpperCase();
+  if (!value.includes('.')) return '';
+  const parts = value.split('.');
+  return parts[parts.length - 1];
+}
+
+function deriveExchangeLabel(stock) {
+  const explicitExchange = normalizeExchangeLabel(stock.exchange);
+  if (explicitExchange) return explicitExchange;
+
+  const suffix = extractTickerSuffix(stock.ticker || stock.symbol);
+  if (suffix && EXCHANGE_FROM_SUFFIX[suffix]) {
+    return EXCHANGE_FROM_SUFFIX[suffix];
+  }
+
+  const country = normalizeCountryName(stock.country);
+  if (country && EXCHANGE_DEFAULT_BY_COUNTRY[country]) {
+    return EXCHANGE_DEFAULT_BY_COUNTRY[country];
+  }
+
+  return '';
+}
+
 function getCoordinatesForExchange(exchange, country) {
   const normalized = normalizeExchangeLabel(exchange);
 
@@ -413,10 +522,10 @@ function buildExchangePoints(stocks) {
   const grouped = new Map();
 
   stocks.forEach(stock => {
-    const exchange = normalizeExchangeLabel(stock.exchange);
+    const exchange = normalizeExchangeLabel(deriveExchangeLabel(stock));
     if (!exchange) return;
 
-    const country = (stock.country || '').trim();
+    const country = normalizeCountryName(stock.country);
     if (!grouped.has(exchange)) {
       grouped.set(exchange, { exchange, count: 0, countries: new Set() });
     }
@@ -437,11 +546,34 @@ function buildExchangePoints(stocks) {
         country: firstCountry,
         lat: coords.lat,
         lng: coords.lng,
-        size: Math.min(1.7, 0.55 + item.count / 24)
+        size: Math.min(20, 8 + item.count * 0.18)
       };
     })
     .filter(Boolean)
     .sort((a, b) => b.count - a.count);
+}
+
+function getExchangeMarkerData() {
+  return exchangePoints.map(point => ({
+    ...point,
+    active: point.exchange === selectedExchange
+  }));
+}
+
+function createExchangeDot(point) {
+  const dot = document.createElement('button');
+  dot.type = 'button';
+  dot.className = `exchange-marker${point.active ? ' exchange-marker--active' : ''}`;
+  dot.style.width = `${Math.round(point.size)}px`;
+  dot.style.height = `${Math.round(point.size)}px`;
+  dot.title = `${point.exchange} (${point.count} stocks)`;
+  dot.setAttribute('aria-label', `${point.exchange} exchange filter`);
+  dot.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+    setExchangeFilter(point.exchange);
+  });
+  return dot;
 }
 
 function updateExchangeFilterUI() {
@@ -455,10 +587,7 @@ function updateExchangeFilterUI() {
   });
 
   if (globeView) {
-    globeView
-      .pointAltitude(point => (point.exchange === selectedExchange ? 0.19 : 0.1))
-      .pointColor(point => (point.exchange === selectedExchange ? '#22c55e' : '#7dd3fc'));
-    globeView.pointsData([...exchangePoints]);
+    globeView.htmlElementsData(getExchangeMarkerData());
   }
 }
 
@@ -502,11 +631,13 @@ function setupExchangeGlobe(stocks) {
   renderExchangeChips();
   updateExchangeFilterUI();
 
-  clearBtn?.addEventListener('click', () => {
-    selectedExchange = '';
-    updateExchangeFilterUI();
-    applyFilters();
-  });
+  if (clearBtn) {
+    clearBtn.onclick = () => {
+      selectedExchange = '';
+      updateExchangeFilterUI();
+      applyFilters();
+    };
+  }
 
   if (typeof window.Globe !== 'function') {
     globeEl.innerHTML = '<p style="padding:16px;color:var(--text-secondary);">Globe unavailable. Use exchange chips to filter.</p>';
@@ -530,11 +661,11 @@ function setupExchangeGlobe(stocks) {
       .atmosphereColor('#7dd3fc')
       .atmosphereAltitude(0.12)
       .showGraticules(true)
-      .pointLat('lat')
-      .pointLng('lng')
-      .pointRadius('size')
-      .pointLabel(point => `${point.exchange}<br/><strong>${point.count} stocks</strong>`)
-      .onPointClick(point => setExchangeFilter(point.exchange));
+      .htmlLat('lat')
+      .htmlLng('lng')
+      .htmlAltitude(0.01)
+      .htmlElement(point => createExchangeDot(point))
+      .htmlTransitionDuration(200);
 
     const controls = globeView.controls();
     controls.autoRotate = !isMobileViewport;
@@ -561,8 +692,7 @@ function setupExchangeGlobe(stocks) {
     }
   }
 
-  globeView
-    .pointsData([...exchangePoints]);
+  globeView.htmlElementsData(getExchangeMarkerData());
   syncGlobeSize();
   setTimeout(syncGlobeSize, 80);
   setTimeout(syncGlobeSize, 280);
@@ -672,7 +802,7 @@ function applyFilters() {
 
   // Apply exchange filter from globe/chips
   if (selectedExchange) {
-    filtered = filtered.filter(s => s.exchange === selectedExchange);
+    filtered = filtered.filter(s => normalizeExchangeLabel(deriveExchangeLabel(s)) === selectedExchange);
   }
 
   // Apply sorting
