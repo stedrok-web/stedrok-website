@@ -469,6 +469,107 @@ header {
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
 }
 
+.exchange-globe-panel {
+  margin: 22px 0 10px;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  background:
+    radial-gradient(120% 90% at 90% 15%, rgba(34, 197, 94, 0.12), transparent 55%),
+    radial-gradient(100% 120% at 8% 85%, rgba(59, 130, 246, 0.16), transparent 55%),
+    rgba(15, 23, 42, 0.92);
+}
+
+.exchange-globe-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.exchange-globe-head h2 {
+  font-size: 19px;
+  margin: 0 0 4px;
+}
+
+.exchange-globe-head p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.exchange-globe-layout {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(220px, 1fr) 300px;
+}
+
+.exchange-globe-canvas {
+  min-height: 320px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  overflow: hidden;
+  background:
+    radial-gradient(80% 80% at 30% 30%, rgba(59, 130, 246, 0.18), rgba(15, 23, 42, 0.92));
+}
+
+.exchange-globe-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.exchange-selected {
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 10px;
+  padding: 12px;
+  background: rgba(15, 23, 42, 0.58);
+}
+
+.exchange-selected span {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.exchange-selected strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.exchange-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.exchange-chip {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.72);
+  color: var(--text-secondary);
+  border-radius: 999px;
+  padding: 6px 11px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.exchange-chip:hover {
+  border-color: rgba(34, 197, 94, 0.72);
+  color: var(--text-primary);
+}
+
+.exchange-chip.active {
+  border-color: var(--accent-green);
+  background: rgba(34, 197, 94, 0.14);
+  color: #dcfce7;
+}
+
 .export-section {
   text-align: center;
   margin: 24px 0;
@@ -816,6 +917,18 @@ footer {
   .cta-buttons { flex-direction: column; }
   .feature-grid { grid-template-columns: 1fr; }
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+
+  .exchange-globe-head {
+    flex-direction: column;
+  }
+
+  .exchange-globe-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .exchange-globe-canvas {
+    min-height: 250px;
+  }
 }
 
 /* === Stedrok visual polish overrides === */

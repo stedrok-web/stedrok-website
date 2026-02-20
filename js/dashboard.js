@@ -7,9 +7,48 @@ let userProfile = null;
 let allStocks = [];
 let currentSortColumn = 'value_score';
 let currentSortDirection = 'desc';
+let selectedExchange = '';
+let exchangePoints = [];
+let globeView = null;
+let globeResizeBound = false;
 
 // API URL from central config (js/config.js must be loaded before this file)
 const API_URL = CONFIG.API_BASE_URL;
+
+const EXCHANGE_COORDINATES = {
+  'USA (NYSE/NASDAQ)': { lat: 40.706, lng: -74.011 },
+  'Hong Kong': { lat: 22.285, lng: 114.158 },
+  'London (UK)': { lat: 51.507, lng: -0.128 },
+  'Australia (ASX)': { lat: -33.868, lng: 151.209 },
+  'Paris (France)': { lat: 48.856, lng: 2.352 },
+  'Amsterdam (Netherlands)': { lat: 52.372, lng: 4.899 },
+  'Frankfurt (Germany)': { lat: 50.111, lng: 8.682 },
+  'Madrid (Spain)': { lat: 40.416, lng: -3.703 },
+  'Copenhagen (Denmark)': { lat: 55.676, lng: 12.568 },
+  'Oslo (Norway)': { lat: 59.913, lng: 10.752 },
+  'Toronto (Canada)': { lat: 43.653, lng: -79.383 },
+  'SIX (Switzerland)': { lat: 47.376, lng: 8.541 },
+  'Stockholm (Sweden)': { lat: 59.329, lng: 18.068 },
+  'Tokyo (Japan)': { lat: 35.676, lng: 139.650 }
+};
+
+const COUNTRY_COORDINATES = {
+  'United States': { lat: 39.828, lng: -98.579 },
+  'China': { lat: 35.861, lng: 104.195 },
+  'United Kingdom': { lat: 55.378, lng: -3.436 },
+  'Canada': { lat: 56.130, lng: -106.346 },
+  'France': { lat: 46.227, lng: 2.213 },
+  'Singapore': { lat: 1.352, lng: 103.820 },
+  'Australia': { lat: -25.274, lng: 133.775 },
+  'Germany': { lat: 51.165, lng: 10.451 },
+  'Ireland': { lat: 53.412, lng: -8.243 },
+  'Denmark': { lat: 56.263, lng: 9.502 },
+  'Spain': { lat: 40.464, lng: -3.749 },
+  'Norway': { lat: 60.472, lng: 8.468 },
+  'Netherlands': { lat: 52.132, lng: 5.291 },
+  'Switzerland': { lat: 46.818, lng: 8.227 },
+  'Japan': { lat: 36.205, lng: 138.252 }
+};
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Use the shared Supabase client initialized in js/config.js
@@ -86,6 +125,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
       showPaidUserStatus(userProfile.paid_until, meta.count);
     }
+
+    // Build exchange globe filter from current picks.
+    setupExchangeGlobe(allStocks);
 
     // Render table
     renderTable(allStocks);
@@ -327,6 +369,161 @@ function exportToCSV() {
   URL.revokeObjectURL(url);
 }
 
+function getCoordinatesForExchange(exchange, country) {
+  if (EXCHANGE_COORDINATES[exchange]) {
+    return EXCHANGE_COORDINATES[exchange];
+  }
+  if (country && COUNTRY_COORDINATES[country]) {
+    return COUNTRY_COORDINATES[country];
+  }
+  return null;
+}
+
+function buildExchangePoints(stocks) {
+  const grouped = new Map();
+
+  stocks.forEach(stock => {
+    const exchange = (stock.exchange || '').trim();
+    if (!exchange) return;
+
+    const country = (stock.country || '').trim();
+    if (!grouped.has(exchange)) {
+      grouped.set(exchange, { exchange, count: 0, countries: new Set() });
+    }
+    const item = grouped.get(exchange);
+    item.count += 1;
+    if (country) item.countries.add(country);
+  });
+
+  return Array.from(grouped.values())
+    .map(item => {
+      const firstCountry = Array.from(item.countries)[0] || '';
+      const coords = getCoordinatesForExchange(item.exchange, firstCountry);
+      if (!coords) return null;
+
+      return {
+        exchange: item.exchange,
+        count: item.count,
+        country: firstCountry,
+        lat: coords.lat,
+        lng: coords.lng,
+        size: Math.min(1.7, 0.55 + item.count / 24)
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.count - a.count);
+}
+
+function updateExchangeFilterUI() {
+  const label = document.getElementById('selectedExchangeLabel');
+  if (label) {
+    label.textContent = selectedExchange || 'All Exchanges';
+  }
+
+  document.querySelectorAll('.exchange-chip').forEach(chip => {
+    chip.classList.toggle('active', chip.dataset.exchange === selectedExchange);
+  });
+
+  if (globeView) {
+    globeView
+      .pointAltitude(point => (point.exchange === selectedExchange ? 0.19 : 0.1))
+      .pointColor(point => (point.exchange === selectedExchange ? '#22c55e' : '#7dd3fc'));
+    globeView.pointsData([...exchangePoints]);
+  }
+}
+
+function setExchangeFilter(exchangeName) {
+  selectedExchange = selectedExchange === exchangeName ? '' : exchangeName;
+  updateExchangeFilterUI();
+  applyFilters();
+}
+
+function renderExchangeChips() {
+  const chipList = document.getElementById('exchangeChipList');
+  if (!chipList) return;
+
+  chipList.innerHTML = '';
+  exchangePoints.forEach(point => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'exchange-chip';
+    chip.dataset.exchange = point.exchange;
+    chip.textContent = `${point.exchange} (${point.count})`;
+    chip.addEventListener('click', () => setExchangeFilter(point.exchange));
+    chipList.appendChild(chip);
+  });
+}
+
+function setupExchangeGlobe(stocks) {
+  const panel = document.getElementById('exchangeGlobePanel');
+  const globeEl = document.getElementById('exchangeGlobe');
+  const clearBtn = document.getElementById('clearExchangeFilterBtn');
+  if (!panel || !globeEl) return;
+
+  selectedExchange = '';
+  exchangePoints = buildExchangePoints(stocks);
+
+  if (exchangePoints.length === 0) {
+    panel.style.display = 'none';
+    return;
+  }
+
+  panel.style.display = 'block';
+  renderExchangeChips();
+  updateExchangeFilterUI();
+
+  clearBtn?.addEventListener('click', () => {
+    selectedExchange = '';
+    updateExchangeFilterUI();
+    applyFilters();
+  });
+
+  if (typeof window.Globe !== 'function') {
+    globeEl.innerHTML = '<p style="padding:16px;color:var(--text-secondary);">Globe unavailable. Use exchange chips to filter.</p>';
+    return;
+  }
+
+  if (!globeView) {
+    globeView = window.Globe()(globeEl)
+      .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
+      .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
+      .backgroundColor('rgba(0,0,0,0)')
+      .showAtmosphere(true)
+      .atmosphereColor('#7dd3fc')
+      .atmosphereAltitude(0.12)
+      .pointLat('lat')
+      .pointLng('lng')
+      .pointRadius('size')
+      .pointLabel(point => `${point.exchange}<br/><strong>${point.count} stocks</strong>`)
+      .onPointClick(point => setExchangeFilter(point.exchange));
+
+    const controls = globeView.controls();
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.5;
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.enablePan = true;
+    controls.minDistance = 140;
+    controls.maxDistance = 320;
+
+    if (!globeResizeBound) {
+      globeResizeBound = true;
+      window.addEventListener('resize', () => {
+        if (!globeView || !globeEl.clientWidth) return;
+        globeView.width(globeEl.clientWidth);
+        globeView.height(globeEl.clientHeight);
+      });
+    }
+  }
+
+  globeView
+    .width(globeEl.clientWidth)
+    .height(globeEl.clientHeight)
+    .pointsData([...exchangePoints]);
+
+  updateExchangeFilterUI();
+}
+
 // ============================================================
 // Filters and sorting
 // ============================================================
@@ -422,6 +619,11 @@ function applyFilters() {
   const decisionFilter = document.getElementById('decisionFilter')?.value;
   if (decisionFilter) {
     filtered = filtered.filter(s => s.decision === decisionFilter);
+  }
+
+  // Apply exchange filter from globe/chips
+  if (selectedExchange) {
+    filtered = filtered.filter(s => s.exchange === selectedExchange);
   }
 
   // Apply sorting

@@ -59,6 +59,26 @@
         Loading stock data...
       </div>
 
+      <section class="exchange-globe-panel" id="exchangeGlobePanel" aria-label="Exchange globe filter">
+        <div class="exchange-globe-head">
+          <div>
+            <h2>Global Exchange Filter</h2>
+            <p>Drag to rotate the globe and click an exchange marker to filter the table.</p>
+          </div>
+          <button id="clearExchangeFilterBtn" class="btn-secondary" type="button">Show All Exchanges</button>
+        </div>
+        <div class="exchange-globe-layout">
+          <div id="exchangeGlobe" class="exchange-globe-canvas" role="img" aria-label="Interactive globe to filter exchanges"></div>
+          <aside class="exchange-globe-sidebar">
+            <div class="exchange-selected">
+              <span>Selected Exchange</span>
+              <strong id="selectedExchangeLabel">All Exchanges</strong>
+            </div>
+            <div id="exchangeChipList" class="exchange-chip-list"></div>
+          </aside>
+        </div>
+      </section>
+
       <div class="filters">
         <input type="text" id="searchInput" placeholder="Search symbol or company...">
         <input type="text" id="countryFilter" placeholder="Country...">
@@ -152,6 +172,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/globe.gl@2.32.0/dist/globe.gl.min.js"></script>
   <script src="js/config.js"></script>
   <script src="js/dashboard.js"></script>
   <script src="js/mobile-menu.js"></script>
