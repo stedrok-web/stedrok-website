@@ -11,24 +11,25 @@ let selectedExchange = '';
 let exchangePoints = [];
 let globeView = null;
 let globeResizeBound = false;
+let globeResizeObserver = null;
 
 // API URL from central config (js/config.js must be loaded before this file)
 const API_URL = CONFIG.API_BASE_URL;
 
 const EXCHANGE_COORDINATES = {
-  'USA (NYSE/NASDAQ)': { lat: 40.706, lng: -74.011 },
-  'Hong Kong': { lat: 22.285, lng: 114.158 },
-  'London (UK)': { lat: 51.507, lng: -0.128 },
-  'Australia (ASX)': { lat: -33.868, lng: 151.209 },
-  'Paris (France)': { lat: 48.856, lng: 2.352 },
-  'Amsterdam (Netherlands)': { lat: 52.372, lng: 4.899 },
-  'Frankfurt (Germany)': { lat: 50.111, lng: 8.682 },
-  'Madrid (Spain)': { lat: 40.416, lng: -3.703 },
-  'Copenhagen (Denmark)': { lat: 55.676, lng: 12.568 },
-  'Oslo (Norway)': { lat: 59.913, lng: 10.752 },
+  'USA (NYSE/NASDAQ)': { lat: 40.757, lng: -73.985 }, // Nasdaq MarketSite (NYC)
+  'Hong Kong': { lat: 22.285, lng: 114.158 }, // HKEX
+  'London (UK)': { lat: 51.514, lng: -0.088 }, // London Stock Exchange
+  'Australia (ASX)': { lat: -33.866, lng: 151.209 }, // ASX Sydney
+  'Paris (France)': { lat: 48.868, lng: 2.347 }, // Euronext Paris
+  'Amsterdam (Netherlands)': { lat: 52.372, lng: 4.893 }, // Euronext Amsterdam
+  'Frankfurt (Germany)': { lat: 50.114, lng: 8.678 }, // Frankfurt Stock Exchange
+  'Madrid (Spain)': { lat: 40.415, lng: -3.694 }, // Bolsa de Madrid
+  'Copenhagen (Denmark)': { lat: 55.676, lng: 12.568 }, // Nasdaq Copenhagen
+  'Oslo (Norway)': { lat: 59.913, lng: 10.739 }, // Oslo Bors
   'Toronto (Canada)': { lat: 43.653, lng: -79.383 },
   'SIX (Switzerland)': { lat: 47.376, lng: 8.541 },
-  'Stockholm (Sweden)': { lat: 59.329, lng: 18.068 },
+  'Stockholm (Sweden)': { lat: 59.334, lng: 18.066 }, // Nasdaq Stockholm
   'Tokyo (Japan)': { lat: 35.676, lng: 139.650 }
 };
 
@@ -49,6 +50,19 @@ const COUNTRY_COORDINATES = {
   'Switzerland': { lat: 46.818, lng: 8.227 },
   'Japan': { lat: 36.205, lng: 138.252 }
 };
+
+const EXCHANGE_COORDINATE_RULES = [
+  { regex: /(nyse|nasdaq|usa)/i, key: 'USA (NYSE/NASDAQ)' },
+  { regex: /hong\s*kong/i, key: 'Hong Kong' },
+  { regex: /(frankfurt|xetra)/i, key: 'Frankfurt (Germany)' },
+  { regex: /(copenhagen|nasdaq\s*copenhagen)/i, key: 'Copenhagen (Denmark)' },
+  { regex: /(stockholm|nasdaq\s*stockholm)/i, key: 'Stockholm (Sweden)' },
+  { regex: /(amsterdam|euronext\s*amsterdam)/i, key: 'Amsterdam (Netherlands)' },
+  { regex: /(paris|euronext\s*paris)/i, key: 'Paris (France)' },
+  { regex: /(madrid|bolsa\s*de\s*madrid)/i, key: 'Madrid (Spain)' },
+  { regex: /(oslo|bors)/i, key: 'Oslo (Norway)' },
+  { regex: /(london|lse)/i, key: 'London (UK)' }
+];
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Use the shared Supabase client initialized in js/config.js
@@ -369,10 +383,26 @@ function exportToCSV() {
   URL.revokeObjectURL(url);
 }
 
+function normalizeExchangeLabel(exchange) {
+  return String(exchange || '')
+    .replace(/\s+/g, ' ')
+    .replace(/\u00a0/g, ' ')
+    .trim();
+}
+
 function getCoordinatesForExchange(exchange, country) {
-  if (EXCHANGE_COORDINATES[exchange]) {
-    return EXCHANGE_COORDINATES[exchange];
+  const normalized = normalizeExchangeLabel(exchange);
+
+  if (EXCHANGE_COORDINATES[normalized]) {
+    return EXCHANGE_COORDINATES[normalized];
   }
+
+  for (const rule of EXCHANGE_COORDINATE_RULES) {
+    if (rule.regex.test(normalized)) {
+      return EXCHANGE_COORDINATES[rule.key];
+    }
+  }
+
   if (country && COUNTRY_COORDINATES[country]) {
     return COUNTRY_COORDINATES[country];
   }
@@ -383,7 +413,7 @@ function buildExchangePoints(stocks) {
   const grouped = new Map();
 
   stocks.forEach(stock => {
-    const exchange = (stock.exchange || '').trim();
+    const exchange = normalizeExchangeLabel(stock.exchange);
     if (!exchange) return;
 
     const country = (stock.country || '').trim();
@@ -397,7 +427,7 @@ function buildExchangePoints(stocks) {
 
   return Array.from(grouped.values())
     .map(item => {
-      const firstCountry = Array.from(item.countries)[0] || '';
+      const firstCountry = Array.from(item.countries).sort()[0] || '';
       const coords = getCoordinatesForExchange(item.exchange, firstCountry);
       if (!coords) return null;
 
@@ -483,14 +513,23 @@ function setupExchangeGlobe(stocks) {
     return;
   }
 
+  const syncGlobeSize = () => {
+    if (!globeView) return;
+    const width = Math.max(220, Math.floor(globeEl.clientWidth || 220));
+    const height = Math.max(220, Math.floor(globeEl.clientHeight || 220));
+    globeView.width(width).height(height);
+  };
+
+  const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
+
   if (!globeView) {
     globeView = window.Globe()(globeEl)
-      .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
-      .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
+      .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
       .backgroundColor('rgba(0,0,0,0)')
       .showAtmosphere(true)
       .atmosphereColor('#7dd3fc')
       .atmosphereAltitude(0.12)
+      .showGraticules(true)
       .pointLat('lat')
       .pointLng('lng')
       .pointRadius('size')
@@ -498,28 +537,38 @@ function setupExchangeGlobe(stocks) {
       .onPointClick(point => setExchangeFilter(point.exchange));
 
     const controls = globeView.controls();
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.5;
+    controls.autoRotate = !isMobileViewport;
+    controls.autoRotateSpeed = isMobileViewport ? 0 : 0.45;
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
-    controls.enablePan = true;
-    controls.minDistance = 140;
-    controls.maxDistance = 320;
+    controls.enablePan = !isMobileViewport;
+    controls.enableZoom = true;
+    controls.rotateSpeed = isMobileViewport ? 0.65 : 1.0;
+    controls.zoomSpeed = isMobileViewport ? 0.8 : 1.0;
+    controls.minDistance = isMobileViewport ? 170 : 140;
+    controls.maxDistance = isMobileViewport ? 360 : 320;
 
     if (!globeResizeBound) {
       globeResizeBound = true;
-      window.addEventListener('resize', () => {
-        if (!globeView || !globeEl.clientWidth) return;
-        globeView.width(globeEl.clientWidth);
-        globeView.height(globeEl.clientHeight);
-      });
+      const onResize = () => requestAnimationFrame(syncGlobeSize);
+      window.addEventListener('resize', onResize, { passive: true });
+      window.addEventListener('orientationchange', onResize, { passive: true });
+
+      if ('ResizeObserver' in window) {
+        globeResizeObserver = new ResizeObserver(() => onResize());
+        globeResizeObserver.observe(globeEl);
+      }
     }
   }
 
   globeView
-    .width(globeEl.clientWidth)
-    .height(globeEl.clientHeight)
     .pointsData([...exchangePoints]);
+  syncGlobeSize();
+  setTimeout(syncGlobeSize, 80);
+  setTimeout(syncGlobeSize, 280);
+
+  // Start from a neutral view near Europe/Atlantic so key exchanges are visible quickly.
+  globeView.pointOfView({ lat: 30, lng: 0, altitude: isMobileViewport ? 2.35 : 2.1 }, 700);
 
   updateExchangeFilterUI();
 }

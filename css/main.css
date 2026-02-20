@@ -506,12 +506,20 @@ header {
 }
 
 .exchange-globe-canvas {
+  position: relative;
   min-height: 320px;
   border-radius: 12px;
   border: 1px solid rgba(148, 163, 184, 0.26);
   overflow: hidden;
   background:
     radial-gradient(80% 80% at 30% 30%, rgba(59, 130, 246, 0.18), rgba(15, 23, 42, 0.92));
+}
+
+.exchange-globe-canvas canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  touch-action: none;
 }
 
 .exchange-globe-sidebar {
@@ -927,7 +935,7 @@ footer {
   }
 
   .exchange-globe-canvas {
-    min-height: 250px;
+    min-height: 270px;
   }
 }
 
