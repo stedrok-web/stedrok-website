@@ -15,6 +15,10 @@
   <link rel="canonical" href="https://stedrok.org/">
   <link rel="alternate" hreflang="en" href="https://stedrok.org/">
   <link rel="alternate" hreflang="x-default" href="https://stedrok.org/">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://ziysjyzdbmgvmzjcjbjj.supabase.co" crossorigin>
+  <link rel="preconnect" href="https://stedrok-api.stedrok.workers.dev" crossorigin>
+  <script src="js/index-canonical-redirect.js?v=20260221a"></script>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -47,11 +51,16 @@
   {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Stedrok",
+    "@id": "https://stedrok.org/#organization",
+    "name": "Stedrok Pty Ltd",
+    "alternateName": "Stedrok",
     "url": "https://stedrok.org",
     "logo": "https://stedrok.org/img/og-home.jpg",
     "foundingLocation": "Australia",
-    "email": "contact@stedrok.org"
+    "email": "contact@stedrok.org",
+    "sameAs": [
+      "https://github.com/stedrok-web/stedrok-website"
+    ]
   }
   </script>
 
@@ -60,8 +69,34 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": "https://stedrok.org/#website",
     "name": "Stedrok",
-    "url": "https://stedrok.org/"
+    "url": "https://stedrok.org/",
+    "publisher": {
+      "@id": "https://stedrok.org/#organization"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD: SoftwareApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Stedrok",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "Value stock screener for long term investors that ranks companies using valuation, quality, resilience and price context.",
+    "url": "https://stedrok.org/",
+    "offers": {
+      "@type": "Offer",
+      "price": "3.00",
+      "priceCurrency": "USD",
+      "url": "https://stedrok.org/pricing.html"
+    },
+    "publisher": {
+      "@id": "https://stedrok.org/#organization"
+    }
   }
   </script>
 
