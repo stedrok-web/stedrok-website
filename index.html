@@ -680,22 +680,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/mobile-menu.js"></script>
-  <script>
-    // Auth-aware navigation
-    const client = window.supabaseClient;
-    client.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        document.getElementById('loginBtn').style.display = 'none';
-        document.getElementById('registerBtn').style.display = 'none';
-        document.getElementById('dashboardBtn').style.display = 'inline-block';
-        document.getElementById('logoutBtn').style.display = 'inline-block';
-      }
-    });
-
-    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-      await client.auth.signOut();
-      window.location.reload();
-    });
-  </script>
+  <script src="js/index-auth-nav.js"></script>
 </body>
 </html>

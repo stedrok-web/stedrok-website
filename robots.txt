@@ -1,5 +1,24 @@
 User-agent: *
 Allow: /
+Allow: /about.html
+Allow: /philosophy.html
+Allow: /methodology.html
+Allow: /pricing.html
+Allow: /contact.html
+Allow: /terms.html
+Allow: /privacy.html
+Allow: /guide-long-term-value-portfolio.html
+Allow: /value-investing-glossary.html
+Allow: /site-map.html
+
+Disallow: /dashboard.html
+Disallow: /account.html
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /reset.html
+Disallow: /reset-password.html
+Disallow: /404.html
+
 Disallow: /scripts/
 Disallow: /supabase/
 Disallow: /workers/
