@@ -186,7 +186,13 @@
     .audience-card p { color: #e5e7eb; font-size: 15px; line-height: 1.6; }
 
     /* Why Stedrok table */
-    .comparison-table { width: 100%; border-collapse: collapse; margin: 32px 0; background: var(--bg-card); }
+    .comparison-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 32px 0;
+    }
+    .comparison-table { width: 100%; min-width: 520px; border-collapse: collapse; background: var(--bg-card); }
     .comparison-table th { text-align: left; padding: 16px 20px; background: var(--bg-dark); border-bottom: 2px solid var(--border-color); font-size: 15px; }
     .comparison-table td { padding: 16px 20px; border-bottom: 1px solid var(--border-color); color: #d1d5db; }
     .comparison-table td:first-child { font-weight: 600; color: var(--text-primary); }
@@ -218,6 +224,15 @@
       .hero h1 { font-size: 36px; }
       .problem-grid, .feature-grid, .steps-grid, .audience-grid { grid-template-columns: 1fr; }
       .cta-buttons { flex-direction: column; }
+      .comparison-table { min-width: 0; table-layout: fixed; }
+      .comparison-table th,
+      .comparison-table td {
+        padding: 10px 8px;
+        font-size: 13px;
+        white-space: normal;
+        word-break: break-word;
+      }
+      .check-yes, .check-no { font-size: 15px; }
     }
   </style>
 </head>
@@ -483,60 +498,62 @@
           How we compare to typical alternatives for value investors.
         </p>
 
-        <table class="comparison-table">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Stedrok</th>
-              <th>Expensive Platforms</th>
-              <th>Free Screeners</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Value-focused methodology</td>
-              <td class="check-yes">✓ Core focus</td>
-              <td class="check-yes">✓ Often available</td>
-              <td class="check-no">✗ Rarely prioritised</td>
-            </tr>
-            <tr>
-              <td>Transparent scoring</td>
-              <td class="check-yes">✓ Fully explained</td>
-              <td class="check-no">~ Sometimes hidden</td>
-              <td class="check-no">✗ Black box</td>
-            </tr>
-            <tr>
-              <td>Resilience and quality filters</td>
-              <td class="check-yes">✓ Built in</td>
-              <td class="check-yes">✓ Yes</td>
-              <td class="check-no">~ Basic only</td>
-            </tr>
-            <tr>
-              <td>Affordable pricing</td>
-              <td class="check-yes">✓ $3/month</td>
-              <td class="check-no">✗ $50–500/month</td>
-              <td class="check-yes">✓ Free (ad-supported)</td>
-            </tr>
-            <tr>
-              <td>Free tier that's actually useful</td>
-              <td class="check-yes">✓ 3 stocks, forever</td>
-              <td class="check-no">✗ Trials only</td>
-              <td class="check-yes">✓ Free (limited data quality)</td>
-            </tr>
-            <tr>
-              <td>No ads or upsells</td>
-              <td class="check-yes">✓ Clean interface</td>
-              <td class="check-yes">✓ Usually</td>
-              <td class="check-no">✗ Ad-heavy</td>
-            </tr>
-            <tr>
-              <td>Daily data updates</td>
-              <td class="check-yes">✓ Every trading day</td>
-              <td class="check-yes">✓ Real-time or daily</td>
-              <td class="check-no">~ Delayed or patchy</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="comparison-table-wrap">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Stedrok</th>
+                <th>Expensive Platforms</th>
+                <th>Free Screeners</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Value-focused methodology</td>
+                <td class="check-yes">✓ Core focus</td>
+                <td class="check-yes">✓ Often available</td>
+                <td class="check-no">✗ Rarely prioritised</td>
+              </tr>
+              <tr>
+                <td>Transparent scoring</td>
+                <td class="check-yes">✓ Fully explained</td>
+                <td class="check-no">~ Sometimes hidden</td>
+                <td class="check-no">✗ Black box</td>
+              </tr>
+              <tr>
+                <td>Resilience and quality filters</td>
+                <td class="check-yes">✓ Built in</td>
+                <td class="check-yes">✓ Yes</td>
+                <td class="check-no">~ Basic only</td>
+              </tr>
+              <tr>
+                <td>Affordable pricing</td>
+                <td class="check-yes">✓ $3/month</td>
+                <td class="check-no">✗ $50–500/month</td>
+                <td class="check-yes">✓ Free (ad-supported)</td>
+              </tr>
+              <tr>
+                <td>Free tier that's actually useful</td>
+                <td class="check-yes">✓ 3 stocks, forever</td>
+                <td class="check-no">✗ Trials only</td>
+                <td class="check-yes">✓ Free (limited data quality)</td>
+              </tr>
+              <tr>
+                <td>No ads or upsells</td>
+                <td class="check-yes">✓ Clean interface</td>
+                <td class="check-yes">✓ Usually</td>
+                <td class="check-no">✗ Ad-heavy</td>
+              </tr>
+              <tr>
+                <td>Daily data updates</td>
+                <td class="check-yes">✓ Every trading day</td>
+                <td class="check-yes">✓ Real-time or daily</td>
+                <td class="check-no">~ Delayed or patchy</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
