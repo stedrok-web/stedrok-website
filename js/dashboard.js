@@ -383,11 +383,44 @@ function setTickerInsightAvailability(isPaidUser) {
   }
 }
 
+function enforceTickerInsightModalLayout() {
+  const panel = document.getElementById('tickerInsightPanel');
+  const card = panel?.querySelector('.ticker-insight-card');
+  if (!panel || !card) return;
+
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const isOpen = panel.classList.contains('is-open');
+
+  panel.style.position = 'fixed';
+  panel.style.inset = '0';
+  panel.style.zIndex = '1400';
+  panel.style.display = 'flex';
+  panel.style.alignItems = isMobile ? 'flex-end' : 'center';
+  panel.style.justifyContent = 'center';
+  panel.style.padding = isMobile ? '10px' : '18px';
+  panel.style.margin = '0';
+  panel.style.background = 'radial-gradient(110% 120% at 50% 0%, rgba(34, 197, 94, 0.16) 0%, rgba(2, 6, 23, 0.88) 55%), rgba(2, 6, 23, 0.78)';
+  panel.style.backdropFilter = 'blur(10px)';
+  panel.style.webkitBackdropFilter = 'blur(10px)';
+  panel.style.transition = 'opacity 0.2s ease';
+  panel.style.opacity = isOpen ? '1' : '0';
+  panel.style.pointerEvents = isOpen ? 'auto' : 'none';
+
+  card.style.width = isMobile ? '100%' : 'min(780px, calc(100vw - 36px))';
+  card.style.maxHeight = isMobile ? 'calc(100vh - 20px)' : 'calc(100vh - 44px)';
+  card.style.overflowY = 'auto';
+  card.style.borderRadius = isMobile ? '14px 14px 12px 12px' : '16px';
+}
+
 function setupTickerInsightUI(accessToken) {
   currentAccessToken = accessToken || currentAccessToken;
 
   if (tickerInsightUiBound) return;
   tickerInsightUiBound = true;
+
+  enforceTickerInsightModalLayout();
+  window.addEventListener('resize', enforceTickerInsightModalLayout, { passive: true });
+  window.addEventListener('orientationchange', enforceTickerInsightModalLayout, { passive: true });
 
   const panel = document.getElementById('tickerInsightPanel');
   panel?.addEventListener('click', event => {
@@ -443,6 +476,7 @@ function hideTickerInsight(resetSelection = false) {
     panel.setAttribute('aria-hidden', 'true');
   }
   document.body.classList.remove('ticker-insight-open');
+  enforceTickerInsightModalLayout();
 
   if (resetSelection) {
     activeInsightTicker = '';
@@ -631,6 +665,7 @@ async function showTickerInsight(ticker, triggerEl = null) {
     panel.setAttribute('aria-hidden', 'false');
   }
   document.body.classList.add('ticker-insight-open');
+  enforceTickerInsightModalLayout();
   document.getElementById('closeTickerInsightBtn')?.focus({ preventScroll: true });
 
   const stock = findStockByTicker(normalizedTicker);
