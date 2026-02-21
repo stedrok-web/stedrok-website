@@ -101,9 +101,38 @@
         </table>
       </div>
 
+      <p id="tickerInsightHint" class="ticker-insight-hint" style="display:none;">
+        Tip: click any symbol to see why it was selected.
+      </p>
+
       <div class="export-section">
         <button id="exportCsvBtn" class="btn-secondary">Export to CSV</button>
       </div>
+
+      <aside id="tickerInsightPanel" class="ticker-insight-panel" aria-hidden="true">
+        <div class="ticker-insight-card">
+          <div class="ticker-insight-head">
+            <div>
+              <p class="ticker-insight-label">Quick Ticker Insight</p>
+              <h3 id="tickerInsightTitle">Select a ticker</h3>
+              <p id="tickerInsightSubhead" class="ticker-insight-subhead">Click a symbol in the table to view the summary.</p>
+            </div>
+            <button type="button" id="closeTickerInsightBtn" class="ticker-insight-close" aria-label="Close ticker insight">Close</button>
+          </div>
+
+          <div class="ticker-insight-meta">
+            <span id="tickerInsightDecision" class="badge badge-watch">WATCH</span>
+            <span id="tickerInsightTheme" class="ticker-insight-chip">Theme: n/a</span>
+            <span id="tickerInsightNewsTone" class="ticker-insight-chip">Tone: n/a</span>
+          </div>
+
+          <p id="tickerInsightHeadline" class="ticker-insight-headline"></p>
+          <p id="tickerInsightSummary" class="ticker-insight-summary"></p>
+          <p id="tickerInsightNewsGuidance" class="ticker-insight-news"></p>
+          <p id="tickerInsightNewsHeadline" class="ticker-insight-newsline"></p>
+          <p id="tickerInsightUpdated" class="ticker-insight-updated"></p>
+        </div>
+      </aside>
 
       <section class="exchange-globe-panel" id="exchangeGlobePanel" aria-label="Exchange globe filter">
         <div class="exchange-globe-head">

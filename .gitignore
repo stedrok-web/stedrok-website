@@ -52,3 +52,8 @@ build/
 *.tmp
 *.temp
 .DS_Store
+
+# Sensitive generated market data (paywalled via API only)
+data/stocks.json
+data/dashboard_ticker_summaries.json
+scripts/stocks.json

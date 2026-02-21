@@ -12,6 +12,11 @@ let exchangePoints = [];
 let globeView = null;
 let globeResizeBound = false;
 let globeResizeObserver = null;
+let tickerSummaryCache = new Map();
+let tickerSummaryInFlight = new Map();
+let tickerInsightUiBound = false;
+let activeInsightTicker = '';
+let currentAccessToken = '';
 
 // API URL from central config (js/config.js must be loaded before this file)
 const API_URL = CONFIG.API_BASE_URL;
@@ -184,6 +189,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   currentUser = session.user;
   const userToken = session.access_token;
+  setupTickerInsightUI(userToken);
 
   // Show loading state
   showLoading(true);
@@ -211,6 +217,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Show appropriate UI based on subscription status
     const isFreeUser = userProfile.subscription_status === 'free';
+    setTickerInsightAvailability(!isFreeUser);
     
     if (isFreeUser) {
       showFreeUserBanner(meta.count);
@@ -230,6 +237,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   } catch (error) {
     console.error('Failed to load picks:', error);
+    setTickerInsightAvailability(false);
     showError('Failed to load stock picks. Please refresh the page.');
   } finally {
     showLoading(false);
@@ -339,6 +347,314 @@ function showError(message) {
   }
 }
 
+function normalizeTickerKey(value) {
+  return String(value || '').trim().toUpperCase();
+}
+
+function decisionClassFromValue(decision) {
+  const normalized = String(decision || '').toUpperCase();
+  if (normalized === 'BUY') return 'badge-buy';
+  if (normalized === 'AVOID') return 'badge-avoid';
+  return 'badge-watch';
+}
+
+function formatDateTime(dateString) {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return '';
+  return date.toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+function setTickerInsightAvailability(isPaidUser) {
+  const hint = document.getElementById('tickerInsightHint');
+  if (hint) {
+    hint.style.display = isPaidUser ? 'block' : 'none';
+  }
+
+  if (!isPaidUser) {
+    hideTickerInsight(true);
+  }
+}
+
+function setupTickerInsightUI(accessToken) {
+  currentAccessToken = accessToken || currentAccessToken;
+
+  if (tickerInsightUiBound) return;
+  tickerInsightUiBound = true;
+
+  const closeBtn = document.getElementById('closeTickerInsightBtn');
+  closeBtn?.addEventListener('click', () => hideTickerInsight(true));
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      hideTickerInsight(true);
+    }
+  });
+
+  const tbody = document.getElementById('stocksTableBody');
+  tbody?.addEventListener('click', event => {
+    const trigger = event.target.closest('.ticker-insight-trigger');
+    if (!trigger) return;
+
+    if (!userProfile || userProfile.subscription_status === 'free') {
+      return;
+    }
+
+    const ticker = trigger.dataset.ticker || '';
+    if (ticker) {
+      showTickerInsight(ticker);
+    }
+  });
+}
+
+function syncActiveInsightRow() {
+  const tbody = document.getElementById('stocksTableBody');
+  if (!tbody) return;
+
+  const normalizedActiveTicker = normalizeTickerKey(activeInsightTicker);
+  tbody.querySelectorAll('tr').forEach(row => row.classList.remove('row-insight-active'));
+  if (!normalizedActiveTicker) return;
+
+  tbody.querySelectorAll('.ticker-insight-trigger').forEach(button => {
+    if (normalizeTickerKey(button.dataset.ticker) === normalizedActiveTicker) {
+      button.closest('tr')?.classList.add('row-insight-active');
+    }
+  });
+}
+
+function hideTickerInsight(resetSelection = false) {
+  const panel = document.getElementById('tickerInsightPanel');
+  if (panel) {
+    panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+  }
+
+  if (resetSelection) {
+    activeInsightTicker = '';
+    syncActiveInsightRow();
+  }
+}
+
+function findStockByTicker(ticker) {
+  const normalized = normalizeTickerKey(ticker);
+  return allStocks.find(stock => normalizeTickerKey(stock.ticker) === normalized);
+}
+
+function buildFallbackSummary(stock) {
+  if (!stock) {
+    return {
+      symbol: '',
+      company_name: '',
+      decision: 'WATCH',
+      headline: 'Summary is not available yet for this ticker.',
+      summary_short: 'No summary record was found. Please use the score columns and methodology page for details.',
+      news_guidance: '',
+      news_theme: '',
+      news_tone: '',
+      primary_news_headline: '',
+      updated_at_utc: ''
+    };
+  }
+
+  const decision = String(stock.decision || 'WATCH').toUpperCase();
+  const discountText = stock.discount_pct != null
+    ? `${stock.discount_pct.toFixed(1)}%`
+    : 'n/a';
+  const scoreText = [
+    `Value ${stock.value_score != null ? stock.value_score.toFixed(1) + '%' : 'n/a'}`,
+    `Quality ${stock.quality_score != null ? stock.quality_score.toFixed(1) + '%' : 'n/a'}`,
+    `Risk ${stock.risk_score != null ? stock.risk_score.toFixed(1) + '%' : 'n/a'}`,
+    `Dip ${stock.dip_score != null ? stock.dip_score.toFixed(1) + '%' : 'n/a'}`
+  ].join(' | ');
+
+  const valuationLine = stock.discount_pct != null && stock.discount_pct > 0
+    ? `Current discount to estimated fair value is ${discountText}.`
+    : `Current discount to estimated fair value is ${discountText}. Valuation is less favorable than other top picks.`;
+
+  return {
+    symbol: stock.ticker || '',
+    company_name: stock.company_name || '',
+    decision,
+    headline: `${stock.company_name || stock.ticker} is currently rated ${decision} by the model.`,
+    summary_short: `${valuationLine} Pillar scores: ${scoreText}.`,
+    news_guidance: '',
+    news_theme: '',
+    news_tone: '',
+    primary_news_headline: '',
+    updated_at_utc: stock.data_date || ''
+  };
+}
+
+async function fetchTickerSummary(ticker) {
+  const normalizedTicker = normalizeTickerKey(ticker);
+  if (!normalizedTicker) return null;
+
+  if (tickerSummaryCache.has(normalizedTicker)) {
+    return tickerSummaryCache.get(normalizedTicker);
+  }
+
+  if (tickerSummaryInFlight.has(normalizedTicker)) {
+    return tickerSummaryInFlight.get(normalizedTicker);
+  }
+
+  const fetchPromise = (async () => {
+    const response = await fetch(
+      `${API_URL}/api/ticker-summary?symbol=${encodeURIComponent(normalizedTicker)}`,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${currentAccessToken}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    if (response.status === 404) {
+      return null;
+    }
+
+    if (!response.ok) {
+      throw new Error(`Ticker summary endpoint returned ${response.status}`);
+    }
+
+    const payload = await response.json();
+    return payload?.summary || null;
+  })();
+
+  tickerSummaryInFlight.set(normalizedTicker, fetchPromise);
+
+  try {
+    const summary = await fetchPromise;
+    if (summary) {
+      tickerSummaryCache.set(normalizedTicker, summary);
+    }
+    return summary;
+  } finally {
+    tickerSummaryInFlight.delete(normalizedTicker);
+  }
+}
+
+function renderTickerInsight(summary, stock) {
+  const titleEl = document.getElementById('tickerInsightTitle');
+  const subheadEl = document.getElementById('tickerInsightSubhead');
+  const decisionEl = document.getElementById('tickerInsightDecision');
+  const themeEl = document.getElementById('tickerInsightTheme');
+  const toneEl = document.getElementById('tickerInsightNewsTone');
+  const headlineEl = document.getElementById('tickerInsightHeadline');
+  const summaryEl = document.getElementById('tickerInsightSummary');
+  const guidanceEl = document.getElementById('tickerInsightNewsGuidance');
+  const newsHeadlineEl = document.getElementById('tickerInsightNewsHeadline');
+  const updatedEl = document.getElementById('tickerInsightUpdated');
+
+  const symbol = summary?.symbol || stock?.ticker || activeInsightTicker || '';
+  const company = summary?.company_name || stock?.company_name || '';
+  const decision = String(summary?.decision || stock?.decision || 'WATCH').toUpperCase();
+
+  if (titleEl) titleEl.textContent = symbol;
+  if (subheadEl) subheadEl.textContent = company || 'Ticker detail';
+
+  if (decisionEl) {
+    decisionEl.textContent = decision;
+    decisionEl.classList.remove('badge-buy', 'badge-watch', 'badge-avoid');
+    decisionEl.classList.add(decisionClassFromValue(decision));
+  }
+
+  if (themeEl) {
+    const value = String(summary?.news_theme || '').trim();
+    themeEl.textContent = value ? `Theme: ${value}` : 'Theme: model-driven';
+  }
+
+  if (toneEl) {
+    const value = String(summary?.news_tone || '').trim();
+    toneEl.textContent = value ? `Tone: ${value}` : 'Tone: neutral';
+  }
+
+  if (headlineEl) {
+    headlineEl.textContent = String(summary?.headline || '').trim();
+    headlineEl.style.display = headlineEl.textContent ? 'block' : 'none';
+  }
+
+  if (summaryEl) {
+    summaryEl.textContent = String(summary?.summary_short || summary?.summary_300w || '').trim();
+    summaryEl.style.display = summaryEl.textContent ? 'block' : 'none';
+  }
+
+  if (guidanceEl) {
+    guidanceEl.textContent = String(summary?.news_guidance || '').trim();
+    guidanceEl.style.display = guidanceEl.textContent ? 'block' : 'none';
+  }
+
+  if (newsHeadlineEl) {
+    const primaryHeadline = String(summary?.primary_news_headline || '').trim();
+    newsHeadlineEl.textContent = primaryHeadline ? `Primary news line: ${primaryHeadline}` : '';
+    newsHeadlineEl.style.display = primaryHeadline ? 'block' : 'none';
+  }
+
+  if (updatedEl) {
+    const updatedValue = summary?.updated_at_utc || '';
+    const formatted = formatDateTime(updatedValue);
+    updatedEl.textContent = formatted ? `Updated: ${formatted}` : '';
+    updatedEl.style.display = formatted ? 'block' : 'none';
+  }
+}
+
+async function showTickerInsight(ticker) {
+  const normalizedTicker = normalizeTickerKey(ticker);
+  if (!normalizedTicker) return;
+
+  activeInsightTicker = normalizedTicker;
+  syncActiveInsightRow();
+
+  const panel = document.getElementById('tickerInsightPanel');
+  if (panel) {
+    panel.classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
+  }
+
+  const stock = findStockByTicker(normalizedTicker);
+  renderTickerInsight(
+    {
+      symbol: normalizedTicker,
+      company_name: stock?.company_name || '',
+      decision: stock?.decision || 'WATCH',
+      headline: 'Loading summary...',
+      summary_short: 'Fetching secured paid-user insight from the server.',
+      news_guidance: '',
+      news_theme: '',
+      news_tone: '',
+      primary_news_headline: '',
+      updated_at_utc: ''
+    },
+    stock
+  );
+
+  try {
+    const summary = await fetchTickerSummary(normalizedTicker);
+
+    if (activeInsightTicker !== normalizedTicker) {
+      return;
+    }
+
+    const finalSummary = summary || buildFallbackSummary(stock);
+    renderTickerInsight(finalSummary, stock);
+  } catch (error) {
+    console.error(`Failed to load ticker summary for ${normalizedTicker}:`, error);
+    if (activeInsightTicker !== normalizedTicker) {
+      return;
+    }
+    const fallback = buildFallbackSummary(stock);
+    fallback.headline = 'Summary is temporarily unavailable.';
+    fallback.summary_short = 'The paid insight service could not be reached. Try again in a moment.';
+    renderTickerInsight(fallback, stock);
+  }
+}
+
 // ============================================================
 // Render stocks table
 // ============================================================
@@ -385,7 +701,11 @@ function renderTable(stocks) {
       // 1. Symbol, 2. Company, 3. Country, 4. Sector, 5. Rating, 6. Mkt Cap, 7. Confidence,
       // 8. Value, 9. Quality, 10. Risk, 11. Dip, 12. Price, 13. Fair Value, 14. Discount
       tr.innerHTML = `
-        <td><strong>${stock.ticker}</strong></td>
+        <td>
+          <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View insight for ${stock.ticker}">
+            ${stock.ticker}
+          </button>
+        </td>
         <td>${stock.company_name || '-'}</td>
         <td>${stock.country || '-'}</td>
         <td>${stock.sector || '-'}</td>
@@ -406,6 +726,8 @@ function renderTable(stocks) {
 
     tbody.appendChild(tr);
   });
+
+  syncActiveInsightRow();
 }
 
 // ============================================================
