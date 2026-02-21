@@ -593,6 +593,8 @@ function renderTickerInsight(summary, stock) {
   const decisionEl = document.getElementById('tickerInsightDecision');
   const themeEl = document.getElementById('tickerInsightTheme');
   const toneEl = document.getElementById('tickerInsightNewsTone');
+  const freshnessEl = document.getElementById('tickerInsightNewsFreshness');
+  const relevanceEl = document.getElementById('tickerInsightNewsRelevance');
   const headlineEl = document.getElementById('tickerInsightHeadline');
   const summaryEl = document.getElementById('tickerInsightSummary');
   const guidanceEl = document.getElementById('tickerInsightNewsGuidance');
@@ -601,7 +603,7 @@ function renderTickerInsight(summary, stock) {
 
   const symbol = summary?.symbol || stock?.ticker || activeInsightTicker || '';
   const company = summary?.company_name || stock?.company_name || '';
-  const decision = String(summary?.decision || stock?.decision || 'WATCH').toUpperCase();
+  const decision = String(summary?.decision_display || summary?.decision || stock?.decision || 'WATCH').toUpperCase();
 
   if (titleEl) titleEl.textContent = symbol;
   if (subheadEl) subheadEl.textContent = company || 'Ticker detail';
@@ -613,13 +615,23 @@ function renderTickerInsight(summary, stock) {
   }
 
   if (themeEl) {
-    const value = String(summary?.news_theme || '').trim();
+    const value = String(summary?.news_theme_display || summary?.news_theme || '').trim();
     themeEl.textContent = value ? `Theme: ${value}` : 'Theme: model-driven';
   }
 
   if (toneEl) {
-    const value = String(summary?.news_tone || '').trim();
+    const value = String(summary?.news_tone_display || summary?.news_tone || '').trim();
     toneEl.textContent = value ? `Tone: ${value}` : 'Tone: neutral';
+  }
+
+  if (freshnessEl) {
+    const value = String(summary?.news_freshness_display || summary?.news_freshness || '').trim();
+    freshnessEl.textContent = value ? `Freshness: ${value}` : 'Freshness: n/a';
+  }
+
+  if (relevanceEl) {
+    const value = String(summary?.news_relevance_display || summary?.news_relevance || '').trim();
+    relevanceEl.textContent = value ? `Relevance: ${value}` : 'Relevance: n/a';
   }
 
   if (headlineEl) {
@@ -628,7 +640,7 @@ function renderTickerInsight(summary, stock) {
   }
 
   if (summaryEl) {
-    summaryEl.textContent = String(summary?.summary_short || summary?.summary_300w || '').trim();
+    summaryEl.textContent = String(summary?.dashboard_story || summary?.summary_short || summary?.summary_300w || '').trim();
     summaryEl.style.display = summaryEl.textContent ? 'block' : 'none';
   }
 
