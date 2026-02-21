@@ -9,9 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
       const errorEl = document.getElementById('error');
+      const submitBtn = loginForm.querySelector('button[type="submit"]');
+      const defaultBtnText = submitBtn ? submitBtn.textContent : 'Log In';
 
       // Clear previous errors
       errorEl.textContent = '';
+      errorEl.style.color = '';
 
       // Validate inputs
       if (!email || !email.includes('@')) {
@@ -24,12 +27,18 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       try {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Signing in...';
+          submitBtn.setAttribute('aria-busy', 'true');
+        }
+
         const client = window.supabaseClient;
         if (!client || !client.auth || typeof client.auth.signInWithPassword !== 'function') {
           throw new Error('Authentication system not ready. Please refresh the page.');
         }
 
-        const { data, error } = await client.auth.signInWithPassword({
+        const { error } = await client.auth.signInWithPassword({
           email: email,
           password: password
         });
@@ -47,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 Resend Confirmation Email
               </button>
             `;
-            
+
             // Add click handler for resend button
             setTimeout(() => {
               document.getElementById('resendConfirmation')?.addEventListener('click', async () => {
@@ -56,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     type: 'signup',
                     email: email
                   });
-                  errorEl.textContent = '✓ Confirmation email sent! Please check your inbox.';
+                  errorEl.textContent = 'Confirmation email sent. Please check your inbox.';
                   errorEl.style.color = 'green';
                 } catch (err) {
                   errorEl.textContent = 'Failed to resend email. Please try again later.';
@@ -74,6 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (error) {
         console.error('Login error:', error);
         errorEl.textContent = error.message || 'Login failed. Please try again.';
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = defaultBtnText;
+          submitBtn.removeAttribute('aria-busy');
+        }
       }
     });
   }
@@ -86,9 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
       const errorEl = document.getElementById('error');
+      const submitBtn = registerForm.querySelector('button[type="submit"]');
+      const defaultBtnText = submitBtn ? submitBtn.textContent : 'Create Account';
 
       // Clear previous errors
       errorEl.textContent = '';
+      errorEl.style.color = '';
 
       // Validate inputs
       if (!email || !email.includes('@') || !email.includes('.')) {
@@ -101,6 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       try {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Creating account...';
+          submitBtn.setAttribute('aria-busy', 'true');
+        }
+
         const client = window.supabaseClient;
         if (!client || !client.auth || typeof client.auth.signUp !== 'function') {
           throw new Error('Authentication system not ready. Please refresh the page.');
@@ -125,23 +149,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Profile is auto-created by Supabase trigger with 'free' status
         if (data.user && data.user.identities && data.user.identities.length === 0) {
-          // Email already exists
           errorEl.textContent = 'This email is already registered. Please log in instead.';
           return;
         }
 
         const successEl = document.getElementById('success');
         if (successEl) {
-          successEl.textContent = '✓ Account created successfully! Redirecting to login...';
+          successEl.textContent = 'Account created successfully. Redirecting to log in...';
           successEl.style.display = 'block';
-          document.getElementById('registerForm').style.display = 'none';
+          registerForm.style.display = 'none';
         }
+
         setTimeout(() => {
           window.location.href = 'login.html';
         }, 2000);
       } catch (error) {
         errorEl.textContent = error.message || 'Registration failed. Please try again.';
         console.error('Registration error:', error);
+      } finally {
+        if (submitBtn && registerForm.style.display !== 'none') {
+          submitBtn.disabled = false;
+          submitBtn.textContent = defaultBtnText;
+          submitBtn.removeAttribute('aria-busy');
+        }
       }
     });
   }
