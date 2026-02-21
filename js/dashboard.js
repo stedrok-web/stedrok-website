@@ -17,6 +17,7 @@ let tickerSummaryInFlight = new Map();
 let tickerInsightUiBound = false;
 let activeInsightTicker = '';
 let currentAccessToken = '';
+let lastInsightTriggerEl = null;
 
 // API URL from central config (js/config.js must be loaded before this file)
 const API_URL = CONFIG.API_BASE_URL;
@@ -388,6 +389,13 @@ function setupTickerInsightUI(accessToken) {
   if (tickerInsightUiBound) return;
   tickerInsightUiBound = true;
 
+  const panel = document.getElementById('tickerInsightPanel');
+  panel?.addEventListener('click', event => {
+    if (event.target === panel) {
+      hideTickerInsight(true);
+    }
+  });
+
   const closeBtn = document.getElementById('closeTickerInsightBtn');
   closeBtn?.addEventListener('click', () => hideTickerInsight(true));
 
@@ -408,7 +416,7 @@ function setupTickerInsightUI(accessToken) {
 
     const ticker = trigger.dataset.ticker || '';
     if (ticker) {
-      showTickerInsight(ticker);
+      showTickerInsight(ticker, trigger);
     }
   });
 }
@@ -434,10 +442,15 @@ function hideTickerInsight(resetSelection = false) {
     panel.classList.remove('is-open');
     panel.setAttribute('aria-hidden', 'true');
   }
+  document.body.classList.remove('ticker-insight-open');
 
   if (resetSelection) {
     activeInsightTicker = '';
     syncActiveInsightRow();
+    if (lastInsightTriggerEl && typeof lastInsightTriggerEl.focus === 'function') {
+      lastInsightTriggerEl.focus({ preventScroll: true });
+    }
+    lastInsightTriggerEl = null;
   }
 }
 
@@ -604,10 +617,11 @@ function renderTickerInsight(summary, stock) {
   }
 }
 
-async function showTickerInsight(ticker) {
+async function showTickerInsight(ticker, triggerEl = null) {
   const normalizedTicker = normalizeTickerKey(ticker);
   if (!normalizedTicker) return;
 
+  lastInsightTriggerEl = triggerEl || lastInsightTriggerEl;
   activeInsightTicker = normalizedTicker;
   syncActiveInsightRow();
 
@@ -616,6 +630,8 @@ async function showTickerInsight(ticker) {
     panel.classList.add('is-open');
     panel.setAttribute('aria-hidden', 'false');
   }
+  document.body.classList.add('ticker-insight-open');
+  document.getElementById('closeTickerInsightBtn')?.focus({ preventScroll: true });
 
   const stock = findStockByTicker(normalizedTicker);
   renderTickerInsight(

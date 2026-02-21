@@ -25,6 +25,10 @@ body {
   min-height: 100vh;
 }
 
+body.ticker-insight-open {
+  overflow: hidden;
+}
+
 a { color: var(--accent-green); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
@@ -497,21 +501,48 @@ header {
 }
 
 .ticker-insight-panel {
-  margin: 12px 0 16px;
-  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  opacity: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(110% 120% at 50% 0%, rgba(34, 197, 94, 0.16) 0%, rgba(2, 6, 23, 0.88) 55%),
+    rgba(2, 6, 23, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: opacity 0.2s ease;
 }
 
 .ticker-insight-panel.is-open {
-  display: block;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .ticker-insight-card {
   border: 1px solid rgba(134, 239, 172, 0.35);
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 18px;
+  width: min(780px, calc(100vw - 36px));
+  max-height: calc(100vh - 44px);
+  overflow-y: auto;
   background:
-    radial-gradient(120% 160% at 92% 0%, rgba(34, 197, 94, 0.16) 0%, transparent 48%),
-    rgba(15, 23, 42, 0.9);
+    radial-gradient(90% 110% at 100% 0%, rgba(34, 197, 94, 0.18) 0%, transparent 50%),
+    radial-gradient(90% 110% at 0% 100%, rgba(59, 130, 246, 0.14) 0%, transparent 52%),
+    rgba(15, 23, 42, 0.96);
+  box-shadow:
+    0 28px 70px rgba(2, 6, 23, 0.62),
+    0 0 0 1px rgba(167, 243, 208, 0.1);
+  transform: translateY(10px) scale(0.98);
+  transition: transform 0.2s ease;
+}
+
+.ticker-insight-panel.is-open .ticker-insight-card {
+  transform: translateY(0) scale(1);
 }
 
 .ticker-insight-head {
@@ -543,16 +574,17 @@ header {
 .ticker-insight-close {
   border: 1px solid var(--border-color);
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.75);
-  color: var(--text-secondary);
+  background: rgba(15, 23, 42, 0.92);
+  color: #d1fae5;
   font-size: 12px;
   padding: 6px 10px;
   cursor: pointer;
 }
 
 .ticker-insight-close:hover {
-  color: var(--text-primary);
+  color: #ecfdf5;
   border-color: rgba(134, 239, 172, 0.5);
+  background: rgba(20, 33, 61, 0.95);
 }
 
 .ticker-insight-meta {
@@ -1161,10 +1193,23 @@ footer {
 
   .ticker-insight-head {
     flex-direction: column;
+    gap: 10px;
   }
 
   .ticker-insight-close {
     align-self: flex-start;
+  }
+
+  .ticker-insight-panel {
+    align-items: flex-end;
+    padding: 10px;
+  }
+
+  .ticker-insight-card {
+    width: 100%;
+    max-height: calc(100vh - 20px);
+    border-radius: 14px 14px 12px 12px;
+    padding: 14px;
   }
 }
 

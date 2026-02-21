@@ -102,15 +102,15 @@
       </div>
 
       <p id="tickerInsightHint" class="ticker-insight-hint" style="display:none;">
-        Tip: click any symbol to see why it was selected.
+        Tip: click any symbol to open a quick insight popup.
       </p>
 
       <div class="export-section">
         <button id="exportCsvBtn" class="btn-secondary">Export to CSV</button>
       </div>
 
-      <aside id="tickerInsightPanel" class="ticker-insight-panel" aria-hidden="true">
-        <div class="ticker-insight-card">
+      <aside id="tickerInsightPanel" class="ticker-insight-panel" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="tickerInsightTitle">
+        <div class="ticker-insight-card" role="document">
           <div class="ticker-insight-head">
             <div>
               <p class="ticker-insight-label">Quick Ticker Insight</p>
