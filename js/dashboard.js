@@ -373,6 +373,62 @@ function formatDateTime(dateString) {
   });
 }
 
+function normalizeForComparison(value) {
+  return String(value || '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function stripPrimaryNewsLine(text) {
+  return String(text || '')
+    .replace(/(^|\n)\s*Primary news line:\s*[^\n]*(\n|$)/gi, '$1')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+function cleanupInsightSummary(rawText, headlineText) {
+  const stripped = stripPrimaryNewsLine(rawText);
+  if (!stripped) return '';
+
+  const headlineNorm = normalizeForComparison(headlineText);
+  const paragraphs = stripped
+    .split(/\n\s*\n+/)
+    .map(value => value.trim())
+    .filter(Boolean);
+
+  const cleaned = [];
+  for (let i = 0; i < paragraphs.length; i += 1) {
+    const paragraph = paragraphs[i];
+    const norm = normalizeForComparison(paragraph);
+    if (!norm) continue;
+
+    // Remove duplicate headline line when summary payload already embeds it.
+    if (headlineNorm && norm === headlineNorm) {
+      continue;
+    }
+
+    // Remove repetitive "currently sits in a ... view" lead line.
+    if (/currently\s+sits\s+in\s+a\s+\w+\s+view/i.test(paragraph) && i < 2) {
+      continue;
+    }
+
+    if (cleaned.length > 0) {
+      const previousNorm = normalizeForComparison(cleaned[cleaned.length - 1]);
+      if (previousNorm === norm) {
+        continue;
+      }
+    }
+
+    cleaned.push(paragraph);
+  }
+
+  if (cleaned.length === 0) {
+    return stripped;
+  }
+  return cleaned.join('\n\n');
+}
+
 function setTickerInsightAvailability(isPaidUser) {
   const hint = document.getElementById('tickerInsightHint');
   if (hint) {
@@ -643,13 +699,24 @@ function renderTickerInsight(summary, stock) {
     headlineEl.style.display = headlineEl.textContent ? 'block' : 'none';
   }
 
+  const summaryTextRaw = String(summary?.dashboard_story || summary?.summary_short || summary?.summary_300w || '').trim();
+  const summaryText = cleanupInsightSummary(summaryTextRaw, headlineEl?.textContent || '');
   if (summaryEl) {
-    summaryEl.textContent = String(summary?.dashboard_story || summary?.summary_short || summary?.summary_300w || '').trim();
+    summaryEl.textContent = summaryText;
     summaryEl.style.display = summaryEl.textContent ? 'block' : 'none';
   }
 
   if (guidanceEl) {
-    const guidanceParts = [String(summary?.news_guidance || '').trim()];
+    const guidanceText = stripPrimaryNewsLine(String(summary?.news_guidance || '').trim());
+    const summaryComparable = normalizeForComparison(summaryText);
+    const guidanceComparable = normalizeForComparison(guidanceText);
+    const shouldShowGuidance = Boolean(guidanceText) &&
+      (!guidanceComparable || !summaryComparable.includes(guidanceComparable));
+
+    const guidanceParts = [];
+    if (shouldShowGuidance) {
+      guidanceParts.push(guidanceText);
+    }
     if (isPreview) {
       guidanceParts.push('Preview limited to 30 words. Upgrade to Pro for full insight.');
     }
