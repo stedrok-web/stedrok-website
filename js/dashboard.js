@@ -295,8 +295,9 @@ function showFreeUserBanner(count) {
                   color: var(--text-primary); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
         <h3 style="margin: 0 0 10px 0; color: var(--text-primary);">Free Tier Access</h3>
         <p style="margin: 0 0 15px 0; color: var(--text-secondary);">
-          You're viewing a random sample of <strong>${count} stocks</strong> from the full research universe. 
-          Pro membership provides access to 100+ ranked opportunities with full fundamental metrics, updated daily.
+          You're viewing your <strong>${count} free preview stocks</strong> from the current batch.
+          This free set stays fixed within the same data batch. Click any symbol for a short teaser summary.
+          Pro membership unlocks 100+ ranked opportunities and full ticker insights.
         </p>
         <a href="pricing.html" class="btn-primary" 
            style="display: inline-block; padding: 12px 24px; border-radius: 6px; text-decoration: none;">
@@ -375,11 +376,10 @@ function formatDateTime(dateString) {
 function setTickerInsightAvailability(isPaidUser) {
   const hint = document.getElementById('tickerInsightHint');
   if (hint) {
-    hint.style.display = isPaidUser ? 'block' : 'none';
-  }
-
-  if (!isPaidUser) {
-    hideTickerInsight(true);
+    hint.style.display = 'block';
+    hint.textContent = isPaidUser
+      ? 'Tip: click any symbol to open a quick insight popup.'
+      : 'Tip: click any symbol for a 30-word preview. Upgrade to unlock full thesis details.';
   }
 }
 
@@ -442,10 +442,6 @@ function setupTickerInsightUI(accessToken) {
   tbody?.addEventListener('click', event => {
     const trigger = event.target.closest('.ticker-insight-trigger');
     if (!trigger) return;
-
-    if (!userProfile || userProfile.subscription_status === 'free') {
-      return;
-    }
 
     const ticker = trigger.dataset.ticker || '';
     if (ticker) {
@@ -571,7 +567,13 @@ async function fetchTickerSummary(ticker) {
     }
 
     const payload = await response.json();
-    return payload?.summary || null;
+    if (payload?.summary) {
+      return {
+        ...payload.summary,
+        __preview: Boolean(payload.preview)
+      };
+    }
+    return null;
   })();
 
   tickerSummaryInFlight.set(normalizedTicker, fetchPromise);
@@ -603,13 +605,15 @@ function renderTickerInsight(summary, stock) {
 
   const symbol = summary?.symbol || stock?.ticker || activeInsightTicker || '';
   const company = summary?.company_name || stock?.company_name || '';
-  const decision = String(summary?.decision_display || summary?.decision || stock?.decision || 'WATCH').toUpperCase();
+  const decisionLabel = String(summary?.decision_display || summary?.decision || stock?.decision || 'WATCH').trim() || 'WATCH';
+  const decision = decisionLabel.toUpperCase();
+  const isPreview = Boolean(summary?.__preview);
 
   if (titleEl) titleEl.textContent = symbol;
   if (subheadEl) subheadEl.textContent = company || 'Ticker detail';
 
   if (decisionEl) {
-    decisionEl.textContent = decision;
+    decisionEl.textContent = decisionLabel;
     decisionEl.classList.remove('badge-buy', 'badge-watch', 'badge-avoid');
     decisionEl.classList.add(decisionClassFromValue(decision));
   }
@@ -645,14 +649,17 @@ function renderTickerInsight(summary, stock) {
   }
 
   if (guidanceEl) {
-    guidanceEl.textContent = String(summary?.news_guidance || '').trim();
+    const guidanceParts = [String(summary?.news_guidance || '').trim()];
+    if (isPreview) {
+      guidanceParts.push('Preview limited to 30 words. Upgrade to Pro for full insight.');
+    }
+    guidanceEl.textContent = guidanceParts.filter(Boolean).join(' ');
     guidanceEl.style.display = guidanceEl.textContent ? 'block' : 'none';
   }
 
   if (newsHeadlineEl) {
-    const primaryHeadline = String(summary?.primary_news_headline || '').trim();
-    newsHeadlineEl.textContent = primaryHeadline ? `Primary news line: ${primaryHeadline}` : '';
-    newsHeadlineEl.style.display = primaryHeadline ? 'block' : 'none';
+    newsHeadlineEl.textContent = '';
+    newsHeadlineEl.style.display = 'none';
   }
 
   if (updatedEl) {
@@ -749,7 +756,11 @@ function renderTable(stocks) {
     if (isFreeUser) {
       // Free user: Show only ticker, company, country, sector, then upgrade prompt
       tr.innerHTML = `
-        <td><strong>${stock.ticker}</strong></td>
+        <td>
+          <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View preview for ${stock.ticker}">
+            ${stock.ticker}
+          </button>
+        </td>
         <td>${stock.company_name || '-'}</td>
         <td>${stock.country || '-'}</td>
         <td>${stock.sector || '-'}</td>
