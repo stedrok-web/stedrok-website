@@ -380,6 +380,14 @@ function normalizeForComparison(value) {
     .toLowerCase();
 }
 
+function normalizeForLooseComparison(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function stripPrimaryNewsLine(text) {
   return String(text || '')
     .replace(/(^|\n)\s*Primary news line:\s*[^\n]*(\n|$)/gi, '$1')
@@ -392,6 +400,7 @@ function cleanupInsightSummary(rawText, headlineText) {
   if (!stripped) return '';
 
   const headlineNorm = normalizeForComparison(headlineText);
+  const headlineLooseNorm = normalizeForLooseComparison(headlineText);
   const paragraphs = stripped
     .split(/\n\s*\n+/)
     .map(value => value.trim())
@@ -401,10 +410,15 @@ function cleanupInsightSummary(rawText, headlineText) {
   for (let i = 0; i < paragraphs.length; i += 1) {
     const paragraph = paragraphs[i];
     const norm = normalizeForComparison(paragraph);
+    const looseNorm = normalizeForLooseComparison(paragraph);
     if (!norm) continue;
 
     // Remove duplicate headline line when summary payload already embeds it.
     if (headlineNorm && norm === headlineNorm) {
+      continue;
+    }
+    // Also remove near-duplicate headline variants with minor punctuation/case differences.
+    if (headlineLooseNorm && (looseNorm === headlineLooseNorm || looseNorm.startsWith(`${headlineLooseNorm} `))) {
       continue;
     }
 
