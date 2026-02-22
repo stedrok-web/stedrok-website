@@ -149,6 +149,9 @@ const EXCHANGE_DEFAULT_BY_COUNTRY = {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Ensure heading never shows stale fixed-count wording from old cached HTML.
+  updateDashboardHeading(null, false);
+
   // Use the shared Supabase client initialized in js/config.js
   const client = window.supabaseClient;
   if (!client || !client.auth) {
