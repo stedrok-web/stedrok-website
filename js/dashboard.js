@@ -219,6 +219,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Show appropriate UI based on subscription status
     const isFreeUser = userProfile.subscription_status === 'free';
     setTickerInsightAvailability(!isFreeUser);
+    updateDashboardHeading(meta?.count, isFreeUser);
     
     if (isFreeUser) {
       showFreeUserBanner(meta.count);
@@ -283,6 +284,23 @@ function showLoading(isLoading) {
   }
 }
 
+function updateDashboardHeading(count, isFreeUser) {
+  const heading = document.getElementById('dashboardTitle');
+  if (!heading) return;
+
+  const parsedCount = Number.parseInt(String(count ?? ''), 10);
+  const hasCount = Number.isFinite(parsedCount) && parsedCount > 0;
+
+  if (!hasCount) {
+    heading.textContent = 'System-Selected Value Gems';
+    return;
+  }
+
+  heading.textContent = isFreeUser
+    ? `Your ${parsedCount} System-Selected Value Gems`
+    : `System-Selected Value Gems (${parsedCount})`;
+}
+
 // ============================================================
 // UI: Show banner for free users
 // ============================================================
@@ -297,7 +315,7 @@ function showFreeUserBanner(count) {
         <p style="margin: 0 0 15px 0; color: var(--text-secondary);">
           You're viewing your <strong>${count} free preview stocks</strong> from the current batch.
           This free set stays fixed within the same data batch. Click any symbol for a short teaser summary.
-          Pro membership unlocks 100+ ranked opportunities and full ticker insights.
+          Pro membership unlocks the full ranked research universe and full ticker insights.
         </p>
         <a href="pricing.html" class="btn-primary" 
            style="display: inline-block; padding: 12px 24px; border-radius: 6px; text-decoration: none;">
