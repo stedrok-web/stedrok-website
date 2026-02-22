@@ -57,3 +57,15 @@ build/
 data/stocks.json
 data/dashboard_ticker_summaries.json
 scripts/stocks.json
+
+# Private backend / infra / ops tooling (must never be public)
+scripts/
+supabase/
+workers/
+wrangler.toml
+upload_stocks_to_supabase.py
+upload_stocks.bat
+deploy.bat
+set-secrets.bat
+verify-all.bat
+AGENTS.md
