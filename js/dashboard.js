@@ -290,18 +290,7 @@ function showLoading(isLoading) {
 function updateDashboardHeading(count, isFreeUser) {
   const heading = document.getElementById('dashboardTitle');
   if (!heading) return;
-
-  const parsedCount = Number.parseInt(String(count ?? ''), 10);
-  const hasCount = Number.isFinite(parsedCount) && parsedCount > 0;
-
-  if (!hasCount) {
-    heading.textContent = 'System-Selected Value Gems';
-    return;
-  }
-
-  heading.textContent = isFreeUser
-    ? `Your ${parsedCount} System-Selected Value Gems`
-    : `System-Selected Value Gems (${parsedCount})`;
+  heading.textContent = 'System Selected Top Stocks';
 }
 
 // ============================================================
