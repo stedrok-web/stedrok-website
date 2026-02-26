@@ -843,13 +843,14 @@ function renderTable(stocks) {
     const tr = document.createElement('tr');
     const decisionClass = stock.decision === 'BUY' ? 'badge-buy' : 
                          stock.decision === 'WATCH' ? 'badge-watch' : 'badge-avoid';
+    const tickerDisplay = formatTickerDisplayLabel(stock);
 
     if (isFreeUser) {
       // Free user: Show only ticker, company, country, sector, then upgrade prompt
       tr.innerHTML = `
         <td>
-          <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View preview for ${stock.ticker}">
-            ${stock.ticker}
+          <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View preview for ${tickerDisplay}">
+            ${tickerDisplay}
           </button>
         </td>
         <td>${stock.company_name || '-'}</td>
@@ -867,8 +868,8 @@ function renderTable(stocks) {
       // 8. Value, 9. Quality, 10. Risk, 11. Dip, 12. Price, 13. Fair Value, 14. Discount
       tr.innerHTML = `
         <td>
-          <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View insight for ${stock.ticker}">
-            ${stock.ticker}
+          <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View insight for ${tickerDisplay}">
+            ${tickerDisplay}
           </button>
         </td>
         <td>${stock.company_name || '-'}</td>
@@ -984,6 +985,53 @@ function deriveExchangeLabel(stock) {
   }
 
   return '';
+}
+
+function formatTickerDisplayLabel(stock) {
+  const rawTicker = normalizeTickerKey(stock?.ticker || stock?.symbol);
+  if (!rawTicker) return '-';
+
+  const suffix = extractTickerSuffix(rawTicker);
+  if (!suffix) return rawTicker;
+
+  const country = normalizeCountryName(stock?.country).toUpperCase();
+  const exchange = normalizeExchangeLabel(deriveExchangeLabel(stock)).toUpperCase();
+  const isUsCountry = country === 'UNITED STATES' || country === 'USA' || country === 'US';
+  const isUsExchange =
+    exchange.includes('NYSE') ||
+    exchange.includes('NASDAQ') ||
+    exchange.includes('AMEX') ||
+    exchange.includes('USA');
+
+  if (isUsCountry && !isUsExchange) {
+    const primary = rawTicker.split('.')[0];
+    if (primary && primary !== rawTicker) {
+      return `${rawTicker} (US: ${primary})`;
+    }
+  }
+
+  return rawTicker;
+}
+
+function isPaidUserProfile() {
+  return Boolean(userProfile) && String(userProfile.subscription_status || '').toLowerCase() !== 'free';
+}
+
+function isChinaAffinityStock(stock) {
+  const country = normalizeCountryName(stock.country).toUpperCase();
+  const exchange = normalizeExchangeLabel(deriveExchangeLabel(stock)).toUpperCase();
+  const suffix = extractTickerSuffix(stock.ticker || stock.symbol);
+
+  if (country.includes('CHINA') || country.includes('HONG KONG')) {
+    return true;
+  }
+  if (suffix === 'HK') {
+    return true;
+  }
+  if (exchange.includes('HONG KONG')) {
+    return true;
+  }
+  return false;
 }
 
 function getCoordinatesForExchange(exchange, country) {
@@ -1289,6 +1337,7 @@ function setupSorting() {
 
 function applyFilters() {
   let filtered = [...allStocks];
+  const enforceChinaBottomForPaid = isPaidUserProfile();
 
   // Apply search filter (ticker or company name)
   const searchTerm = document.getElementById('searchInput')?.value?.toLowerCase();
@@ -1337,6 +1386,14 @@ function applyFilters() {
 
   // Apply sorting
   filtered.sort((a, b) => {
+    if (enforceChinaBottomForPaid) {
+      const aChina = isChinaAffinityStock(a);
+      const bChina = isChinaAffinityStock(b);
+      if (aChina !== bChina) {
+        return aChina ? 1 : -1;
+      }
+    }
+
     let aVal = a[currentSortColumn];
     let bVal = b[currentSortColumn];
     
