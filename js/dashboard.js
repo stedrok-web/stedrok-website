@@ -1037,14 +1037,15 @@ function renderTable(stocks) {
     const tr = document.createElement('tr');
     const decisionClass = stock.decision === 'BUY' ? 'badge-buy' : 
                          stock.decision === 'WATCH' ? 'badge-watch' : 'badge-avoid';
-    const tickerDisplay = formatTickerDisplayLabel(stock);
+    const tickerDisplay = getTickerDisplayParts(stock);
 
     if (isFreeUser) {
       // Free user: Show only ticker, company, country, sector, then upgrade prompt
       tr.innerHTML = `
         <td>
-          <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View preview for ${tickerDisplay}">
-            ${tickerDisplay}
+          <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View preview for ${tickerDisplay.plain}">
+            <span class="ticker-label-main">${tickerDisplay.main}</span>
+            ${tickerDisplay.secondary ? `<span class="ticker-label-secondary">${tickerDisplay.secondary}</span>` : ''}
           </button>
         </td>
         <td>${stock.company_name || '-'}</td>
@@ -1062,8 +1063,9 @@ function renderTable(stocks) {
       // 8. Value, 9. Quality, 10. Risk, 11. Dip, 12. Price, 13. Fair Value, 14. Discount
       tr.innerHTML = `
         <td>
-          <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View insight for ${tickerDisplay}">
-            ${tickerDisplay}
+          <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View insight for ${tickerDisplay.plain}">
+            <span class="ticker-label-main">${tickerDisplay.main}</span>
+            ${tickerDisplay.secondary ? `<span class="ticker-label-secondary">${tickerDisplay.secondary}</span>` : ''}
           </button>
         </td>
         <td>${stock.company_name || '-'}</td>
@@ -1182,12 +1184,16 @@ function deriveExchangeLabel(stock) {
   return '';
 }
 
-function formatTickerDisplayLabel(stock) {
+function getTickerDisplayParts(stock) {
   const rawTicker = normalizeTickerKey(stock?.ticker || stock?.symbol);
-  if (!rawTicker) return '-';
+  if (!rawTicker) {
+    return { main: '-', secondary: '', plain: '-' };
+  }
 
   const suffix = extractTickerSuffix(rawTicker);
-  if (!suffix) return rawTicker;
+  if (!suffix) {
+    return { main: rawTicker, secondary: '', plain: rawTicker };
+  }
 
   const country = normalizeCountryName(stock?.country).toUpperCase();
   const exchange = normalizeExchangeLabel(deriveExchangeLabel(stock)).toUpperCase();
@@ -1201,11 +1207,20 @@ function formatTickerDisplayLabel(stock) {
   if (isUsCountry && !isUsExchange) {
     const primary = rawTicker.split('.')[0];
     if (primary && primary !== rawTicker) {
-      return `${rawTicker} (US: ${primary})`;
+      const secondary = `US: ${primary}`;
+      return {
+        main: rawTicker,
+        secondary,
+        plain: `${rawTicker} (${secondary})`
+      };
     }
   }
 
-  return rawTicker;
+  return { main: rawTicker, secondary: '', plain: rawTicker };
+}
+
+function formatTickerDisplayLabel(stock) {
+  return getTickerDisplayParts(stock).plain;
 }
 
 function isPaidUserProfile() {
