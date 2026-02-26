@@ -1,7 +1,7 @@
 // Public demo page logic (no login required)
 
 const DEMO_DATA_URL = 'data/demo_sample.json?v=20260226c';
-const DEMO_SUMMARIES_URL = 'data/dashboard_ticker_summaries.json?v=20260226c';
+const DEMO_SUMMARIES_URL = 'data/demo_ticker_summaries.json?v=20260226a';
 const DEMO_FEATURED_TICKER = 'MSFT';
 const DEMO_QUERY = new URLSearchParams(window.location.search);
 const DEMO_SCREENSHOT_MODE = DEMO_QUERY.get('screenshot') === '1';

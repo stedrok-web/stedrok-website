@@ -1,0 +1,23 @@
+﻿{
+  "meta": {
+    "source": "stedrok delayed public demo summary subset",
+    "generated_at_utc": "2026-02-26T13:50:00Z",
+    "note": "Public demo summary subset. Delayed and limited by design."
+  },
+  "summaries_by_symbol": {
+    "MSFT": {
+      "symbol": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "decision": "BUY",
+      "decision_display": "Buy",
+      "news_theme_display": "General market coverage",
+      "news_tone_display": "Limited",
+      "news_freshness_display": "Limited Coverage",
+      "news_relevance_display": "Limited Direct Relevance",
+      "headline": "Microsoft Corporation stands out as a buy candidate where evidence quality supports value realization.",
+      "dashboard_story": "MSFT currently sits in a Buy view.\n\nMicrosoft Corporation stands out as a buy candidate where evidence quality supports value realization.\n\nThe evidence base behind MSFT is robust, which improves decision clarity. The business operates in Software - Infrastructure within the Technology sector, headquartered in Redmond, United States.\n\nValuation remains central to the thesis because valuation looks moderately favorable, while value scoring still sits near fair value. Current model scoring indicates fair-value characteristics, strong business quality, resilient risk posture, and constructive entry timing, supported by high evidence quality. The sector backdrop is shaped by platform adoption and product cycle execution, which keeps attention on recurring revenue durability and innovation discipline.\n\nDirectly relevant company coverage is limited in the current feed. The thesis still has clear support. The setup continues to show fair valuation with strong business quality. Main risk checkpoint remains clear: direct headline relevance remains limited.\n\nModel stance is BUY, centered on business durability with a constructive valuation backdrop. This setup fits long-horizon holders who prioritize durable business quality and consistent compounding. In this sector, ongoing review should stay focused on customer retention quality and product momentum as part of long-term company value assessment. This summary reflects the latest model refresh for investor decision support.",
+      "news_guidance": "Supplementary context indicates directly relevant company coverage is limited. Use headlines as context while keeping the thesis anchored to long-term company value and fundamentals. Analyst positioning is constructive with stable direction. Institutional sponsorship looks very strong with accumulating activity.",
+      "updated_at_utc": "2026-02-26T09:00:00Z"
+    }
+  }
+}
