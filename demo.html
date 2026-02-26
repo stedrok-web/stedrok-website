@@ -118,6 +118,23 @@
       text-align: center;
     }
 
+    .stock-table tbody tr.demo-row-blur {
+      filter: blur(4px);
+      opacity: 0.40;
+    }
+    .stock-table tbody tr.demo-row-blur td {
+      color: rgba(209, 213, 219, 0.50);
+    }
+    .stock-table tbody tr.demo-row-featured {
+      outline: 2px solid rgba(34, 197, 94, 0.65);
+      outline-offset: -2px;
+      background: rgba(34, 197, 94, 0.09);
+    }
+    .stock-table tbody tr.demo-row-blur .ticker-insight-trigger--locked {
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
     .demo-pillars {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -276,7 +293,7 @@
       <div class="container">
         <h2>Delayed Ranked Table Snapshot</h2>
         <p class="demo-section-lead">
-          Click any symbol to open the same quick insight modal pattern used in the dashboard.
+          MSFT is fully visible with insight enabled. Other rows are intentionally blurred in this public demo view.
         </p>
 
         <p class="demo-loading" id="demoLoadingState">Loading delayed demo dataset...</p>
@@ -309,7 +326,7 @@
         </div>
 
         <p id="tickerInsightHint" class="ticker-insight-hint" style="display:block; margin-top:10px;">
-          Tip: click any symbol to open a quick insight popup.
+          Tip: public quick insight is focused on MSFT in this delayed demo.
         </p>
 
         <div class="demo-controls" id="demoInsightShot">
@@ -408,6 +425,6 @@
   </footer>
 
   <script src="js/mobile-menu.js?v=20260226d2"></script>
-  <script src="js/demo.js?v=20260226d3"></script>
+  <script src="js/demo.js?v=20260226d4"></script>
 </body>
 </html>

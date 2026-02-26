@@ -1,7 +1,7 @@
 // Public demo page logic (no login required)
 
 const DEMO_DATA_URL = 'data/demo_sample.json?v=20260226c';
-const DEMO_SUMMARIES_URL = 'data/demo_ticker_summaries.json?v=20260226a';
+const DEMO_SUMMARIES_URL = 'data/demo_ticker_summaries.json?v=20260226c';
 const DEMO_FEATURED_TICKER = 'MSFT';
 const DEMO_QUERY = new URLSearchParams(window.location.search);
 const DEMO_SCREENSHOT_MODE = DEMO_QUERY.get('screenshot') === '1';
@@ -174,7 +174,13 @@ function renderTable(rows) {
 
     tr.innerHTML = `
       <td>
-        <button type="button" class="ticker-insight-trigger" data-ticker="${row.symbol}" aria-label="View insight for ${row.symbol}">
+        <button
+          type="button"
+          class="ticker-insight-trigger${isFeatured ? '' : ' ticker-insight-trigger--locked'}"
+          data-ticker="${row.symbol}"
+          aria-label="View insight for ${row.symbol}"
+          ${isFeatured ? '' : 'disabled aria-disabled="true" tabindex="-1" title="Public demo insight is currently focused on MSFT."'}
+        >
           ${row.symbol}
         </button>
       </td>
@@ -199,7 +205,7 @@ function renderTable(rows) {
 function renderInsight(summary, row) {
   if (!summary && !row) return;
 
-  const payload = summary || buildFallbackSummary(row);
+  const payload = summary;
   if (!payload) return;
 
   const symbol = payload.symbol || row?.symbol || '';
@@ -291,7 +297,25 @@ function showInsightForTicker(ticker, triggerEl = null) {
   const row = rowByTicker(symbol);
   if (!row) return;
 
+  if (symbol !== DEMO_FEATURED_TICKER) {
+    const hintEl = document.getElementById('tickerInsightHint');
+    if (hintEl) {
+      hintEl.textContent = 'Quick Ticker Insight in this public demo is focused on MSFT.';
+      hintEl.style.display = 'block';
+    }
+    return;
+  }
+
   const summary = summaryByTicker(symbol);
+  if (!summary) {
+    const hintEl = document.getElementById('tickerInsightHint');
+    if (hintEl) {
+      hintEl.textContent = 'Insight data is temporarily unavailable. Please refresh shortly.';
+      hintEl.style.display = 'block';
+    }
+    return;
+  }
+
   activeInsightTicker = symbol;
   lastTriggerEl = triggerEl || lastTriggerEl;
 
