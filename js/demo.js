@@ -1,7 +1,7 @@
 // Public demo page logic (no login required)
 
-const DEMO_DATA_URL = 'data/demo_sample.json?v=20260227b';
-const DEMO_SUMMARIES_URL = 'data/demo_ticker_summaries.json?v=20260227b';
+const DEMO_DATA_URL = 'data/demo_sample.json?v=20260227c';
+const DEMO_SUMMARIES_URL = 'data/demo_ticker_summaries.json?v=20260227c';
 const DEMO_FEATURED_TICKER = 'MSFT';
 const DEMO_FEATURED_TICKERS = new Set(['MSFT', 'ACN', 'EVO.ST']);
 const DEMO_QUERY = new URLSearchParams(window.location.search);
