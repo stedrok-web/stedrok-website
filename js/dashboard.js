@@ -1044,8 +1044,7 @@ function renderTable(stocks) {
       tr.innerHTML = `
         <td>
           <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View preview for ${tickerDisplay.plain}">
-            <span class="ticker-label-main">${tickerDisplay.main}</span>
-            ${tickerDisplay.secondary ? `<span class="ticker-label-secondary">${tickerDisplay.secondary}</span>` : ''}
+            <span class="ticker-label-main">${tickerDisplay.main}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${tickerDisplay.secondary})</span>` : ''}
           </button>
         </td>
         <td>${stock.company_name || '-'}</td>
@@ -1064,8 +1063,7 @@ function renderTable(stocks) {
       tr.innerHTML = `
         <td>
           <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View insight for ${tickerDisplay.plain}">
-            <span class="ticker-label-main">${tickerDisplay.main}</span>
-            ${tickerDisplay.secondary ? `<span class="ticker-label-secondary">${tickerDisplay.secondary}</span>` : ''}
+            <span class="ticker-label-main">${tickerDisplay.main}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${tickerDisplay.secondary})</span>` : ''}
           </button>
         </td>
         <td>${stock.company_name || '-'}</td>

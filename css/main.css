@@ -411,7 +411,7 @@ header {
 
 .stock-table thead th:nth-child(2),
 .stock-table tbody td:nth-child(2) {
-  min-width: 240px;
+  min-width: 145px;
 }
 
 .stock-table thead th:nth-child(3),
@@ -505,10 +505,7 @@ header {
   text-decoration: underline;
   text-decoration-style: dotted;
   text-underline-offset: 2px;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
+  display: inline-block;
   line-height: 1.2;
 }
 
@@ -516,17 +513,16 @@ header {
   color: #86efac;
 }
 
-.ticker-label-main {
+.ticker-label-main,
+.ticker-label-secondary {
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.01em;
 }
 
 .ticker-label-secondary {
-  font-size: 11px;
-  color: var(--text-secondary);
-  font-weight: 600;
-  text-decoration: none;
+  color: var(--text-primary);
+  margin-left: 4px;
 }
 
 .stock-table tbody tr.row-insight-active {
