@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stedrok Public Demo - Delayed Sample Output</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="Preview a delayed no-login sample of Stedrok ranked stocks, ticker insight format, and pillar scoring context.">
+  <meta name="author" content="Stedrok">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+
+  <link rel="canonical" href="https://stedrok.org/demo.html">
+  <link rel="alternate" hreflang="en" href="https://stedrok.org/demo.html">
+  <link rel="alternate" hreflang="x-default" href="https://stedrok.org/demo.html">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Stedrok Public Demo - Delayed Sample Output">
+  <meta property="og:description" content="No-login demo: delayed sample table, ticker insight format, and pillar score context.">
+  <meta property="og:url" content="https://stedrok.org/demo.html">
+  <meta property="og:site_name" content="Stedrok">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://stedrok.org/img/sample-output-table.jpg">
+  <meta property="og:image:alt" content="Stedrok public demo delayed sample table">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stedrok Public Demo - Delayed Sample Output">
+  <meta name="twitter:description" content="No-login demo of Stedrok sample outputs with delayed data.">
+  <meta name="twitter:image" content="https://stedrok.org/img/sample-output-table.jpg">
+  <meta name="twitter:image:alt" content="Stedrok public demo delayed sample table">
+
+  <link rel="stylesheet" href="css/main.css?v=20260226d1">
+
+  <style>
+    .demo-hero {
+      padding: 72px 0 44px;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%);
+      text-align: center;
+    }
+    .demo-hero h1 {
+      font-size: 44px;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+    .demo-lead {
+      color: var(--text-secondary);
+      max-width: 820px;
+      margin: 0 auto 22px;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+    .demo-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+    .demo-metric {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px;
+      text-align: left;
+    }
+    .demo-metric-label {
+      display: block;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .demo-metric-value {
+      display: block;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .demo-section {
+      padding: 58px 0;
+    }
+    .demo-section--light {
+      background: rgba(15, 23, 42, 0.4);
+    }
+    .demo-section h2 {
+      font-size: 34px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .demo-section-lead {
+      text-align: center;
+      color: var(--text-secondary);
+      margin: 0 auto 26px;
+      max-width: 760px;
+      line-height: 1.7;
+    }
+    .demo-anchor {
+      scroll-margin-top: 110px;
+    }
+    .demo-loading {
+      text-align: center;
+      color: var(--text-secondary);
+      padding: 14px 0 10px;
+    }
+    .demo-static-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      max-width: 880px;
+      margin: 0 auto;
+    }
+    .demo-pillars {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+    .demo-pillar {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .demo-pillar h3 {
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
+    .demo-pillar p {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    .demo-actions {
+      margin-top: 28px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .demo-mini-note {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+    .demo-insight-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+    .demo-insight-sub {
+      color: var(--text-secondary);
+      margin-top: 6px;
+      font-size: 14px;
+    }
+    .demo-insight-line {
+      color: var(--text-secondary);
+      margin-top: 12px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .demo-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .demo-pillars {
+        grid-template-columns: 1fr;
+      }
+      .demo-hero h1 {
+        font-size: 34px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .demo-hero {
+        padding-top: 56px;
+      }
+      .demo-metrics {
+        grid-template-columns: 1fr;
+      }
+      .demo-section h2 {
+        font-size: 28px;
+      }
+      .demo-insight-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo" aria-label="Stedrok home">STEDROK</a>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="demo.html" class="active">Demo</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="philosophy.html">Philosophy</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+          <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+          <a href="dashboard.html" class="btn-primary" id="dashboardBtn" style="display:none;">Dashboard</a>
+          <button class="btn-secondary" id="logoutBtn" style="display:none;">Log Out</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="demo-hero">
+      <div class="container">
+        <h1>No-Login Demo: Delayed Sample Output</h1>
+        <p class="demo-lead">
+          This page shows a delayed sample so you can inspect the Stedrok table format, rating labels,
+          and pillar context before creating an account. Pro members see the current full ranked universe;
+          this public demo is intentionally limited and delayed.
+        </p>
+        <div class="demo-actions" style="margin-top:0;">
+          <a href="register.html" class="btn-primary btn-large">Start Free</a>
+          <a href="pricing.html" class="btn-secondary btn-large">View Pricing</a>
+        </div>
+
+        <div class="callout callout--warning" style="margin-top:20px; text-align:left;">
+          <strong>Research only, not financial advice.</strong> This public demo is delayed by design and should be used for product evaluation, not trading decisions.
+        </div>
+
+        <div class="demo-metrics">
+          <div class="demo-metric">
+            <span class="demo-metric-label">Demo As Of</span>
+            <span class="demo-metric-value" id="demoAsOfDate">Loading...</span>
+          </div>
+          <div class="demo-metric">
+            <span class="demo-metric-label">Rows Shown</span>
+            <span class="demo-metric-value" id="demoRowCount">Loading...</span>
+          </div>
+          <div class="demo-metric">
+            <span class="demo-metric-label">Delay Policy</span>
+            <span class="demo-metric-value" id="demoDelayPolicy">Loading...</span>
+          </div>
+          <div class="demo-metric">
+            <span class="demo-metric-label">Sample Total Market Cap</span>
+            <span class="demo-metric-value" id="demoTotalCap">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section demo-anchor" id="demoTableShot">
+      <div class="container">
+        <h2>Sample Ranked Table</h2>
+        <p class="demo-section-lead">
+          Delayed sample rows from the Stedrok scoring format. This is a preview only and does not expose the full Pro dataset.
+        </p>
+
+        <p class="demo-loading" id="demoLoadingState">Loading delayed demo dataset...</p>
+
+        <div class="table-container">
+          <table class="stock-table" aria-describedby="demoLoadingState">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Company</th>
+                <th>Country</th>
+                <th>Sector</th>
+                <th>Rating</th>
+                <th>Confidence</th>
+                <th>Value</th>
+                <th>Quality</th>
+                <th>Risk</th>
+                <th>Dip</th>
+                <th>Price</th>
+                <th>Fair Value</th>
+                <th>Discount</th>
+              </tr>
+            </thead>
+            <tbody id="demoTableBody">
+              <tr>
+                <td colspan="13" style="text-align:center; color:var(--text-secondary); padding:30px;">Loading sample rows...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="demo-mini-note">Need the live full list and CSV export? <a href="pricing.html">Unlock Pro</a>.</p>
+      </div>
+    </section>
+
+    <section class="demo-section demo-section--light demo-anchor" id="demoInsightShot">
+      <div class="container">
+        <h2>Sample Ticker Insight Format</h2>
+        <p class="demo-section-lead">
+          Pro users can open a quick ticker insight popup from the dashboard table. This card mirrors that format with delayed sample content.
+        </p>
+
+        <article class="demo-static-card" aria-label="Sample ticker insight card">
+          <div class="demo-insight-head">
+            <div>
+              <p class="ticker-insight-label">Quick Ticker Insight (Sample)</p>
+              <h3 id="demoInsightSymbol" style="font-size:30px; line-height:1.2;">Loading...</h3>
+              <p class="demo-insight-sub" id="demoInsightCompany">Loading company...</p>
+            </div>
+            <span id="demoInsightDecision" class="badge badge-watch">WATCH</span>
+          </div>
+
+          <div class="ticker-insight-meta" style="margin-top:10px;">
+            <span id="demoInsightTheme" class="ticker-insight-chip">Theme: value with resilience</span>
+            <span id="demoInsightTone" class="ticker-insight-chip">Tone: neutral</span>
+            <span id="demoInsightFreshness" class="ticker-insight-chip">Freshness: delayed demo</span>
+            <span id="demoInsightRelevance" class="ticker-insight-chip">Relevance: illustrative only</span>
+          </div>
+
+          <p id="demoInsightHeadline" class="ticker-insight-headline" style="display:block; margin-top:16px;">Loading sample headline...</p>
+          <p id="demoInsightSummary" class="demo-insight-line">Loading sample summary...</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="demo-section demo-anchor" id="demoPillarsShot">
+      <div class="container">
+        <h2>Pillar Scoring Snapshot</h2>
+        <p class="demo-section-lead">
+          The model scores each company across four pillars, then combines them into the final rank.
+        </p>
+
+        <div class="demo-pillars">
+          <article class="demo-pillar">
+            <h3>Value</h3>
+            <p>Measures valuation gap versus estimated fair value. Higher values indicate deeper discount and stronger margin-of-safety context.</p>
+          </article>
+          <article class="demo-pillar">
+            <h3>Quality</h3>
+            <p>Tracks business durability and operating quality, including profitability consistency and balance-sheet discipline.</p>
+          </article>
+          <article class="demo-pillar">
+            <h3>Risk</h3>
+            <p>Prioritizes downside resilience. Strong scores indicate more robust financial structure under tougher macro conditions.</p>
+          </article>
+          <article class="demo-pillar">
+            <h3>Dip</h3>
+            <p>Adds price-context awareness by quantifying pullback structure relative to historical range and valuation support.</p>
+          </article>
+        </div>
+
+        <div class="demo-actions">
+          <a href="register.html" class="btn-primary btn-large">Create Free Account</a>
+          <a href="dashboard.html" class="btn-secondary btn-large">Go to Dashboard</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-left">
+          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
+          <p class="footer-tagline">
+            Stedrok is an independent stock research platform for long term investors.
+            Content is general information only. It is not personal financial advice or a recommendation to buy or sell any security.
+          </p>
+        </div>
+        <nav class="footer-links">
+          <a href="demo.html">Demo</a>
+          <a href="philosophy.html">Philosophy</a>
+          <a href="methodology.html">Methodology</a>
+          <a href="guide-long-term-value-portfolio.html">Guide</a>
+          <a href="value-investing-glossary.html">Glossary</a>
+          <a href="site-map.html">HTML Sitemap</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js?v=20260226d1"></script>
+  <script src="js/mobile-menu.js?v=20260226d1"></script>
+  <script src="js/index-auth-nav.js?v=20260226d1"></script>
+  <script src="js/demo.js?v=20260226d1"></script>
+</body>
+</html>

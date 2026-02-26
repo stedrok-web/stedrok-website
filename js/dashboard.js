@@ -148,6 +148,200 @@ const EXCHANGE_DEFAULT_BY_COUNTRY = {
   'Cayman Islands': 'USA (NYSE/NASDAQ)'
 };
 
+// Currency inference helpers for global display formatting.
+// Priority in resolveCurrencyCode():
+// explicit row currency -> exchange label -> ticker suffix -> country -> USD fallback.
+const CURRENCY_FROM_SUFFIX = {
+  AX: 'AUD',
+  HK: 'HKD',
+  L: 'GBP',
+  PA: 'EUR',
+  DE: 'EUR',
+  AS: 'EUR',
+  MC: 'EUR',
+  MI: 'EUR',
+  SW: 'CHF',
+  VX: 'CHF',
+  OL: 'NOK',
+  ST: 'SEK',
+  STO: 'SEK',
+  CO: 'DKK',
+  HE: 'EUR',
+  WA: 'PLN',
+  PR: 'CZK',
+  AT: 'EUR',
+  LS: 'EUR',
+  BR: 'EUR',
+  AE: 'AED',
+  NZ: 'NZD',
+  T: 'JPY',
+  TYO: 'JPY',
+  SI: 'SGD',
+  KS: 'KRW',
+  KQ: 'KRW',
+  SS: 'CNY',
+  SZ: 'CNY',
+  BSE: 'INR',
+  NSE: 'INR',
+  BO: 'INR',
+  NS: 'INR',
+  TO: 'CAD',
+  V: 'CAD',
+  SA: 'BRL',
+  MX: 'MXN',
+  TA: 'ILS',
+  JO: 'ZAR'
+};
+
+const CURRENCY_BY_COUNTRY = {
+  'UNITED STATES': 'USD',
+  'USA': 'USD',
+  'US': 'USD',
+  'UNITED KINGDOM': 'GBP',
+  'AUSTRALIA': 'AUD',
+  'HONG KONG': 'HKD',
+  'CHINA': 'CNY',
+  'JAPAN': 'JPY',
+  'CANADA': 'CAD',
+  'GERMANY': 'EUR',
+  'FRANCE': 'EUR',
+  'ITALY': 'EUR',
+  'SPAIN': 'EUR',
+  'NETHERLANDS': 'EUR',
+  'BELGIUM': 'EUR',
+  'PORTUGAL': 'EUR',
+  'IRELAND': 'EUR',
+  'AUSTRIA': 'EUR',
+  'FINLAND': 'EUR',
+  'GREECE': 'EUR',
+  'SLOVAKIA': 'EUR',
+  'SLOVENIA': 'EUR',
+  'ESTONIA': 'EUR',
+  'LATVIA': 'EUR',
+  'LITHUANIA': 'EUR',
+  'DENMARK': 'DKK',
+  'SWEDEN': 'SEK',
+  'NORWAY': 'NOK',
+  'SWITZERLAND': 'CHF',
+  'SINGAPORE': 'SGD',
+  'SOUTH KOREA': 'KRW',
+  'INDIA': 'INR',
+  'ISRAEL': 'ILS',
+  'MEXICO': 'MXN',
+  'BRAZIL': 'BRL',
+  'SOUTH AFRICA': 'ZAR',
+  'NEW ZEALAND': 'NZD',
+  'UNITED ARAB EMIRATES': 'AED',
+  'CZECH REPUBLIC': 'CZK',
+  'POLAND': 'PLN'
+};
+
+const CURRENCY_SYMBOLS = {
+  USD: '$',
+  GBP: '£',
+  EUR: '€',
+  JPY: 'JP¥',
+  CNY: 'CN¥',
+  HKD: 'HK$',
+  KRW: '₩',
+  INR: '₹',
+  CHF: 'CHF ',
+  CAD: 'C$',
+  AUD: 'A$',
+  SEK: 'kr',
+  NOK: 'kr',
+  DKK: 'kr',
+  SGD: 'S$',
+  TWD: 'NT$',
+  BRL: 'R$',
+  ZAR: 'R',
+  MXN: 'MX$',
+  ILS: '₪',
+  PLN: 'zł',
+  THB: '฿',
+  MYR: 'RM',
+  IDR: 'Rp',
+  PHP: '₱',
+  TRY: '₺',
+  RUB: '₽',
+  SAR: 'SAR ',
+  AED: 'AED ',
+  NZD: 'NZ$',
+  CLP: 'CL$',
+  COP: 'COL$',
+  PEN: 'S/',
+  CZK: 'Kč'
+};
+
+function normalizeCurrencyCode(value) {
+  return String(value || '').trim().toUpperCase();
+}
+
+function extractTickerSuffixFromStock(stock) {
+  const rawTicker = String(stock?.ticker || stock?.symbol || '').trim().toUpperCase();
+  if (!rawTicker.includes('.')) return '';
+  const parts = rawTicker.split('.');
+  return parts[parts.length - 1] || '';
+}
+
+function currencyFromExchangeLabel(exchange) {
+  const ex = normalizeExchangeLabel(exchange).toUpperCase();
+  if (!ex) return '';
+  if (ex.includes('NYSE') || ex.includes('NASDAQ') || ex.includes('USA')) return 'USD';
+  if (ex.includes('HONG KONG')) return 'HKD';
+  if (ex.includes('LONDON')) return 'GBP';
+  if (ex.includes('AUSTRALIA')) return 'AUD';
+  if (ex.includes('TOKYO')) return 'JPY';
+  if (ex.includes('SINGAPORE')) return 'SGD';
+  if (ex.includes('TORONTO')) return 'CAD';
+  if (
+    ex.includes('FRANKFURT') ||
+    ex.includes('PARIS') ||
+    ex.includes('MADRID') ||
+    ex.includes('MILAN') ||
+    ex.includes('AMSTERDAM') ||
+    ex.includes('BRUSSELS') ||
+    ex.includes('HELSINKI') ||
+    ex.includes('LISBON') ||
+    ex.includes('ATHENS') ||
+    ex.includes('VIENNA')
+  ) return 'EUR';
+  if (ex.includes('COPENHAGEN')) return 'DKK';
+  if (ex.includes('STOCKHOLM')) return 'SEK';
+  if (ex.includes('OSLO')) return 'NOK';
+  if (ex.includes('SWITZERLAND') || ex.includes('SIX')) return 'CHF';
+  if (ex.includes('WARSAW')) return 'PLN';
+  if (ex.includes('PRAGUE')) return 'CZK';
+  if (ex.includes('ABU DHABI') || ex.includes('DUBAI') || ex.includes('UAE')) return 'AED';
+  return '';
+}
+
+function resolveCurrencyCode(stock) {
+  const direct = normalizeCurrencyCode(
+    stock?.currency ||
+    stock?.trading_currency ||
+    stock?.currency_code ||
+    stock?.market_cap_currency
+  );
+  if (direct) return direct;
+
+  const fromExchange = currencyFromExchangeLabel(stock?.exchange || deriveExchangeLabel(stock));
+  if (fromExchange) return fromExchange;
+
+  const suffix = extractTickerSuffixFromStock(stock);
+  if (suffix && CURRENCY_FROM_SUFFIX[suffix]) return CURRENCY_FROM_SUFFIX[suffix];
+
+  const country = normalizeCountryName(stock?.country).toUpperCase();
+  if (country && CURRENCY_BY_COUNTRY[country]) return CURRENCY_BY_COUNTRY[country];
+
+  return 'USD';
+}
+
+function currencySymbolForStock(stock) {
+  const code = resolveCurrencyCode(stock);
+  return CURRENCY_SYMBOLS[code] || `${code} `;
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   // Ensure heading never shows stale fixed-count wording from old cached HTML.
   updateDashboardHeading(null, false);
@@ -588,12 +782,12 @@ function buildFallbackSummary(stock) {
   const decision = String(stock.decision || 'WATCH').toUpperCase();
   const discountText = stock.discount_pct != null
     ? `${stock.discount_pct.toFixed(1)}%`
-    : 'n/a';
+    : 'not available';
   const scoreText = [
-    `Value ${stock.value_score != null ? stock.value_score.toFixed(1) + '%' : 'n/a'}`,
-    `Quality ${stock.quality_score != null ? stock.quality_score.toFixed(1) + '%' : 'n/a'}`,
-    `Risk ${stock.risk_score != null ? stock.risk_score.toFixed(1) + '%' : 'n/a'}`,
-    `Dip ${stock.dip_score != null ? stock.dip_score.toFixed(1) + '%' : 'n/a'}`
+    `Value ${stock.value_score != null ? stock.value_score.toFixed(1) + '%' : 'not available'}`,
+    `Quality ${stock.quality_score != null ? stock.quality_score.toFixed(1) + '%' : 'not available'}`,
+    `Risk ${stock.risk_score != null ? stock.risk_score.toFixed(1) + '%' : 'not available'}`,
+    `Dip ${stock.dip_score != null ? stock.dip_score.toFixed(1) + '%' : 'not available'}`
   ].join(' | ');
 
   const valuationLine = stock.discount_pct != null && stock.discount_pct > 0
@@ -710,12 +904,12 @@ function renderTickerInsight(summary, stock) {
 
   if (freshnessEl) {
     const value = String(summary?.news_freshness_display || summary?.news_freshness || '').trim();
-    freshnessEl.textContent = value ? `Freshness: ${value}` : 'Freshness: n/a';
+    freshnessEl.textContent = value ? `Freshness: ${value}` : 'Freshness: model-estimated';
   }
 
   if (relevanceEl) {
     const value = String(summary?.news_relevance_display || summary?.news_relevance || '').trim();
-    relevanceEl.textContent = value ? `Relevance: ${value}` : 'Relevance: n/a';
+    relevanceEl.textContent = value ? `Relevance: ${value}` : 'Relevance: model-estimated';
   }
 
   if (headlineEl) {
@@ -876,14 +1070,14 @@ function renderTable(stocks) {
         <td>${stock.country || '-'}</td>
         <td>${stock.sector || '-'}</td>
         <td><span class="badge ${decisionClass}">${stock.decision || '-'}</span></td>
-        <td>${formatMarketCap(stock.market_cap)}</td>
+        <td>${formatMarketCap(stock.market_cap, stock)}</td>
         <td>${stock.confidence != null ? stock.confidence.toFixed(1) + '%' : '-'}</td>
         <td>${stock.value_score != null ? stock.value_score.toFixed(1) + '%' : '-'}</td>
         <td>${stock.quality_score != null ? stock.quality_score.toFixed(1) + '%' : '-'}</td>
         <td>${stock.risk_score != null ? stock.risk_score.toFixed(1) + '%' : '-'}</td>
         <td>${stock.dip_score != null ? stock.dip_score.toFixed(1) + '%' : '-'}</td>
-        <td>$${stock.current_price != null ? stock.current_price.toFixed(2) : '-'}</td>
-        <td>$${stock.fair_value != null ? stock.fair_value.toFixed(2) : '-'}</td>
+        <td>${formatPrice(stock.current_price, stock)}</td>
+        <td>${formatPrice(stock.fair_value, stock)}</td>
         <td class="${stock.discount_pct > 0 ? 'positive' : 'negative'}">
           ${stock.discount_pct != null ? stock.discount_pct.toFixed(1) + '%' : '-'}
         </td>
@@ -913,7 +1107,7 @@ function exportToCSV() {
   }
 
   // Generate CSV
-  const headers = ['Ticker', 'Company', 'Country', 'Sector', 'Market Cap', 'Confidence', 'Price', 'Fair Value', 
+  const headers = ['Ticker', 'Company', 'Country', 'Sector', 'Currency', 'Market Cap', 'Confidence', 'Price', 'Fair Value', 
                    'Discount %', 'Value Score', 'Quality Score', 'Risk Score', 'Dip Score', 
                    'Decision'];
   
@@ -922,6 +1116,7 @@ function exportToCSV() {
     s.company_name,
     s.country,
     s.sector,
+    resolveCurrencyCode(s),
     s.market_cap || 0,
     s.confidence || 0,
     s.current_price,
@@ -1066,12 +1261,14 @@ function buildExchangePoints(stocks) {
         exchange,
         count: 0,
         countries: new Set(),
-        marketCapSum: 0
+        marketCapSum: 0,
+        sampleStock: null
       });
     }
     const item = grouped.get(exchange);
     item.count += 1;
     if (country) item.countries.add(country);
+    if (!item.sampleStock) item.sampleStock = stock;
     const marketCap = Number(stock.market_cap);
     if (Number.isFinite(marketCap) && marketCap > 0) {
       item.marketCapSum += marketCap;
@@ -1089,7 +1286,7 @@ function buildExchangePoints(stocks) {
       if (item.marketCapSum > 0) {
         const logCap = Math.log10(item.marketCapSum + 1);
         size = Math.max(9, Math.min(22, 9 + (logCap - 8) * 4.2));
-        metricLabel = `Total market cap: ${formatMarketCap(item.marketCapSum)}`;
+        metricLabel = `Total market cap: ${formatMarketCap(item.marketCapSum, item.sampleStock)}`;
       } else {
         size = Math.max(9, Math.min(18, 8 + item.count * 0.18));
         metricLabel = `Stocks: ${item.count}`;
@@ -1418,21 +1615,30 @@ function applyFilters() {
 // ============================================================
 // Utility: Format market cap
 // ============================================================
-function formatMarketCap(value) {
-  if (value == null) return '-';
-  if (value === 0) return '$0';
-  
-  const absValue = Math.abs(value);
-  
+function formatMarketCap(value, stock = null) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return '-';
+  const symbol = currencySymbolForStock(stock);
+  if (numeric === 0) return `${symbol}0`;
+
+  const absValue = Math.abs(numeric);
   if (absValue >= 1e12) {
-    return '$' + (value / 1e12).toFixed(2) + 'T';
-  } else if (absValue >= 1e9) {
-    return '$' + (value / 1e9).toFixed(2) + 'B';
-  } else if (absValue >= 1e6) {
-    return '$' + (value / 1e6).toFixed(2) + 'M';
-  } else {
-    return '$' + value.toLocaleString();
+    return symbol + (numeric / 1e12).toFixed(2) + 'T';
   }
+  if (absValue >= 1e9) {
+    return symbol + (numeric / 1e9).toFixed(2) + 'B';
+  }
+  if (absValue >= 1e6) {
+    return symbol + (numeric / 1e6).toFixed(2) + 'M';
+  }
+  return symbol + numeric.toLocaleString(undefined, { maximumFractionDigits: 2 });
+}
+
+function formatPrice(value, stock = null) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return '-';
+  const symbol = currencySymbolForStock(stock);
+  return `${symbol}${numeric.toFixed(2)}`;
 }
 
 // ============================================================

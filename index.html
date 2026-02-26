@@ -199,6 +199,22 @@
     .check-yes { color: #4ade80; font-weight: 600; }
     .check-no { color: #9ca3af; opacity: 0.5; }
 
+    /* Sample output */
+    .sample-output-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .sample-output-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .sample-output-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.16); }
+    .sample-output-card img { display: block; width: 100%; height: auto; aspect-ratio: 1500 / 920; object-fit: cover; }
+    .sample-output-body { padding: 16px; }
+    .sample-output-body h3 { font-size: 19px; margin-bottom: 8px; }
+    .sample-output-body p { color: #d1d5db; font-size: 14px; line-height: 1.6; }
+    .sample-output-actions { margin-top: 26px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
     /* FAQ */
     .faq-grid { max-width: 800px; margin: 0 auto; }
     .faq-item { margin-bottom: 28px; padding: 24px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; }
@@ -222,7 +238,7 @@
     /* Responsive */
     @media (max-width: 768px) {
       .hero h1 { font-size: 36px; }
-      .problem-grid, .feature-grid, .steps-grid, .audience-grid { grid-template-columns: 1fr; }
+      .problem-grid, .feature-grid, .steps-grid, .audience-grid, .sample-output-grid { grid-template-columns: 1fr; }
       .cta-buttons { flex-direction: column; }
       .comparison-table { min-width: 0; table-layout: fixed; }
       .comparison-table th,
@@ -276,10 +292,11 @@
         </p>
         <div class="cta-buttons">
           <a href="register.html" class="btn-primary btn-large">Start Free, No Card Required</a>
+          <a href="demo.html" class="btn-secondary btn-large">View No-Login Demo</a>
           <a href="philosophy.html" class="btn-secondary btn-large">Read Our Philosophy</a>
         </div>
         <p class="trust-badges">
-          ✓ Quantitative, rules based framework&nbsp;&nbsp;·&nbsp;&nbsp;✓ Universe of 7,000+ stocks scanned twice daily&nbsp;&nbsp;·&nbsp;&nbsp;✓ $3 per month with a real free tier
+          Founded in Australia (Stedrok Pty Ltd)&nbsp;&nbsp;|&nbsp;&nbsp;PayPal billing; we never store card details&nbsp;&nbsp;|&nbsp;&nbsp;Public, transparent methodology
         </p>
         <div class="trust-strip">
           <strong>Security:</strong> Data pipeline secured by Supabase and Cloudflare Workers. Payments processed by PayPal. Stedrok never sees your card details.
@@ -398,6 +415,53 @@
               Regular quality checks and updates aligned with reporting schedules.
             </p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sample Output -->
+    <section class="section section--light section--border" id="sample-output">
+      <div class="container">
+        <h2>Sample Output Preview</h2>
+        <p class="section-lead">
+          Real screenshots from the no-login delayed demo. Review the table format, ticker insight layout, and pillar explanations before signing up.
+        </p>
+
+        <div class="sample-output-grid">
+          <article class="sample-output-card">
+            <a href="demo.html#demoTableShot" aria-label="Open demo table preview">
+              <img src="img/sample-output-table.jpg?v=20260226a" alt="Delayed sample ranked table from Stedrok public demo" loading="lazy" decoding="async">
+            </a>
+            <div class="sample-output-body">
+              <h3>Ranked Table Snapshot</h3>
+              <p>Delayed sample rows showing rating labels and pillar score columns in the same format used on the member dashboard.</p>
+            </div>
+          </article>
+
+          <article class="sample-output-card">
+            <a href="demo.html#demoInsightShot" aria-label="Open demo insight preview">
+              <img src="img/sample-output-insight.jpg?v=20260226a" alt="Sample ticker insight card format from Stedrok demo" loading="lazy" decoding="async">
+            </a>
+            <div class="sample-output-body">
+              <h3>Ticker Insight Format</h3>
+              <p>Preview the short-form insight card structure, including decision badge, context chips, and thesis summary style.</p>
+            </div>
+          </article>
+
+          <article class="sample-output-card">
+            <a href="demo.html#demoPillarsShot" aria-label="Open demo pillar preview">
+              <img src="img/sample-output-pillars.jpg?v=20260226a" alt="Pillar scoring explanation cards from Stedrok public demo" loading="lazy" decoding="async">
+            </a>
+            <div class="sample-output-body">
+              <h3>Pillar Explanation View</h3>
+              <p>See how Value, Quality, Risk, and Dip pillars are explained in plain language for new users evaluating the model.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="sample-output-actions">
+          <a href="demo.html" class="btn-primary btn-large">Open No-Login Demo</a>
+          <a href="register.html" class="btn-secondary btn-large">Create Free Account</a>
         </div>
       </div>
     </section>
@@ -535,7 +599,7 @@
               </tr>
               <tr>
                 <td>Free tier that's actually useful</td>
-                <td class="check-yes">✓ 3 stocks, forever</td>
+                <td class="check-yes">✓ 3 stocks, ongoing</td>
                 <td class="check-no">✗ Trials only</td>
                 <td class="check-yes">✓ Free (limited data quality)</td>
               </tr>
@@ -579,9 +643,9 @@
           <div class="faq-item">
             <h3>What Stocks Are Covered?</h3>
             <p>
-              Stedrok currently covers 100+ companies across global markets, with a focus on
-              established businesses that have sufficient trading history and financial reporting.
-              Coverage is expanding over time as data quality and model confidence improve.
+              Stedrok scans more than 7,000 companies across global markets and publishes
+              the top ~100+ ranked candidates in the dashboard. Coverage keeps expanding as
+              data quality and model confidence improve.
             </p>
           </div>
 
@@ -595,11 +659,12 @@
           </div>
 
           <div class="faq-item">
-            <h3>Can I Really Use the Free Tier Forever?</h3>
+            <h3>Can I Use the Free Tier Long-Term?</h3>
             <p>
-              Yes. The free tier gives you permanent access to 3 ranked stocks. It's not a trial –
-              there's no time limit. If those 3 stocks are enough for your needs, you never have to pay.
-              Upgrade to $3/month when you want access to the full list of 100+ companies.
+              Yes. The free tier gives you ongoing access to 3 ranked stocks. It's not a trial and
+              there's no mandatory expiry. We intend to keep a free tier available long-term, and if
+              that policy changes we will provide notice. Upgrade to $3/month when you want the
+              top ~100+ ranked candidates from the 7,000+ company scan.
             </p>
           </div>
 
