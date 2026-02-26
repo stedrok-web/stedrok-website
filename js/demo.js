@@ -1,8 +1,9 @@
 // Public demo page logic (no login required)
 
-const DEMO_DATA_URL = 'data/demo_sample.json?v=20260226c';
-const DEMO_SUMMARIES_URL = 'data/demo_ticker_summaries.json?v=20260226c';
+const DEMO_DATA_URL = 'data/demo_sample.json?v=20260227b';
+const DEMO_SUMMARIES_URL = 'data/demo_ticker_summaries.json?v=20260227b';
 const DEMO_FEATURED_TICKER = 'MSFT';
+const DEMO_FEATURED_TICKERS = new Set(['MSFT', 'ACN', 'EVO.ST']);
 const DEMO_QUERY = new URLSearchParams(window.location.search);
 const DEMO_SCREENSHOT_MODE = DEMO_QUERY.get('screenshot') === '1';
 const DEMO_SCREENSHOT_SHOT = String(DEMO_QUERY.get('shot') || '').trim().toLowerCase();
@@ -25,17 +26,17 @@ function formatPct(value) {
   return `${toNumber(value).toFixed(1)}%`;
 }
 
-function formatPrice(value) {
-  return `$${toNumber(value).toFixed(2)}`;
+function formatPrice(value, currencySymbol = '$') {
+  return `${currencySymbol}${toNumber(value).toFixed(2)}`;
 }
 
-function formatMarketCap(value) {
+function formatMarketCap(value, currencySymbol = '$') {
   const num = toNumber(value);
   const abs = Math.abs(num);
-  if (abs >= 1e12) return `$${(num / 1e12).toFixed(2)}T`;
-  if (abs >= 1e9) return `$${(num / 1e9).toFixed(2)}B`;
-  if (abs >= 1e6) return `$${(num / 1e6).toFixed(2)}M`;
-  return `$${num.toLocaleString()}`;
+  if (abs >= 1e12) return `${currencySymbol}${(num / 1e12).toFixed(2)}T`;
+  if (abs >= 1e9) return `${currencySymbol}${(num / 1e9).toFixed(2)}B`;
+  if (abs >= 1e6) return `${currencySymbol}${(num / 1e6).toFixed(2)}M`;
+  return `${currencySymbol}${num.toLocaleString()}`;
 }
 
 function decisionBadgeClass(decision) {
@@ -103,8 +104,13 @@ function summaryByTicker(ticker) {
 function getFeaturedTicker() {
   const preferred = demoRows.find((row) => normalizeTicker(row.symbol) === DEMO_FEATURED_TICKER);
   if (preferred) return DEMO_FEATURED_TICKER;
+
+  const secondary = demoRows.find((row) => DEMO_FEATURED_TICKERS.has(normalizeTicker(row.symbol)));
+  if (secondary) return normalizeTicker(secondary.symbol);
+
   return demoRows.length ? normalizeTicker(demoRows[0].symbol) : '';
 }
+
 
 function configureScreenshotMode(featuredTicker) {
   if (!DEMO_SCREENSHOT_MODE) return false;
@@ -169,17 +175,23 @@ function renderTable(rows) {
     const tr = document.createElement('tr');
     const badgeClass = decisionBadgeClass(row.decision);
     const discount = toNumber(row.discountPct);
-    const isFeatured = normalizeTicker(row.symbol) === DEMO_FEATURED_TICKER;
+    const symbol = normalizeTicker(row.symbol);
+    const isFeatured = DEMO_FEATURED_TICKERS.has(symbol);
+    const hasSummary = summaryMap.has(symbol);
+    const canOpenInsight = isFeatured && hasSummary;
+    const priceSymbol = String(row.currencySymbol || '$');
+
+    tr.setAttribute('data-symbol', symbol);
     tr.classList.add(isFeatured ? 'demo-row-featured' : 'demo-row-blur');
 
     tr.innerHTML = `
       <td>
         <button
           type="button"
-          class="ticker-insight-trigger${isFeatured ? '' : ' ticker-insight-trigger--locked'}"
+          class="ticker-insight-trigger${canOpenInsight ? '' : ' ticker-insight-trigger--locked'}"
           data-ticker="${row.symbol}"
           aria-label="View insight for ${row.symbol}"
-          ${isFeatured ? '' : 'disabled aria-disabled="true" tabindex="-1" title="Public demo insight is currently focused on MSFT."'}
+          ${canOpenInsight ? '' : 'disabled aria-disabled="true" tabindex="-1" title="Quick insight unavailable for this row in the public demo."'}
         >
           ${row.symbol}
         </button>
@@ -193,14 +205,15 @@ function renderTable(rows) {
       <td>${formatPct(row.qualityScore)}</td>
       <td>${formatPct(row.riskScore)}</td>
       <td>${formatPct(row.dipScore)}</td>
-      <td>${formatPrice(row.price)}</td>
-      <td>${formatPrice(row.estimatedValue)}</td>
+      <td>${formatPrice(row.price, priceSymbol)}</td>
+      <td>${formatPrice(row.estimatedValue, priceSymbol)}</td>
       <td class="${discount >= 0 ? 'positive' : 'negative'}">${formatPct(discount)}</td>
     `;
 
     tbody.appendChild(tr);
   });
 }
+
 
 function renderInsight(summary, row) {
   if (!summary && !row) return;
@@ -297,10 +310,10 @@ function showInsightForTicker(ticker, triggerEl = null) {
   const row = rowByTicker(symbol);
   if (!row) return;
 
-  if (symbol !== DEMO_FEATURED_TICKER) {
+  if (!DEMO_FEATURED_TICKERS.has(symbol)) {
     const hintEl = document.getElementById('tickerInsightHint');
     if (hintEl) {
-      hintEl.textContent = 'Quick Ticker Insight in this public demo is focused on MSFT.';
+      hintEl.textContent = 'Quick Ticker Insight in this public demo is enabled for MSFT, ACN, and EVO.ST.';
       hintEl.style.display = 'block';
     }
     return;
@@ -322,6 +335,7 @@ function showInsightForTicker(ticker, triggerEl = null) {
   renderInsight(summary, row);
   openInsightPanel();
 }
+
 
 function bindInsightInteractions() {
   const tbody = document.getElementById('demoTableBody');
@@ -385,18 +399,12 @@ async function loadDemo() {
   }
 
   setText('demoAsOfDate', meta.demo_as_of_date || 'N/A');
-  setText('demoRowCount', String(demoRows.length));
-  setText('demoDelayPolicy', meta.delay_policy || 'minimum 24 hours delayed');
-
-  const totalCap = demoRows.reduce((sum, row) => sum + toNumber(row.marketCap), 0);
-  setText('demoTotalCap', formatMarketCap(totalCap));
 
   renderTable(demoRows);
 
   const loadingEl = document.getElementById('demoLoadingState');
   if (loadingEl) loadingEl.textContent = '';
 
-  // Preload featured insight (MSFT when available) so UI is deterministic.
   const featuredTicker = getFeaturedTicker();
   if (featuredTicker) {
     showInsightForTicker(featuredTicker, null);
@@ -410,7 +418,6 @@ async function loadDemo() {
   }
 
   if (!configureScreenshotMode(featuredTicker)) {
-    // Keep modal closed by default unless hash targets insight section.
     const hash = String(window.location.hash || '');
     if (!hash.includes('demoInsightShot')) {
       closeInsightPanel(true);
@@ -419,6 +426,7 @@ async function loadDemo() {
 
   document.body.setAttribute('data-demo-ready', '1');
 }
+
 
 document.addEventListener('DOMContentLoaded', async () => {
   bindInsightInteractions();

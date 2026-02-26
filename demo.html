@@ -51,9 +51,10 @@
 
     .demo-metrics {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: 1fr;
       gap: 14px;
-      margin-top: 22px;
+      margin: 22px auto 0;
+      max-width: 320px;
     }
     .demo-metric {
       background: var(--bg-card);
@@ -179,14 +180,14 @@
     body.demo-screenshot-mode .table-container {
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
     }
-    body.demo-screenshot-mode .stock-table tbody tr.demo-row-blur {
+    body.demo-screenshot-mode .stock-table tbody tr[data-symbol]:not([data-symbol="MSFT"]) {
       filter: blur(5px);
       opacity: 0.36;
     }
-    body.demo-screenshot-mode .stock-table tbody tr.demo-row-blur td {
+    body.demo-screenshot-mode .stock-table tbody tr[data-symbol]:not([data-symbol="MSFT"]) td {
       color: rgba(209, 213, 219, 0.45);
     }
-    body.demo-screenshot-mode .stock-table tbody tr.demo-row-featured {
+    body.demo-screenshot-mode .stock-table tbody tr[data-symbol="MSFT"] {
       outline: 2px solid rgba(34, 197, 94, 0.65);
       outline-offset: -2px;
       background: rgba(34, 197, 94, 0.09);
@@ -198,7 +199,7 @@
 
     @media (max-width: 900px) {
       .demo-metrics {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: 320px;
       }
       .demo-pillars {
         grid-template-columns: 1fr;
@@ -213,7 +214,7 @@
         padding-top: 56px;
       }
       .demo-metrics {
-        grid-template-columns: 1fr;
+        max-width: 100%;
       }
       .demo-section h2 {
         font-size: 28px;
@@ -273,18 +274,6 @@
             <span class="demo-metric-label">Demo As Of</span>
             <span class="demo-metric-value" id="demoAsOfDate">Loading...</span>
           </div>
-          <div class="demo-metric">
-            <span class="demo-metric-label">Rows Shown</span>
-            <span class="demo-metric-value" id="demoRowCount">Loading...</span>
-          </div>
-          <div class="demo-metric">
-            <span class="demo-metric-label">Delay Policy</span>
-            <span class="demo-metric-value" id="demoDelayPolicy">Loading...</span>
-          </div>
-          <div class="demo-metric">
-            <span class="demo-metric-label">Sample Total Market Cap</span>
-            <span class="demo-metric-value" id="demoTotalCap">Loading...</span>
-          </div>
         </div>
       </div>
     </section>
@@ -293,7 +282,7 @@
       <div class="container">
         <h2>Delayed Ranked Table Snapshot</h2>
         <p class="demo-section-lead">
-          MSFT is fully visible with insight enabled. Other rows are intentionally blurred in this public demo view.
+          This public demo currently shows 3 sample stocks: MSFT, ACN, and EVO.ST.
         </p>
 
         <p class="demo-loading" id="demoLoadingState">Loading delayed demo dataset...</p>
@@ -326,7 +315,7 @@
         </div>
 
         <p id="tickerInsightHint" class="ticker-insight-hint" style="display:block; margin-top:10px;">
-          Tip: public quick insight is focused on MSFT in this delayed demo.
+          Tip: quick insight is enabled for MSFT, ACN, and EVO.ST.
         </p>
 
         <div class="demo-controls" id="demoInsightShot">
@@ -425,6 +414,6 @@
   </footer>
 
   <script src="js/mobile-menu.js?v=20260226d2"></script>
-  <script src="js/demo.js?v=20260226d4"></script>
+  <script src="js/demo.js?v=20260227b"></script>
 </body>
 </html>
