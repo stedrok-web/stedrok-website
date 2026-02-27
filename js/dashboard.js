@@ -631,6 +631,11 @@ function cleanupInsightSummary(rawText, headlineText) {
       continue;
     }
 
+    // Remove stale headline-style tail lines that leak into body text.
+    if (/^evaluating\s+/i.test(paragraph) || /headline is older and should be treated as background context/i.test(paragraph)) {
+      continue;
+    }
+
     if (cleaned.length > 0) {
       const previousNorm = normalizeForComparison(cleaned[cleaned.length - 1]);
       if (previousNorm === norm) {

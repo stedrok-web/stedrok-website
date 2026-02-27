@@ -99,6 +99,7 @@
           <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
           <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
           <a href="dashboard.html" class="btn-primary" id="dashboardBtn" style="display:none;">Dashboard</a>
+          <a href="account.html" class="btn-secondary" id="accountBtn" style="display:none;">Account</a>
           <button class="btn-secondary" id="logoutBtn" style="display:none;">Log Out</button>
         </div>
       </nav>
@@ -217,23 +218,15 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/mobile-menu.js"></script>
+  <script src="js/public-auth-nav.js?v=20260227a3"></script>
   <script>
     const client = window.supabaseClient;
 
-    // Auth-aware nav
+    // Prefill email when the user is signed in
     client.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        document.getElementById('loginBtn').style.display = 'none';
-        document.getElementById('registerBtn').style.display = 'none';
-        document.getElementById('dashboardBtn').style.display = 'inline-block';
-        document.getElementById('logoutBtn').style.display = 'inline-block';
+      if (session?.user?.email) {
         document.getElementById('email').value = session.user.email;
       }
-    });
-
-    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-      await client.auth.signOut();
-      window.location.href = 'index.html';
     });
 
     // Form submission

@@ -120,9 +120,12 @@
           <li><a href="pricing.html">Pricing</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
-        <div class="auth-buttons">
-          <a href="login.html" class="btn-secondary">Log In</a>
-          <a href="register.html" class="btn-primary">Start Free</a>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+          <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+          <a href="dashboard.html" class="btn-primary" id="dashboardBtn" style="display:none;">Dashboard</a>
+          <a href="account.html" class="btn-secondary" id="accountBtn" style="display:none;">Account</a>
+          <button class="btn-secondary" id="logoutBtn" style="display:none;">Log Out</button>
         </div>
       </nav>
     </div>
@@ -183,6 +186,9 @@
       </div>
     </div>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
   <script src="js/mobile-menu.js"></script>
+  <script src="js/public-auth-nav.js?v=20260227a3"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta name="description"
-        content="Stedrok Pro gives full access to the value stock screener for three dollars per month. The free tier includes three companies with live data.">
+        content="Stedrok Pro gives full access to the value stock screener for three dollars per month. The free tier includes 3 ranked preview stocks from the current data batch.">
   <meta name="author" content="Stedrok">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="keywords"
@@ -21,7 +21,7 @@
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Stedrok Pricing, Value Stock Screener Subscription">
-  <meta property="og:description" content="Stedrok Pro gives full access to the value stock screener for three dollars per month. The free tier includes three companies with live data.">
+  <meta property="og:description" content="Stedrok Pro gives full access to the value stock screener for three dollars per month. The free tier includes 3 ranked preview stocks from the current data batch.">
   <meta property="og:url" content="https://stedrok.org/pricing.html">
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
@@ -29,7 +29,7 @@
   <meta property="og:image:alt" content="Stedrok value stock screener dashboard preview">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Stedrok Pricing, Value Stock Screener Subscription">
-  <meta name="twitter:description" content="Stedrok Pro gives full access to the value stock screener for three dollars per month. The free tier includes three companies with live data.">
+  <meta name="twitter:description" content="Stedrok Pro gives full access to the value stock screener for three dollars per month. The free tier includes 3 ranked preview stocks from the current data batch.">
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
 
@@ -341,7 +341,7 @@
           <tbody>
             <tr>
               <td>Number of ranked stocks</td>
-              <td style="text-align:center;">3 daily</td>
+              <td style="text-align:center;">3 preview</td>
               <td style="text-align:center;">100+</td>
             </tr>
             <tr>
@@ -578,36 +578,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/mobile-menu.js"></script>
+  <script src="js/public-auth-nav.js?v=20260227a3"></script>
 
   <script>
     const client = window.supabaseClient;
-
-    // Auth-aware navigation
-    function renderAuthState(session) {
-      const loggedIn = Boolean(session);
-      const loginBtn = document.getElementById('loginBtn');
-      const registerBtn = document.getElementById('registerBtn');
-      const dashboardBtn = document.getElementById('dashboardBtn');
-      const accountBtn = document.getElementById('accountBtn');
-      const logoutBtn = document.getElementById('logoutBtn');
-      if (loginBtn) loginBtn.style.display = loggedIn ? 'none' : 'inline-block';
-      if (registerBtn) registerBtn.style.display = loggedIn ? 'none' : 'inline-block';
-      if (dashboardBtn) dashboardBtn.style.display = loggedIn ? 'inline-block' : 'none';
-      if (accountBtn) accountBtn.style.display = loggedIn ? 'inline-block' : 'none';
-      if (logoutBtn) logoutBtn.style.display = loggedIn ? 'inline-block' : 'none';
-    }
-
-    client.auth.getSession()
-      .then(({ data: { session } }) => renderAuthState(session))
-      .catch(() => renderAuthState(null));
-
-    client.auth.onAuthStateChange((_event, session) => renderAuthState(session));
-
-    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-      await client.auth.signOut();
-      renderAuthState(null);
-      window.location.reload();
-    });
+    // Auth-aware navigation is handled by js/public-auth-nav.js
 
     let currentUser = null;
 

@@ -146,9 +146,12 @@
           <li><a href="pricing.html">Pricing</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
-        <div class="auth-buttons">
-          <a href="login.html" class="btn-secondary">Log In</a>
-          <a href="register.html" class="btn-primary">Start Free</a>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+          <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+          <a href="dashboard.html" class="btn-primary" id="dashboardBtn" style="display:none;">Dashboard</a>
+          <a href="account.html" class="btn-secondary" id="accountBtn" style="display:none;">Account</a>
+          <button class="btn-secondary" id="logoutBtn" style="display:none;">Log Out</button>
         </div>
       </nav>
     </div>
@@ -158,6 +161,7 @@
     <section class="section section--narrow">
       <div class="container">
         <h1>Our Investment Philosophy</h1>
+        <p class="author-byline" style="margin-top:10px; color:var(--text-secondary); font-size:14px;">By <a href="authors.html" style="color:var(--accent-green); text-decoration:underline;">Stedrok Research Team</a></p>
         <p class="lead">
           Stedrok exists for long term investors who want sensible businesses at sensible prices and who care more about downside risk than market stories.
           The platform is built around a single idea, do the heavy quantitative work at scale so you can spend your time on judgment and real due diligence.
@@ -167,7 +171,7 @@
         <p>
           Most investors are told that broad index funds give simple diversification.
           In practice a large share of the S&amp;P 500 today sits in a small group of mega cap names.
-          The top ten companies control around forty percent of the index value which is far above the long run average and higher than many past peaks.
+          Index concentration can rise and fall over time, and periods of high concentration have historically increased single-name risk inside market-cap weighted index funds.
         </p>
         <p>
           That means a basic S&amp;P 500 fund is not a quiet basket of five hundred companies.
@@ -309,6 +313,9 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
   <script src="js/mobile-menu.js"></script>
+  <script src="js/public-auth-nav.js?v=20260227a3"></script>
 </body>
 </html>

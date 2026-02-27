@@ -86,6 +86,8 @@ function cleanupInsightSummary(rawText, headlineText) {
     const norm = p.toLowerCase();
     if (headlineNorm && norm === headlineNorm) return false;
     if (/currently\s+sits\s+in\s+a\s+\w+\s+view/i.test(p)) return false;
+    if (/^evaluating\s+/i.test(p)) return false;
+    if (/headline is older and should be treated as background context/i.test(p)) return false;
     return true;
   });
 
