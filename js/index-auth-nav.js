@@ -1,33 +1,48 @@
 (function initHomeAuthNavigation() {
-  var client = window.supabaseClient;
+  const client = window.supabaseClient;
   if (!client || !client.auth) return;
 
-  var loginBtn = document.getElementById('loginBtn');
-  var registerBtn = document.getElementById('registerBtn');
-  var dashboardBtn = document.getElementById('dashboardBtn');
-  var logoutBtn = document.getElementById('logoutBtn');
+  const loginBtn = document.getElementById('loginBtn');
+  const registerBtn = document.getElementById('registerBtn');
+  const dashboardBtn = document.getElementById('dashboardBtn');
+  const accountBtn = document.getElementById('accountBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
 
-  client.auth.getSession().then(function (result) {
-    var session = result && result.data ? result.data.session : null;
-    if (!session) return;
+  const show = (el, visible, displayValue = 'inline-block') => {
+    if (!el) return;
+    el.style.display = visible ? displayValue : 'none';
+  };
 
-    if (loginBtn) loginBtn.style.display = 'none';
-    if (registerBtn) registerBtn.style.display = 'none';
-    if (dashboardBtn) dashboardBtn.style.display = 'inline-block';
-    if (logoutBtn) logoutBtn.style.display = 'inline-block';
-  }).catch(function (error) {
-    console.warn('Home auth nav session check failed:', error);
+  function renderAuthState(session) {
+    const isLoggedIn = Boolean(session && session.user);
+    show(loginBtn, !isLoggedIn);
+    show(registerBtn, !isLoggedIn);
+    show(dashboardBtn, isLoggedIn);
+    show(accountBtn, isLoggedIn);
+    show(logoutBtn, isLoggedIn);
+  }
+
+  client.auth.getSession()
+    .then(({ data }) => renderAuthState(data?.session || null))
+    .catch((error) => {
+      console.warn('Home auth nav session check failed:', error);
+      renderAuthState(null);
+    });
+
+  client.auth.onAuthStateChange((_event, session) => {
+    renderAuthState(session || null);
   });
 
   if (logoutBtn) {
-    logoutBtn.addEventListener('click', function () {
-      client.auth.signOut()
-        .then(function () {
-          window.location.reload();
-        })
-        .catch(function (error) {
-          console.error('Logout failed:', error);
-        });
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        await client.auth.signOut();
+      } catch (error) {
+        console.error('Logout failed:', error);
+      } finally {
+        renderAuthState(null);
+        window.location.reload();
+      }
     });
   }
 })();

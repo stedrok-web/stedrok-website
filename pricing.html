@@ -251,6 +251,7 @@
           <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
           <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
           <a href="dashboard.html" class="btn-primary" id="dashboardBtn" style="display:none;">Dashboard</a>
+          <a href="account.html" class="btn-secondary" id="accountBtn" style="display:none;">Account</a>
           <button class="btn-secondary" id="logoutBtn" style="display:none;">Log Out</button>
         </div>
       </nav>
@@ -555,10 +556,14 @@
           </p>
         </div>
         <nav class="footer-links">
+          <a href="demo.html">Demo</a>
+          <a href="learn.html">Learn</a>
           <a href="philosophy.html">Philosophy</a>
           <a href="methodology.html">Methodology</a>
           <a href="guide-long-term-value-portfolio.html">Guide</a>
           <a href="value-investing-glossary.html">Glossary</a>
+          <a href="research-trust-disclosures.html">Trust</a>
+          <a href="authors.html">Authors</a>
           <a href="site-map.html">HTML Sitemap</a>
           <a href="pricing.html">Pricing</a>
           <a href="terms.html">Terms</a>
@@ -578,17 +583,29 @@
     const client = window.supabaseClient;
 
     // Auth-aware navigation
-    client.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        document.getElementById('loginBtn').style.display = 'none';
-        document.getElementById('registerBtn').style.display = 'none';
-        document.getElementById('dashboardBtn').style.display = 'inline-block';
-        document.getElementById('logoutBtn').style.display = 'inline-block';
-      }
-    });
+    function renderAuthState(session) {
+      const loggedIn = Boolean(session);
+      const loginBtn = document.getElementById('loginBtn');
+      const registerBtn = document.getElementById('registerBtn');
+      const dashboardBtn = document.getElementById('dashboardBtn');
+      const accountBtn = document.getElementById('accountBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (loginBtn) loginBtn.style.display = loggedIn ? 'none' : 'inline-block';
+      if (registerBtn) registerBtn.style.display = loggedIn ? 'none' : 'inline-block';
+      if (dashboardBtn) dashboardBtn.style.display = loggedIn ? 'inline-block' : 'none';
+      if (accountBtn) accountBtn.style.display = loggedIn ? 'inline-block' : 'none';
+      if (logoutBtn) logoutBtn.style.display = loggedIn ? 'inline-block' : 'none';
+    }
+
+    client.auth.getSession()
+      .then(({ data: { session } }) => renderAuthState(session))
+      .catch(() => renderAuthState(null));
+
+    client.auth.onAuthStateChange((_event, session) => renderAuthState(session));
 
     document.getElementById('logoutBtn')?.addEventListener('click', async () => {
       await client.auth.signOut();
+      renderAuthState(null);
       window.location.reload();
     });
 
@@ -599,6 +616,7 @@
 
       if (!session) {
         document.getElementById('login-required').style.display = 'block';
+        document.getElementById('already-premium').style.display = 'none';
         return;
       }
 
@@ -613,6 +631,7 @@
 
       if (profile?.subscription_status === 'active' && profile?.paid_until) {
         const paidUntil = new Date(profile.paid_until).toLocaleDateString();
+        document.getElementById('login-required').style.display = 'none';
         document.getElementById('already-premium').style.display = 'block';
         document.getElementById('premium-until').textContent = 'Paid until: ' + paidUntil;
         return;

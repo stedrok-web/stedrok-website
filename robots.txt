@@ -10,6 +10,7 @@ Allow: /privacy.html
 Allow: /guide-long-term-value-portfolio.html
 Allow: /value-investing-glossary.html
 Allow: /site-map.html
+Allow: /dashboard-guide.html
 Allow: /authors.html
 Allow: /research-trust-disclosures.html
 Allow: /learn.html

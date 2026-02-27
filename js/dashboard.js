@@ -863,6 +863,15 @@ async function fetchTickerSummary(ticker) {
   }
 }
 
+function normalizeInsightChipValue(rawValue, fallbackValue) {
+  const value = String(rawValue || '').trim();
+  const lowered = value.toLowerCase();
+  if (!value || lowered === 'n/a' || lowered === 'na' || lowered === 'none' || lowered === 'null' || lowered === 'undefined' || lowered === '-') {
+    return fallbackValue;
+  }
+  return value;
+}
+
 function renderTickerInsight(summary, stock) {
   const titleEl = document.getElementById('tickerInsightTitle');
   const subheadEl = document.getElementById('tickerInsightSubhead');
@@ -893,23 +902,23 @@ function renderTickerInsight(summary, stock) {
   }
 
   if (themeEl) {
-    const value = String(summary?.news_theme_display || summary?.news_theme || '').trim();
-    themeEl.textContent = value ? `Theme: ${value}` : 'Theme: model-driven';
+    const value = normalizeInsightChipValue(summary?.news_theme_display || summary?.news_theme, 'model-driven');
+    themeEl.textContent = `Theme: ${value}`;
   }
 
   if (toneEl) {
-    const value = String(summary?.news_tone_display || summary?.news_tone || '').trim();
-    toneEl.textContent = value ? `Tone: ${value}` : 'Tone: neutral';
+    const value = normalizeInsightChipValue(summary?.news_tone_display || summary?.news_tone, 'neutral');
+    toneEl.textContent = `Tone: ${value}`;
   }
 
   if (freshnessEl) {
-    const value = String(summary?.news_freshness_display || summary?.news_freshness || '').trim();
-    freshnessEl.textContent = value ? `Freshness: ${value}` : 'Freshness: model-estimated';
+    const value = normalizeInsightChipValue(summary?.news_freshness_display || summary?.news_freshness, 'model-estimated');
+    freshnessEl.textContent = `Freshness: ${value}`;
   }
 
   if (relevanceEl) {
-    const value = String(summary?.news_relevance_display || summary?.news_relevance || '').trim();
-    relevanceEl.textContent = value ? `Relevance: ${value}` : 'Relevance: model-estimated';
+    const value = normalizeInsightChipValue(summary?.news_relevance_display || summary?.news_relevance, 'model-estimated');
+    relevanceEl.textContent = `Relevance: ${value}`;
   }
 
   if (headlineEl) {
