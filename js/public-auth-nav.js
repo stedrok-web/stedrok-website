@@ -1,47 +1,47 @@
 (function initPublicAuthNavigation() {
-  const loginBtn = document.getElementById('loginBtn');
-  const registerBtn = document.getElementById('registerBtn');
-  const dashboardBtn = document.getElementById('dashboardBtn');
-  const accountBtn = document.getElementById('accountBtn');
-  const logoutBtn = document.getElementById('logoutBtn');
+  const authButtons = document.getElementById('authButtons');
+  if (!authButtons) return;
 
   const navDashboardLink = document.querySelector('.nav-links a[href="dashboard.html"]');
   const navDashboardItem = navDashboardLink ? navDashboardLink.closest('li') : null;
 
-  const show = (el, visible, displayValue = 'inline-block') => {
-    if (!el) return;
-    el.style.display = visible ? displayValue : 'none';
-  };
+  const loggedOutMarkup = `
+    <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+    <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+  `;
 
-  function renderLoggedOut() {
-    show(loginBtn, true);
-    show(registerBtn, true);
-    show(dashboardBtn, false);
-    show(accountBtn, false);
-    show(logoutBtn, false);
-    if (navDashboardItem) {
-      navDashboardItem.style.display = 'none';
-    }
+  const loggedInMarkup = `
+    <a href="dashboard.html" class="btn-primary" id="dashboardBtn">Dashboard</a>
+    <a href="account.html" class="btn-secondary" id="accountBtn">Account</a>
+    <button class="btn-secondary" id="logoutBtn" type="button">Log Out</button>
+  `;
+
+  function setLoggedOutMarkup() {
+    authButtons.innerHTML = loggedOutMarkup;
+    if (navDashboardItem) navDashboardItem.style.display = 'none';
   }
 
-  function renderLoggedIn(session) {
-    const isLoggedIn = Boolean(session && session.user);
-    if (!isLoggedIn) {
-      renderLoggedOut();
-      return;
-    }
-
-    show(loginBtn, false);
-    show(registerBtn, false);
-    show(dashboardBtn, true);
-    show(accountBtn, true);
-    show(logoutBtn, true);
-    if (navDashboardItem) {
-      navDashboardItem.style.display = '';
-    }
+  function bindLogout(client) {
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (!logoutBtn || !client || !client.auth) return;
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        await client.auth.signOut();
+      } catch (_err) {
+      } finally {
+        setLoggedOutMarkup();
+        window.location.href = 'index.html';
+      }
+    });
   }
 
-  renderLoggedOut();
+  function setLoggedInMarkup(client) {
+    authButtons.innerHTML = loggedInMarkup;
+    if (navDashboardItem) navDashboardItem.style.display = '';
+    bindLogout(client);
+  }
+
+  setLoggedOutMarkup();
 
   const client = window.supabaseClient;
   if (!client || !client.auth) {
@@ -49,22 +49,21 @@
   }
 
   client.auth.getSession()
-    .then(({ data }) => renderLoggedIn(data?.session || null))
-    .catch(() => renderLoggedOut());
+    .then(({ data }) => {
+      const session = data?.session || null;
+      if (session && session.user) {
+        setLoggedInMarkup(client);
+      } else {
+        setLoggedOutMarkup();
+      }
+    })
+    .catch(() => setLoggedOutMarkup());
 
   client.auth.onAuthStateChange((_event, session) => {
-    renderLoggedIn(session || null);
+    if (session && session.user) {
+      setLoggedInMarkup(client);
+    } else {
+      setLoggedOutMarkup();
+    }
   });
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async () => {
-      try {
-        await client.auth.signOut();
-      } catch (_err) {
-      } finally {
-        renderLoggedOut();
-        window.location.href = 'index.html';
-      }
-    });
-  }
 })();

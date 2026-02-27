@@ -392,6 +392,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Show loading state
   showLoading(true);
 
+  const lastUpdatedEl = document.getElementById('lastUpdated');
+  if (lastUpdatedEl) {
+    lastUpdatedEl.textContent = 'Refreshing...';
+  }
+
+  const requestController = new AbortController();
+  const requestTimeoutId = setTimeout(() => requestController.abort(), 12000);
+
   try {
     // Call Worker API to get picks (automatically filtered by subscription status)
     const response = await fetch(`${API_URL}/api/picks`, {
@@ -399,8 +407,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       headers: {
         'Authorization': `Bearer ${userToken}`,
         'Content-Type': 'application/json'
-      }
+      },
+      signal: requestController.signal
     });
+
+    clearTimeout(requestTimeoutId);
 
     if (!response.ok) {
       throw new Error(`API returned ${response.status}`);
@@ -431,12 +442,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderTable(allStocks);
     
     // Update last updated timestamp
-    document.getElementById('lastUpdated').textContent = 
-      formatDate(meta.last_updated);
+    const updatedText = formatDate(meta.last_updated) || 'Update time unavailable';
+    document.getElementById('lastUpdated').textContent = updatedText;
 
   } catch (error) {
+    clearTimeout(requestTimeoutId);
     console.error('Failed to load picks:', error);
     setTickerInsightAvailability(false);
+    const lastUpdated = document.getElementById('lastUpdated');
+    if (lastUpdated) {
+      lastUpdated.textContent = 'Update temporarily unavailable';
+    }
     showError('Failed to load stock picks. Please refresh the page.');
   } finally {
     showLoading(false);

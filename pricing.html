@@ -241,7 +241,6 @@
           <span></span>
         </button>
         <ul class="nav-links" id="navLinks">
-          <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="philosophy.html">Philosophy</a></li>
           <li><a href="methodology.html">Methodology</a></li>
           <li><a href="pricing.html" class="active">Pricing</a></li>
@@ -250,9 +249,6 @@
         <div class="auth-buttons" id="authButtons">
           <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
           <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
-          <a href="dashboard.html" class="btn-primary" id="dashboardBtn" style="display:none;">Dashboard</a>
-          <a href="account.html" class="btn-secondary" id="accountBtn" style="display:none;">Account</a>
-          <button class="btn-secondary" id="logoutBtn" style="display:none;">Log Out</button>
         </div>
       </nav>
     </div>
@@ -443,17 +439,13 @@
         <div id="checkout-container">
           <h2 style="text-align:center; margin-bottom:24px;">Upgrade to Pro – $3/month</h2>
 
-          <div id="login-required" class="status-msg status-error" style="display:none;">
-            <p><strong>Please log in first</strong> before upgrading.</p>
-            <a href="login.html" class="btn-secondary" style="margin-top:10px; display:inline-block;">Go to Login</a>
+          <div id="checkout-state" class="status-msg" style="display:none;">
+            <p><strong id="checkout-state-title"></strong></p>
+            <p id="checkout-state-detail" style="margin-top:8px;"></p>
+            <a id="checkout-state-action" href="login.html" class="btn-secondary" style="margin-top:10px; display:none;">Go to Login</a>
           </div>
 
-          <div id="already-premium" class="status-msg status-success" style="display:none;">
-            <p><strong>✓ You are already a Pro member!</strong></p>
-            <p id="premium-until" style="margin-top:8px;"></p>
-          </div>
-
-          <div id="paypal-button-container"></div>
+<div id="paypal-button-container"></div>
 
           <div id="payment-status" class="status-msg">
             <p id="payment-status-text"></p>
@@ -578,7 +570,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/mobile-menu.js"></script>
-  <script src="js/public-auth-nav.js?v=20260227a3"></script>
+  <script src="js/public-auth-nav.js?v=20260227a4"></script>
 
   <script>
     const client = window.supabaseClient;
@@ -589,9 +581,30 @@
     document.addEventListener('DOMContentLoaded', async () => {
       const { data: { session } } = await client.auth.getSession();
 
+      const stateBox = document.getElementById('checkout-state');
+      const stateTitle = document.getElementById('checkout-state-title');
+      const stateDetail = document.getElementById('checkout-state-detail');
+      const stateAction = document.getElementById('checkout-state-action');
+
+      const showState = (kind, title, detail = '', showAction = false) => {
+        if (!stateBox || !stateTitle || !stateDetail || !stateAction) return;
+        stateBox.style.display = 'block';
+        stateBox.className = kind === 'success' ? 'status-msg status-success' : 'status-msg status-error';
+        stateTitle.textContent = title;
+        stateDetail.textContent = detail;
+        stateAction.style.display = showAction ? 'inline-block' : 'none';
+      };
+
+      const hideState = () => {
+        if (!stateBox || !stateTitle || !stateDetail || !stateAction) return;
+        stateBox.style.display = 'none';
+        stateTitle.textContent = '';
+        stateDetail.textContent = '';
+        stateAction.style.display = 'none';
+      };
+
       if (!session) {
-        document.getElementById('login-required').style.display = 'block';
-        document.getElementById('already-premium').style.display = 'none';
+        showState('error', 'Log in required before upgrading.', '', true);
         return;
       }
 
@@ -606,11 +619,11 @@
 
       if (profile?.subscription_status === 'active' && profile?.paid_until) {
         const paidUntil = new Date(profile.paid_until).toLocaleDateString();
-        document.getElementById('login-required').style.display = 'none';
-        document.getElementById('already-premium').style.display = 'block';
-        document.getElementById('premium-until').textContent = 'Paid until: ' + paidUntil;
+        showState('success', 'Pro access already active.', 'Paid until: ' + paidUntil, false);
         return;
       }
+
+      hideState();
 
       // Load PayPal SDK dynamically with correct client ID
       const script = document.createElement('script');
