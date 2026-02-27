@@ -1334,15 +1334,18 @@ body,
 @media (max-width: 920px) {
   .footer-main {
     flex-direction: column;
+    justify-content: flex-start;
     gap: 12px;
   }
 
   .footer-left {
+    flex: 0 1 auto;
     text-align: left;
     max-width: 100%;
   }
 
   .footer-links {
+    width: 100%;
     flex: 0 1 auto;
     justify-content: flex-start;
     align-items: flex-start;
