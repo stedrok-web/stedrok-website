@@ -2,6 +2,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
+  color-scheme: dark;
   --bg-dark: #0b1220;
   --bg-card: #111827;
   --text-primary: #e6e9ef;
@@ -14,6 +15,12 @@
   --border-color: rgba(148, 163, 184, 0.28);
   --card-radius: 14px;
   --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+html {
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -58,6 +65,60 @@ a:hover { text-decoration: underline; }
 a:focus, button:focus, input:focus, select:focus, textarea:focus {
   outline: 2px solid var(--accent-green);
   outline-offset: 2px;
+}
+
+/* Ensure native controls remain readable in mobile/browser dark modes */
+input,
+select,
+textarea,
+button {
+  color: var(--text-primary);
+  font: inherit;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+/* Prevent WebKit autofill from introducing unreadable light backgrounds */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px var(--bg-dark) inset;
+  -webkit-text-fill-color: var(--text-primary);
+  caret-color: var(--text-primary);
+  transition: background-color 9999s ease-out 0s;
+}
+
+/* High-contrast mode fallback (Windows/Edge forced colors) */
+@media (forced-colors: active) {
+  * {
+    forced-color-adjust: auto;
+  }
+
+  body {
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  a {
+    color: LinkText;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger,
+  .mobile-menu-toggle {
+    border: 1px solid ButtonText;
+  }
 }
 
 /* Header & Navigation */
