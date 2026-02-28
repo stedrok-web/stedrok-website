@@ -119,6 +119,12 @@ select:-webkit-autofill:focus {
   .mobile-menu-toggle {
     border: 1px solid ButtonText;
   }
+
+  .gradient-text {
+    background: none !important;
+    color: CanvasText !important;
+    -webkit-text-fill-color: CanvasText !important;
+  }
 }
 
 /* Header & Navigation */
@@ -364,10 +370,22 @@ header {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #e5e7eb, #93c5fd);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #dbeafe;
+  font-weight: inherit;
+  text-shadow: 0 1px 0 rgba(2, 6, 23, 0.35);
+}
+
+@media (min-width: 769px) {
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .gradient-text {
+      background: linear-gradient(135deg, #f8fafc, #bfdbfe);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+    }
+  }
 }
 
 .hero .lead {
