@@ -180,7 +180,7 @@
       opacity: 0.40;
     }
     .stock-table tbody tr.demo-row-blur td {
-      color: rgba(209, 213, 219, 0.50);
+      color: var(--table-blur-text, rgba(209, 213, 219, 0.50));
     }
     .stock-table tbody tr.demo-row-featured {
       outline: 2px solid rgba(34, 197, 94, 0.65);
@@ -239,7 +239,7 @@
       opacity: 0.36;
     }
     body.demo-screenshot-mode .stock-table tbody tr[data-symbol]:not([data-symbol="MSFT"]) td {
-      color: rgba(209, 213, 219, 0.45);
+      color: var(--table-blur-text-soft, rgba(209, 213, 219, 0.45));
     }
     body.demo-screenshot-mode .stock-table tbody tr[data-symbol="MSFT"] {
       outline: 2px solid rgba(34, 197, 94, 0.65);
@@ -276,7 +276,7 @@
     }
   </style>
 </head>
-<body>
+<body class="demo-page">
   <a href="#main" class="skip-link">Skip to content</a>
 
   <header>

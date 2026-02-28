@@ -1544,11 +1544,15 @@ function setupFilters() {
 function setupSorting() {
   // Add click handlers to all sortable column headers
   const headers = document.querySelectorAll('#stocksTable th[data-sort]');
+
   headers.forEach(header => {
     header.style.cursor = 'pointer';
+    header.dataset.sortState = 'none';
+    header.setAttribute('aria-sort', 'none');
+
     header.addEventListener('click', () => {
       const column = header.getAttribute('data-sort');
-      
+
       // Toggle direction if same column, otherwise default to descending
       if (currentSortColumn === column) {
         currentSortDirection = currentSortDirection === 'desc' ? 'asc' : 'desc';
@@ -1556,20 +1560,21 @@ function setupSorting() {
         currentSortColumn = column;
         currentSortDirection = 'desc';
       }
-      
+
       // Update visual indicators
       headers.forEach(h => {
         const col = h.getAttribute('data-sort');
-        const text = h.textContent.replace(' ↑', '').replace(' ↓', '').replace(' ↕', '');
         if (col === currentSortColumn) {
-          h.textContent = text + (currentSortDirection === 'desc' ? ' ↓' : ' ↑');
-          h.style.color = 'var(--accent-green)';
+          h.dataset.sortState = currentSortDirection;
+          h.setAttribute('aria-sort', currentSortDirection === 'desc' ? 'descending' : 'ascending');
+          h.style.color = 'var(--table-header-active, var(--accent-green))';
         } else {
-          h.textContent = text + ' ↕';
+          h.dataset.sortState = 'none';
+          h.setAttribute('aria-sort', 'none');
           h.style.color = '';
         }
       });
-      
+
       applyFilters();
     });
   });
