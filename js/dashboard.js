@@ -24,13 +24,25 @@ const API_URL = CONFIG.API_BASE_URL;
 
 const EXCHANGE_COORDINATES = {
   'USA (NYSE/NASDAQ)': { lat: 40.757, lng: -73.985 }, // Nasdaq MarketSite (NYC)
+  'Canada (TSX)': { lat: 43.653, lng: -79.383 }, // TSX alt label
   'Hong Kong': { lat: 22.285, lng: 114.158 }, // HKEX
+  'China': { lat: 31.230, lng: 121.474 }, // Shanghai exchange cluster
+  'Shanghai (China)': { lat: 31.230, lng: 121.474 }, // SSE
+  'Shenzhen (China)': { lat: 22.543, lng: 114.058 }, // SZSE
   'London (UK)': { lat: 51.514, lng: -0.088 }, // London Stock Exchange
   'Australia (ASX)': { lat: -33.866, lng: 151.209 }, // ASX Sydney
+  'New Zealand (NZX)': { lat: -36.849, lng: 174.763 }, // NZX Auckland
   'Paris (France)': { lat: 48.868, lng: 2.347 }, // Euronext Paris
   'Amsterdam (Netherlands)': { lat: 52.372, lng: 4.893 }, // Euronext Amsterdam
   'Frankfurt (Germany)': { lat: 50.114, lng: 8.678 }, // Frankfurt Stock Exchange
   'Madrid (Spain)': { lat: 40.415, lng: -3.694 }, // Bolsa de Madrid
+  'Mexico': { lat: 19.433, lng: -99.133 }, // Bolsa Mexicana de Valores
+  'Brazil (B3)': { lat: -23.548, lng: -46.638 }, // B3 Sao Paulo
+  'India': { lat: 19.076, lng: 72.878 }, // NSE/BSE Mumbai
+  'South Korea': { lat: 37.567, lng: 126.978 }, // KRX Seoul
+  'Taiwan': { lat: 25.033, lng: 121.565 }, // TWSE Taipei
+  'Tel Aviv (Israel)': { lat: 32.085, lng: 34.782 }, // TASE
+  'Johannesburg (South Africa)': { lat: -26.205, lng: 28.047 }, // JSE
   'Copenhagen (Denmark)': { lat: 55.676, lng: 12.568 }, // Nasdaq Copenhagen
   'Oslo (Norway)': { lat: 59.913, lng: 10.739 }, // Oslo Bors
   'Milan (Italy)': { lat: 45.464, lng: 9.191 }, // Borsa Italiana
@@ -38,6 +50,7 @@ const EXCHANGE_COORDINATES = {
   'Brussels (Belgium)': { lat: 50.850, lng: 4.352 }, // Euronext Brussels
   'Helsinki (Finland)': { lat: 60.170, lng: 24.941 }, // Nasdaq Helsinki
   'SIX (Switzerland)': { lat: 47.376, lng: 8.541 }, // SIX Swiss Exchange
+  'Zurich (Switzerland)': { lat: 47.376, lng: 8.541 }, // SIX alt label
   'Lisbon (Portugal)': { lat: 38.722, lng: -9.139 }, // Euronext Lisbon
   'Vienna (Austria)': { lat: 48.208, lng: 16.373 }, // Wiener Borse
   'Warsaw (Poland)': { lat: 52.229, lng: 21.012 }, // Warsaw Stock Exchange
@@ -52,24 +65,55 @@ const EXCHANGE_COORDINATES = {
 const COUNTRY_COORDINATES = {
   'United States': { lat: 39.828, lng: -98.579 },
   'China': { lat: 35.861, lng: 104.195 },
+  'Hong Kong': { lat: 22.319, lng: 114.169 },
   'United Kingdom': { lat: 55.378, lng: -3.436 },
   'Canada': { lat: 56.130, lng: -106.346 },
   'France': { lat: 46.227, lng: 2.213 },
   'Singapore': { lat: 1.352, lng: 103.820 },
   'Australia': { lat: -25.274, lng: 133.775 },
+  'New Zealand': { lat: -40.901, lng: 174.886 },
   'Germany': { lat: 51.165, lng: 10.451 },
   'Ireland': { lat: 53.412, lng: -8.243 },
   'Denmark': { lat: 56.263, lng: 9.502 },
+  'Sweden': { lat: 60.128, lng: 18.643 },
+  'Finland': { lat: 61.924, lng: 25.748 },
+  'Belgium': { lat: 50.503, lng: 4.469 },
+  'Poland': { lat: 51.919, lng: 19.145 },
   'Spain': { lat: 40.464, lng: -3.749 },
+  'Portugal': { lat: 39.399, lng: -8.224 },
+  'Greece': { lat: 39.074, lng: 21.824 },
   'Norway': { lat: 60.472, lng: 8.468 },
   'Netherlands': { lat: 52.132, lng: 5.291 },
   'Switzerland': { lat: 46.818, lng: 8.227 },
-  'Japan': { lat: 36.205, lng: 138.252 }
+  'Austria': { lat: 47.517, lng: 14.550 },
+  'Italy': { lat: 41.871, lng: 12.567 },
+  'Japan': { lat: 36.205, lng: 138.252 },
+  'India': { lat: 20.594, lng: 78.963 },
+  'South Korea': { lat: 35.908, lng: 127.767 },
+  'Taiwan': { lat: 23.697, lng: 120.961 },
+  'Israel': { lat: 31.047, lng: 34.852 },
+  'United Arab Emirates': { lat: 23.425, lng: 53.848 },
+  'Brazil': { lat: -14.236, lng: -51.925 },
+  'Mexico': { lat: 23.634, lng: -102.553 },
+  'South Africa': { lat: -30.559, lng: 22.938 },
+  'Luxembourg': { lat: 49.815, lng: 6.129 },
+  'Chile': { lat: -35.675, lng: -71.543 }
 };
 
 const EXCHANGE_COORDINATE_RULES = [
   { regex: /(nyse|nasdaq|usa)/i, key: 'USA (NYSE/NASDAQ)' },
+  { regex: /(toronto|tsx|canada)/i, key: 'Toronto (Canada)' },
   { regex: /hong\s*kong/i, key: 'Hong Kong' },
+  { regex: /(shanghai|sse|china)/i, key: 'Shanghai (China)' },
+  { regex: /(shenzhen|szse)/i, key: 'Shenzhen (China)' },
+  { regex: /(india|nse|bse)/i, key: 'India' },
+  { regex: /(brazil|b3|sao\s*paulo)/i, key: 'Brazil (B3)' },
+  { regex: /(mexico|bmv)/i, key: 'Mexico' },
+  { regex: /(south\s*korea|krx|kospi|kosdaq)/i, key: 'South Korea' },
+  { regex: /(taiwan|twse|tpex)/i, key: 'Taiwan' },
+  { regex: /(tel\s*aviv|tase)/i, key: 'Tel Aviv (Israel)' },
+  { regex: /(johannesburg|jse)/i, key: 'Johannesburg (South Africa)' },
+  { regex: /(new\s*zealand|nzx|auckland)/i, key: 'New Zealand (NZX)' },
   { regex: /(frankfurt|xetra)/i, key: 'Frankfurt (Germany)' },
   { regex: /(copenhagen|nasdaq\s*copenhagen)/i, key: 'Copenhagen (Denmark)' },
   { regex: /(stockholm|nasdaq\s*stockholm)/i, key: 'Stockholm (Sweden)' },
@@ -77,7 +121,8 @@ const EXCHANGE_COORDINATE_RULES = [
   { regex: /(paris|euronext\s*paris)/i, key: 'Paris (France)' },
   { regex: /(madrid|bolsa\s*de\s*madrid)/i, key: 'Madrid (Spain)' },
   { regex: /(oslo|bors)/i, key: 'Oslo (Norway)' },
-  { regex: /(london|lse)/i, key: 'London (UK)' }
+  { regex: /(london|lse)/i, key: 'London (UK)' },
+  { regex: /(zurich|switzerland|six)/i, key: 'SIX (Switzerland)' }
 ];
 
 // Derived from the 2026-02-21 scored CSV universe where exchange can be blank.
@@ -85,6 +130,8 @@ const EXCHANGE_FROM_SUFFIX = {
   AX: 'Australia (ASX)',
   L: 'London (UK)',
   HK: 'Hong Kong',
+  SS: 'Shanghai (China)',
+  SZ: 'Shenzhen (China)',
   OL: 'Oslo (Norway)',
   DE: 'Frankfurt (Germany)',
   PA: 'Paris (France)',
@@ -102,8 +149,19 @@ const EXCHANGE_FROM_SUFFIX = {
   WA: 'Warsaw (Poland)',
   AT: 'Athens (Greece)',
   TO: 'Toronto (Canada)',
+  V: 'Toronto (Canada)',
   T: 'Tokyo (Japan)',
-  PR: 'Prague (Czech Republic)'
+  PR: 'Prague (Czech Republic)',
+  NS: 'India',
+  BO: 'India',
+  KS: 'South Korea',
+  KQ: 'South Korea',
+  SI: 'Singapore',
+  SA: 'Brazil (B3)',
+  MX: 'Mexico',
+  TA: 'Tel Aviv (Israel)',
+  JO: 'Johannesburg (South Africa)',
+  NZ: 'New Zealand (NZX)'
 };
 
 const EXCHANGE_DEFAULT_BY_COUNTRY = {
@@ -127,25 +185,49 @@ const EXCHANGE_DEFAULT_BY_COUNTRY = {
   'Denmark': 'Copenhagen (Denmark)',
   'Belgium': 'Brussels (Belgium)',
   'Finland': 'Helsinki (Finland)',
-  'Brazil': 'USA (NYSE/NASDAQ)',
+  'Brazil': 'Brazil (B3)',
   'Luxembourg': 'Paris (France)',
   'Singapore': 'Singapore',
-  'New Zealand': 'Australia (ASX)',
+  'New Zealand': 'New Zealand (NZX)',
   'Greece': 'Athens (Greece)',
   'Japan': 'Tokyo (Japan)',
-  'Mexico': 'USA (NYSE/NASDAQ)',
+  'Mexico': 'Mexico',
   'Argentina': 'USA (NYSE/NASDAQ)',
   'Portugal': 'Lisbon (Portugal)',
-  'South Africa': 'London (UK)',
+  'South Africa': 'Johannesburg (South Africa)',
   'Austria': 'Vienna (Austria)',
-  'India': 'USA (NYSE/NASDAQ)',
-  'Taiwan': 'USA (NYSE/NASDAQ)',
+  'India': 'India',
+  'Taiwan': 'Taiwan',
   'Poland': 'Warsaw (Poland)',
-  'South Korea': 'USA (NYSE/NASDAQ)',
+  'South Korea': 'South Korea',
   'Chile': 'USA (NYSE/NASDAQ)',
   'Jersey': 'London (UK)',
   'Bermuda': 'USA (NYSE/NASDAQ)',
-  'Cayman Islands': 'USA (NYSE/NASDAQ)'
+  'Cayman Islands': 'USA (NYSE/NASDAQ)',
+  'Peru': 'Mexico',
+  'Colombia': 'Mexico',
+  'Uruguay': 'Brazil (B3)',
+  'Indonesia': 'Singapore',
+  'Czech Republic': 'Prague (Czech Republic)',
+  'Macau': 'Hong Kong',
+  'Cyprus': 'Athens (Greece)',
+  'British Virgin Islands': 'USA (NYSE/NASDAQ)',
+  'Turkey': 'London (UK)',
+  'Monaco': 'Paris (France)',
+  'Thailand': 'Singapore',
+  'Panama': 'USA (NYSE/NASDAQ)',
+  'Guernsey': 'London (UK)',
+  'Kazakhstan': 'London (UK)',
+  'Vietnam': 'Singapore',
+  'Costa Rica': 'USA (NYSE/NASDAQ)',
+  'Bahamas': 'USA (NYSE/NASDAQ)',
+  'Iceland': 'London (UK)',
+  'Bahrain': 'Abu Dhabi (UAE)',
+  'Malaysia': 'Singapore',
+  'Dominican Republic': 'USA (NYSE/NASDAQ)',
+  'Isle of Man': 'London (UK)',
+  'Philippines': 'Singapore',
+  'Mongolia': 'Hong Kong'
 };
 
 // Currency inference helpers for global display formatting.
@@ -199,10 +281,26 @@ const CURRENCY_BY_COUNTRY = {
   'US': 'USD',
   'UNITED KINGDOM': 'GBP',
   'AUSTRALIA': 'AUD',
+  'NEW ZEALAND': 'NZD',
+  'CANADA': 'CAD',
   'HONG KONG': 'HKD',
   'CHINA': 'CNY',
+  'TAIWAN': 'TWD',
   'JAPAN': 'JPY',
-  'CANADA': 'CAD',
+  'SOUTH KOREA': 'KRW',
+  'INDIA': 'INR',
+  'SINGAPORE': 'SGD',
+  'ISRAEL': 'ILS',
+  'UNITED ARAB EMIRATES': 'AED',
+  'SAUDI ARABIA': 'SAR',
+  'QATAR': 'QAR',
+  'BAHRAIN': 'BHD',
+  'TURKEY': 'TRY',
+  'THAILAND': 'THB',
+  'MALAYSIA': 'MYR',
+  'INDONESIA': 'IDR',
+  'PHILIPPINES': 'PHP',
+  'VIETNAM': 'VND',
   'GERMANY': 'EUR',
   'FRANCE': 'EUR',
   'ITALY': 'EUR',
@@ -214,63 +312,93 @@ const CURRENCY_BY_COUNTRY = {
   'AUSTRIA': 'EUR',
   'FINLAND': 'EUR',
   'GREECE': 'EUR',
+  'LUXEMBOURG': 'EUR',
+  'CYPRUS': 'EUR',
+  'MONACO': 'EUR',
   'SLOVAKIA': 'EUR',
   'SLOVENIA': 'EUR',
   'ESTONIA': 'EUR',
   'LATVIA': 'EUR',
   'LITHUANIA': 'EUR',
+  'SWITZERLAND': 'CHF',
   'DENMARK': 'DKK',
   'SWEDEN': 'SEK',
   'NORWAY': 'NOK',
-  'SWITZERLAND': 'CHF',
-  'SINGAPORE': 'SGD',
-  'SOUTH KOREA': 'KRW',
-  'INDIA': 'INR',
-  'ISRAEL': 'ILS',
+  'CZECH REPUBLIC': 'CZK',
+  'POLAND': 'PLN',
   'MEXICO': 'MXN',
   'BRAZIL': 'BRL',
+  'CHILE': 'CLP',
+  'COLOMBIA': 'COP',
+  'PERU': 'PEN',
+  'ARGENTINA': 'ARS',
+  'URUGUAY': 'UYU',
   'SOUTH AFRICA': 'ZAR',
-  'NEW ZEALAND': 'NZD',
-  'UNITED ARAB EMIRATES': 'AED',
-  'CZECH REPUBLIC': 'CZK',
-  'POLAND': 'PLN'
+  'KAZAKHSTAN': 'KZT',
+  'ICELAND': 'ISK',
+  'BERMUDA': 'BMD',
+  'CAYMAN ISLANDS': 'KYD',
+  'BRITISH VIRGIN ISLANDS': 'USD',
+  'JERSEY': 'GBP',
+  'GUERNSEY': 'GBP',
+  'BAHAMAS': 'BSD',
+  'PANAMA': 'USD',
+  'COSTA RICA': 'CRC',
+  'MACAU': 'MOP',
+  'DOMINICAN REPUBLIC': 'DOP',
+  'ISLE OF MAN': 'GBP',
+  'MONGOLIA': 'MNT'
 };
 
 const CURRENCY_SYMBOLS = {
   USD: '$',
-  GBP: '£',
-  EUR: '€',
-  JPY: 'JP¥',
-  CNY: 'CN¥',
+  GBP: 'GBP ',
+  EUR: 'EUR ',
+  JPY: 'JPY ',
+  CNY: 'CNY ',
   HKD: 'HK$',
-  KRW: '₩',
-  INR: '₹',
+  KRW: 'KRW ',
+  INR: 'INR ',
   CHF: 'CHF ',
   CAD: 'C$',
   AUD: 'A$',
-  SEK: 'kr',
-  NOK: 'kr',
-  DKK: 'kr',
+  SEK: 'SEK ',
+  NOK: 'NOK ',
+  DKK: 'DKK ',
   SGD: 'S$',
   TWD: 'NT$',
   BRL: 'R$',
-  ZAR: 'R',
+  ZAR: 'ZAR ',
   MXN: 'MX$',
-  ILS: '₪',
-  PLN: 'zł',
-  THB: '฿',
+  ILS: 'ILS ',
+  PLN: 'PLN ',
+  THB: 'THB ',
   MYR: 'RM',
   IDR: 'Rp',
-  PHP: '₱',
-  TRY: '₺',
-  RUB: '₽',
+  PHP: 'PHP ',
+  TRY: 'TRY ',
+  RUB: 'RUB ',
   SAR: 'SAR ',
   AED: 'AED ',
   NZD: 'NZ$',
   CLP: 'CL$',
   COP: 'COL$',
   PEN: 'S/',
-  CZK: 'Kč'
+  CZK: 'CZK ',
+  ARS: 'AR$',
+  UYU: 'UY$',
+  KZT: 'KZT ',
+  ISK: 'ISK ',
+  BMD: 'BD$',
+  KYD: 'CI$',
+  BSD: 'B$',
+  CRC: 'CRC ',
+  MOP: 'MOP ',
+  VND: 'VND ',
+  BHD: 'BHD ',
+  QAR: 'QAR ',
+  DOP: 'RD$',
+  MNT: 'MNT '
 };
 
 function normalizeCurrencyCode(value) {
@@ -288,12 +416,21 @@ function currencyFromExchangeLabel(exchange) {
   const ex = normalizeExchangeLabel(exchange).toUpperCase();
   if (!ex) return '';
   if (ex.includes('NYSE') || ex.includes('NASDAQ') || ex.includes('USA')) return 'USD';
+  if (ex.includes('TORONTO') || ex.includes('TSX') || ex.includes('CANADA')) return 'CAD';
   if (ex.includes('HONG KONG')) return 'HKD';
-  if (ex.includes('LONDON')) return 'GBP';
-  if (ex.includes('AUSTRALIA')) return 'AUD';
-  if (ex.includes('TOKYO')) return 'JPY';
-  if (ex.includes('SINGAPORE')) return 'SGD';
-  if (ex.includes('TORONTO')) return 'CAD';
+  if (ex.includes('SHANGHAI') || ex.includes('SHENZHEN') || ex === 'CHINA') return 'CNY';
+  if (ex.includes('LONDON') || ex.includes('LSE')) return 'GBP';
+  if (ex.includes('AUSTRALIA') || ex.includes('ASX')) return 'AUD';
+  if (ex.includes('NEW ZEALAND') || ex.includes('NZX')) return 'NZD';
+  if (ex.includes('TOKYO') || ex.includes('JPX')) return 'JPY';
+  if (ex.includes('SINGAPORE') || ex.includes('SGX')) return 'SGD';
+  if (ex.includes('INDIA') || ex.includes('NSE') || ex.includes('BSE')) return 'INR';
+  if (ex.includes('BRAZIL') || ex.includes('B3') || ex.includes('SAO PAULO')) return 'BRL';
+  if (ex.includes('MEXICO') || ex.includes('BMV')) return 'MXN';
+  if (ex.includes('SOUTH KOREA') || ex.includes('KOREA') || ex.includes('KRX') || ex.includes('KOSPI') || ex.includes('KOSDAQ')) return 'KRW';
+  if (ex.includes('TAIWAN') || ex.includes('TWSE') || ex.includes('TPEX')) return 'TWD';
+  if (ex.includes('TEL AVIV') || ex.includes('TASE')) return 'ILS';
+  if (ex.includes('JOHANNESBURG') || ex.includes('JSE')) return 'ZAR';
   if (
     ex.includes('FRANKFURT') ||
     ex.includes('PARIS') ||
@@ -304,12 +441,13 @@ function currencyFromExchangeLabel(exchange) {
     ex.includes('HELSINKI') ||
     ex.includes('LISBON') ||
     ex.includes('ATHENS') ||
-    ex.includes('VIENNA')
+    ex.includes('VIENNA') ||
+    ex.includes('EURONEXT')
   ) return 'EUR';
   if (ex.includes('COPENHAGEN')) return 'DKK';
   if (ex.includes('STOCKHOLM')) return 'SEK';
   if (ex.includes('OSLO')) return 'NOK';
-  if (ex.includes('SWITZERLAND') || ex.includes('SIX')) return 'CHF';
+  if (ex.includes('SWITZERLAND') || ex.includes('SIX') || ex.includes('ZURICH')) return 'CHF';
   if (ex.includes('WARSAW')) return 'PLN';
   if (ex.includes('PRAGUE')) return 'CZK';
   if (ex.includes('ABU DHABI') || ex.includes('DUBAI') || ex.includes('UAE')) return 'AED';
