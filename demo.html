@@ -274,42 +274,6 @@
         font-size: 28px;
       }
     }
-
-    @media (prefers-color-scheme: light) {
-      body.demo-page {
-        color-scheme: light;
-      }
-
-      .demo-hero {
-        background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(59, 130, 246, 0.14) 100%);
-      }
-
-      .demo-section--light {
-        background: #eef4ff;
-      }
-
-      .stock-table tbody tr.demo-row-featured {
-        outline-color: rgba(22, 163, 74, 0.55);
-        background: rgba(16, 185, 129, 0.1);
-      }
-
-      .stock-table tbody tr.demo-row-blur td {
-        color: var(--table-blur-text, rgba(71, 85, 105, 0.6));
-      }
-
-      body.demo-screenshot-mode .table-container {
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.14);
-      }
-
-      body.demo-screenshot-mode .stock-table tbody tr[data-symbol]:not([data-symbol="MSFT"]) td {
-        color: var(--table-blur-text-soft, rgba(100, 116, 139, 0.52));
-      }
-
-      body.demo-screenshot-mode .stock-table tbody tr[data-symbol="MSFT"] {
-        outline-color: rgba(22, 163, 74, 0.55);
-        background: rgba(16, 185, 129, 0.1);
-      }
-    }
   </style>
 </head>
 <body class="demo-page">
