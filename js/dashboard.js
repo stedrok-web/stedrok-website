@@ -882,7 +882,7 @@ function enforceTickerInsightModalLayout() {
   panel.style.justifyContent = 'center';
   panel.style.padding = isMobile ? '10px' : '18px';
   panel.style.margin = '0';
-  panel.style.background = 'radial-gradient(110% 120% at 50% 0%, rgba(34, 197, 94, 0.16) 0%, rgba(2, 6, 23, 0.88) 55%), rgba(2, 6, 23, 0.78)';
+  panel.style.background = 'var(--insight-overlay-bg)';
   panel.style.backdropFilter = 'blur(10px)';
   panel.style.webkitBackdropFilter = 'blur(10px)';
   panel.style.transition = 'opacity 0.2s ease';
@@ -1240,7 +1240,7 @@ function renderTable(stocks) {
   if (stocks.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="14" style="text-align:center; padding:40px; color:#999;">
+        <td colspan="14" style="text-align:center; padding:40px; color:var(--text-secondary);">
           No stocks available right now. Check back later!
         </td>
       </tr>
