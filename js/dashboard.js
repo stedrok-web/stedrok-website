@@ -230,6 +230,56 @@ const EXCHANGE_DEFAULT_BY_COUNTRY = {
   'Mongolia': 'Hong Kong'
 };
 
+// Normalize country labels from API payloads so exchange/currency/globe lookups
+// stay stable across case and naming variations.
+const COUNTRY_ALIASES = {
+  'UNITED STATES OF AMERICA': 'United States',
+  'U.S.A.': 'United States',
+  'US': 'United States',
+  'UK': 'United Kingdom',
+  'ENGLAND': 'United Kingdom',
+  'GREAT BRITAIN': 'United Kingdom',
+  'UAE': 'United Arab Emirates',
+  'KOREA, REPUBLIC OF': 'South Korea',
+  'REPUBLIC OF KOREA': 'South Korea',
+  'KOREA SOUTH': 'South Korea',
+  'VIET NAM': 'Vietnam',
+  'CZECHIA': 'Czech Republic',
+  "PEOPLES REPUBLIC OF CHINA": "China",
+  'MAINLAND CHINA': 'China',
+  'HONG KONG SAR': 'Hong Kong'
+};
+
+const COUNTRY_NAME_BY_UPPER = {
+  ...Object.fromEntries(Object.keys(COUNTRY_COORDINATES).map(name => [name.toUpperCase(), name])),
+  ...Object.fromEntries(Object.keys(EXCHANGE_DEFAULT_BY_COUNTRY).map(name => [name.toUpperCase(), name]))
+};
+
+const EXCHANGE_DEFAULT_BY_COUNTRY_UPPER = Object.fromEntries(
+  Object.entries(EXCHANGE_DEFAULT_BY_COUNTRY).map(([country, exchange]) => [country.toUpperCase(), exchange])
+);
+
+const COUNTRY_ALIAS_LOOKUP = Object.fromEntries(
+  Object.entries(COUNTRY_ALIASES).map(([alias, canonical]) => [alias.toUpperCase(), canonical])
+);
+
+function canonicalCountryName(country) {
+  const normalized = normalizeCountryName(country);
+  if (!normalized) return '';
+
+  const upper = normalized.toUpperCase();
+  const alias = COUNTRY_ALIAS_LOOKUP[upper];
+  if (alias) return alias;
+
+  return COUNTRY_NAME_BY_UPPER[upper] || normalized;
+}
+
+function canonicalCountryLookupKey(country) {
+  const canonical = canonicalCountryName(country);
+  return canonical ? canonical.toUpperCase() : '';
+}
+
+
 // Currency inference helpers for global display formatting.
 // Priority in resolveCurrencyCode():
 // explicit row currency -> exchange label -> ticker suffix -> country -> USD fallback.
@@ -469,8 +519,8 @@ function resolveCurrencyCode(stock) {
   const suffix = extractTickerSuffixFromStock(stock);
   if (suffix && CURRENCY_FROM_SUFFIX[suffix]) return CURRENCY_FROM_SUFFIX[suffix];
 
-  const country = normalizeCountryName(stock?.country).toUpperCase();
-  if (country && CURRENCY_BY_COUNTRY[country]) return CURRENCY_BY_COUNTRY[country];
+  const countryKey = canonicalCountryLookupKey(stock?.country);
+  if (countryKey && CURRENCY_BY_COUNTRY[countryKey]) return CURRENCY_BY_COUNTRY[countryKey];
 
   return 'USD';
 }
@@ -1342,9 +1392,9 @@ function deriveExchangeLabel(stock) {
     return EXCHANGE_FROM_SUFFIX[suffix];
   }
 
-  const country = normalizeCountryName(stock.country);
-  if (country && EXCHANGE_DEFAULT_BY_COUNTRY[country]) {
-    return EXCHANGE_DEFAULT_BY_COUNTRY[country];
+  const countryKey = canonicalCountryLookupKey(stock.country);
+  if (countryKey && EXCHANGE_DEFAULT_BY_COUNTRY_UPPER[countryKey]) {
+    return EXCHANGE_DEFAULT_BY_COUNTRY_UPPER[countryKey];
   }
 
   return '';
@@ -1423,8 +1473,9 @@ function getCoordinatesForExchange(exchange, country) {
     }
   }
 
-  if (country && COUNTRY_COORDINATES[country]) {
-    return COUNTRY_COORDINATES[country];
+  const canonicalCountry = canonicalCountryName(country);
+  if (canonicalCountry && COUNTRY_COORDINATES[canonicalCountry]) {
+    return COUNTRY_COORDINATES[canonicalCountry];
   }
   return null;
 }
@@ -1436,7 +1487,7 @@ function buildExchangePoints(stocks) {
     const exchange = normalizeExchangeLabel(deriveExchangeLabel(stock));
     if (!exchange) return;
 
-    const country = normalizeCountryName(stock.country);
+    const country = canonicalCountryName(stock.country);
     if (!grouped.has(exchange)) {
       grouped.set(exchange, {
         exchange,
