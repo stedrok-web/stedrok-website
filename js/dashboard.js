@@ -18,9 +18,23 @@ let tickerInsightUiBound = false;
 let activeInsightTicker = '';
 let currentAccessToken = '';
 let lastInsightTriggerEl = null;
+let currentLaneMode = 'core';
 
 // API URL from central config (js/config.js must be loaded before this file)
 const API_URL = CONFIG.API_BASE_URL;
+
+const DASHBOARD_LANE_LABELS = {
+  core: 'Core',
+  hybrid: 'Hybrid',
+  blended: 'Blended'
+};
+
+const DASHBOARD_LANE_DESCRIPTIONS = {
+  core: 'Core lane: deterministic production picks from the main scoring pipeline.',
+  hybrid: 'Hybrid lane: AI hybrid picks from the isolated Groq pipeline.',
+  blended: 'Blended lane: merged Core + Hybrid universe for side-by-side discovery.'
+};
+
 
 const EXCHANGE_COORDINATES = {
   'USA (NYSE/NASDAQ)': { lat: 40.757, lng: -73.985 }, // Nasdaq MarketSite (NYC)
@@ -530,6 +544,257 @@ function currencySymbolForStock(stock) {
   return CURRENCY_SYMBOLS[code] || `${code} `;
 }
 
+
+function normalizeDashboardLane(value) {
+  const mode = String(value || '').trim().toLowerCase();
+  if (mode === 'hybrid' || mode === 'blended') return mode;
+  return 'core';
+}
+
+function laneEndpoint(mode) {
+  return mode === 'hybrid' ? `${API_URL}/api/hybrid-picks` : `${API_URL}/api/picks`;
+}
+
+function toNumberOrNull(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : null;
+}
+
+function normalizePickRowShape(stock) {
+  const row = stock || {};
+  const ticker = String(row.ticker || row.symbol || '').trim().toUpperCase();
+  const decision = String(row.decision || '').trim().toUpperCase();
+
+  return {
+    ...row,
+    ticker,
+    company_name: row.company_name || row.companyName || '',
+    market_cap: toNumberOrNull(row.market_cap ?? row.marketCap),
+    current_price: toNumberOrNull(row.current_price ?? row.price),
+    fair_value: toNumberOrNull(row.fair_value ?? row.estimatedValue),
+    discount_pct: toNumberOrNull(row.discount_pct ?? row.discountPct),
+    value_score: toNumberOrNull(row.value_score ?? row.valueScore),
+    quality_score: toNumberOrNull(row.quality_score ?? row.qualityScore),
+    risk_score: toNumberOrNull(row.risk_score ?? row.riskScore),
+    dip_score: toNumberOrNull(row.dip_score ?? row.dipScore),
+    total_score: toNumberOrNull(row.total_score ?? row.totalScore),
+    confidence: toNumberOrNull(row.confidence),
+    decision: decision || (row.decision || '')
+  };
+}
+
+function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
+  const byTicker = new Map();
+
+  const addRow = (row, lane) => {
+    const normalized = normalizePickRowShape({ ...row, selection_lane: lane });
+    const ticker = normalized.ticker;
+    if (!ticker) return;
+
+    const existing = byTicker.get(ticker);
+    if (!existing) {
+      byTicker.set(ticker, normalized);
+      return;
+    }
+
+    const existingScore = Number(existing.total_score);
+    const nextScore = Number(normalized.total_score);
+    const chooseNext = Number.isFinite(nextScore) && (!Number.isFinite(existingScore) || nextScore > existingScore);
+
+    const merged = chooseNext ? { ...existing, ...normalized } : { ...normalized, ...existing };
+    merged.selection_lane = 'blended_shared';
+    byTicker.set(ticker, merged);
+  };
+
+  (Array.isArray(coreRows) ? coreRows : []).forEach(row => addRow(row, 'core'));
+  (Array.isArray(hybridRows) ? hybridRows : []).forEach(row => addRow(row, 'hybrid'));
+
+  let merged = Array.from(byTicker.values());
+  merged.sort((a, b) => {
+    const scoreA = Number(a.total_score);
+    const scoreB = Number(b.total_score);
+    if (Number.isFinite(scoreA) && Number.isFinite(scoreB) && scoreA !== scoreB) {
+      return scoreB - scoreA;
+    }
+    return String(a.ticker || '').localeCompare(String(b.ticker || ''));
+  });
+
+  if (isFreeUser) {
+    merged = merged.slice(0, 3);
+  }
+  return merged;
+}
+
+function setDashboardLaneToggle(mode) {
+  const normalized = normalizeDashboardLane(mode);
+  document.querySelectorAll('[data-dashboard-lane]').forEach(btn => {
+    const lane = normalizeDashboardLane(btn.getAttribute('data-dashboard-lane'));
+    const active = lane === normalized;
+    btn.classList.toggle('is-active', active);
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+
+    if (active) {
+      btn.style.borderColor = 'rgba(16,185,129,0.75)';
+      btn.style.background = 'rgba(16,185,129,0.18)';
+      btn.style.color = 'var(--text-primary)';
+    } else {
+      btn.style.borderColor = '';
+      btn.style.background = '';
+      btn.style.color = '';
+    }
+  });
+}
+
+function updateDashboardLaneDescription(mode) {
+  const el = document.getElementById('dashboardLaneDescription');
+  if (!el) return;
+  const normalized = normalizeDashboardLane(mode);
+  el.textContent = DASHBOARD_LANE_DESCRIPTIONS[normalized] || DASHBOARD_LANE_DESCRIPTIONS.core;
+}
+
+function bindDashboardLaneToggle(onSelect) {
+  const buttons = Array.from(document.querySelectorAll('[data-dashboard-lane]'));
+  buttons.forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const target = normalizeDashboardLane(btn.getAttribute('data-dashboard-lane'));
+      if (typeof onSelect === 'function') {
+        await onSelect(target);
+      }
+    });
+  });
+}
+
+function updateDashboardLaneQuery(mode) {
+  try {
+    const url = new URL(window.location.href);
+    const normalized = normalizeDashboardLane(mode);
+    if (normalized === 'core') {
+      url.searchParams.delete('lane');
+    } else {
+      url.searchParams.set('lane', normalized);
+    }
+    window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+  } catch (e) {
+    console.warn('Could not update lane query param:', e);
+  }
+}
+
+async function fetchLanePayload(userToken, mode, signal) {
+  const headers = {
+    'Authorization': `Bearer ${userToken}`,
+    'Content-Type': 'application/json'
+  };
+
+  const normalized = normalizeDashboardLane(mode);
+  if (normalized === 'blended') {
+    const corePromise = fetch(laneEndpoint('core'), { method: 'GET', headers, signal });
+    const hybridPromise = fetch(laneEndpoint('hybrid'), { method: 'GET', headers, signal });
+
+    const [coreResponse, hybridResponse] = await Promise.all([corePromise, hybridPromise]);
+
+    if (!coreResponse.ok) {
+      throw new Error(`Core API returned ${coreResponse.status}`);
+    }
+
+    const coreData = await coreResponse.json();
+    let hybridData = { picks: [], meta: {}, user: coreData.user };
+
+    if (hybridResponse.ok) {
+      hybridData = await hybridResponse.json();
+    } else {
+      console.warn(`Hybrid API returned ${hybridResponse.status}; continuing with core lane in blended mode.`);
+    }
+
+    const user = coreData.user || hybridData.user || {};
+    const isFreeUser = user?.subscription_status === 'free';
+    const mergedPicks = mergeBlendedPicks(coreData.picks || [], hybridData.picks || [], isFreeUser);
+    const coreUpdated = Date.parse(coreData?.meta?.last_updated || '') || 0;
+    const hybridUpdated = Date.parse(hybridData?.meta?.last_updated || '') || 0;
+    const lastUpdated = coreUpdated >= hybridUpdated ? coreData?.meta?.last_updated : hybridData?.meta?.last_updated;
+
+    return {
+      picks: mergedPicks,
+      user,
+      meta: {
+        lane: 'blended',
+        count: mergedPicks.length,
+        limit: isFreeUser ? 3 : 'unlimited',
+        last_updated: lastUpdated || coreData?.meta?.last_updated || hybridData?.meta?.last_updated || new Date().toISOString(),
+        blended: {
+          core_count: Array.isArray(coreData?.picks) ? coreData.picks.length : 0,
+          hybrid_count: Array.isArray(hybridData?.picks) ? hybridData.picks.length : 0
+        }
+      }
+    };
+  }
+
+  const response = await fetch(laneEndpoint(normalized), {
+    method: 'GET',
+    headers,
+    signal
+  });
+
+  if (!response.ok) {
+    throw new Error(`API returned ${response.status}`);
+  }
+
+  return response.json();
+}
+
+async function loadDashboardLane(userToken, laneMode) {
+  const normalized = normalizeDashboardLane(laneMode);
+  const lastUpdatedEl = document.getElementById('lastUpdated');
+
+  showLoading(true);
+  setDashboardLaneToggle(normalized);
+  updateDashboardLaneDescription(normalized);
+  updateDashboardLaneQuery(normalized);
+
+  if (lastUpdatedEl) {
+    lastUpdatedEl.textContent = 'Refreshing...';
+  }
+
+  const requestController = new AbortController();
+  const requestTimeoutId = setTimeout(() => requestController.abort(), 12000);
+
+  try {
+    const data = await fetchLanePayload(userToken, normalized, requestController.signal);
+    clearTimeout(requestTimeoutId);
+
+    allStocks = (data?.picks || []).map(normalizePickRowShape);
+    userProfile = data?.user || {};
+    const meta = data?.meta || {};
+
+    const isFreeUser = userProfile.subscription_status === 'free';
+    setTickerInsightAvailability(!isFreeUser);
+    updateDashboardHeading(meta?.count, isFreeUser, normalized);
+
+    if (isFreeUser) {
+      showFreeUserBanner(meta.count || allStocks.length);
+    } else {
+      showPaidUserStatus(userProfile.paid_until, meta.count || allStocks.length);
+    }
+
+    setupExchangeGlobe(allStocks);
+    renderTable(allStocks);
+
+    const updatedText = formatDate(meta.last_updated) || 'Update time unavailable';
+    if (lastUpdatedEl) {
+      lastUpdatedEl.textContent = updatedText;
+    }
+  } catch (error) {
+    clearTimeout(requestTimeoutId);
+    console.error(`Failed to load ${normalized} picks:`, error);
+    setTickerInsightAvailability(false);
+    if (lastUpdatedEl) {
+      lastUpdatedEl.textContent = 'Update temporarily unavailable';
+    }
+    showError(`Failed to load ${DASHBOARD_LANE_LABELS[normalized] || 'selected'} picks. Please refresh the page.`);
+  } finally {
+    showLoading(false);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   // Ensure heading never shows stale fixed-count wording from old cached HTML.
   updateDashboardHeading(null, false);
@@ -577,74 +842,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   const userToken = session.access_token;
   setupTickerInsightUI(userToken);
 
-  // Show loading state
-  showLoading(true);
+  const initialLane = normalizeDashboardLane(new URL(window.location.href).searchParams.get('lane'));
+  currentLaneMode = initialLane;
+  setDashboardLaneToggle(currentLaneMode);
+  updateDashboardLaneDescription(currentLaneMode);
 
-  const lastUpdatedEl = document.getElementById('lastUpdated');
-  if (lastUpdatedEl) {
-    lastUpdatedEl.textContent = 'Refreshing...';
-  }
-
-  const requestController = new AbortController();
-  const requestTimeoutId = setTimeout(() => requestController.abort(), 12000);
-
-  try {
-    // Call Worker API to get picks (automatically filtered by subscription status)
-    const response = await fetch(`${API_URL}/api/picks`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${userToken}`,
-        'Content-Type': 'application/json'
-      },
-      signal: requestController.signal
-    });
-
-    clearTimeout(requestTimeoutId);
-
-    if (!response.ok) {
-      throw new Error(`API returned ${response.status}`);
+  bindDashboardLaneToggle(async (nextLane) => {
+    const normalized = normalizeDashboardLane(nextLane);
+    if (normalized === currentLaneMode) {
+      return;
     }
+    currentLaneMode = normalized;
+    await loadDashboardLane(userToken, currentLaneMode);
+  });
 
-    const data = await response.json();
-    
-    // Extract data from response
-    allStocks = data.picks || [];
-    userProfile = data.user;
-    const meta = data.meta;
-
-    // Show appropriate UI based on subscription status
-    const isFreeUser = userProfile.subscription_status === 'free';
-    setTickerInsightAvailability(!isFreeUser);
-    updateDashboardHeading(meta?.count, isFreeUser);
-    
-    if (isFreeUser) {
-      showFreeUserBanner(meta.count);
-    } else {
-      showPaidUserStatus(userProfile.paid_until, meta.count);
-    }
-
-    // Build exchange globe filter from current picks.
-    setupExchangeGlobe(allStocks);
-
-    // Render table
-    renderTable(allStocks);
-    
-    // Update last updated timestamp
-    const updatedText = formatDate(meta.last_updated) || 'Update time unavailable';
-    document.getElementById('lastUpdated').textContent = updatedText;
-
-  } catch (error) {
-    clearTimeout(requestTimeoutId);
-    console.error('Failed to load picks:', error);
-    setTickerInsightAvailability(false);
-    const lastUpdated = document.getElementById('lastUpdated');
-    if (lastUpdated) {
-      lastUpdated.textContent = 'Update temporarily unavailable';
-    }
-    showError('Failed to load stock picks. Please refresh the page.');
-  } finally {
-    showLoading(false);
-  }
+  await loadDashboardLane(userToken, currentLaneMode);
 
   // Setup event listeners
   document.getElementById('logoutBtn').addEventListener('click', async () => {
@@ -685,10 +897,13 @@ function showLoading(isLoading) {
   }
 }
 
-function updateDashboardHeading(count, isFreeUser) {
+function updateDashboardHeading(count, isFreeUser, laneMode = currentLaneMode) {
   const heading = document.getElementById('dashboardTitle');
   if (!heading) return;
-  heading.textContent = 'System Selected Top Stocks';
+
+  const lane = normalizeDashboardLane(laneMode);
+  const laneLabel = DASHBOARD_LANE_LABELS[lane] || DASHBOARD_LANE_LABELS.core;
+  heading.textContent = `System Selected Top Stocks (${laneLabel} Lane)`;
 }
 
 // ============================================================
