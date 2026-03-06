@@ -25,14 +25,14 @@ const API_URL = CONFIG.API_BASE_URL;
 
 const DASHBOARD_LANE_LABELS = {
   core: 'Core',
-  hybrid: 'Hybrid',
+  hybrid: 'AI Hybrid',
   blended: 'Blended'
 };
 
 const DASHBOARD_LANE_DESCRIPTIONS = {
-  core: 'Core lane: deterministic production picks from the main scoring pipeline.',
-  hybrid: 'Hybrid lane: AI hybrid picks from the isolated Groq pipeline.',
-  blended: 'Blended lane: merged Core + Hybrid universe for side-by-side discovery.'
+  core: 'Core: deterministic production picks from the main scoring pipeline.',
+  hybrid: 'AI Hybrid: model-assisted picks from the isolated hybrid process.',
+  blended: 'Blended: top 100 highest-ranked picks across Core and AI Hybrid.'
 };
 
 
@@ -583,6 +583,22 @@ function normalizePickRowShape(stock) {
   };
 }
 
+function blendedRankScore(row) {
+  const source = row || {};
+  const totalScore = Number(source.total_score);
+  if (Number.isFinite(totalScore)) return totalScore;
+
+  const components = [
+    Number(source.value_score),
+    Number(source.quality_score),
+    Number(source.risk_score),
+    Number(source.dip_score)
+  ].filter(Number.isFinite);
+
+  if (components.length === 0) return -Infinity;
+  return components.reduce((acc, value) => acc + value, 0) / components.length;
+}
+
 function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
   const byTicker = new Map();
 
@@ -597,8 +613,8 @@ function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
       return;
     }
 
-    const existingScore = Number(existing.total_score);
-    const nextScore = Number(normalized.total_score);
+    const existingScore = blendedRankScore(existing);
+    const nextScore = blendedRankScore(normalized);
     const chooseNext = Number.isFinite(nextScore) && (!Number.isFinite(existingScore) || nextScore > existingScore);
 
     const merged = chooseNext ? { ...existing, ...normalized } : { ...normalized, ...existing };
@@ -611,8 +627,8 @@ function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
 
   let merged = Array.from(byTicker.values());
   merged.sort((a, b) => {
-    const scoreA = Number(a.total_score);
-    const scoreB = Number(b.total_score);
+    const scoreA = blendedRankScore(a);
+    const scoreB = blendedRankScore(b);
     if (Number.isFinite(scoreA) && Number.isFinite(scoreB) && scoreA !== scoreB) {
       return scoreB - scoreA;
     }
@@ -621,6 +637,8 @@ function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
 
   if (isFreeUser) {
     merged = merged.slice(0, 3);
+  } else {
+    merged = merged.slice(0, 100);
   }
   return merged;
 }
@@ -718,7 +736,7 @@ async function fetchLanePayload(userToken, mode, signal) {
       meta: {
         lane: 'blended',
         count: mergedPicks.length,
-        limit: isFreeUser ? 3 : 'unlimited',
+        limit: isFreeUser ? 3 : 100,
         last_updated: lastUpdated || coreData?.meta?.last_updated || hybridData?.meta?.last_updated || new Date().toISOString(),
         blended: {
           core_count: Array.isArray(coreData?.picks) ? coreData.picks.length : 0,
@@ -903,7 +921,7 @@ function updateDashboardHeading(count, isFreeUser, laneMode = currentLaneMode) {
 
   const lane = normalizeDashboardLane(laneMode);
   const laneLabel = DASHBOARD_LANE_LABELS[lane] || DASHBOARD_LANE_LABELS.core;
-  heading.textContent = `System Selected Top Stocks (${laneLabel} Lane)`;
+  heading.textContent = `System Selected Top Stocks (${laneLabel})`;
 }
 
 // ============================================================
