@@ -617,6 +617,18 @@ function toNumberOrNull(value) {
   return Number.isFinite(n) ? n : null;
 }
 
+function decisionPriorityScore(decision) {
+  const normalized = String(decision || '').trim().toUpperCase();
+  if (normalized === 'BUY') return 0;
+  if (normalized === 'WATCH') return 1;
+  if (normalized === 'AVOID') return 2;
+  return 3;
+}
+
+function isBuyDecision(decision) {
+  return decisionPriorityScore(decision) === 0;
+}
+
 function normalizePickRowShape(stock) {
   const row = stock || {};
   const ticker = String(row.ticker || row.symbol || '').trim().toUpperCase();
@@ -663,6 +675,7 @@ function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
     const normalized = normalizePickRowShape({ ...row, selection_lane: lane });
     const ticker = normalized.ticker;
     if (!ticker) return;
+    if (!isBuyDecision(normalized.decision)) return;
 
     const existing = byTicker.get(ticker);
     if (!existing) {
@@ -2167,6 +2180,11 @@ function applyFilters() {
 
   // Apply sorting
   filtered.sort((a, b) => {
+    const decisionDelta = decisionPriorityScore(a?.decision) - decisionPriorityScore(b?.decision);
+    if (decisionDelta !== 0) {
+      return decisionDelta;
+    }
+
     const aPriority = isPriorityMarketStock(a);
     const bPriority = isPriorityMarketStock(b);
     if (aPriority !== bPriority) {
