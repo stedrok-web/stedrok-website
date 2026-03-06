@@ -761,7 +761,7 @@ async function loadDashboardLane(userToken, laneMode) {
     const data = await fetchLanePayload(userToken, normalized, requestController.signal);
     clearTimeout(requestTimeoutId);
 
-    allStocks = (data?.picks || []).map(normalizePickRowShape);
+    allStocks = (data?.picks || []).map(row => normalizePickRowShape({ ...row, selection_lane: row?.selection_lane || normalized }));
     userProfile = data?.user || {};
     const meta = data?.meta || {};
 
@@ -1232,21 +1232,47 @@ function buildFallbackSummary(stock) {
   };
 }
 
-async function fetchTickerSummary(ticker) {
+function normalizeTickerSummaryMode(value) {
+  const mode = String(value || '').trim().toLowerCase();
+  if (mode === 'hybrid' || mode === 'blended') return mode;
+  return 'core';
+}
+
+function resolveTickerSummaryMode(stock) {
+  const selectedLane = normalizeTickerSummaryMode(stock?.selection_lane);
+  const activeLane = normalizeDashboardLane(currentLaneMode);
+
+  if (activeLane === 'hybrid') return 'hybrid';
+  if (activeLane === 'core') return 'core';
+
+  // Blended mode: ask for hybrid-first summaries when the row came from hybrid lane.
+  if (selectedLane === 'hybrid' || selectedLane === 'blended') return 'hybrid';
+  if (String(stock?.selection_lane || '').toLowerCase() === 'blended_shared') return 'blended';
+  return 'core';
+}
+
+function tickerSummaryCacheKey(ticker, mode) {
+  return `${normalizeTickerSummaryMode(mode)}::${normalizeTickerKey(ticker)}`;
+}
+
+async function fetchTickerSummary(ticker, stock = null) {
   const normalizedTicker = normalizeTickerKey(ticker);
   if (!normalizedTicker) return null;
 
-  if (tickerSummaryCache.has(normalizedTicker)) {
-    return tickerSummaryCache.get(normalizedTicker);
+  const summaryMode = resolveTickerSummaryMode(stock);
+  const cacheKey = tickerSummaryCacheKey(normalizedTicker, summaryMode);
+
+  if (tickerSummaryCache.has(cacheKey)) {
+    return tickerSummaryCache.get(cacheKey);
   }
 
-  if (tickerSummaryInFlight.has(normalizedTicker)) {
-    return tickerSummaryInFlight.get(normalizedTicker);
+  if (tickerSummaryInFlight.has(cacheKey)) {
+    return tickerSummaryInFlight.get(cacheKey);
   }
 
   const fetchPromise = (async () => {
     const response = await fetch(
-      `${API_URL}/api/ticker-summary?symbol=${encodeURIComponent(normalizedTicker)}`,
+      `${API_URL}/api/ticker-summary?symbol=${encodeURIComponent(normalizedTicker)}&mode=${encodeURIComponent(summaryMode)}`,
       {
         method: 'GET',
         headers: {
@@ -1268,24 +1294,27 @@ async function fetchTickerSummary(ticker) {
     if (payload?.summary) {
       return {
         ...payload.summary,
-        __preview: Boolean(payload.preview)
+        __preview: Boolean(payload.preview),
+        __source_lane: payload.source_lane || summaryMode,
+        __requested_mode: payload.requested_mode || summaryMode
       };
     }
     return null;
   })();
 
-  tickerSummaryInFlight.set(normalizedTicker, fetchPromise);
+  tickerSummaryInFlight.set(cacheKey, fetchPromise);
 
   try {
     const summary = await fetchPromise;
     if (summary) {
-      tickerSummaryCache.set(normalizedTicker, summary);
+      tickerSummaryCache.set(cacheKey, summary);
     }
     return summary;
   } finally {
-    tickerSummaryInFlight.delete(normalizedTicker);
+    tickerSummaryInFlight.delete(cacheKey);
   }
 }
+
 
 function normalizeInsightChipValue(rawValue, fallbackValue) {
   const value = String(rawValue || '').trim();
@@ -1423,7 +1452,7 @@ async function showTickerInsight(ticker, triggerEl = null) {
   );
 
   try {
-    const summary = await fetchTickerSummary(normalizedTicker);
+    const summary = await fetchTickerSummary(normalizedTicker, stock);
 
     if (activeInsightTicker !== normalizedTicker) {
       return;
