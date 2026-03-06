@@ -277,6 +277,63 @@ const COUNTRY_ALIAS_LOOKUP = Object.fromEntries(
   Object.entries(COUNTRY_ALIASES).map(([alias, canonical]) => [alias.toUpperCase(), canonical])
 );
 
+const PRIORITY_MARKET_COUNTRIES = new Set([
+  'UNITED STATES',
+  'UNITED KINGDOM',
+  'AUSTRALIA',
+  'CANADA',
+  'NEW ZEALAND',
+  'IRELAND',
+  'GERMANY',
+  'FRANCE',
+  'ITALY',
+  'SPAIN',
+  'NETHERLANDS',
+  'BELGIUM',
+  'PORTUGAL',
+  'AUSTRIA',
+  'FINLAND',
+  'SWEDEN',
+  'DENMARK',
+  'NORWAY',
+  'SWITZERLAND',
+  'LUXEMBOURG',
+  'GREECE',
+  'POLAND',
+  'CZECH REPUBLIC'
+]);
+
+const PRIORITY_MARKET_EXCHANGES = new Set([
+  'USA (NYSE/NASDAQ)',
+  'LONDON (UK)',
+  'AUSTRALIA (ASX)',
+  'TORONTO (CANADA)',
+  'NEW ZEALAND (NZX)',
+  'FRANKFURT (GERMANY)',
+  'PARIS (FRANCE)',
+  'AMSTERDAM (NETHERLANDS)',
+  'MADRID (SPAIN)',
+  'MILAN (ITALY)',
+  'STOCKHOLM (SWEDEN)',
+  'HELSINKI (FINLAND)',
+  'COPENHAGEN (DENMARK)',
+  'OSLO (NORWAY)',
+  'BRUSSELS (BELGIUM)',
+  'SIX (SWITZERLAND)',
+  'ZURICH (SWITZERLAND)',
+  'LISBON (PORTUGAL)',
+  'VIENNA (AUSTRIA)',
+  'WARSAW (POLAND)',
+  'ATHENS (GREECE)',
+  'PRAGUE (CZECH REPUBLIC)'
+]);
+
+const PRIORITY_MARKET_SUFFIXES = new Set([
+  'AX', 'L', 'TO', 'V', 'NZ',
+  'DE', 'PA', 'AS', 'MC', 'MI', 'ST',
+  'HE', 'CO', 'OL', 'BR', 'SW', 'LS', 'VI', 'WA', 'AT', 'PR'
+]);
+
 function canonicalCountryName(country) {
   const normalized = normalizeCountryName(country);
   if (!normalized) return '';
@@ -794,7 +851,7 @@ async function loadDashboardLane(userToken, laneMode) {
     }
 
     setupExchangeGlobe(allStocks);
-    renderTable(allStocks);
+    applyFilters();
 
     const updatedText = formatDate(meta.last_updated) || 'Update time unavailable';
     if (lastUpdatedEl) {
@@ -1705,6 +1762,34 @@ function isPaidUserProfile() {
   return Boolean(userProfile) && String(userProfile.subscription_status || '').toLowerCase() !== 'free';
 }
 
+function isPriorityMarketStock(stock) {
+  const country = canonicalCountryName(stock?.country).toUpperCase();
+  if (country && PRIORITY_MARKET_COUNTRIES.has(country)) {
+    return true;
+  }
+
+  const exchange = normalizeExchangeLabel(deriveExchangeLabel(stock)).toUpperCase();
+  if (exchange && PRIORITY_MARKET_EXCHANGES.has(exchange)) {
+    return true;
+  }
+
+  const suffix = extractTickerSuffix(stock?.ticker || stock?.symbol).toUpperCase();
+  if (suffix && PRIORITY_MARKET_SUFFIXES.has(suffix)) {
+    return true;
+  }
+
+  if (
+    exchange.includes('NYSE') ||
+    exchange.includes('NASDAQ') ||
+    exchange.includes('AMEX') ||
+    exchange.includes('USA')
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
 function isChinaAffinityStock(stock) {
   const country = normalizeCountryName(stock.country).toUpperCase();
   const exchange = normalizeExchangeLabel(deriveExchangeLabel(stock)).toUpperCase();
@@ -2082,6 +2167,12 @@ function applyFilters() {
 
   // Apply sorting
   filtered.sort((a, b) => {
+    const aPriority = isPriorityMarketStock(a);
+    const bPriority = isPriorityMarketStock(b);
+    if (aPriority !== bPriority) {
+      return aPriority ? -1 : 1;
+    }
+
     if (enforceChinaBottomForPaid) {
       const aChina = isChinaAffinityStock(a);
       const bChina = isChinaAffinityStock(b);
