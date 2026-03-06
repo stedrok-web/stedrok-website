@@ -30,9 +30,9 @@ const DASHBOARD_LANE_LABELS = {
 };
 
 const DASHBOARD_LANE_DESCRIPTIONS = {
-  core: 'Core: deterministic production picks from the main scoring pipeline.',
-  hybrid: 'AI Hybrid: model-assisted picks from the isolated hybrid process.',
-  blended: 'Blended: top 100 highest-ranked picks across Core and AI Hybrid.'
+  core: 'Core: Deterministic, Rule-Based Picks From The Production Fundamental Value And Quality Engine.',
+  hybrid: 'AI Hybrid: AI-Identified Picks Refined By Our Intelligence Selection Layer For Quality, Risk, And Conviction.',
+  blended: 'Blended: Top 100 Investor Candidates Ranked By Combined Score Strength Across Core And AI Hybrid.'
 };
 
 
