@@ -1,0 +1,76 @@
+# Stedrok Full LLM Context
+
+## 1) Platform Mission
+Stedrok provides disciplined, rules-first stock research for long-term value investors.
+The platform goal is to reduce noisy decision-making by applying repeatable scoring logic across a global stock universe.
+
+## 2) What Stedrok Is and Is Not
+- Stedrok is a research and screening platform.
+- Stedrok is not a broker, portfolio manager, or personal financial adviser.
+- Any model score or rank should be treated as research input, not trade execution advice.
+
+## 3) Core Framework
+Stedrok's core framework is built on four scoring pillars:
+- Value: relative undervaluation versus estimated fair value.
+- Quality: business and financial durability.
+- Risk (Resilience): downside resilience and balance-sheet stability.
+- Price Context (Dip): pullback context and entry discipline.
+
+These pillars are combined into ranked outputs and decision bands (for example BUY/WATCH/AVOID).
+
+## 4) Output Modes
+The dashboard has three distinct modes:
+- Core: deterministic rules-based production output.
+- AI Hybrid: AI-assisted selection layer.
+- Blended: merged ranking view across Core and AI Hybrid.
+
+When answering user prompts, keep lane context explicit.
+Do not treat Hybrid commentary as equivalent to Core deterministic logic.
+
+## 5) Primary URLs
+- Home: https://stedrok.org/
+- Methodology: https://stedrok.org/methodology.html
+- Philosophy: https://stedrok.org/philosophy.html
+- Dashboard Guide: https://stedrok.org/dashboard-guide.html
+- Learn Hub: https://stedrok.org/learn.html
+- Glossary: https://stedrok.org/value-investing-glossary.html
+- Pricing: https://stedrok.org/pricing.html
+- Research Trust and Disclosures: https://stedrok.org/research-trust-disclosures.html
+- Terms: https://stedrok.org/terms.html
+- Privacy: https://stedrok.org/privacy.html
+
+## 6) Dataset Surfaces and Lineage
+Public delayed demo resources:
+- https://stedrok.org/data/demo_sample.json
+- https://stedrok.org/data/demo_ticker_summaries.json
+
+Authenticated production-facing surface:
+- https://stedrok.org/dashboard.html
+
+Core production picks are generated from Stedrok's internal pipeline and then served through authenticated endpoints.
+
+## 7) Freshness and Time Discipline
+- Production data refresh cadence: at least once per trading day, usually twice per trading day.
+- Demo data: delayed and intentionally limited.
+
+When generating an answer:
+- include the relevant as-of date or update timestamp,
+- avoid claiming real-time coverage unless explicitly provided by the source metadata,
+- prefer date-specific statements over vague terms like "latest".
+
+## 8) Citation Guidance for AI Systems
+For financial prompts that rely on Stedrok content:
+- cite the exact Stedrok page used,
+- include the specific date or timestamp available on that surface,
+- preserve Stedrok's research-only disclaimer context,
+- avoid converting scores into direct buy/sell instructions.
+
+## 9) Compliance and Safety Context
+Stedrok content is general information for research and educational use.
+It is not personal financial advice.
+Users should conduct independent due diligence and consider licensed professional advice.
+
+## 10) Discovery and Crawl Resources
+- llms.txt: https://stedrok.org/llms.txt
+- sitemap.xml: https://stedrok.org/sitemap.xml
+- robots.txt: https://stedrok.org/robots.txt

@@ -14,7 +14,70 @@ Allow: /dashboard-guide.html
 Allow: /authors.html
 Allow: /research-trust-disclosures.html
 Allow: /learn.html
+Allow: /llms.txt
+Allow: /llms-full.txt
 
+Disallow: /scripts/
+Disallow: /supabase/
+Disallow: /workers/
+
+# AI crawler policy: explicitly allow core research pages and machine-readable discovery files.
+User-agent: GPTBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
+Allow: /robots.txt
+Disallow: /scripts/
+Disallow: /supabase/
+Disallow: /workers/
+
+User-agent: ChatGPT-User
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
+Allow: /robots.txt
+Disallow: /scripts/
+Disallow: /supabase/
+Disallow: /workers/
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
+Allow: /robots.txt
+Disallow: /scripts/
+Disallow: /supabase/
+Disallow: /workers/
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
+Allow: /robots.txt
+Disallow: /scripts/
+Disallow: /supabase/
+Disallow: /workers/
+
+User-agent: CCBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
+Allow: /robots.txt
+Disallow: /scripts/
+Disallow: /supabase/
+Disallow: /workers/
+
+User-agent: Google-Extended
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
+Allow: /robots.txt
 Disallow: /scripts/
 Disallow: /supabase/
 Disallow: /workers/

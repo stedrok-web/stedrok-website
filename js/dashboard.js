@@ -767,6 +767,77 @@ function updateDashboardLaneQuery(mode) {
   }
 }
 
+
+function toIsoTimestampOrEmpty(value) {
+  if (!value) return '';
+  const dt = new Date(value);
+  if (Number.isNaN(dt.getTime())) return '';
+  return dt.toISOString();
+}
+
+function formatNumericDataValue(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? String(n) : '';
+}
+
+function updateDashboardMachineReadableMetadata(meta, laneMode, count) {
+  const normalized = normalizeDashboardLane(laneMode);
+  const isoUpdated = toIsoTimestampOrEmpty(meta?.last_updated || '');
+
+  const lastUpdatedMeta = document.getElementById('dashboardDataLastUpdatedMeta');
+  if (lastUpdatedMeta) {
+    lastUpdatedMeta.setAttribute('content', isoUpdated);
+  }
+
+  const laneMeta = document.getElementById('dashboardLaneMeta');
+  if (laneMeta) {
+    laneMeta.setAttribute('content', normalized);
+  }
+
+  if (document.body) {
+    document.body.setAttribute('data-dashboard-lane', normalized);
+    if (isoUpdated) {
+      document.body.setAttribute('data-dashboard-last-updated-utc', isoUpdated);
+    } else {
+      document.body.removeAttribute('data-dashboard-last-updated-utc');
+    }
+  }
+
+  const datasetScript = document.getElementById('dashboardDatasetJsonLd');
+  if (!datasetScript) return;
+
+  try {
+    const payload = JSON.parse(datasetScript.textContent || '{}');
+    if (isoUpdated) {
+      payload.dateModified = isoUpdated;
+    } else {
+      delete payload.dateModified;
+    }
+
+    payload.additionalProperty = [
+      {
+        '@type': 'PropertyValue',
+        name: 'lane',
+        value: normalized
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'row_count',
+        value: Number.isFinite(Number(count)) ? Number(count) : 0
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'refresh_cadence',
+        value: 'At least once per trading day; usually twice per trading day.'
+      }
+    ];
+
+    datasetScript.textContent = JSON.stringify(payload, null, 2);
+  } catch (error) {
+    console.warn('Could not update dashboard dataset JSON-LD metadata:', error);
+  }
+}
+
 async function fetchLanePayload(userToken, mode, signal) {
   const headers = {
     'Authorization': `Bearer ${userToken}`,
@@ -856,6 +927,7 @@ async function loadDashboardLane(userToken, laneMode) {
     const isFreeUser = userProfile.subscription_status === 'free';
     setTickerInsightAvailability(!isFreeUser);
     updateDashboardHeading(meta?.count, isFreeUser, normalized);
+    updateDashboardMachineReadableMetadata(meta, normalized, meta?.count || allStocks.length);
 
     if (isFreeUser) {
       showFreeUserBanner(meta.count || allStocks.length);
@@ -877,6 +949,7 @@ async function loadDashboardLane(userToken, laneMode) {
     if (lastUpdatedEl) {
       lastUpdatedEl.textContent = 'Update temporarily unavailable';
     }
+    updateDashboardMachineReadableMetadata({ last_updated: '' }, normalized, 0);
     showError(`Failed to load ${DASHBOARD_LANE_LABELS[normalized] || 'selected'} picks. Please refresh the page.`);
   } finally {
     showLoading(false);
@@ -1566,7 +1639,7 @@ async function showTickerInsight(ticker, triggerEl = null) {
 function renderTable(stocks) {
   const tbody = document.getElementById('stocksTableBody');
   if (!tbody) return;
-  
+
   tbody.innerHTML = '';
 
   if (stocks.length === 0) {
@@ -1585,7 +1658,7 @@ function renderTable(stocks) {
 
   stocks.forEach(stock => {
     const tr = document.createElement('tr');
-    const decisionClass = stock.decision === 'BUY' ? 'badge-buy' : 
+    const decisionClass = stock.decision === 'BUY' ? 'badge-buy' :
                          stock.decision === 'WATCH' ? 'badge-watch' : 'badge-avoid';
     const tickerDisplay = getTickerDisplayParts(stock);
 
@@ -1602,7 +1675,7 @@ function renderTable(stocks) {
         <td>${stock.sector || '-'}</td>
         <td colspan="10" style="text-align:center; color:var(--text-secondary);">
           <a href="pricing.html" style="color:var(--accent-green); font-weight:bold;">
-            Upgrade to Pro for full metrics →
+            Upgrade to Pro for full metrics &rarr;
           </a>
         </td>
       `;
@@ -1610,6 +1683,18 @@ function renderTable(stocks) {
       // Paid user: Show all columns matching header order
       // 1. Symbol, 2. Company, 3. Country, 4. Sector, 5. Rating, 6. Mkt Cap, 7. Confidence,
       // 8. Value, 9. Quality, 10. Risk, 11. Dip, 12. Price, 13. Fair Value, 14. Discount
+      const marketCapRaw = formatNumericDataValue(stock.market_cap);
+      const confidenceRaw = formatNumericDataValue(stock.confidence);
+      const valueRaw = formatNumericDataValue(stock.value_score);
+      const qualityRaw = formatNumericDataValue(stock.quality_score);
+      const riskRaw = formatNumericDataValue(stock.risk_score);
+      const dipRaw = formatNumericDataValue(stock.dip_score);
+      const currentPriceRaw = formatNumericDataValue(stock.current_price);
+      const fairValueRaw = formatNumericDataValue(stock.fair_value);
+      const discountRaw = formatNumericDataValue(stock.discount_pct);
+      const discountValue = Number(stock.discount_pct);
+      const discountClassName = Number.isFinite(discountValue) && discountValue > 0 ? 'positive' : 'negative';
+
       tr.innerHTML = `
         <td>
           <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View insight for ${tickerDisplay.plain}">
@@ -1620,15 +1705,15 @@ function renderTable(stocks) {
         <td>${stock.country || '-'}</td>
         <td>${stock.sector || '-'}</td>
         <td><span class="badge ${decisionClass}">${stock.decision || '-'}</span></td>
-        <td>${formatMarketCap(stock.market_cap, stock)}</td>
-        <td>${stock.confidence != null ? stock.confidence.toFixed(1) + '%' : '-'}</td>
-        <td>${stock.value_score != null ? stock.value_score.toFixed(1) + '%' : '-'}</td>
-        <td>${stock.quality_score != null ? stock.quality_score.toFixed(1) + '%' : '-'}</td>
-        <td>${stock.risk_score != null ? stock.risk_score.toFixed(1) + '%' : '-'}</td>
-        <td>${stock.dip_score != null ? stock.dip_score.toFixed(1) + '%' : '-'}</td>
-        <td>${formatPrice(stock.current_price, stock)}</td>
-        <td>${formatPrice(stock.fair_value, stock)}</td>
-        <td class="${stock.discount_pct > 0 ? 'positive' : 'negative'}">
+        <td data-value="${marketCapRaw}">${formatMarketCap(stock.market_cap, stock)}</td>
+        <td data-value="${confidenceRaw}">${stock.confidence != null ? stock.confidence.toFixed(1) + '%' : '-'}</td>
+        <td data-value="${valueRaw}">${stock.value_score != null ? stock.value_score.toFixed(1) + '%' : '-'}</td>
+        <td data-value="${qualityRaw}">${stock.quality_score != null ? stock.quality_score.toFixed(1) + '%' : '-'}</td>
+        <td data-value="${riskRaw}">${stock.risk_score != null ? stock.risk_score.toFixed(1) + '%' : '-'}</td>
+        <td data-value="${dipRaw}">${stock.dip_score != null ? stock.dip_score.toFixed(1) + '%' : '-'}</td>
+        <td data-value="${currentPriceRaw}">${formatPrice(stock.current_price, stock)}</td>
+        <td data-value="${fairValueRaw}">${formatPrice(stock.fair_value, stock)}</td>
+        <td class="${discountClassName}" data-value="${discountRaw}">
           ${stock.discount_pct != null ? stock.discount_pct.toFixed(1) + '%' : '-'}
         </td>
       `;

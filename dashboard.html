@@ -10,6 +10,12 @@
   <link rel="alternate" hreflang="en" href="https://stedrok.org/dashboard.html">
   <link rel="alternate" hreflang="x-default" href="https://stedrok.org/dashboard.html">
 
+  <meta name="stedrok:data-source" content="Authenticated Stedrok API endpoints: /api/picks, /api/hybrid-picks, and /api/ticker-summary.">
+  <meta name="stedrok:data-refresh-cadence" content="At least once per trading day; usually twice per trading day.">
+  <meta name="stedrok:data-point-in-time" content="Scores reflect the latest completed batch and are for research workflows only.">
+  <meta name="stedrok:data-last-updated-utc" id="dashboardDataLastUpdatedMeta" content="">
+  <meta name="stedrok:data-lane" id="dashboardLaneMeta" content="core">
+
   <meta property="og:type" content="website">
   <meta property="og:title" content="Stedrok Dashboard | Ranked Value Stock Screener Output">
   <meta property="og:description" content="Browse Stedrok ranked stock output with value, quality, resilience, and price context scores, updated daily for disciplined long-term research.">
@@ -47,6 +53,50 @@
         "item": "https://stedrok.org/dashboard.html"
       }
     ]
+  }
+  </script>
+
+  <script type="application/ld+json" id="dashboardDatasetJsonLd">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "@id": "https://stedrok.org/dashboard.html#dataset",
+    "name": "Stedrok Dashboard Picks Dataset",
+    "description": "Authenticated ranked stock output generated from the Stedrok four-pillar value research process.",
+    "url": "https://stedrok.org/dashboard.html",
+    "creator": {
+      "@type": "Organization",
+      "name": "Stedrok Pty Ltd",
+      "url": "https://stedrok.org/"
+    },
+    "isBasedOn": "https://stedrok.org/methodology.html",
+    "license": "https://stedrok.org/terms.html",
+    "isAccessibleForFree": false,
+    "measurementTechnique": "Four-pillar framework: Value, Quality, Risk (resilience), and Price Context (Dip).",
+    "temporalCoverage": "P1D",
+    "variableMeasured": [
+      { "@type": "PropertyValue", "name": "value_score" },
+      { "@type": "PropertyValue", "name": "quality_score" },
+      { "@type": "PropertyValue", "name": "risk_score" },
+      { "@type": "PropertyValue", "name": "dip_score" },
+      { "@type": "PropertyValue", "name": "confidence" },
+      { "@type": "PropertyValue", "name": "discount_pct" }
+    ],
+    "distribution": [
+      {
+        "@type": "DataDownload",
+        "name": "Core Picks API",
+        "encodingFormat": "application/json",
+        "contentUrl": "https://stedrok-api.stedrok.workers.dev/api/picks"
+      },
+      {
+        "@type": "DataDownload",
+        "name": "AI Hybrid Picks API",
+        "encodingFormat": "application/json",
+        "contentUrl": "https://stedrok-api.stedrok.workers.dev/api/hybrid-picks"
+      }
+    ],
+    "usageInfo": "General information for research workflows only; not personal financial advice."
   }
   </script>
 </head>
@@ -255,7 +305,7 @@
   <script src="js/config.js?v=20260221m8"></script>
   <script src="js/metric-definitions.js?v=20260221m9"></script>
   <script src="js/metric-tooltips.js?v=20260221m9"></script>
-  <script src="js/dashboard.js?v=20260306m22"></script>
+  <script src="js/dashboard.js?v=20260307m23"></script>
   <script src="js/mobile-menu.js?v=20260227m3"></script>
 </body>
 </html>

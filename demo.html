@@ -13,6 +13,11 @@
   <link rel="alternate" hreflang="en" href="https://stedrok.org/demo.html">
   <link rel="alternate" hreflang="x-default" href="https://stedrok.org/demo.html">
 
+  <meta name="stedrok:demo-data-source" content="https://stedrok.org/data/demo_sample.json">
+  <meta name="stedrok:demo-refresh-cadence" content="Public delayed snapshot, minimum 24-hour delay policy.">
+  <meta name="stedrok:demo-as-of-date" id="demoDataAsOfMeta" content="">
+  <meta name="stedrok:demo-generated-at-utc" id="demoDataGeneratedMeta" content="">
+
   <meta property="og:type" content="website">
   <meta property="og:title" content="Stedrok Public Demo - Delayed Output Preview">
   <meta property="og:description" content="Review a delayed no-login demo of Stedrok table output and ticker insight UI. Member dashboard includes Core, AI Hybrid, and Blended views.">
@@ -83,6 +88,51 @@
         "item": "https://stedrok.org/demo.html"
       }
     ]
+  }
+  </script>
+
+
+  <script type="application/ld+json" id="demoDatasetJsonLd">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "@id": "https://stedrok.org/demo.html#dataset",
+    "name": "Stedrok Delayed Demo Dataset",
+    "description": "Public delayed sample rows that illustrate Stedrok table format and four-pillar scoring fields.",
+    "url": "https://stedrok.org/demo.html",
+    "isAccessibleForFree": true,
+    "creator": {
+      "@type": "Organization",
+      "name": "Stedrok Pty Ltd",
+      "url": "https://stedrok.org/"
+    },
+    "isBasedOn": "https://stedrok.org/methodology.html",
+    "license": "https://stedrok.org/terms.html",
+    "measurementTechnique": "Four-pillar framework: Value, Quality, Risk (resilience), and Price Context (Dip).",
+    "temporalCoverage": "P1D",
+    "variableMeasured": [
+      { "@type": "PropertyValue", "name": "valueScore" },
+      { "@type": "PropertyValue", "name": "qualityScore" },
+      { "@type": "PropertyValue", "name": "riskScore" },
+      { "@type": "PropertyValue", "name": "dipScore" },
+      { "@type": "PropertyValue", "name": "confidence" },
+      { "@type": "PropertyValue", "name": "discountPct" }
+    ],
+    "distribution": [
+      {
+        "@type": "DataDownload",
+        "name": "Demo sample rows",
+        "encodingFormat": "application/json",
+        "contentUrl": "https://stedrok.org/data/demo_sample.json"
+      },
+      {
+        "@type": "DataDownload",
+        "name": "Demo ticker summaries",
+        "encodingFormat": "application/json",
+        "contentUrl": "https://stedrok.org/data/demo_ticker_summaries.json"
+      }
+    ],
+    "usageInfo": "Public delayed sample for research workflow preview only; not personal financial advice."
   }
   </script>
 
@@ -466,6 +516,6 @@
   <script src="js/config.js"></script>
   <script src="js/mobile-menu.js?v=20260227m3"></script>
   <script src="js/public-auth-nav.js?v=20260227a4"></script>
-  <script src="js/demo.js?v=20260227c"></script>
+  <script src="js/demo.js?v=20260307d"></script>
 </body>
 </html>

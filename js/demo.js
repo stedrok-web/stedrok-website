@@ -64,6 +64,87 @@ function setText(id, text) {
   if (el) el.textContent = text;
 }
 
+
+function toIsoTimestampOrEmpty(value) {
+  if (!value) return '';
+  const dt = new Date(value);
+  if (Number.isNaN(dt.getTime())) return '';
+  return dt.toISOString();
+}
+
+function formatNumericDataValue(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? String(n) : '';
+}
+
+function updateDemoMachineReadableMetadata(meta, rows) {
+  const asOf = String(meta?.demo_as_of_date || '').trim();
+  const generatedIso = toIsoTimestampOrEmpty(meta?.generated_at_utc || '');
+  const rowCount = Array.isArray(rows) ? rows.length : 0;
+
+  const asOfMeta = document.getElementById('demoDataAsOfMeta');
+  if (asOfMeta) {
+    asOfMeta.setAttribute('content', asOf);
+  }
+
+  const generatedMeta = document.getElementById('demoDataGeneratedMeta');
+  if (generatedMeta) {
+    generatedMeta.setAttribute('content', generatedIso);
+  }
+
+  if (document.body) {
+    if (asOf) {
+      document.body.setAttribute('data-demo-as-of-date', asOf);
+    } else {
+      document.body.removeAttribute('data-demo-as-of-date');
+    }
+
+    if (generatedIso) {
+      document.body.setAttribute('data-demo-generated-at-utc', generatedIso);
+    } else {
+      document.body.removeAttribute('data-demo-generated-at-utc');
+    }
+  }
+
+  const datasetScript = document.getElementById('demoDatasetJsonLd');
+  if (!datasetScript) return;
+
+  try {
+    const payload = JSON.parse(datasetScript.textContent || '{}');
+    if (generatedIso) {
+      payload.dateModified = generatedIso;
+    } else {
+      delete payload.dateModified;
+    }
+
+    if (asOf) {
+      payload.temporalCoverage = `${asOf}/${asOf}`;
+    }
+
+    payload.additionalProperty = [
+      {
+        '@type': 'PropertyValue',
+        name: 'demo_as_of_date',
+        value: asOf || 'unknown'
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'row_count',
+        value: rowCount
+      },
+      {
+        '@type': 'PropertyValue',
+        name: 'delay_policy',
+        value: String(meta?.delay_policy || 'minimum 24 hours delayed')
+      }
+    ];
+
+    datasetScript.textContent = JSON.stringify(payload, null, 2);
+  } catch (error) {
+    console.warn('Could not update demo dataset JSON-LD metadata:', error);
+  }
+}
+
 function stripPrimaryNewsLine(text) {
   return String(text || '')
     .replace(/(^|\n)\s*Primary news line:\s*[^\n]*(\n|$)/gi, '$1')
@@ -202,14 +283,14 @@ function renderTable(rows) {
       <td>${row.country || '-'}</td>
       <td>${row.sector || '-'}</td>
       <td><span class="badge ${badgeClass}">${row.decision || 'WATCH'}</span></td>
-      <td>${formatPct(row.confidence)}</td>
-      <td>${formatPct(row.valueScore)}</td>
-      <td>${formatPct(row.qualityScore)}</td>
-      <td>${formatPct(row.riskScore)}</td>
-      <td>${formatPct(row.dipScore)}</td>
-      <td>${formatPrice(row.price, priceSymbol)}</td>
-      <td>${formatPrice(row.estimatedValue, priceSymbol)}</td>
-      <td class="${discount >= 0 ? 'positive' : 'negative'}">${formatPct(discount)}</td>
+      <td data-value="${formatNumericDataValue(row.confidence)}">${formatPct(row.confidence)}</td>
+      <td data-value="${formatNumericDataValue(row.valueScore)}">${formatPct(row.valueScore)}</td>
+      <td data-value="${formatNumericDataValue(row.qualityScore)}">${formatPct(row.qualityScore)}</td>
+      <td data-value="${formatNumericDataValue(row.riskScore)}">${formatPct(row.riskScore)}</td>
+      <td data-value="${formatNumericDataValue(row.dipScore)}">${formatPct(row.dipScore)}</td>
+      <td data-value="${formatNumericDataValue(row.price)}">${formatPrice(row.price, priceSymbol)}</td>
+      <td data-value="${formatNumericDataValue(row.estimatedValue)}">${formatPrice(row.estimatedValue, priceSymbol)}</td>
+      <td class="${discount >= 0 ? 'positive' : 'negative'}" data-value="${formatNumericDataValue(discount)}">${formatPct(discount)}</td>
     `;
 
     tbody.appendChild(tr);
@@ -401,6 +482,7 @@ async function loadDemo() {
   }
 
   setText('demoAsOfDate', meta.demo_as_of_date || 'N/A');
+  updateDemoMachineReadableMetadata(meta, demoRows);
 
   renderTable(demoRows);
 
