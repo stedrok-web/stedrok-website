@@ -102,11 +102,14 @@
     }
     .broker-list {
       margin: 16px 0 10px;
-      padding-left: 0;
-      list-style: none;
+      padding-left: 24px;
+      list-style: disc;
     }
-    .broker-list li::before {
-      content: "\2022 ";
+    .broker-list li {
+      margin: 8px 0;
+      color: var(--text-secondary);
+    }
+    .broker-list li::marker {
       color: var(--accent-green);
     }
     .pillars-inline {
@@ -208,22 +211,26 @@
 
         <h2>Micro Investing Alongside Real Brokers</h2>
         <p>
-          Stedrok does not touch client money and does not run trades.
-          You keep full control and place orders through your preferred broker.
-          Many investors use low cost apps that support small and frequent orders.
-          Well known examples include:
+          Stedrok does not hold client money and does not execute trades.
+          You keep full control and place orders through your chosen broker.
+          Common examples investors compare include:
         </p>
         <ul class="broker-list">
-          <li>Interactive Brokers</li>
-          <li>Stake</li>
-          <li>Trading 212</li>
-          <li>eToro</li>
-          <li>and similar regulated discount brokers in each region</li>
+          <li><strong>Interactive Brokers</strong> - broad market access and fractional trading on eligible instruments.</li>
+          <li><strong>Stake (AU/NZ)</strong> - popular in Australia and New Zealand for US and ASX access, with fractional US investing on supported securities.</li>
+          <li><strong>Trading 212</strong> - supports fractional investing and recurring investing in supported regions.</li>
+          <li><strong>Fidelity (US)</strong> - "Stocks by the Slice" for low-dollar fractional investing.</li>
+          <li><strong>Charles Schwab (US)</strong> - "Schwab Stock Slices" for selected US stocks.</li>
+          <li><strong>eToro</strong> - multi-asset platform with social features; country availability varies.</li>
         </ul>
         <p>
-          These platforms often support small trade sizes and in some cases fractional shares.
-          That makes it easier to spread a daily or weekly contribution across more than one company instead of placing a single large bet.
-          Stedrok stays on the research side and never receives any commission from these brokers.
+          These are examples, not recommendations.
+          Stedrok has no affiliation, sponsorship, or commission arrangement with any broker listed.
+          Fees, FX charges, spreads, and feature access differ by region and account type.
+        </p>
+        <p style="font-size:15px; color:var(--text-secondary);">
+          Quick broker checklist: local regulation, total cost (including FX/spread), fractional and recurring-order support,
+          tax documentation, and transfer-out process.
         </p>
 
         <h2>A Rules Based Framework, Not a Black Box</h2>
