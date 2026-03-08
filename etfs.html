@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ETF Research Guide and Daily Table for Long-Term Investors | Stedrok</title>
+  <title>ETF Research Coverage for Long-Term Investors | Stedrok</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Public ETF table and practical long-term guide from Stedrok. Learn ETF advantages, risks, and how to read scores with a rules-first research process.">
+  <meta name="description" content="Public ETF research coverage from Stedrok for long-term investors. Review ranked ETF candidates, portfolio context, risk notes, and disciplined usage guidance.">
   <meta name="author" content="Stedrok">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://stedrok.org/etfs.html">
@@ -15,19 +15,19 @@
   <meta name="stedrok:data-point-in-time" content="Rows reflect the latest completed ETF batch and are for research workflows only.">
 
   <meta property="og:type" content="article">
-  <meta property="og:title" content="ETF Research Guide and Daily Table for Long-Term Investors">
-  <meta property="og:description" content="Public ETF table with plain-language guidance on diversification, cost, risk, and disciplined long-term execution.">
+  <meta property="og:title" content="ETF Research Coverage for Long-Term Investors">
+  <meta property="og:description" content="Public ETF research coverage with disciplined guidance on diversification, cost, risk, and long-term portfolio use.">
   <meta property="og:url" content="https://stedrok.org/etfs.html">
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
   <meta property="og:image" content="https://stedrok.org/img/og-home.jpg">
-  <meta property="og:image:alt" content="Stedrok ETF research table and guide preview">
+  <meta property="og:image:alt" content="Stedrok ETF research coverage preview">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ETF Research Guide and Daily Table for Long-Term Investors">
-  <meta name="twitter:description" content="Public ETF table with plain-language guidance on diversification, cost, risk, and disciplined long-term execution.">
+  <meta name="twitter:title" content="ETF Research Coverage for Long-Term Investors">
+  <meta name="twitter:description" content="Public ETF research coverage with disciplined guidance on diversification, cost, risk, and long-term portfolio use.">
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
-  <meta name="twitter:image:alt" content="Stedrok ETF research table and guide preview">
+  <meta name="twitter:image:alt" content="Stedrok ETF research coverage preview">
 
   <link rel="stylesheet" href="css/main.css">
 
@@ -35,9 +35,9 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "ETF Research Guide and Daily Table for Long-Term Investors",
+    "name": "ETF Research Coverage for Long-Term Investors",
     "url": "https://stedrok.org/etfs.html",
-    "description": "Public ETF table and practical long-term guide from Stedrok.",
+    "description": "Public ETF research coverage and practical long-term guidance from Stedrok.",
     "isPartOf": {
       "@type": "WebSite",
       "name": "Stedrok",
@@ -50,8 +50,8 @@
   {
     "@context": "https://schema.org",
     "@type": "Dataset",
-    "name": "Stedrok ETF Daily Investor List",
-    "description": "Public ETF research list with BUY/WATCH recommendations and factor scores for long-term research workflows.",
+    "name": "Stedrok ETF Research Coverage",
+    "description": "Public ETF research list with BUY and WATCH states plus factor scores for long-term research workflows.",
     "url": "https://stedrok-api.stedrok.workers.dev/api/etf-picks",
     "creator": {
       "@type": "Organization",
@@ -114,7 +114,7 @@
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "ETF Research Guide",
+        "name": "ETF Research Coverage",
         "item": "https://stedrok.org/etfs.html"
       }
     ]
@@ -322,68 +322,68 @@
   <main class="page-main" id="main">
     <article class="section section--narrow">
       <div class="container">
-        <h1>ETF Ideas for Long-Term Investors (Daily Table)</h1>
+        <h1>ETF Research Coverage for Long-Term Investors</h1>
         <p class="lead">
-          ETFs can be a practical way to build diversified long-term exposure with disciplined process control.
-          This page is public and available to all users.
+          This page publishes Stedrok's public ETF research view for long-term investors.
+          It highlights a small set of ETFs that currently rank well under a rules-based process and is intended to support your own due diligence.
           It is general research information only, not personal financial advice.
         </p>
 
         <h2>Key Takeaways</h2>
         <ul class="list-clean">
-          <li>ETFs can reduce single-company risk by spreading exposure across many holdings.</li>
-          <li>Costs compound over time, so expense ratios, spreads, and currency conversion friction all matter.</li>
-          <li>Use this table to prioritize research workflow, not to outsource judgement.</li>
-          <li>Long-term discipline usually matters more than short-term trading activity.</li>
-          <li>Global investors should always check local tax and regulatory constraints.</li>
+          <li>ETFs can reduce single-company risk by spreading exposure across many holdings, but product structure still matters.</li>
+          <li>Total cost matters over time, including expense ratio, spread, and currency conversion friction where relevant.</li>
+          <li>Use this research list to narrow the field, not to replace judgment, filings review, or portfolio construction work.</li>
+          <li>Long-term results usually depend more on discipline, sizing, and diversification than on short-term trading activity.</li>
+          <li>Cross-border investors should confirm tax treatment, product access, and regulatory constraints in their own jurisdiction.</li>
         </ul>
 
         <div class="status-card" aria-live="polite">
-          <strong>Data Freshness</strong>
+          <strong>Research Snapshot</strong>
           <div class="status-grid">
             <div class="status-item">
-              <div class="status-label">As Of</div>
+              <div class="status-label">Snapshot Date</div>
               <div class="status-value" id="asOfValue">Loading...</div>
             </div>
             <div class="status-item">
-              <div class="status-label">Update Cadence</div>
+              <div class="status-label">Refresh Routine</div>
               <div class="status-value" id="cadenceValue">Trading-day schedule</div>
             </div>
             <div class="status-item">
-              <div class="status-label">Validation Status</div>
+              <div class="status-label">Source Check</div>
               <div class="status-value" id="validationValue">Loading...</div>
             </div>
           </div>
         </div>
 
-        <h2>How to Use This Table in 60 Seconds</h2>
+        <h2>How to Use This Research Page</h2>
         <ol class="list-clean">
-          <li>Start with your objective: growth, income tilt, defensive tilt, or diversification.</li>
-          <li>Check recommendation, conviction, and confidence before thinking about entry action.</li>
-          <li>Use staged entries to control behavior instead of taking all-in positions.</li>
-          <li>Review holdings overlap to avoid accidental concentration across similar ETFs.</li>
-          <li>Confirm local tax, currency, and product-structure implications before execution.</li>
+          <li>Start with the portfolio role you need to fill: core equity, income support, defensive ballast, or diversification.</li>
+          <li>Review research status, conviction, confidence, and timing together before forming a view on portfolio fit.</li>
+          <li>Treat the entry profile as pacing context rather than an instruction to trade immediately.</li>
+          <li>Check holdings overlap so that multiple ETFs do not create hidden concentration in the same exposures.</li>
+          <li>Confirm tax, currency, liquidity, and product-structure implications before acting through a broker.</li>
         </ol>
 
-        <h2>ETF Table</h2>
+        <h2>Current ETF Coverage</h2>
         <p>
-          The table below is sourced from Stedrok ETF pipeline output.
-          It is free to access and intended for long-term research workflows.
+          The list below is drawn from the Stedrok ETF pipeline.
+          It is published as a public research snapshot for investors who want a rules-based starting point for deeper work.
         </p>
 
-        <div class="filters etf-filters" role="group" aria-label="ETF table filters">
-          <input id="searchInput" type="search" placeholder="Search symbol, name, category, recommendation, or conviction">
-          <select id="recommendationFilter" aria-label="Filter by recommendation">
-            <option value="ALL">All Recommendations</option>
+        <div class="filters etf-filters" role="group" aria-label="ETF coverage filters">
+          <input id="searchInput" type="search" placeholder="Search symbol, fund name, category, research status, or conviction">
+          <select id="recommendationFilter" aria-label="Filter by research status">
+            <option value="ALL">All Research States</option>
             <option value="BUY">BUY</option>
             <option value="WATCH">WATCH</option>
           </select>
-          <select id="sortBy" aria-label="Sort table">
-            <option value="totalScoreDesc">Sort: Total Score (High to Low)</option>
-            <option value="confidenceDesc">Sort: Confidence (High to Low)</option>
-            <option value="timingDesc">Sort: Timing (High to Low)</option>
-            <option value="yieldDesc">Sort: Yield (High to Low)</option>
-            <option value="symbolAsc">Sort: Symbol (A to Z)</option>
+          <select id="sortBy" aria-label="Sort coverage">
+            <option value="totalScoreDesc">Rank by Total Score</option>
+            <option value="confidenceDesc">Rank by Confidence</option>
+            <option value="timingDesc">Rank by Timing</option>
+            <option value="yieldDesc">Rank by Yield</option>
+            <option value="symbolAsc">Sort by Symbol</option>
           </select>
         </div>
 
@@ -394,10 +394,10 @@
             <thead>
               <tr>
                 <th>Symbol</th>
-                <th>Name</th>
+                <th>Fund Name</th>
                 <th>Category</th>
-                <th>Recommendation</th>
-                <th>Entry Action</th>
+                <th>Research Status</th>
+                <th>Entry Profile</th>
                 <th>Conviction</th>
                 <th>Total Score</th>
                 <th>Confidence</th>
@@ -412,107 +412,107 @@
           </table>
         </div>
 
-        <h2>How to Read Key Columns</h2>
+        <h2>How to Read the Coverage</h2>
         <div class="glossary-grid">
           <article class="glossary-item">
-            <h3>Recommendation</h3>
-            <p>BUY and WATCH are research states to prioritize workflow, not direct trade instructions.</p>
+            <h3>Research Status</h3>
+            <p>BUY and WATCH are Stedrok research states that help prioritize review. They are not personal advice or suitability assessments.</p>
           </article>
           <article class="glossary-item">
-            <h3>Entry Action</h3>
-            <p>Execution guidance for pacing position entry. It supports discipline, not certainty.</p>
+            <h3>Entry Profile</h3>
+            <p>Entry profile gives pacing context for a long-term investor. It is a risk-management cue, not a command.</p>
           </article>
           <article class="glossary-item">
             <h3>Conviction and Confidence</h3>
-            <p>Model strength and evidence consistency context. Higher values are still probabilistic.</p>
+            <p>These fields describe model strength and evidence consistency. Higher values still reflect probability, not certainty.</p>
           </article>
           <article class="glossary-item">
             <h3>Total Score</h3>
-            <p>Composite ranking across alpha, defense, execution, timing, and income factors.</p>
+            <p>Total score is a composite ranking built from valuation, defense, execution, timing, and income inputs.</p>
           </article>
           <article class="glossary-item">
-            <h3>Timing, Trend, and Pullback</h3>
-            <p>Entry context from pullback, trend versus SMA200, and momentum proxies to reduce chasing.</p>
+            <h3>Timing and Price Context</h3>
+            <p>Trend versus SMA200, pullback, and related timing fields help frame price context so investors do not chase strength blindly.</p>
           </article>
           <article class="glossary-item">
-            <h3>Yield and Price Context</h3>
-            <p>Income and trend context are useful, but should not replace portfolio-level risk controls.</p>
+            <h3>Yield and Income Context</h3>
+            <p>Yield can support total return or income goals, but it should never replace balance, diversification, and portfolio-level risk controls.</p>
           </article>
         </div>
 
-        <h2>What Is an ETF</h2>
+        <h2>ETF Structure in Brief</h2>
         <p>
-          An ETF is a pooled investment vehicle that holds a basket of assets and trades on an exchange.
-          It can provide broad market or targeted exposure in a single position.
-          Not all exchange-traded products have the same structure, risk profile, or tax treatment.
+          An ETF is a pooled investment vehicle that trades on an exchange and usually holds a basket of securities or assets.
+          It can provide broad market exposure or a narrower targeted exposure in a single position.
+          Structure, tax treatment, liquidity, and underlying holdings can vary materially from one product to another.
         </p>
 
-        <h2>Why Long-Term Investors Consider ETFs</h2>
+        <h2>Why Long-Term Investors Use ETFs</h2>
         <ul class="list-clean">
-          <li>Diversification in one instrument.</li>
-          <li>Potentially lower long-run cost than many active alternatives.</li>
-          <li>Simple building blocks for global equity, fixed income, and real-asset exposures.</li>
-          <li>Practical fit for recurring investing and periodic rebalancing.</li>
-          <li>Transparent framework for portfolio construction when used with discipline.</li>
+          <li>Diversification can often be achieved through a single listed instrument.</li>
+          <li>Many broad products offer a lower ongoing cost than active alternatives.</li>
+          <li>ETFs can serve as practical building blocks for equity, fixed-income, and real-asset exposure.</li>
+          <li>They can fit recurring investing plans and periodic rebalancing without unnecessary complexity.</li>
+          <li>Used carefully, they support a disciplined and transparent portfolio structure.</li>
         </ul>
 
-        <h2>Risks and Disadvantages</h2>
+        <h2>Risks That Still Matter</h2>
         <ul class="list-clean">
-          <li>Market risk remains: ETFs can decline materially in broad drawdowns.</li>
-          <li>Concentration risk can still exist in sector, thematic, or cap-weighted products.</li>
-          <li>Trading frictions matter: spreads and premium or discount to NAV can affect outcomes.</li>
-          <li>Tracking difference can occur due to costs, structure, and implementation constraints.</li>
-          <li>Currency effects can materially change returns for international exposure.</li>
-          <li>Complex products can behave differently from investor expectations.</li>
+          <li>Market risk remains. An ETF can still decline materially during broad or sector-specific drawdowns.</li>
+          <li>Concentration risk can persist in thematic, sector, single-country, or cap-weighted products.</li>
+          <li>Trading frictions matter. Spread, slippage, and premium or discount behaviour can affect real-world outcomes.</li>
+          <li>Tracking difference can emerge through fees, structure, tax drag, and implementation constraints.</li>
+          <li>Currency movements can materially alter investor returns on international exposures.</li>
+          <li>Specialised or leveraged products can behave differently from what a quick label implies.</li>
         </ul>
 
-        <h2>Global ETF Selection Checklist</h2>
+        <h2>ETF Due Diligence Checklist</h2>
         <ol class="list-clean">
-          <li>Exposure fit: confirm index method, top holdings, and concentration profile.</li>
-          <li>Total cost: expense ratio plus spread, slippage, and currency conversion costs.</li>
-          <li>Liquidity quality: average trading activity and spread behavior across sessions.</li>
-          <li>Fund structure and domicile: check replication method and local tax implications.</li>
-          <li>Issuer and fund scale: review fund size and operational stability.</li>
-          <li>Portfolio overlap: avoid duplicate exposures across multiple ETFs.</li>
-          <li>Jurisdictional compliance: ensure suitability for your account and local rules.</li>
+          <li>Exposure fit: confirm the index method, top holdings, country mix, and concentration profile.</li>
+          <li>Total cost: review expense ratio, spread, slippage, and currency conversion costs where applicable.</li>
+          <li>Liquidity quality: check average trading activity and spread behaviour across normal sessions.</li>
+          <li>Fund structure and domicile: understand replication method, tax treatment, and legal wrapper.</li>
+          <li>Issuer and fund scale: review fund size, provider stability, and closure risk.</li>
+          <li>Portfolio overlap: avoid buying multiple products that quietly repeat the same exposures.</li>
+          <li>Jurisdictional fit: ensure the product is appropriate for your account, tax position, and local rules.</li>
         </ol>
 
-        <h2>Long-Term Execution Playbook</h2>
+        <h2>Practical Use in a Long-Term Portfolio</h2>
         <ul class="list-clean">
-          <li>Start with a simple core portfolio before adding tactical tilts.</li>
-          <li>Use recurring contributions to reduce timing pressure.</li>
-          <li>Rebalance on a schedule, not headlines.</li>
-          <li>Size positions based on portfolio role and risk budget.</li>
-          <li>Track process quality, not daily market noise.</li>
+          <li>Start with a simple core allocation before adding narrower tactical exposures.</li>
+          <li>Use staged or recurring contributions to reduce timing pressure.</li>
+          <li>Rebalance on a schedule rather than in response to headlines.</li>
+          <li>Size each ETF by its portfolio role, not by recent performance alone.</li>
+          <li>Judge the process over time rather than reacting to day-to-day price noise.</li>
         </ul>
 
         <h2>Quick FAQ</h2>
         <div class="faq-card">
           <h3>Are ETFs suitable for beginners globally?</h3>
-          <p>They can simplify diversification, but investors still need to review holdings, costs, and jurisdiction-specific rules.</p>
+          <p>They can simplify diversification, but investors still need to review holdings, cost, liquidity, and jurisdiction-specific rules.</p>
         </div>
         <div class="faq-card">
           <h3>What ETF costs matter most?</h3>
-          <p>Expense ratio is important, but spreads, conversion costs, and premium or discount behavior can also impact returns.</p>
+          <p>Expense ratio matters, but spread, conversion cost, and premium or discount behaviour can also affect real returns.</p>
         </div>
         <div class="faq-card">
           <h3>Does higher yield mean lower risk?</h3>
-          <p>No. Yield can change and higher yield can come with higher risk, concentration, or structural complexity.</p>
+          <p>No. Higher yield can reflect higher risk, concentration, weaker quality, or a more complex structure.</p>
         </div>
         <div class="faq-card">
           <h3>How many ETFs should a portfolio hold?</h3>
-          <p>Enough to diversify, but not so many that exposures overlap and decision clarity degrades.</p>
+          <p>Enough to diversify sensibly, but not so many that exposures overlap and portfolio oversight becomes weak.</p>
         </div>
         <div class="faq-card">
           <h3>Is this page personal financial advice?</h3>
-          <p>No. This page provides general research information only and does not consider personal objectives.</p>
+          <p>No. This page provides general research information only and does not consider personal objectives, risk tolerance, or suitability.</p>
         </div>
 
         <div class="callout">
           Stedrok is an independent research platform.
-          ETF scores and labels on this page are for research workflow support and education.
-          They do not guarantee outcomes and are not personal financial advice.
-          Always apply your own due diligence and consider local licensed professional guidance where required.
+          ETF scores and labels on this page are intended to support research workflow and portfolio review.
+          They do not guarantee outcomes and do not replace your own due diligence, broker checks, or licensed advice where required.
+          Always assess decisions against your own objectives, risk tolerance, and jurisdictional requirements.
         </div>
 
         <p style="margin-top:30px;">
@@ -610,8 +610,11 @@
       }
 
       function formatEntryAction(value) {
-        const raw = String(value || '').trim();
+        const raw = String(value || '').trim().toUpperCase();
         if (!raw) return '-';
+        if (raw === 'BUY_NOW') return 'Immediate Review';
+        if (raw === 'STARTER_BUY') return 'Gradual Entry';
+        if (raw === 'ACCUMULATE_ON_DIP') return 'Prefer on Weakness';
         return raw
           .replace(/_/g, ' ')
           .toLowerCase()
@@ -655,7 +658,7 @@
         });
 
         if (!filtered.length) {
-          showState('No ETFs match the current filter. Try a broader search.');
+          showState('No ETFs match the current filter settings. Broaden the search or adjust the research-state filter.');
           return;
         }
 
@@ -695,8 +698,8 @@
       async function loadTable() {
         const apiUrl = 'https://stedrok-api.stedrok.workers.dev/api/etf-picks';
         asOfValue.textContent = 'Loading...';
-        cadenceValue.textContent = 'Trading-day schedule via ETF pipeline.';
-        validationValue.textContent = 'Checking...';
+        cadenceValue.textContent = 'Trading-day refresh through the ETF research pipeline.';
+        validationValue.textContent = 'Verifying...';
 
         try {
           const apiRes = await fetch(apiUrl, { cache: 'no-store' });
@@ -711,8 +714,8 @@
 
           rows = apiPayload.rows;
           if (!rows.length) {
-            validationValue.textContent = 'API returned zero rows';
-            showState('ETF API is reachable but returned no rows. Please check next pipeline run.');
+            validationValue.textContent = 'Source returned zero rows';
+            showState('The ETF research feed is reachable but no rows are available in the latest snapshot. Please check the next pipeline run.');
             return;
           }
 
@@ -721,21 +724,21 @@
           } else if (apiPayload.as_of_date) {
             asOfValue.textContent = String(apiPayload.as_of_date);
           } else {
-            asOfValue.textContent = 'Available (timestamp not provided)';
+            asOfValue.textContent = 'Available (timestamp not published)';
           }
 
           const source = String(apiPayload.source_table || 'etfs');
           const count = Number(apiPayload.count);
           validationValue.textContent = Number.isFinite(count)
-            ? 'Live API OK - ' + count + ' rows (' + source + ')'
-            : 'Live API OK (' + source + ')';
+            ? 'Live source verified - ' + count + ' rows (' + source + ')'
+            : 'Live source verified (' + source + ')';
 
           applyFilters();
         } catch (err) {
           rows = [];
           asOfValue.textContent = 'Unavailable';
-          validationValue.textContent = 'API unavailable';
-          showState('ETF data API is temporarily unavailable. Please retry shortly.');
+          validationValue.textContent = 'Source unavailable';
+          showState('The ETF research feed is temporarily unavailable. Please retry shortly.');
         }
       }
 
