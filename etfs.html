@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ETF Research Guide and Daily Table for Long-Term Investors | Stedrok</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Public ETF table and practical long-term guide from Stedrok. Learn ETF advantages, risks, and how to read scores with a rules-first research process.">
+  <meta name="author" content="Stedrok">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://stedrok.org/etfs.html">
+  <link rel="alternate" hreflang="en" href="https://stedrok.org/etfs.html">
+  <link rel="alternate" hreflang="x-default" href="https://stedrok.org/etfs.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="ETF Research Guide and Daily Table for Long-Term Investors">
+  <meta property="og:description" content="Public ETF table with plain-language guidance on diversification, cost, risk, and disciplined long-term execution.">
+  <meta property="og:url" content="https://stedrok.org/etfs.html">
+  <meta property="og:site_name" content="Stedrok">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://stedrok.org/img/og-home.jpg">
+  <meta property="og:image:alt" content="Stedrok ETF research table and guide preview">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ETF Research Guide and Daily Table for Long-Term Investors">
+  <meta name="twitter:description" content="Public ETF table with plain-language guidance on diversification, cost, risk, and disciplined long-term execution.">
+  <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
+  <meta name="twitter:image:alt" content="Stedrok ETF research table and guide preview">
+
+  <link rel="stylesheet" href="css/main.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "ETF Research Guide and Daily Table for Long-Term Investors",
+    "url": "https://stedrok.org/etfs.html",
+    "description": "Public ETF table and practical long-term guide from Stedrok.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Stedrok",
+      "url": "https://stedrok.org"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Stedrok ETF Daily Investor List",
+    "description": "Public ETF research list with BUY/WATCH recommendations and factor scores for long-term research workflows.",
+    "url": "https://stedrok.org/data/etf.json",
+    "creator": {
+      "@type": "Organization",
+      "name": "Stedrok Pty Ltd",
+      "url": "https://stedrok.org"
+    },
+    "license": "https://stedrok.org/terms.html",
+    "distribution": {
+      "@type": "DataDownload",
+      "contentUrl": "https://stedrok.org/data/etf.json",
+      "encodingFormat": "application/json"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Are ETFs suitable for beginners globally?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ETFs can simplify diversification, but investors should still review fund holdings, costs, liquidity, and local tax rules in their jurisdiction."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What ETF costs matter most for long-term investors?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Expense ratio is a core cost, but spreads, currency conversion costs, and premium or discount to NAV can also affect long-term outcomes."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Stedrok ETF output personal financial advice?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Stedrok ETF output is general research information and does not consider personal objectives, risk tolerance, or jurisdiction-specific constraints."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://stedrok.org/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "ETF Research Guide",
+        "item": "https://stedrok.org/etfs.html"
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    .page-main { padding: 60px 0; }
+    .section--narrow { max-width: 980px; margin: 0 auto; }
+    .section--narrow h1 { font-size: 42px; margin-bottom: 20px; line-height: 1.2; }
+    .section--narrow h2 { font-size: 28px; margin-top: 38px; margin-bottom: 14px; color: var(--text-primary); }
+    .section--narrow h3 { font-size: 20px; margin-top: 18px; margin-bottom: 8px; color: var(--text-primary); }
+    .section--narrow p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px; font-size: 17px; }
+    .lead { font-size: 20px; color: var(--text-secondary); margin-bottom: 30px; line-height: 1.7; }
+    .list-clean { margin-left: 20px; color: var(--text-secondary); line-height: 1.8; }
+    .list-clean li { margin-bottom: 8px; }
+
+    .status-card {
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin: 14px 0 8px;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .status-item {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .status-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .status-value {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    .controls-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0 14px;
+    }
+
+    .controls-row input,
+    .controls-row select {
+      width: 100%;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+
+    .table-wrap {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      overflow-x: auto;
+      background: var(--bg-card);
+      margin: 10px 0 16px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1080px;
+    }
+
+    thead th {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-primary);
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      background: rgba(255, 255, 255, 0.02);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    tbody td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 14px;
+      vertical-align: top;
+    }
+
+    tbody tr:hover {
+      background: rgba(0, 255, 153, 0.04);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border: 1px solid transparent;
+    }
+
+    .tag-buy { color: #00d084; border-color: rgba(0, 208, 132, 0.35); background: rgba(0, 208, 132, 0.10); }
+    .tag-watch { color: #ffc85a; border-color: rgba(255, 200, 90, 0.35); background: rgba(255, 200, 90, 0.10); }
+    .tag-high { color: #00d084; border-color: rgba(0, 208, 132, 0.35); background: rgba(0, 208, 132, 0.10); }
+    .tag-medium { color: #72b7ff; border-color: rgba(114, 183, 255, 0.35); background: rgba(114, 183, 255, 0.10); }
+    .tag-low { color: #ffc85a; border-color: rgba(255, 200, 90, 0.35); background: rgba(255, 200, 90, 0.10); }
+
+    .empty-state {
+      border: 1px dashed var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .glossary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .glossary-item {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px;
+      background: var(--bg-card);
+    }
+
+    .glossary-item h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+    }
+
+    .glossary-item p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .faq-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 10px;
+    }
+
+    .faq-card h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .faq-card p {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .callout {
+      margin-top: 24px;
+      border: 1px solid rgba(0, 255, 153, 0.24);
+      background: rgba(0, 255, 153, 0.07);
+      border-radius: 10px;
+      padding: 14px 16px;
+      color: var(--text-primary);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .status-grid { grid-template-columns: 1fr; }
+      .controls-row { grid-template-columns: 1fr; }
+      .glossary-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .section--narrow h1 { font-size: 34px; }
+      .section--narrow h2 { font-size: 24px; }
+      .section--narrow p { font-size: 16px; }
+      .lead { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo" aria-label="Stedrok home">STEDROK</a>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="philosophy.html">Philosophy</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+          <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-main" id="main">
+    <article class="section section--narrow">
+      <div class="container">
+        <h1>ETF Ideas for Long-Term Investors (Daily Table)</h1>
+        <p class="lead">
+          ETFs can be a practical way to build diversified long-term exposure with disciplined process control.
+          This page is public and available to all users.
+          It is general research information only, not personal financial advice.
+        </p>
+
+        <h2>Key Takeaways</h2>
+        <ul class="list-clean">
+          <li>ETFs can reduce single-company risk by spreading exposure across many holdings.</li>
+          <li>Costs compound over time, so expense ratios, spreads, and currency conversion friction all matter.</li>
+          <li>Use this table to prioritize research workflow, not to outsource judgement.</li>
+          <li>Long-term discipline usually matters more than short-term trading activity.</li>
+          <li>Global investors should always check local tax and regulatory constraints.</li>
+        </ul>
+
+        <div class="status-card" aria-live="polite">
+          <strong>Data Freshness</strong>
+          <div class="status-grid">
+            <div class="status-item">
+              <div class="status-label">As Of</div>
+              <div class="status-value" id="asOfValue">Loading...</div>
+            </div>
+            <div class="status-item">
+              <div class="status-label">Update Cadence</div>
+              <div class="status-value" id="cadenceValue">Trading-day schedule</div>
+            </div>
+            <div class="status-item">
+              <div class="status-label">Validation Status</div>
+              <div class="status-value" id="validationValue">Loading...</div>
+            </div>
+          </div>
+        </div>
+
+        <h2>How to Use This Table in 60 Seconds</h2>
+        <ol class="list-clean">
+          <li>Start with your objective: growth, income tilt, defensive tilt, or diversification.</li>
+          <li>Check recommendation, conviction, and confidence before thinking about entry action.</li>
+          <li>Use staged entries to control behavior instead of taking all-in positions.</li>
+          <li>Review holdings overlap to avoid accidental concentration across similar ETFs.</li>
+          <li>Confirm local tax, currency, and product-structure implications before execution.</li>
+        </ol>
+
+        <h2>ETF Table</h2>
+        <p>
+          The table below is sourced from Stedrok ETF pipeline output.
+          It is free to access and intended for long-term research workflows.
+        </p>
+
+        <div class="controls-row" role="group" aria-label="ETF table filters">
+          <input id="searchInput" type="search" placeholder="Search symbol, name, category, or asset class">
+          <select id="recommendationFilter" aria-label="Filter by recommendation">
+            <option value="ALL">All Recommendations</option>
+            <option value="BUY">BUY</option>
+            <option value="WATCH">WATCH</option>
+          </select>
+          <select id="sortBy" aria-label="Sort table">
+            <option value="totalScoreDesc">Sort: Total Score (High to Low)</option>
+            <option value="confidenceDesc">Sort: Confidence (High to Low)</option>
+            <option value="timingDesc">Sort: Timing (High to Low)</option>
+            <option value="yieldDesc">Sort: Yield (High to Low)</option>
+            <option value="symbolAsc">Sort: Symbol (A to Z)</option>
+          </select>
+        </div>
+
+        <div id="tableState" class="empty-state" style="display:none;"></div>
+
+        <div class="table-wrap" id="tableWrap" style="display:none;">
+          <table>
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Asset Class</th>
+                <th>Category</th>
+                <th>Recommendation</th>
+                <th>Entry Action</th>
+                <th>Conviction</th>
+                <th>Total Score</th>
+                <th>Confidence</th>
+                <th>Timing</th>
+                <th>Yield %</th>
+                <th>Pullback %</th>
+                <th>Price (USD)</th>
+              </tr>
+            </thead>
+            <tbody id="etfTbody"></tbody>
+          </table>
+        </div>
+
+        <h2>How to Read Key Columns</h2>
+        <div class="glossary-grid">
+          <article class="glossary-item">
+            <h3>Recommendation</h3>
+            <p>BUY and WATCH are research states to prioritize workflow, not direct trade instructions.</p>
+          </article>
+          <article class="glossary-item">
+            <h3>Entry Action</h3>
+            <p>Execution guidance for pacing position entry. It supports discipline, not certainty.</p>
+          </article>
+          <article class="glossary-item">
+            <h3>Conviction and Confidence</h3>
+            <p>Model strength and evidence consistency context. Higher values are still probabilistic.</p>
+          </article>
+          <article class="glossary-item">
+            <h3>Total Score</h3>
+            <p>Composite ranking across alpha, defense, execution, timing, and income factors.</p>
+          </article>
+          <article class="glossary-item">
+            <h3>Timing and Pullback</h3>
+            <p>Entry context from pullback, trend, and momentum proxies to reduce chasing.</p>
+          </article>
+          <article class="glossary-item">
+            <h3>Yield and Price Context</h3>
+            <p>Income and trend context are useful, but should not replace portfolio-level risk controls.</p>
+          </article>
+        </div>
+
+        <h2>What Is an ETF</h2>
+        <p>
+          An ETF is a pooled investment vehicle that holds a basket of assets and trades on an exchange.
+          It can provide broad market or targeted exposure in a single position.
+          Not all exchange-traded products have the same structure, risk profile, or tax treatment.
+        </p>
+
+        <h2>Why Long-Term Investors Consider ETFs</h2>
+        <ul class="list-clean">
+          <li>Diversification in one instrument.</li>
+          <li>Potentially lower long-run cost than many active alternatives.</li>
+          <li>Simple building blocks for global equity, fixed income, and real-asset exposures.</li>
+          <li>Practical fit for recurring investing and periodic rebalancing.</li>
+          <li>Transparent framework for portfolio construction when used with discipline.</li>
+        </ul>
+
+        <h2>Risks and Disadvantages</h2>
+        <ul class="list-clean">
+          <li>Market risk remains: ETFs can decline materially in broad drawdowns.</li>
+          <li>Concentration risk can still exist in sector, thematic, or cap-weighted products.</li>
+          <li>Trading frictions matter: spreads and premium or discount to NAV can affect outcomes.</li>
+          <li>Tracking difference can occur due to costs, structure, and implementation constraints.</li>
+          <li>Currency effects can materially change returns for international exposure.</li>
+          <li>Complex products can behave differently from investor expectations.</li>
+        </ul>
+
+        <h2>Global ETF Selection Checklist</h2>
+        <ol class="list-clean">
+          <li>Exposure fit: confirm index method, top holdings, and concentration profile.</li>
+          <li>Total cost: expense ratio plus spread, slippage, and currency conversion costs.</li>
+          <li>Liquidity quality: average trading activity and spread behavior across sessions.</li>
+          <li>Fund structure and domicile: check replication method and local tax implications.</li>
+          <li>Issuer and fund scale: review fund size and operational stability.</li>
+          <li>Portfolio overlap: avoid duplicate exposures across multiple ETFs.</li>
+          <li>Jurisdictional compliance: ensure suitability for your account and local rules.</li>
+        </ol>
+
+        <h2>Long-Term Execution Playbook</h2>
+        <ul class="list-clean">
+          <li>Start with a simple core portfolio before adding tactical tilts.</li>
+          <li>Use recurring contributions to reduce timing pressure.</li>
+          <li>Rebalance on a schedule, not headlines.</li>
+          <li>Size positions based on portfolio role and risk budget.</li>
+          <li>Track process quality, not daily market noise.</li>
+        </ul>
+
+        <h2>Quick FAQ</h2>
+        <div class="faq-card">
+          <h3>Are ETFs suitable for beginners globally?</h3>
+          <p>They can simplify diversification, but investors still need to review holdings, costs, and jurisdiction-specific rules.</p>
+        </div>
+        <div class="faq-card">
+          <h3>What ETF costs matter most?</h3>
+          <p>Expense ratio is important, but spreads, conversion costs, and premium or discount behavior can also impact returns.</p>
+        </div>
+        <div class="faq-card">
+          <h3>Does higher yield mean lower risk?</h3>
+          <p>No. Yield can change and higher yield can come with higher risk, concentration, or structural complexity.</p>
+        </div>
+        <div class="faq-card">
+          <h3>How many ETFs should a portfolio hold?</h3>
+          <p>Enough to diversify, but not so many that exposures overlap and decision clarity degrades.</p>
+        </div>
+        <div class="faq-card">
+          <h3>Is this page personal financial advice?</h3>
+          <p>No. This page provides general research information only and does not consider personal objectives.</p>
+        </div>
+
+        <div class="callout">
+          Stedrok is an independent research platform.
+          ETF scores and labels on this page are for research workflow support and education.
+          They do not guarantee outcomes and are not personal financial advice.
+          Always apply your own due diligence and consider local licensed professional guidance where required.
+        </div>
+
+        <p style="margin-top:30px;">
+          Related pages:
+          <a href="methodology.html" style="color:var(--accent-green);text-decoration:underline;">Methodology</a>,
+          <a href="learn.html" style="color:var(--accent-green);text-decoration:underline;">Learn Hub</a>,
+          <a href="value-investing-glossary.html" style="color:var(--accent-green);text-decoration:underline;">Glossary</a>,
+          <a href="research-trust-disclosures.html" style="color:var(--accent-green);text-decoration:underline;">Research Trust and Disclosures</a>.
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-left">
+          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
+          <p class="footer-tagline">
+            Independent stock research for long-term investors. General information only, not personal financial advice.
+          </p>
+        </div>
+
+        <nav class="footer-links">
+          <a href="pricing.html">Pricing</a>
+          <a href="methodology.html">Methodology</a>
+          <a href="learn.html">Learn</a>
+          <a href="contact.html">Contact</a>
+          <a href="site-map.html">Sitemap</a>
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const tableState = document.getElementById('tableState');
+      const tableWrap = document.getElementById('tableWrap');
+      const tbody = document.getElementById('etfTbody');
+      const searchInput = document.getElementById('searchInput');
+      const recommendationFilter = document.getElementById('recommendationFilter');
+      const sortBy = document.getElementById('sortBy');
+
+      const asOfValue = document.getElementById('asOfValue');
+      const cadenceValue = document.getElementById('cadenceValue');
+      const validationValue = document.getElementById('validationValue');
+
+      let rows = [];
+
+      function safeNum(value) {
+        const n = Number(value);
+        return Number.isFinite(n) ? n : null;
+      }
+
+      function fmtNum(value, decimals) {
+        const n = safeNum(value);
+        if (n === null) return '-';
+        return n.toFixed(decimals);
+      }
+
+      function fmtPct(value, decimals) {
+        const n = safeNum(value);
+        if (n === null) return '-';
+        return n.toFixed(decimals) + '%';
+      }
+
+      function formatAsOf(raw) {
+        if (!raw) return 'Unavailable';
+        const dt = new Date(raw);
+        if (Number.isNaN(dt.getTime())) return String(raw);
+        return dt.toLocaleString(undefined, {
+          year: 'numeric',
+          month: 'short',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          timeZoneName: 'short'
+        });
+      }
+
+      function recommendationTag(rec) {
+        const r = String(rec || '').toUpperCase();
+        if (r === 'BUY') return '<span class="tag tag-buy">BUY</span>';
+        return '<span class="tag tag-watch">WATCH</span>';
+      }
+
+      function convictionTag(conv) {
+        const c = String(conv || '').toUpperCase();
+        if (c === 'HIGH') return '<span class="tag tag-high">HIGH</span>';
+        if (c === 'LOW') return '<span class="tag tag-low">LOW</span>';
+        return '<span class="tag tag-medium">MEDIUM</span>';
+      }
+
+      function showState(msg) {
+        tableWrap.style.display = 'none';
+        tableState.style.display = 'block';
+        tableState.textContent = msg;
+      }
+
+      function applyFilters() {
+        const q = (searchInput.value || '').trim().toLowerCase();
+        const rec = recommendationFilter.value;
+        const sort = sortBy.value;
+
+        let filtered = rows.filter(function (row) {
+          const blob = [row.symbol, row.name, row.assetClass, row.category, row.recommendation]
+            .join(' ')
+            .toLowerCase();
+          const queryMatch = !q || blob.indexOf(q) !== -1;
+          const recMatch = rec === 'ALL' || String(row.recommendation || '').toUpperCase() === rec;
+          return queryMatch && recMatch;
+        });
+
+        filtered.sort(function (a, b) {
+          if (sort === 'symbolAsc') {
+            return String(a.symbol || '').localeCompare(String(b.symbol || ''));
+          }
+          if (sort === 'confidenceDesc') {
+            return (safeNum(b.confidenceScore) || -1) - (safeNum(a.confidenceScore) || -1);
+          }
+          if (sort === 'timingDesc') {
+            return (safeNum(b.timingScore) || -1) - (safeNum(a.timingScore) || -1);
+          }
+          if (sort === 'yieldDesc') {
+            return (safeNum(b.dividendYieldPct) || -1) - (safeNum(a.dividendYieldPct) || -1);
+          }
+          return (safeNum(b.totalScore) || -1) - (safeNum(a.totalScore) || -1);
+        });
+
+        if (!filtered.length) {
+          showState('No ETFs match the current filter. Try a broader search.');
+          return;
+        }
+
+        const html = filtered.map(function (row) {
+          const total = safeNum(row.totalScore);
+          const conf = safeNum(row.confidenceScore);
+          const timing = safeNum(row.timingScore);
+          const yieldPct = safeNum(row.dividendYieldPct);
+          const pullback = safeNum(row.pullbackFrom52wHighPct);
+          const price = safeNum(row.priceUsd);
+
+          return [
+            '<tr>',
+            '<td><strong>' + (row.symbol || '-') + '</strong></td>',
+            '<td>' + (row.name || '-') + '</td>',
+            '<td>' + (row.assetClass || '-') + '</td>',
+            '<td>' + (row.category || '-') + '</td>',
+            '<td data-value="' + (total === null ? '' : String(total)) + '">' + recommendationTag(row.recommendation) + '</td>',
+            '<td>' + (row.entryAction || '-') + '</td>',
+            '<td>' + convictionTag(row.conviction) + '</td>',
+            '<td data-value="' + (total === null ? '' : String(total)) + '">' + fmtNum(total, 1) + '</td>',
+            '<td data-value="' + (conf === null ? '' : String(conf)) + '">' + fmtNum(conf, 1) + '</td>',
+            '<td data-value="' + (timing === null ? '' : String(timing)) + '">' + fmtNum(timing, 1) + '</td>',
+            '<td data-value="' + (yieldPct === null ? '' : String(yieldPct)) + '">' + fmtPct(yieldPct, 2) + '</td>',
+            '<td data-value="' + (pullback === null ? '' : String(pullback)) + '">' + fmtPct(pullback, 2) + '</td>',
+            '<td data-value="' + (price === null ? '' : String(price)) + '">' + fmtNum(price, 2) + '</td>',
+            '</tr>'
+          ].join('');
+        }).join('');
+
+        tbody.innerHTML = html;
+        tableState.style.display = 'none';
+        tableWrap.style.display = 'block';
+      }
+
+      async function loadTable() {
+        try {
+          const res = await fetch('data/etf.json', { cache: 'no-store' });
+          if (!res.ok) {
+            showState('ETF data is not available yet. Please check back after the next pipeline refresh.');
+            return;
+          }
+          const payload = await res.json();
+          if (!Array.isArray(payload) || !payload.length) {
+            showState('ETF data is currently empty.');
+            return;
+          }
+          rows = payload;
+          applyFilters();
+        } catch (err) {
+          showState('Unable to load ETF data at this time.');
+        }
+      }
+
+      async function loadFreshness() {
+        asOfValue.textContent = 'Unavailable';
+        validationValue.textContent = 'Unavailable';
+
+        try {
+          const metaRes = await fetch('data/etf_run_metadata_latest.json', { cache: 'no-store' });
+          if (metaRes.ok) {
+            const meta = await metaRes.json();
+            const asOf = meta && meta.generated_at_utc ? meta.generated_at_utc : null;
+            asOfValue.textContent = formatAsOf(asOf);
+
+            if (meta && meta.config) {
+              const cadence = 'Trading-day schedule; period=' + (meta.config.period || 'n/a') + '; interval=' + (meta.config.interval || 'n/a');
+              cadenceValue.textContent = cadence;
+            }
+          }
+        } catch (err) {
+          asOfValue.textContent = 'Unavailable';
+        }
+
+        try {
+          const valRes = await fetch('data/etf_validation_summary_latest.json', { cache: 'no-store' });
+          if (valRes.ok) {
+            const val = await valRes.json();
+            const status = val && val.status ? String(val.status) : 'unknown';
+            validationValue.textContent = status;
+          }
+        } catch (err) {
+          validationValue.textContent = 'Unavailable';
+        }
+      }
+
+      searchInput.addEventListener('input', applyFilters);
+      recommendationFilter.addEventListener('change', applyFilters);
+      sortBy.addEventListener('change', applyFilters);
+
+      loadFreshness();
+      loadTable();
+    })();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/mobile-menu.js?v=20260227m3"></script>
+  <script src="js/public-auth-nav.js?v=20260227a4"></script>
+</body>
+</html>
