@@ -10,11 +10,13 @@ Stedrok is an independent value stock research platform for long-term investors.
 - Learn Hub: https://stedrok.org/learn.html
 - Glossary: https://stedrok.org/value-investing-glossary.html
 - Dashboard Guide: https://stedrok.org/dashboard-guide.html
+- ETF Ideas and Guide: https://stedrok.org/etfs.html
 - Research Trust and Disclosures: https://stedrok.org/research-trust-disclosures.html
 
 ## Data Surfaces
 - Public delayed demo dataset: https://stedrok.org/data/demo_sample.json
 - Public delayed demo summaries: https://stedrok.org/data/demo_ticker_summaries.json
+- ETF picks API (public): https://stedrok-api.stedrok.workers.dev/api/etf-picks
 - Authenticated dashboard: https://stedrok.org/dashboard.html
 
 ## Data and Interpretation Rules

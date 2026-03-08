@@ -32,7 +32,7 @@
   </url>
   <url>
     <loc>https://stedrok.org/philosophy.html</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -62,19 +62,19 @@
   </url>
   <url>
     <loc>https://stedrok.org/guide-long-term-value-portfolio.html</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://stedrok.org/site-map.html</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://stedrok.org/learn.html</loc>
-    <lastmod>2026-03-02</lastmod>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -92,8 +92,14 @@
   </url>
   <url>
     <loc>https://stedrok.org/dashboard-guide.html</loc>
-    <lastmod>2026-03-07</lastmod>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://stedrok.org/etfs.html</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

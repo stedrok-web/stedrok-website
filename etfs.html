@@ -704,6 +704,27 @@
       }
 
       async function loadTable() {
+        const apiUrl = 'https://stedrok-api.stedrok.workers.dev/api/etf-picks';
+
+        try {
+          const apiRes = await fetch(apiUrl, { cache: 'no-store' });
+          if (apiRes.ok) {
+            const apiPayload = await apiRes.json();
+            if (Array.isArray(apiPayload.rows) && apiPayload.rows.length) {
+              rows = apiPayload.rows;
+              if (apiPayload.updated_at_utc) {
+                asOfValue.textContent = formatAsOf(apiPayload.updated_at_utc);
+              } else if (apiPayload.as_of_date) {
+                asOfValue.textContent = String(apiPayload.as_of_date);
+              }
+              applyFilters();
+              return;
+            }
+          }
+        } catch (err) {
+          // fall back to static data file
+        }
+
         try {
           const res = await fetch('data/etf.json', { cache: 'no-store' });
           if (!res.ok) {

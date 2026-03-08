@@ -33,6 +33,7 @@ Do not treat Hybrid commentary as equivalent to Core deterministic logic.
 - Philosophy: https://stedrok.org/philosophy.html
 - Dashboard Guide: https://stedrok.org/dashboard-guide.html
 - Learn Hub: https://stedrok.org/learn.html
+- ETF Ideas and Guide: https://stedrok.org/etfs.html
 - Glossary: https://stedrok.org/value-investing-glossary.html
 - Pricing: https://stedrok.org/pricing.html
 - Research Trust and Disclosures: https://stedrok.org/research-trust-disclosures.html
@@ -43,6 +44,10 @@ Do not treat Hybrid commentary as equivalent to Core deterministic logic.
 Public delayed demo resources:
 - https://stedrok.org/data/demo_sample.json
 - https://stedrok.org/data/demo_ticker_summaries.json
+
+ETF resources:
+- https://stedrok.org/etfs.html
+- https://stedrok-api.stedrok.workers.dev/api/etf-picks
 
 Authenticated production-facing surface:
 - https://stedrok.org/dashboard.html
