@@ -10,6 +10,9 @@
   <link rel="canonical" href="https://stedrok.org/etfs.html">
   <link rel="alternate" hreflang="en" href="https://stedrok.org/etfs.html">
   <link rel="alternate" hreflang="x-default" href="https://stedrok.org/etfs.html">
+  <meta name="stedrok:data-source" content="Public Stedrok ETF picks API endpoint: /api/etf-picks.">
+  <meta name="stedrok:data-refresh-cadence" content="At least once per trading day via ETF pipeline and latest_etfs view.">
+  <meta name="stedrok:data-point-in-time" content="Rows reflect the latest completed ETF batch and are for research workflows only.">
 
   <meta property="og:type" content="article">
   <meta property="og:title" content="ETF Research Guide and Daily Table for Long-Term Investors">
@@ -166,78 +169,30 @@
       word-break: break-word;
     }
 
-    .controls-row {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 10px;
+    .etf-filters {
+      grid-template-columns: minmax(260px, 2fr) minmax(180px, 1fr) minmax(180px, 1fr);
       margin: 12px 0 14px;
     }
 
-    .controls-row input,
-    .controls-row select {
-      width: 100%;
-      border: 1px solid var(--border-color);
-      background: var(--bg-card);
+    .table-container .stock-table td strong {
       color: var(--text-primary);
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 14px;
+      letter-spacing: 0.01em;
     }
 
-    .table-wrap {
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      overflow-x: auto;
-      background: var(--bg-card);
-      margin: 10px 0 16px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 1080px;
-    }
-
-    thead th {
-      text-align: left;
-      padding: 12px;
-      border-bottom: 1px solid var(--border-color);
-      color: var(--text-primary);
-      font-size: 13px;
-      letter-spacing: 0.02em;
-      background: rgba(255, 255, 255, 0.02);
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-
-    tbody td {
-      padding: 11px 12px;
-      border-bottom: 1px solid var(--border-color);
-      color: var(--text-secondary);
-      font-size: 14px;
-      vertical-align: top;
-    }
-
-    tbody tr:hover {
-      background: rgba(0, 255, 153, 0.04);
-    }
-
-    .tag {
+    .etf-conviction {
       display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      border: 1px solid transparent;
+      padding: 3px 8px;
+      border-radius: 8px;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: 1px solid;
     }
 
-    .tag-buy { color: #00d084; border-color: rgba(0, 208, 132, 0.35); background: rgba(0, 208, 132, 0.10); }
-    .tag-watch { color: #ffc85a; border-color: rgba(255, 200, 90, 0.35); background: rgba(255, 200, 90, 0.10); }
-    .tag-high { color: #00d084; border-color: rgba(0, 208, 132, 0.35); background: rgba(0, 208, 132, 0.10); }
-    .tag-medium { color: #72b7ff; border-color: rgba(114, 183, 255, 0.35); background: rgba(114, 183, 255, 0.10); }
-    .tag-low { color: #ffc85a; border-color: rgba(255, 200, 90, 0.35); background: rgba(255, 200, 90, 0.10); }
+    .etf-conviction-high { border-color: #34d399; color: #34d399; background: rgba(52, 211, 153, 0.12); }
+    .etf-conviction-medium { border-color: #60a5fa; color: #60a5fa; background: rgba(96, 165, 250, 0.12); }
+    .etf-conviction-low { border-color: #f59e0b; color: #f59e0b; background: rgba(245, 158, 11, 0.12); }
 
     .empty-state {
       border: 1px dashed var(--border-color);
@@ -303,7 +258,7 @@
 
     @media (max-width: 900px) {
       .status-grid { grid-template-columns: 1fr; }
-      .controls-row { grid-template-columns: 1fr; }
+      .etf-filters { grid-template-columns: 1fr; }
       .glossary-grid { grid-template-columns: 1fr; }
     }
 
@@ -392,7 +347,7 @@
           It is free to access and intended for long-term research workflows.
         </p>
 
-        <div class="controls-row" role="group" aria-label="ETF table filters">
+        <div class="filters etf-filters" role="group" aria-label="ETF table filters">
           <input id="searchInput" type="search" placeholder="Search symbol, name, category, or asset class">
           <select id="recommendationFilter" aria-label="Filter by recommendation">
             <option value="ALL">All Recommendations</option>
@@ -410,8 +365,8 @@
 
         <div id="tableState" class="empty-state" style="display:none;"></div>
 
-        <div class="table-wrap" id="tableWrap" style="display:none;">
-          <table>
+        <div class="table-container" id="tableWrap" style="display:none;">
+          <table class="stock-table" id="etfTable">
             <thead>
               <tr>
                 <th>Symbol</th>
@@ -619,15 +574,15 @@
 
       function recommendationTag(rec) {
         const r = String(rec || '').toUpperCase();
-        if (r === 'BUY') return '<span class="tag tag-buy">BUY</span>';
-        return '<span class="tag tag-watch">WATCH</span>';
+        if (r === 'BUY') return '<span class="badge badge-buy">BUY</span>';
+        return '<span class="badge badge-watch">WATCH</span>';
       }
 
       function convictionTag(conv) {
         const c = String(conv || '').toUpperCase();
-        if (c === 'HIGH') return '<span class="tag tag-high">HIGH</span>';
-        if (c === 'LOW') return '<span class="tag tag-low">LOW</span>';
-        return '<span class="tag tag-medium">MEDIUM</span>';
+        if (c === 'HIGH') return '<span class="etf-conviction etf-conviction-high">HIGH</span>';
+        if (c === 'LOW') return '<span class="etf-conviction etf-conviction-low">LOW</span>';
+        return '<span class="etf-conviction etf-conviction-medium">MEDIUM</span>';
       }
 
       function showState(msg) {
@@ -705,73 +660,48 @@
 
       async function loadTable() {
         const apiUrl = 'https://stedrok-api.stedrok.workers.dev/api/etf-picks';
+        asOfValue.textContent = 'Loading...';
+        cadenceValue.textContent = 'Trading-day schedule via ETF pipeline.';
+        validationValue.textContent = 'Checking...';
 
         try {
           const apiRes = await fetch(apiUrl, { cache: 'no-store' });
-          if (apiRes.ok) {
-            const apiPayload = await apiRes.json();
-            if (Array.isArray(apiPayload.rows) && apiPayload.rows.length) {
-              rows = apiPayload.rows;
-              if (apiPayload.updated_at_utc) {
-                asOfValue.textContent = formatAsOf(apiPayload.updated_at_utc);
-              } else if (apiPayload.as_of_date) {
-                asOfValue.textContent = String(apiPayload.as_of_date);
-              }
-              applyFilters();
-              return;
-            }
+          if (!apiRes.ok) {
+            throw new Error('ETF API responded with status ' + apiRes.status);
           }
-        } catch (err) {
-          // fall back to static data file
-        }
 
-        try {
-          const res = await fetch('data/etf.json', { cache: 'no-store' });
-          if (!res.ok) {
-            showState('ETF data is not available yet. Please check back after the next pipeline refresh.');
+          const apiPayload = await apiRes.json();
+          if (!apiPayload || !Array.isArray(apiPayload.rows)) {
+            throw new Error('ETF API payload format invalid');
+          }
+
+          rows = apiPayload.rows;
+          if (!rows.length) {
+            validationValue.textContent = 'API returned zero rows';
+            showState('ETF API is reachable but returned no rows. Please check next pipeline run.');
             return;
           }
-          const payload = await res.json();
-          if (!Array.isArray(payload) || !payload.length) {
-            showState('ETF data is currently empty.');
-            return;
+
+          if (apiPayload.updated_at_utc) {
+            asOfValue.textContent = formatAsOf(apiPayload.updated_at_utc);
+          } else if (apiPayload.as_of_date) {
+            asOfValue.textContent = String(apiPayload.as_of_date);
+          } else {
+            asOfValue.textContent = 'Available (timestamp not provided)';
           }
-          rows = payload;
+
+          const source = String(apiPayload.source_table || 'etfs');
+          const count = Number(apiPayload.count);
+          validationValue.textContent = Number.isFinite(count)
+            ? 'Live API OK - ' + count + ' rows (' + source + ')'
+            : 'Live API OK (' + source + ')';
+
           applyFilters();
         } catch (err) {
-          showState('Unable to load ETF data at this time.');
-        }
-      }
-
-      async function loadFreshness() {
-        asOfValue.textContent = 'Unavailable';
-        validationValue.textContent = 'Unavailable';
-
-        try {
-          const metaRes = await fetch('data/etf_run_metadata_latest.json', { cache: 'no-store' });
-          if (metaRes.ok) {
-            const meta = await metaRes.json();
-            const asOf = meta && meta.generated_at_utc ? meta.generated_at_utc : null;
-            asOfValue.textContent = formatAsOf(asOf);
-
-            if (meta && meta.config) {
-              const cadence = 'Trading-day schedule; period=' + (meta.config.period || 'n/a') + '; interval=' + (meta.config.interval || 'n/a');
-              cadenceValue.textContent = cadence;
-            }
-          }
-        } catch (err) {
+          rows = [];
           asOfValue.textContent = 'Unavailable';
-        }
-
-        try {
-          const valRes = await fetch('data/etf_validation_summary_latest.json', { cache: 'no-store' });
-          if (valRes.ok) {
-            const val = await valRes.json();
-            const status = val && val.status ? String(val.status) : 'unknown';
-            validationValue.textContent = status;
-          }
-        } catch (err) {
-          validationValue.textContent = 'Unavailable';
+          validationValue.textContent = 'API unavailable';
+          showState('ETF data API is temporarily unavailable. Please retry shortly.');
         }
       }
 
@@ -779,7 +709,6 @@
       recommendationFilter.addEventListener('change', applyFilters);
       sortBy.addEventListener('change', applyFilters);
 
-      loadFreshness();
       loadTable();
     })();
   </script>
