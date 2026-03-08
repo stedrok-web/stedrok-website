@@ -179,6 +179,30 @@
       letter-spacing: 0.01em;
     }
 
+    #etfTable {
+      min-width: 1460px;
+    }
+
+    #etfTable thead th:first-child,
+    #etfTable tbody td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 4;
+      background: var(--table-sticky-bg);
+    }
+
+    #etfTable thead th:first-child {
+      z-index: 9;
+    }
+
+    #etfTable tbody tr:nth-child(even) td:first-child {
+      background: var(--table-sticky-bg-alt);
+    }
+
+    #etfTable tbody tr:hover td:first-child {
+      background: var(--table-sticky-hover);
+    }
+
     .etf-conviction {
       display: inline-block;
       padding: 3px 8px;
@@ -348,7 +372,7 @@
         </p>
 
         <div class="filters etf-filters" role="group" aria-label="ETF table filters">
-          <input id="searchInput" type="search" placeholder="Search symbol, name, category, or asset class">
+          <input id="searchInput" type="search" placeholder="Search symbol, name, category, recommendation, or conviction">
           <select id="recommendationFilter" aria-label="Filter by recommendation">
             <option value="ALL">All Recommendations</option>
             <option value="BUY">BUY</option>
@@ -371,7 +395,6 @@
               <tr>
                 <th>Symbol</th>
                 <th>Name</th>
-                <th>Asset Class</th>
                 <th>Category</th>
                 <th>Recommendation</th>
                 <th>Entry Action</th>
@@ -379,6 +402,7 @@
                 <th>Total Score</th>
                 <th>Confidence</th>
                 <th>Timing</th>
+                <th>Price vs SMA200 %</th>
                 <th>Yield %</th>
                 <th>Pullback %</th>
                 <th>Price (USD)</th>
@@ -407,8 +431,8 @@
             <p>Composite ranking across alpha, defense, execution, timing, and income factors.</p>
           </article>
           <article class="glossary-item">
-            <h3>Timing and Pullback</h3>
-            <p>Entry context from pullback, trend, and momentum proxies to reduce chasing.</p>
+            <h3>Timing, Trend, and Pullback</h3>
+            <p>Entry context from pullback, trend versus SMA200, and momentum proxies to reduce chasing.</p>
           </article>
           <article class="glossary-item">
             <h3>Yield and Price Context</h3>
@@ -585,6 +609,15 @@
         return '<span class="etf-conviction etf-conviction-medium">MEDIUM</span>';
       }
 
+      function formatEntryAction(value) {
+        const raw = String(value || '').trim();
+        if (!raw) return '-';
+        return raw
+          .replace(/_/g, ' ')
+          .toLowerCase()
+          .replace(/\b[a-z]/g, function (ch) { return ch.toUpperCase(); });
+      }
+
       function showState(msg) {
         tableWrap.style.display = 'none';
         tableState.style.display = 'block';
@@ -597,7 +630,7 @@
         const sort = sortBy.value;
 
         let filtered = rows.filter(function (row) {
-          const blob = [row.symbol, row.name, row.assetClass, row.category, row.recommendation]
+          const blob = [row.symbol, row.name, row.category, row.recommendation, row.entryAction, row.conviction]
             .join(' ')
             .toLowerCase();
           const queryMatch = !q || blob.indexOf(q) !== -1;
@@ -630,6 +663,7 @@
           const total = safeNum(row.totalScore);
           const conf = safeNum(row.confidenceScore);
           const timing = safeNum(row.timingScore);
+          const trend = safeNum(row.priceVsSma200Pct);
           const yieldPct = safeNum(row.dividendYieldPct);
           const pullback = safeNum(row.pullbackFrom52wHighPct);
           const price = safeNum(row.priceUsd);
@@ -638,14 +672,14 @@
             '<tr>',
             '<td><strong>' + (row.symbol || '-') + '</strong></td>',
             '<td>' + (row.name || '-') + '</td>',
-            '<td>' + (row.assetClass || '-') + '</td>',
             '<td>' + (row.category || '-') + '</td>',
-            '<td data-value="' + (total === null ? '' : String(total)) + '">' + recommendationTag(row.recommendation) + '</td>',
-            '<td>' + (row.entryAction || '-') + '</td>',
+            '<td>' + recommendationTag(row.recommendation) + '</td>',
+            '<td>' + formatEntryAction(row.entryAction) + '</td>',
             '<td>' + convictionTag(row.conviction) + '</td>',
             '<td data-value="' + (total === null ? '' : String(total)) + '">' + fmtNum(total, 1) + '</td>',
             '<td data-value="' + (conf === null ? '' : String(conf)) + '">' + fmtNum(conf, 1) + '</td>',
             '<td data-value="' + (timing === null ? '' : String(timing)) + '">' + fmtNum(timing, 1) + '</td>',
+            '<td data-value="' + (trend === null ? '' : String(trend)) + '">' + fmtPct(trend, 2) + '</td>',
             '<td data-value="' + (yieldPct === null ? '' : String(yieldPct)) + '">' + fmtPct(yieldPct, 2) + '</td>',
             '<td data-value="' + (pullback === null ? '' : String(pullback)) + '">' + fmtPct(pullback, 2) + '</td>',
             '<td data-value="' + (price === null ? '' : String(price)) + '">' + fmtNum(price, 2) + '</td>',
