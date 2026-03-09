@@ -13,6 +13,34 @@ let summaryMap = new Map();
 let activeInsightTicker = '';
 let lastTriggerEl = null;
 
+function isDemoRowInteractionTarget(target) {
+  return Boolean(target && target.closest('a, button, input, select, textarea, label, summary'));
+}
+
+function syncActiveDemoRow() {
+  const tbody = document.getElementById('demoTableBody');
+  if (!tbody) return;
+
+  tbody.querySelectorAll('tr').forEach((row) => {
+    row.classList.remove('row-insight-active');
+    row.setAttribute('aria-selected', 'false');
+  });
+
+  if (!activeInsightTicker) return;
+
+  const activeRow = tbody.querySelector(`tr[data-symbol="${activeInsightTicker}"]`);
+  activeRow?.classList.add('row-insight-active');
+  activeRow?.setAttribute('aria-selected', 'true');
+}
+
+function activateDemoInsightRow(row) {
+  if (!row) return;
+  const symbol = row.getAttribute('data-symbol') || '';
+  const trigger = row.querySelector('.ticker-insight-trigger');
+  if (!symbol || !trigger || trigger.disabled) return;
+  showInsightForTicker(symbol, trigger);
+}
+
 function toNumber(value, fallback = 0) {
   const num = Number(value);
   return Number.isFinite(num) ? num : fallback;
@@ -266,6 +294,10 @@ function renderTable(rows) {
 
     tr.setAttribute('data-symbol', symbol);
     tr.classList.add(isFeatured ? 'demo-row-featured' : 'demo-row-blur');
+    tr.setAttribute('aria-label', canOpenInsight ? `${symbol}: open delayed research preview` : `${symbol}: row locked in the public demo`);
+    if (canOpenInsight) {
+      tr.setAttribute('tabindex', '0');
+    }
 
     tr.innerHTML = `
       <td>
@@ -295,6 +327,8 @@ function renderTable(rows) {
 
     tbody.appendChild(tr);
   });
+
+  syncActiveDemoRow();
 }
 
 
@@ -367,6 +401,7 @@ function openInsightPanel() {
   panel.classList.add('is-open');
   panel.setAttribute('aria-hidden', 'false');
   document.body.classList.add('ticker-insight-open');
+  document.getElementById('closeTickerInsightBtn')?.focus({ preventScroll: true });
 }
 
 function closeInsightPanel(reset = false) {
@@ -379,6 +414,7 @@ function closeInsightPanel(reset = false) {
 
   if (reset) {
     activeInsightTicker = '';
+    syncActiveDemoRow();
     if (lastTriggerEl && typeof lastTriggerEl.focus === 'function') {
       lastTriggerEl.focus({ preventScroll: true });
     }
@@ -415,6 +451,7 @@ function showInsightForTicker(ticker, triggerEl = null) {
   activeInsightTicker = symbol;
   lastTriggerEl = triggerEl || lastTriggerEl;
 
+  syncActiveDemoRow();
   renderInsight(summary, row);
   openInsightPanel();
 }
@@ -425,9 +462,23 @@ function bindInsightInteractions() {
   if (tbody) {
     tbody.addEventListener('click', (event) => {
       const trigger = event.target.closest('.ticker-insight-trigger');
-      if (!trigger) return;
-      const symbol = trigger.getAttribute('data-ticker') || '';
-      showInsightForTicker(symbol, trigger);
+      if (trigger) {
+        const symbol = trigger.getAttribute('data-ticker') || '';
+        showInsightForTicker(symbol, trigger);
+        return;
+      }
+
+      const row = event.target.closest('tr[data-symbol]');
+      if (!row || isDemoRowInteractionTarget(event.target)) return;
+      activateDemoInsightRow(row);
+    });
+
+    tbody.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      const row = event.target.closest('tr[data-symbol]');
+      if (!row || isDemoRowInteractionTarget(event.target)) return;
+      event.preventDefault();
+      activateDemoInsightRow(row);
     });
   }
 

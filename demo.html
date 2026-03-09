@@ -33,7 +33,22 @@
   <meta name="twitter:image" content="https://stedrok.org/img/sample-output-table.jpg">
   <meta name="twitter:image:alt" content="Stedrok delayed demo ranked table">
 
-  <link rel="stylesheet" href="css/main.css?v=20260226d2">
+  <script>
+(function(){
+  var saved = null;
+  try { saved = localStorage.getItem('stedrok-theme'); } catch (_err) {}
+  var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', saved || system);
+})();
+</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Sora:wght@700;800&display=swap&subset=latin" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css?v=20260310a">
+<link rel="stylesheet" href="css/base.css?v=20260310a">
+<link rel="stylesheet" href="css/layout.css?v=20260310a">
+<link rel="stylesheet" href="css/animations.css?v=20260310a">
+<link rel="stylesheet" href="css/main.css?v=20260310b">
 
     <script type="application/ld+json">
   {
@@ -325,9 +340,10 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="css/overrides.css?v=20260310b">
 </head>
-<body class="demo-page">
-  <a href="#main" class="skip-link">Skip to content</a>
+<body class="demo-page" data-page="demo" data-template="home">
+  <a href="#main" class="skip-link">Skip to main content</a>
 
   <header>
     <div class="container">
@@ -514,8 +530,10 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
-  <script src="js/mobile-menu.js?v=20260227m3"></script>
+  <script src="js/mobile-menu.js?v=20260310b"></script>
   <script src="js/public-auth-nav.js?v=20260227a4"></script>
   <script src="js/demo.js?v=20260307d"></script>
+  <script src="js/theme.js?v=20260310a"></script>
+  <script src="js/ui.js?v=20260310b"></script>
 </body>
 </html>
