@@ -35,18 +35,6 @@ const DASHBOARD_LANE_DESCRIPTIONS = {
   blended: 'Blended: Top 100 Investor Candidates Ranked By Combined Score Strength Across Core And AI Hybrid.'
 };
 
-function isRowInteractionTarget(target) {
-  return Boolean(target && target.closest('a, button, input, select, textarea, label, summary'));
-}
-
-function activateDashboardInsightRow(row) {
-  if (!row) return;
-  const ticker = row.getAttribute('data-ticker') || '';
-  const trigger = row.querySelector('.ticker-insight-trigger');
-  if (!ticker || !trigger || trigger.disabled) return;
-  showTickerInsight(ticker, trigger);
-}
-
 
 const EXCHANGE_COORDINATES = {
   'USA (NYSE/NASDAQ)': { lat: 40.757, lng: -73.985 }, // Nasdaq MarketSite (NYC)
@@ -1312,25 +1300,12 @@ function setupTickerInsightUI(accessToken) {
   const tbody = document.getElementById('stocksTableBody');
   tbody?.addEventListener('click', event => {
     const trigger = event.target.closest('.ticker-insight-trigger');
-    if (trigger) {
-      const ticker = trigger.dataset.ticker || '';
-      if (ticker) {
-        showTickerInsight(ticker, trigger);
-      }
-      return;
+    if (!trigger) return;
+
+    const ticker = trigger.dataset.ticker || '';
+    if (ticker) {
+      showTickerInsight(ticker, trigger);
     }
-
-    const row = event.target.closest('tr[data-ticker]');
-    if (!row || isRowInteractionTarget(event.target)) return;
-    activateDashboardInsightRow(row);
-  });
-
-  tbody?.addEventListener('keydown', event => {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-    const row = event.target.closest('tr[data-ticker]');
-    if (!row || isRowInteractionTarget(event.target)) return;
-    event.preventDefault();
-    activateDashboardInsightRow(row);
   });
 }
 
@@ -1339,17 +1314,12 @@ function syncActiveInsightRow() {
   if (!tbody) return;
 
   const normalizedActiveTicker = normalizeTickerKey(activeInsightTicker);
-  tbody.querySelectorAll('tr').forEach(row => {
-    row.classList.remove('row-insight-active');
-    row.setAttribute('aria-selected', 'false');
-  });
+  tbody.querySelectorAll('tr').forEach(row => row.classList.remove('row-insight-active'));
   if (!normalizedActiveTicker) return;
 
   tbody.querySelectorAll('.ticker-insight-trigger').forEach(button => {
     if (normalizeTickerKey(button.dataset.ticker) === normalizedActiveTicker) {
-      const row = button.closest('tr');
-      row?.classList.add('row-insight-active');
-      row?.setAttribute('aria-selected', 'true');
+      button.closest('tr')?.classList.add('row-insight-active');
     }
   });
 }
@@ -1675,8 +1645,8 @@ function renderTable(stocks) {
   if (stocks.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="14" style="text-align:center; padding:40px; color:var(--text-secondary);">
-          No companies match the current research filters. Adjust the criteria and try again.
+        <td colspan="14" style="text-align:center; padding:40px; color:#999;">
+          No stocks available right now. Check back later!
         </td>
       </tr>
     `;
@@ -1691,10 +1661,6 @@ function renderTable(stocks) {
     const decisionClass = stock.decision === 'BUY' ? 'badge-buy' :
                          stock.decision === 'WATCH' ? 'badge-watch' : 'badge-avoid';
     const tickerDisplay = getTickerDisplayParts(stock);
-
-    tr.setAttribute('data-ticker', normalizeTickerKey(stock.ticker));
-    tr.setAttribute('tabindex', '0');
-    tr.setAttribute('aria-label', `${tickerDisplay.plain}: open research summary`);
 
     if (isFreeUser) {
       // Free user: Show only ticker, company, country, sector, then upgrade prompt
@@ -2210,50 +2176,40 @@ function setupFilters() {
 }
 
 function setupSorting() {
+  // Add click handlers to all sortable column headers
   const headers = document.querySelectorAll('#stocksTable th[data-sort]');
-
-  function applySort(header) {
-    const column = header.getAttribute('data-sort');
-    if (!column) return;
-
-    if (currentSortColumn === column) {
-      currentSortDirection = currentSortDirection === 'desc' ? 'asc' : 'desc';
-    } else {
-      currentSortColumn = column;
-      currentSortDirection = 'desc';
-    }
-
-    headers.forEach(h => {
-      const col = h.getAttribute('data-sort');
-      if (col === currentSortColumn) {
-        h.dataset.sortState = currentSortDirection;
-        h.setAttribute('aria-sort', currentSortDirection === 'desc' ? 'descending' : 'ascending');
-        h.setAttribute('aria-label', `${h.textContent.trim()}: sorted ${currentSortDirection === 'desc' ? 'descending' : 'ascending'}. Activate to reverse order.`);
-        h.style.color = 'var(--table-header-active, var(--accent-green))';
-      } else {
-        h.dataset.sortState = 'none';
-        h.setAttribute('aria-sort', 'none');
-        h.setAttribute('aria-label', `${h.textContent.trim()}: activate to sort`);
-        h.style.color = '';
-      }
-    });
-
-    applyFilters();
-  }
 
   headers.forEach(header => {
     header.style.cursor = 'pointer';
     header.dataset.sortState = 'none';
     header.setAttribute('aria-sort', 'none');
-    header.setAttribute('role', 'button');
-    header.setAttribute('tabindex', '0');
-    header.setAttribute('aria-label', `${header.textContent.trim()}: activate to sort`);
 
-    header.addEventListener('click', () => applySort(header));
-    header.addEventListener('keydown', event => {
-      if (event.key !== 'Enter' && event.key !== ' ') return;
-      event.preventDefault();
-      applySort(header);
+    header.addEventListener('click', () => {
+      const column = header.getAttribute('data-sort');
+
+      // Toggle direction if same column, otherwise default to descending
+      if (currentSortColumn === column) {
+        currentSortDirection = currentSortDirection === 'desc' ? 'asc' : 'desc';
+      } else {
+        currentSortColumn = column;
+        currentSortDirection = 'desc';
+      }
+
+      // Update visual indicators
+      headers.forEach(h => {
+        const col = h.getAttribute('data-sort');
+        if (col === currentSortColumn) {
+          h.dataset.sortState = currentSortDirection;
+          h.setAttribute('aria-sort', currentSortDirection === 'desc' ? 'descending' : 'ascending');
+          h.style.color = 'var(--table-header-active, var(--accent-green))';
+        } else {
+          h.dataset.sortState = 'none';
+          h.setAttribute('aria-sort', 'none');
+          h.style.color = '';
+        }
+      });
+
+      applyFilters();
     });
   });
 }
