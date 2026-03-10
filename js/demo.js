@@ -274,7 +274,7 @@ function renderTable(rows) {
           class="ticker-insight-trigger${canOpenInsight ? '' : ' ticker-insight-trigger--locked'}"
           data-ticker="${row.symbol}"
           aria-label="View insight for ${row.symbol}"
-          ${canOpenInsight ? '' : 'disabled aria-disabled="true" tabindex="-1" title="Quick insight unavailable for this row in the public demo."'}
+          ${canOpenInsight ? '' : 'disabled aria-disabled="true" tabindex="-1" title="Quick insight is unavailable for this row in the public demo."'}
         >
           ${row.symbol}
         </button>
@@ -342,7 +342,7 @@ function renderInsight(summary, row) {
   const guidanceEl = document.getElementById('tickerInsightNewsGuidance');
   if (guidanceEl) {
     const guidance = stripPrimaryNewsLine(payload.news_guidance || '').trim();
-    guidanceEl.textContent = guidance || 'This demo uses delayed and limited rows.';
+    guidanceEl.textContent = guidance || 'This public demo uses delayed and limited rows.';
     guidanceEl.style.display = 'block';
   }
 
@@ -521,7 +521,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('Demo load failed:', error);
     const loadingEl = document.getElementById('demoLoadingState');
     if (loadingEl) {
-      loadingEl.textContent = 'Demo data is temporarily unavailable. Please refresh shortly.';
+      loadingEl.textContent = 'The public demo is temporarily unavailable. Please refresh shortly.';
     }
     document.body.setAttribute('data-demo-ready', 'error');
   }

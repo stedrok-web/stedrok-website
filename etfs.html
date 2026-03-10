@@ -51,7 +51,7 @@
     "@context": "https://schema.org",
     "@type": "Dataset",
     "name": "Stedrok ETF Research Coverage",
-    "description": "Public ETF research list with BUY and WATCH states plus factor scores for long-term research workflows.",
+    "description": "Public ETF research list with research states and factor scores for long-term research workflows.",
     "url": "https://stedrok-api.stedrok.workers.dev/api/etf-picks",
     "creator": {
       "@type": "Organization",
@@ -730,8 +730,8 @@
           const source = String(apiPayload.source_table || 'etfs');
           const count = Number(apiPayload.count);
           validationValue.textContent = Number.isFinite(count)
-            ? 'Live source verified - ' + count + ' rows (' + source + ')'
-            : 'Live source verified (' + source + ')';
+            ? 'Live source verified: ' + count + ' rows (' + source + ')'
+            : 'Live source verified: (' + source + ')';
 
           applyFilters();
         } catch (err) {

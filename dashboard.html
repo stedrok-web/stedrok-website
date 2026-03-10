@@ -129,7 +129,7 @@
   <main id="main">
     <div class="container">
       <div class="dashboard-header">
-        <h1 id="dashboardTitle">System Selected Top Stocks</h1>
+        <h1 id="dashboardTitle">Current Ranked Stock Coverage</h1>
         <div id="dashboardLaneToggle" class="dashboard-lane-toggle" role="group" aria-label="Dashboard mode selector" style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; justify-content:center;">
           <button type="button" id="laneToggleCore" class="btn-secondary is-active" data-dashboard-lane="core" aria-pressed="true">Core</button>
           <button type="button" id="laneToggleHybrid" class="btn-secondary" data-dashboard-lane="hybrid" aria-pressed="false">AI Hybrid</button>
@@ -154,7 +154,7 @@
 
       <!-- Loading state -->
       <div id="loadingState" style="text-align:center; padding:40px; color:var(--text-secondary);">
-        Loading stock data...
+        Loading current research coverage...
       </div>
 
       <div class="filters">
@@ -163,10 +163,10 @@
         <input type="text" id="sectorFilter" placeholder="Sector...">
         <input type="number" id="minScoreFilter" placeholder="Min score" min="0" max="100">
         <select id="decisionFilter">
-          <option value="">All Ratings</option>
-          <option value="BUY">BUY Only</option>
-          <option value="WATCH">WATCH Only</option>
-          <option value="AVOID">AVOID Only</option>
+          <option value="">All Research States</option>
+          <option value="BUY">BUY</option>
+          <option value="WATCH">WATCH</option>
+          <option value="AVOID">AVOID</option>
         </select>
       </div>
 
@@ -191,7 +191,7 @@
             </tr>
           </thead>
           <tbody id="stocksTableBody">
-            <tr><td colspan="14" style="text-align:center;padding:30px;color:var(--text-secondary);">Loading...</td></tr>
+            <tr><td colspan="14" style="text-align:center;padding:30px;color:var(--text-secondary);">Loading current batch...</td></tr>
           </tbody>
         </table>
       </div>
@@ -210,7 +210,7 @@
             <div>
               <p class="ticker-insight-label">Quick Ticker Insight</p>
               <h3 id="tickerInsightTitle">Select a ticker</h3>
-              <p id="tickerInsightSubhead" class="ticker-insight-subhead">Click a symbol in the table to view the summary.</p>
+              <p id="tickerInsightSubhead" class="ticker-insight-subhead">Select a symbol in the table to review the summary.</p>
             </div>
             <button type="button" id="closeTickerInsightBtn" class="ticker-insight-close" aria-label="Close ticker insight">Close</button>
           </div>
@@ -253,7 +253,7 @@
 
       <div style="margin-top: 14px; text-align: center;">
         <a href="etfs.html" class="btn-secondary" style="position: relative; display: inline-flex; align-items: center; justify-content: center; text-align: center; line-height: 1.2; width: min(100%, 320px); min-width: 0; padding: 11px 20px; border-color: rgba(0, 255, 153, 0.38);">
-          <span style="display: inline-block; width: 100%; text-align: center;">Explore ETF Ideas and Guide</span>
+          <span style="display: inline-block; width: 100%; text-align: center;">Explore ETF Research Coverage</span>
           <span style="position: absolute; top: -8px; right: -8px; font-size: 10px; line-height: 1; letter-spacing: 0.05em; text-transform: uppercase; font-weight: 800; color: #062b1f; background: #34d399; border: 1px solid #6ee7b7; border-radius: 999px; padding: 3px 6px; pointer-events: none;">Free</span>
         </a>
       </div>
@@ -268,7 +268,7 @@
           <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Dip:</strong> Captures recent price weakness from historical peaks and highlights pullbacks that may be interesting for further research.</p>
           <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Confidence:</strong> Indicates the strength of the data behind the score on a 0 to 100 scale. Higher values reflect more complete and consistent financial data.</p>
           <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Discount:</strong> Current price versus estimated fair value. Positive percentages indicate undervaluation.</p>
-          <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Rating:</strong> BUY = compelling risk-reward with margin of safety | WATCH = quality business, limited upside | AVOID = overvalued or weak fundamentals.</p>
+          <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Research Status:</strong> BUY highlights the strongest current combination of valuation, business quality, resilience, and price context. WATCH warrants further review. AVOID sits outside the preferred range under current conditions.</p>
           <p style="margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 13px;">
             Scores are model outputs for research purposes only, not advice. 
             <a href="methodology.html" style="color: var(--accent-green); text-decoration: underline;">How the model works</a> · 

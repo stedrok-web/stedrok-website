@@ -950,7 +950,7 @@ async function loadDashboardLane(userToken, laneMode) {
       lastUpdatedEl.textContent = 'Update temporarily unavailable';
     }
     updateDashboardMachineReadableMetadata({ last_updated: '' }, normalized, 0);
-    showError(`Failed to load ${DASHBOARD_LANE_LABELS[normalized] || 'selected'} picks. Please refresh the page.`);
+    showError(`Unable to load the ${DASHBOARD_LANE_LABELS[normalized] || 'selected'} research view. Please refresh the page.`);
   } finally {
     showLoading(false);
   }
@@ -1064,7 +1064,7 @@ function updateDashboardHeading(count, isFreeUser, laneMode = currentLaneMode) {
 
   const lane = normalizeDashboardLane(laneMode);
   const laneLabel = DASHBOARD_LANE_LABELS[lane] || DASHBOARD_LANE_LABELS.core;
-  heading.textContent = `System Selected Top Stocks (${laneLabel})`;
+  heading.textContent = `Current Ranked Stock Coverage (${laneLabel})`;
 }
 
 // ============================================================
@@ -1077,10 +1077,10 @@ function showFreeUserBanner(count) {
     gate.innerHTML = `
       <div style="background: rgba(102,126,234,0.1); border: 1px solid rgba(102,126,234,0.3);
                   color: var(--text-primary); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-        <h3 style="margin: 0 0 10px 0; color: var(--text-primary);">Free Tier Access</h3>
+        <h3 style="margin: 0 0 10px 0; color: var(--text-primary);">Free Research Access</h3>
         <p style="margin: 0 0 15px 0; color: var(--text-secondary);">
-          You're viewing your <strong>${count} free preview stocks</strong> from the current batch.
-          This free set stays fixed within the same data batch. Click any symbol for a short teaser summary.
+          You're viewing <strong>${count} preview rows</strong> from the current batch.
+          This public preview remains fixed within the same completed batch. Click any symbol for a short summary preview.
           Pro membership unlocks the full ranked research universe and full ticker insights.
         </p>
         <a href="pricing.html" class="btn-primary" 
@@ -1111,7 +1111,7 @@ function showPaidUserStatus(paidUntil, count) {
     gate.innerHTML = `
       <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); 
                   color: var(--text-primary); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-        <strong>Pro Membership Active</strong> - Full research universe (${count} stocks) | 
+        <strong>Pro Membership Active</strong> - Full research coverage (${count} stocks) |
         Subscription renews in ${daysLeft} days
       </div>
     `;
@@ -1126,8 +1126,8 @@ function showError(message) {
   if (gate) {
     gate.style.display = 'block';
     gate.innerHTML = `
-      <div style="background: #ef4444; color: white; padding: 15px; border-radius: 8px;">
-        ⚠️ ${message}
+      <div style="background: rgba(239,68,68,0.14); border: 1px solid rgba(239,68,68,0.35); color: var(--text-primary); padding: 15px; border-radius: 8px;">
+        <strong>Research feed unavailable.</strong> ${message}
       </div>
     `;
   }
@@ -1627,8 +1627,8 @@ async function showTickerInsight(ticker, triggerEl = null) {
       return;
     }
     const fallback = buildFallbackSummary(stock);
-    fallback.headline = 'Summary is temporarily unavailable.';
-    fallback.summary_short = 'The paid insight service could not be reached. Try again in a moment.';
+    fallback.headline = 'Ticker insight is temporarily unavailable.';
+    fallback.summary_short = 'The ticker insight service could not be reached. Please retry shortly.';
     renderTickerInsight(fallback, stock);
   }
 }
@@ -1646,7 +1646,7 @@ function renderTable(stocks) {
     tbody.innerHTML = `
       <tr>
         <td colspan="14" style="text-align:center; padding:40px; color:#999;">
-          No stocks available right now. Check back later!
+          No research rows are available in the current batch. Please check the next refresh.
         </td>
       </tr>
     `;
