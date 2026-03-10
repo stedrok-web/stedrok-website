@@ -30,9 +30,9 @@ const DASHBOARD_LANE_LABELS = {
 };
 
 const DASHBOARD_LANE_DESCRIPTIONS = {
-  core: 'Core: Deterministic, Rule-Based Picks From The Production Fundamental Value And Quality Engine.',
-  hybrid: 'AI Hybrid: AI-Identified Picks Refined By Our Intelligence Selection Layer For Quality, Risk, And Conviction.',
-  blended: 'Blended: Top 100 Investor Candidates Ranked By Combined Score Strength Across Core And AI Hybrid.'
+  core: 'Core: Deterministic, rule-based picks from the production fundamental value and quality engine.',
+  hybrid: 'AI Hybrid (beta): Separate research lane that cross-checks shortlisted companies against live data and current context before publication. Core ratings remain unchanged.',
+  blended: 'Blended: Ranked view combining top candidates from Core and AI Hybrid so you can compare where the two processes agree and where they diverge.'
 };
 
 
