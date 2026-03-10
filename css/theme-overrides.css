@@ -1,6 +1,8 @@
 html {
   background: var(--bg-base);
   color: var(--text-primary);
+  --site-header-height: 72px;
+  --table-header-offset: calc(var(--site-header-height) + 10px);
 }
 
 body {
@@ -321,10 +323,17 @@ textarea:disabled {
   position: relative;
   z-index: 5;
   flex-shrink: 0;
+  color: var(--text-primary);
   border: 1px solid rgba(var(--border-subtle-rgb), 0.82);
   border-radius: 12px;
   background: rgba(var(--bg-raised-rgb), 0.4);
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+}
+
+.mobile-menu-toggle span {
+  background: currentColor !important;
+  height: 2.5px;
+  border-radius: 999px;
 }
 
 .hero,
@@ -874,7 +883,7 @@ details {
 
 .stock-table thead th {
   position: sticky;
-  top: 72px;
+  top: var(--table-header-offset);
   z-index: 20;
   padding: 14px 12px;
   background: var(--table-head-bg);
@@ -930,6 +939,7 @@ details {
   border-radius: 20px;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
+  scroll-padding-top: calc(var(--table-header-offset) + 6px);
 }
 
 .ticker-insight-panel,
@@ -1189,6 +1199,18 @@ footer a:hover,
 }
 
 @media (prefers-color-scheme: dark) {
+  .mobile-menu-toggle {
+    color: #f8fafc;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(226, 232, 240, 0.22);
+    box-shadow: 0 12px 30px rgba(2, 6, 23, 0.35);
+  }
+
+  .mobile-menu-toggle span {
+    background: #f8fafc !important;
+    box-shadow: 0 0 0 0.35px rgba(248, 250, 252, 0.9);
+  }
+
   footer,
   .site-footer {
     background: #0f172a;
@@ -1280,6 +1302,11 @@ footer a:hover,
 }
 
 @media (max-width: 768px) {
+  html {
+    --site-header-height: 60px;
+    --table-header-offset: calc(var(--site-header-height) + 8px);
+  }
+
   .navbar {
     min-height: 60px;
     flex-wrap: wrap;
@@ -1295,10 +1322,6 @@ footer a:hover,
     margin-left: auto;
     background: rgba(255, 255, 255, 0.92);
     border-color: rgba(46, 64, 128, 0.16);
-  }
-
-  .mobile-menu-toggle span {
-    background: var(--text-primary);
   }
 
   .nav-links {
@@ -1389,6 +1412,7 @@ footer a:hover,
   .table-container {
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
+    padding-top: 4px;
   }
 
   .comparison-table {
@@ -1453,5 +1477,19 @@ footer a:hover,
   .footer-links a {
     width: 100%;
     max-width: 220px;
+  }
+}
+
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+  .mobile-menu-toggle {
+    background: rgba(15, 23, 42, 0.92) !important;
+    color: #f8fafc !important;
+    border-color: rgba(226, 232, 240, 0.22) !important;
+    box-shadow: 0 12px 30px rgba(2, 6, 23, 0.42) !important;
+  }
+
+  .mobile-menu-toggle span {
+    background: #f8fafc !important;
+    box-shadow: none !important;
   }
 }
