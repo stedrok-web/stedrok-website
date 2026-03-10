@@ -174,22 +174,23 @@
 
       <div class="table-container">
         <table class="stock-table" id="stocksTable">
+          <caption style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">Current ranked stock coverage table with sortable columns for symbol, company, country, sector, rating, scores, and price context.</caption>
           <thead>
             <tr>
-              <th data-sort="ticker">Symbol</th>
-              <th data-sort="company_name">Company</th>
-              <th data-sort="country">Country</th>
-              <th data-sort="sector">Sector</th>
-              <th data-sort="decision">Rating</th>
-              <th data-sort="market_cap">Mkt Cap</th>
-              <th data-sort="confidence">Confidence</th>
-              <th data-sort="value_score">Value</th>
-              <th data-sort="quality_score">Quality</th>
-              <th data-sort="risk_score">Risk</th>
-              <th data-sort="dip_score">Dip</th>
-              <th data-sort="current_price">Price</th>
-              <th data-sort="fair_value">Fair Value</th>
-              <th data-sort="discount_pct">Discount</th>
+              <th scope="col" data-sort="ticker">Symbol</th>
+              <th scope="col" data-sort="company_name">Company</th>
+              <th scope="col" data-sort="country">Country</th>
+              <th scope="col" data-sort="sector">Sector</th>
+              <th scope="col" data-sort="decision">Rating</th>
+              <th scope="col" data-sort="market_cap">Mkt Cap</th>
+              <th scope="col" data-sort="confidence">Confidence</th>
+              <th scope="col" data-sort="value_score">Value</th>
+              <th scope="col" data-sort="quality_score">Quality</th>
+              <th scope="col" data-sort="risk_score">Risk</th>
+              <th scope="col" data-sort="dip_score">Dip</th>
+              <th scope="col" data-sort="current_price">Price</th>
+              <th scope="col" data-sort="fair_value">Fair Value</th>
+              <th scope="col" data-sort="discount_pct">Discount</th>
             </tr>
           </thead>
           <tbody id="stocksTableBody">
