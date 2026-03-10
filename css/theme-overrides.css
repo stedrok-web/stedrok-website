@@ -883,7 +883,7 @@ details {
 
 .stock-table thead th {
   position: sticky;
-  top: var(--table-header-offset);
+  top: 0;
   z-index: 20;
   padding: 14px 12px;
   background: var(--table-head-bg);
@@ -939,7 +939,7 @@ details {
   border-radius: 20px;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
-  scroll-padding-top: calc(var(--table-header-offset) + 6px);
+  scroll-padding-top: 0;
 }
 
 .ticker-insight-panel,
