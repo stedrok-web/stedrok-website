@@ -364,6 +364,7 @@ function renderInsight(summary, row) {
 function openInsightPanel() {
   const panel = document.getElementById('tickerInsightPanel');
   if (!panel) return;
+  panel.removeAttribute('inert');
   panel.classList.add('is-open');
   panel.setAttribute('aria-hidden', 'false');
   document.body.classList.add('ticker-insight-open');
@@ -374,6 +375,7 @@ function closeInsightPanel(reset = false) {
   if (panel) {
     panel.classList.remove('is-open');
     panel.setAttribute('aria-hidden', 'true');
+    panel.setAttribute('inert', '');
   }
   document.body.classList.remove('ticker-insight-open');
 
