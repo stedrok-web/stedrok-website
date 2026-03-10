@@ -2178,42 +2178,53 @@ function setupFilters() {
 }
 
 function setupSorting() {
-  // Add click handlers to all sortable column headers
   const headers = document.querySelectorAll('#stocksTable th[data-sort]');
+
+  function updateSortIndicators() {
+    headers.forEach(h => {
+      const col = h.getAttribute('data-sort');
+      if (col === currentSortColumn) {
+        h.dataset.sortState = currentSortDirection;
+        h.setAttribute('aria-sort', currentSortDirection === 'desc' ? 'descending' : 'ascending');
+        h.style.color = 'var(--table-header-active, var(--accent-green))';
+      } else {
+        h.dataset.sortState = 'none';
+        h.setAttribute('aria-sort', 'none');
+        h.style.color = '';
+      }
+    });
+  }
+
+  function triggerSort(header) {
+    const column = header.getAttribute('data-sort');
+
+    if (currentSortColumn === column) {
+      currentSortDirection = currentSortDirection === 'desc' ? 'asc' : 'desc';
+    } else {
+      currentSortColumn = column;
+      currentSortDirection = 'desc';
+    }
+
+    updateSortIndicators();
+    applyFilters();
+  }
 
   headers.forEach(header => {
     header.style.cursor = 'pointer';
+    header.setAttribute('tabindex', '0');
     header.dataset.sortState = 'none';
     header.setAttribute('aria-sort', 'none');
+    header.setAttribute('aria-label', `${header.textContent.trim()} sortable column`);
 
-    header.addEventListener('click', () => {
-      const column = header.getAttribute('data-sort');
-
-      // Toggle direction if same column, otherwise default to descending
-      if (currentSortColumn === column) {
-        currentSortDirection = currentSortDirection === 'desc' ? 'asc' : 'desc';
-      } else {
-        currentSortColumn = column;
-        currentSortDirection = 'desc';
-      }
-
-      // Update visual indicators
-      headers.forEach(h => {
-        const col = h.getAttribute('data-sort');
-        if (col === currentSortColumn) {
-          h.dataset.sortState = currentSortDirection;
-          h.setAttribute('aria-sort', currentSortDirection === 'desc' ? 'descending' : 'ascending');
-          h.style.color = 'var(--table-header-active, var(--accent-green))';
-        } else {
-          h.dataset.sortState = 'none';
-          h.setAttribute('aria-sort', 'none');
-          h.style.color = '';
-        }
-      });
-
-      applyFilters();
+    header.addEventListener('click', () => triggerSort(header));
+    header.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      triggerSort(header);
     });
   });
+
+  updateSortIndicators();
 }
 
 function applyFilters() {
