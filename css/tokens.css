@@ -28,6 +28,7 @@
   --text-secondary: #a8b8e8;
   --text-muted: #8090c0;
   --text-inverse: #050b2e;
+  --button-primary-text: #050b2e;
   --border-subtle: #1e3080;
   --border-subtle-rgb: 30, 48, 128;
   --border-active: #4a6ae0;
@@ -58,6 +59,13 @@
   --table-blur-text-soft: rgba(148, 163, 184, 0.45);
   --table-positive: var(--buy);
   --table-negative: var(--avoid);
+  --bg-dark: var(--bg-base);
+  --bg-card: var(--bg-elevated);
+  --border-color: rgba(168, 184, 232, 0.18);
+  --accent-green-dark: #178a46;
+  --accent-red-dark: #ef4444;
+  --card-radius: 18px;
+  --shadow: var(--shadow-card);
 }
 
 @media (prefers-color-scheme: light) {
@@ -89,6 +97,7 @@
     --text-secondary: #2e4080;
     --text-muted: #5060a0;
     --text-inverse: #ffffff;
+    --button-primary-text: #0a0d2e;
     --border-subtle: #c0ccea;
     --border-subtle-rgb: 192, 204, 234;
     --border-active: #4060d0;
@@ -117,5 +126,12 @@
     --table-grid: rgba(80, 96, 160, 0.16);
     --table-blur-text: rgba(80, 96, 160, 0.46);
     --table-blur-text-soft: rgba(80, 96, 160, 0.32);
+    --bg-dark: var(--bg-base);
+    --bg-card: var(--bg-elevated);
+    --border-color: rgba(64, 96, 208, 0.16);
+    --accent-green-dark: #0f6b35;
+    --accent-red-dark: #a92d2d;
+    --card-radius: 18px;
+    --shadow: var(--shadow-card);
   }
 }

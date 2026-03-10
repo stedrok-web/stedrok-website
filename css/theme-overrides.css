@@ -183,6 +183,10 @@ header {
   color: var(--accent-ink);
 }
 
+.logo.active {
+  color: var(--accent-ink);
+}
+
 .auth-buttons {
   align-items: center;
   gap: 12px;
@@ -204,13 +208,13 @@ header {
 
 .btn-primary {
   background: var(--accent-fill);
-  color: var(--text-inverse);
+  color: var(--button-primary-text);
   border: 1px solid rgba(var(--accent-fill-rgb), 0.26);
   box-shadow: var(--shadow-glow);
 }
 
 .btn-primary:hover {
-  color: var(--text-inverse);
+  color: var(--button-primary-text);
   transform: translateY(-1px);
   text-decoration: none;
 }
@@ -302,6 +306,145 @@ textarea:disabled {
       radial-gradient(circle at 82% 18%, rgba(var(--bg-raised-rgb), 0.7) 0 46px, transparent 48px),
       radial-gradient(circle at 64% 74%, rgba(var(--bg-raised-rgb), 0.58) 0 28px, transparent 30px);
     opacity: 0.9;
+  }
+
+  .problem-card h3 {
+    color: #b4233d !important;
+  }
+
+  .problem-card p,
+  .solution-box p,
+  .feature-card p,
+  .sample-output-body p,
+  .step-card p,
+  .audience-card p {
+    color: var(--text-secondary) !important;
+  }
+
+  .solution-box h3,
+  .audience-card h3 {
+    color: var(--accent-green-dark) !important;
+  }
+
+  .price-note,
+  .payment-note {
+    color: var(--text-secondary) !important;
+  }
+
+  .benefits li.disabled {
+    color: #556286 !important;
+    opacity: 0.96 !important;
+  }
+
+  .status-success,
+  .status-success strong,
+  .status-success p,
+  .status-error,
+  .status-error strong,
+  .status-error p,
+  #checkout-state-title,
+  #checkout-state-detail,
+  #payment-status-text {
+    color: inherit !important;
+  }
+
+  .status-success {
+    background: rgba(22, 163, 74, 0.14) !important;
+    color: #166534 !important;
+    border-left-color: #16a34a !important;
+  }
+
+  .status-error {
+    background: rgba(220, 38, 38, 0.14) !important;
+    color: #991b1b !important;
+    border-left-color: #dc2626 !important;
+  }
+
+  .badge-buy {
+    color: #166534 !important;
+    border-color: rgba(22, 101, 52, 0.28) !important;
+    background: rgba(22, 163, 74, 0.14) !important;
+  }
+
+  .check-yes {
+    color: #166534 !important;
+  }
+
+  .badge-watch {
+    color: #92400e !important;
+    border-color: rgba(146, 64, 14, 0.24) !important;
+    background: rgba(245, 158, 11, 0.16) !important;
+  }
+
+  .badge-avoid {
+    color: #b91c1c !important;
+    border-color: rgba(185, 28, 28, 0.26) !important;
+    background: rgba(239, 68, 68, 0.12) !important;
+  }
+
+  .check-no {
+    color: #991b1b !important;
+  }
+
+  .stock-table,
+  .table-container {
+    background: var(--table-surface) !important;
+  }
+
+  .stock-table thead th {
+    background: var(--table-head-bg) !important;
+    color: var(--table-head-text) !important;
+  }
+
+  .stock-table tbody td {
+    background: var(--table-row-bg) !important;
+    color: var(--text-primary) !important;
+  }
+
+  .stock-table tbody tr:nth-child(even) td {
+    background: var(--table-row-alt) !important;
+  }
+
+  .stock-table tbody tr:hover td {
+    background: var(--table-row-hover) !important;
+  }
+
+  .stock-table tbody td:first-child {
+    background: var(--table-sticky-bg) !important;
+  }
+
+  .stock-table tbody tr:nth-child(even) td:first-child {
+    background: var(--table-sticky-bg-alt) !important;
+  }
+
+  .stock-table tbody tr:hover td:first-child {
+    background: var(--table-sticky-hover) !important;
+  }
+
+  .stock-table tbody tr.demo-row-featured td {
+    background: rgba(220, 252, 231, 0.92) !important;
+    color: var(--text-primary) !important;
+  }
+
+  .stock-table tbody tr.demo-row-featured td:first-child {
+    background: rgba(209, 250, 229, 0.98) !important;
+  }
+
+  .stock-table tbody tr.demo-row-blur td {
+    color: #6c789a !important;
+  }
+
+  .ticker-insight-trigger {
+    color: var(--accent-ink) !important;
+  }
+
+  .ticker-insight-trigger:hover {
+    color: #2440b8 !important;
+  }
+
+  .ticker-insight-trigger--locked,
+  .ticker-insight-trigger[disabled] {
+    color: #6c789a !important;
   }
 }
 
@@ -720,6 +863,61 @@ details {
 
 .footer-links a:hover {
   color: var(--accent-ink);
+}
+
+footer p,
+.footer-legal,
+.footer-tagline,
+.footer-links a {
+  color: #94a3b8;
+}
+
+footer a:hover,
+.footer-links a:hover {
+  color: #ffffff;
+}
+
+@media (prefers-color-scheme: light) {
+  .comparison-table th {
+    background: var(--bg-raised) !important;
+    color: var(--text-primary) !important;
+  }
+
+  .comparison-table td {
+    color: var(--text-secondary) !important;
+  }
+
+  .check-yes {
+    color: #166534 !important;
+    opacity: 1 !important;
+  }
+
+  .check-no {
+    color: #991b1b !important;
+    opacity: 1 !important;
+  }
+
+  .faq-item p {
+    color: var(--text-secondary) !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .check-no {
+    color: #f87171 !important;
+    opacity: 1 !important;
+  }
+
+  .benefits li.disabled {
+    color: #c1cae8 !important;
+    opacity: 0.82 !important;
+  }
+
+  .featured .price-badge {
+    background: #166534 !important;
+    color: #f8fafc !important;
+    border-color: rgba(134, 239, 172, 0.3) !important;
+  }
 }
 
 @media (max-width: 960px) {
