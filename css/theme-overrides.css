@@ -1304,7 +1304,7 @@ footer a:hover,
 @media (max-width: 768px) {
   html {
     --site-header-height: 60px;
-    --table-header-offset: calc(var(--site-header-height) + 8px);
+    --table-header-offset: 0px;
   }
 
   .navbar {
@@ -1413,6 +1413,20 @@ footer a:hover,
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
     padding-top: 4px;
+    scroll-padding-top: 0;
+  }
+
+  .stock-table thead th {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 20 !important;
+  }
+
+  .stock-table thead th:first-child {
+    position: sticky !important;
+    left: 0;
+    top: 0 !important;
+    z-index: 26 !important;
   }
 
   .comparison-table {
@@ -1477,6 +1491,29 @@ footer a:hover,
   .footer-links a {
     width: 100%;
     max-width: 220px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  html {
+    --table-header-offset: 0px;
+  }
+
+  .table-container {
+    scroll-padding-top: 0;
+  }
+
+  .stock-table thead th {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 20 !important;
+  }
+
+  .stock-table thead th:first-child {
+    position: sticky !important;
+    left: 0;
+    top: 0 !important;
+    z-index: 26 !important;
   }
 }
 
