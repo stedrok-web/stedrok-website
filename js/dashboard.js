@@ -1002,6 +1002,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   currentUser = session.user;
   const userToken = session.access_token;
   setupTickerInsightUI(userToken);
+  document.documentElement.dataset.dashboardTooltipsReady = 'true';
+  document.dispatchEvent(new CustomEvent('stedrok:dashboard-ready'));
 
   const initialLane = normalizeDashboardLane(new URL(window.location.href).searchParams.get('lane'));
   currentLaneMode = initialLane;
@@ -2346,3 +2348,5 @@ function formatDate(dateString) {
     day: 'numeric' 
   });
 }
+
+

@@ -9,12 +9,19 @@
     fair_value: { metricKey: 'fair_value' },
     discount_pct: { metricKey: 'discount_pct', glossaryKey: 'margin_of_safety' }
   };
+  let hydrated = false;
 
   function buildTooltipText(definition) {
     return `${definition.label}: ${definition.definition}`;
   }
 
   async function hydrateDashboardHeaders() {
+    if (hydrated) {
+      return;
+    }
+    if (document.documentElement.dataset.dashboardTooltipsReady !== 'true') {
+      return;
+    }
     if (!window.stedrokMetricDefinitions || typeof window.stedrokMetricDefinitions.getAll !== 'function') {
       return;
     }
@@ -37,7 +44,11 @@
       header.setAttribute('aria-label', tooltip);
       header.dataset.glossaryHref = `value-investing-glossary.html#${glossaryDefinition.slug}`;
     });
+    hydrated = true;
   }
 
   document.addEventListener('DOMContentLoaded', hydrateDashboardHeaders);
+  document.addEventListener('stedrok:dashboard-ready', hydrateDashboardHeaders);
 })();
+
+
