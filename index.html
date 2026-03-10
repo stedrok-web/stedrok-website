@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -41,21 +41,10 @@
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
 
   <!-- Security & Performance -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; script-src 'self' 'sha256-GZ5a52QS2OKSgvFcIy5QO8cUIcJD8qPTzbDEeepfANg=' https://cdn.jsdelivr.net https://www.paypal.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://stedrok-api.stedrok.workers.dev https://*.supabase.co https://www.paypal.com; frame-src https://www.paypal.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; script-src 'self' https://cdn.jsdelivr.net https://www.paypal.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://stedrok-api.stedrok.workers.dev https://*.supabase.co https://www.paypal.com; frame-src https://www.paypal.com;">
   <meta name="referrer" content="no-referrer-when-downgrade">
 
   <!-- CSS -->
-  <script>
-  (function(){
-    var saved = localStorage.getItem('stedrok-theme');
-    var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', saved || system);
-  })();
-  </script>
-
-  <link rel="stylesheet" href="css/tokens.css?v=20260310d1">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Sora:wght@700;800&display=swap">
-
   <link rel="stylesheet" href="css/main.css?v=20260310c">
 
   <!-- JSON-LD: Organization -->
@@ -272,9 +261,8 @@
       .check-yes, .check-no { font-size: 15px; }
     }
   </style>
-  <link rel="stylesheet" href="css/theme-overrides.css?v=20260310d2">
 </head>
-<body class="home-page">
+<body>
   <a href="#main" class="skip-link">Skip to content</a>
   <header>
     <div class="container">
@@ -315,11 +303,9 @@
           <a href="demo.html" class="btn-secondary btn-large">View No-Login Demo</a>
           <a href="philosophy.html" class="btn-secondary btn-large">Read Our Philosophy</a>
         </div>
-        <div class="trust-chip-row" aria-label="Stedrok trust signals">
-          <span class="trust-chip">Founded in Australia (Stedrok Pty Ltd)</span>
-          <span class="trust-chip">PayPal billing; we never store card details</span>
-          <span class="trust-chip">Public, transparent methodology</span>
-        </div>
+        <p class="trust-badges">
+          Founded in Australia (Stedrok Pty Ltd)&nbsp;&nbsp;|&nbsp;&nbsp;PayPal billing; we never store card details&nbsp;&nbsp;|&nbsp;&nbsp;Public, transparent methodology
+        </p>
         <div class="trust-strip">
           <strong>Security:</strong> Data pipeline secured by Supabase and Cloudflare Workers. Payments processed by PayPal. Stedrok never sees your card details.
         </div>
@@ -367,7 +353,7 @@
         <div class="solution-box">
             <h3>Stedrok Takes a Different Path</h3>
           <p>
-            We focus on value, business strength, resilience, and price context â€“ not momentum or hype.
+            We focus on value, business strength, resilience, and price context – not momentum or hype.
             The methodology is fully transparent. Every rating comes with a clear explanation of the
             underlying factors. And it's affordable: $3 per month, with a genuinely useful free tier.
             For investors who want a second lens, AI Hybrid adds a separately gated research process, and Blended combines both views in one ranked table.
@@ -598,44 +584,44 @@
             <tbody>
               <tr>
                 <td>Value-focused methodology</td>
-                <td class="check-yes">âœ“ Core focus</td>
-                <td class="check-yes">âœ“ Often available</td>
-                <td class="check-no">âœ— Rarely prioritised</td>
+                <td class="check-yes">✓ Core focus</td>
+                <td class="check-yes">✓ Often available</td>
+                <td class="check-no">✗ Rarely prioritised</td>
               </tr>
               <tr>
                 <td>Transparent scoring</td>
-                <td class="check-yes">âœ“ Fully explained</td>
+                <td class="check-yes">✓ Fully explained</td>
                 <td class="check-no">~ Sometimes hidden</td>
-                <td class="check-no">âœ— Black box</td>
+                <td class="check-no">✗ Black box</td>
               </tr>
               <tr>
                 <td>Resilience and quality filters</td>
-                <td class="check-yes">âœ“ Built in</td>
-                <td class="check-yes">âœ“ Yes</td>
+                <td class="check-yes">✓ Built in</td>
+                <td class="check-yes">✓ Yes</td>
                 <td class="check-no">~ Basic only</td>
               </tr>
               <tr>
                 <td>Affordable pricing</td>
-                <td class="check-yes">âœ“ $3/month</td>
-                <td class="check-no">âœ— $50â€“500/month</td>
-                <td class="check-yes">âœ“ Free (ad-supported)</td>
+                <td class="check-yes">✓ $3/month</td>
+                <td class="check-no">✗ $50–500/month</td>
+                <td class="check-yes">✓ Free (ad-supported)</td>
               </tr>
               <tr>
                 <td>Free tier that's actually useful</td>
-                <td class="check-yes">âœ“ 3 stocks, ongoing</td>
-                <td class="check-no">âœ— Trials only</td>
-                <td class="check-yes">âœ“ Free (limited data quality)</td>
+                <td class="check-yes">✓ 3 stocks, ongoing</td>
+                <td class="check-no">✗ Trials only</td>
+                <td class="check-yes">✓ Free (limited data quality)</td>
               </tr>
               <tr>
                 <td>No ads or upsells</td>
-                <td class="check-yes">âœ“ Clean interface</td>
-                <td class="check-yes">âœ“ Usually</td>
-                <td class="check-no">âœ— Ad-heavy</td>
+                <td class="check-yes">✓ Clean interface</td>
+                <td class="check-yes">✓ Usually</td>
+                <td class="check-no">✗ Ad-heavy</td>
               </tr>
               <tr>
                 <td>Daily data updates</td>
-                <td class="check-yes">âœ“ Every trading day</td>
-                <td class="check-yes">âœ“ Real-time or daily</td>
+                <td class="check-yes">✓ Every trading day</td>
+                <td class="check-yes">✓ Real-time or daily</td>
                 <td class="check-no">~ Delayed or patchy</td>
               </tr>
             </tbody>
@@ -780,9 +766,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
-  <script src="js/mobile-menu.js?v=20260310d2"></script>
+  <script src="js/mobile-menu.js?v=20260310c"></script>
   <script src="js/public-auth-nav.js?v=20260227a4"></script>
-  <script src="js/site-theme.js?v=20260310d1"></script>
 </body>
 </html>
-

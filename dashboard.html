@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -33,17 +33,6 @@
   <link rel="preconnect" href="https://unpkg.com" crossorigin>
   <link rel="preconnect" href="https://ziysjyzdbmgvmzjcjbjj.supabase.co" crossorigin>
   <link rel="preconnect" href="https://stedrok-api.stedrok.workers.dev" crossorigin>
-  <script>
-  (function(){
-    var saved = localStorage.getItem('stedrok-theme');
-    var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', saved || system);
-  })();
-  </script>
-
-  <link rel="stylesheet" href="css/tokens.css?v=20260310d1">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Sora:wght@700;800&display=swap">
-
   <link rel="stylesheet" href="css/main.css?v=20260310c">
   
   <script type="application/ld+json">
@@ -110,7 +99,6 @@
     "usageInfo": "General information for research workflows only; not personal financial advice."
   }
   </script>
-  <link rel="stylesheet" href="css/theme-overrides.css?v=20260310d2">
 </head>
 <body class="dashboard-page">
   <a href="#main" class="skip-link">Skip to content</a>
@@ -150,7 +138,7 @@
         <p id="dashboardLaneDescription" style="color: var(--text-secondary); margin-top: 10px; font-size: 14px;">Core: Deterministic, Rule-Based Picks From The Production Fundamental Value And Quality Engine.</p>
         <p class="last-updated">Last updated: <span id="lastUpdated">Pending refresh</span></p>
         <p style="color: var(--text-secondary); margin-top: 12px; font-size: 15px; line-height: 1.7;">
-          This table is the current ranked output of the Stedrok engine. Behind it are more than seven thousand companies scanned twice each trading day â€” cleaned, scored across four pillars and filtered down to the names with the strongest combined profiles.
+          This table is the current ranked output of the Stedrok engine. Behind it are more than seven thousand companies scanned twice each trading day — cleaned, scored across four pillars and filtered down to the names with the strongest combined profiles.
         </p>
         <p style="color: var(--text-primary); margin-top: 12px; font-size: 15px;">
           Scores are model outputs based on public data and are designed for research, not automatic decisions.
@@ -283,7 +271,7 @@
           <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Research Status:</strong> BUY highlights the strongest current combination of valuation, business quality, resilience, and price context. WATCH warrants further review. AVOID sits outside the preferred range under current conditions.</p>
           <p style="margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 13px;">
             Scores are model outputs for research purposes only, not advice. 
-            <a href="methodology.html" style="color: var(--accent-green); text-decoration: underline;">How the model works</a> Â· 
+            <a href="methodology.html" style="color: var(--accent-green); text-decoration: underline;">How the model works</a> · 
             <a href="value-investing-glossary.html" style="color: var(--accent-green); text-decoration: underline;">Glossary of terms</a>
           </p>
         </div>
@@ -291,7 +279,7 @@
       
       <p style="margin-top: 24px; text-align: center; color: var(--text-secondary); font-size: 14px;">
         Data is refreshed at least once per trading day. The engine usually runs twice each trading day. Scores may change as new market data arrives.
-        <a href="methodology.html" style="color:var(--accent-green);text-decoration:underline;">How the model works</a> Â· 
+        <a href="methodology.html" style="color:var(--accent-green);text-decoration:underline;">How the model works</a> · 
         <a href="dashboard-guide.html" style="color:var(--accent-green);text-decoration:underline;">How to use this page</a>
       </p>
     </div>
@@ -325,8 +313,6 @@
   <script src="js/metric-definitions.js?v=20260221m9"></script>
   <script src="js/metric-tooltips.js?v=20260221m9"></script>
   <script src="js/dashboard.js?v=20260310c"></script>
-  <script src="js/mobile-menu.js?v=20260310d2"></script>
-  <script src="js/site-theme.js?v=20260310d1"></script>
+  <script src="js/mobile-menu.js?v=20260310c"></script>
 </body>
 </html>
-

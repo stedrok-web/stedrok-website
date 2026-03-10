@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     navLinks.classList.remove('active');
     mobileMenuToggle.setAttribute('aria-expanded', 'false');
     if (navbar) navbar.classList.remove('menu-open');
-    document.body.classList.remove('mobile-menu-open');
   };
 
   const openMenu = () => {
@@ -20,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     navLinks.classList.add('active');
     mobileMenuToggle.setAttribute('aria-expanded', 'true');
     if (navbar) navbar.classList.add('menu-open');
-    document.body.classList.add('mobile-menu-open');
   };
 
   mobileMenuToggle.setAttribute('aria-expanded', 'false');

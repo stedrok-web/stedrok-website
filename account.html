@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -23,17 +23,6 @@
   <meta name="twitter:description" content="Manage your Stedrok account, subscription status, billing settings, password updates, and support details in one secure account settings page.">
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
-  <script>
-  (function(){
-    var saved = localStorage.getItem('stedrok-theme');
-    var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', saved || system);
-  })();
-  </script>
-
-  <link rel="stylesheet" href="css/tokens.css?v=20260310d1">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Sora:wght@700;800&display=swap">
-
   <link rel="stylesheet" href="css/main.css?v=20260310c">
   
   <script type="application/ld+json">
@@ -56,7 +45,6 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="css/theme-overrides.css?v=20260310d2">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -103,7 +91,7 @@
             cancel your subscription, or view invoices, visit your PayPal account.
           </p>
           <a href="https://www.paypal.com/myaccount/autopay/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
-            Manage Subscription on PayPal â†’
+            Manage Subscription on PayPal →
           </a>
           <p style="color:var(--text-secondary); margin-top:12px; font-size:13px;">
             Stedrok does not store card data. Your payment provider handles that.
@@ -154,8 +142,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/account.js"></script>
-  <script src="js/mobile-menu.js?v=20260310d2"></script>
-  <script src="js/site-theme.js?v=20260310d1"></script>
+  <script src="js/mobile-menu.js?v=20260310c"></script>
 </body>
 </html>
-
