@@ -17,6 +17,28 @@ body.account-page {
   background: linear-gradient(180deg, rgba(var(--bg-surface-rgb), 0.08), var(--bg-base) 16%);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .feature-card:hover,
+  .sample-output-card:hover,
+  .pricing-card:hover,
+  .article-card:hover,
+  .contact-card:hover,
+  .contact-form-wrap:hover,
+  .card:hover,
+  .btn-primary:hover {
+    transform: none !important;
+  }
+}
+
 img,
 svg,
 canvas,
@@ -68,6 +90,46 @@ li,
 .usage-card p,
 .use-case-card p {
   color: var(--text-secondary);
+}
+
+.section p,
+.section li,
+.section ol,
+.section ul,
+.section-lead,
+.section--narrow p,
+.section--narrow li,
+.lead,
+.hero-subtext,
+.pricing-card p,
+.pricing-card li,
+.benefits li,
+.status-value,
+.faq-card p,
+.glossary-item p,
+.usage-card p,
+.use-case-card p,
+.highlight-box p,
+.risk-box p,
+.demo-pillar p,
+.demo-metric-label,
+.demo-mini-note,
+.empty-state,
+.callout p {
+  color: var(--text-secondary) !important;
+}
+
+.section--narrow h1,
+.section--narrow h2,
+.section--narrow h3,
+.status-card strong,
+.faq-card h3,
+.glossary-item h3,
+.highlight-box strong,
+.risk-box strong,
+.demo-pillar h3,
+.demo-metric-value {
+  color: var(--text-primary) !important;
 }
 
 h1,
@@ -518,6 +580,11 @@ textarea:disabled {
   background: rgba(var(--bg-elevated-rgb), 0.28);
 }
 
+.section.section--light,
+.demo-section.demo-section--light {
+  background: rgba(var(--bg-elevated-rgb), 0.28) !important;
+}
+
 .section--border,
 .section--border-top {
   border-top: 1px solid rgba(var(--border-subtle-rgb), 0.46);
@@ -652,6 +719,10 @@ textarea:disabled {
   box-shadow: var(--shadow-soft);
 }
 
+.rating-table {
+  min-width: 740px;
+}
+
 .comparison-table th,
 .rating-table th {
   background: var(--table-head-bg);
@@ -666,6 +737,11 @@ textarea:disabled {
 .comparison-table td,
 .rating-table td {
   color: var(--text-secondary);
+}
+
+.rating-table td:first-child,
+.rating-table th:first-child {
+  min-width: 144px;
 }
 
 .comparison-table th,
@@ -825,6 +901,30 @@ details {
   background: var(--table-row-hover);
 }
 
+.stock-table thead th:first-child,
+.stock-table tbody td:first-child {
+  position: sticky;
+  left: 0;
+  background: var(--table-sticky-bg);
+  box-shadow: 1px 0 0 var(--table-grid), 10px 0 16px -14px rgba(2, 6, 23, 0.42);
+}
+
+.stock-table thead th:first-child {
+  z-index: 24;
+}
+
+.stock-table tbody td:first-child {
+  z-index: 8;
+}
+
+.stock-table tbody tr:nth-child(even) td:first-child {
+  background: var(--table-sticky-bg-alt);
+}
+
+.stock-table tbody tr:hover td:first-child {
+  background: var(--table-sticky-hover);
+}
+
 .table-container {
   overflow-x: auto;
   border-radius: 20px;
@@ -849,6 +949,77 @@ details {
   color: var(--text-secondary);
 }
 
+.highlight-box,
+.risk-box {
+  background: rgba(var(--bg-elevated-rgb), 0.92) !important;
+  border: 1px solid rgba(var(--border-subtle-rgb), 0.82) !important;
+  border-left-width: 4px !important;
+  box-shadow: var(--shadow-soft);
+}
+
+.highlight-box {
+  border-left-color: var(--accent-green) !important;
+}
+
+.risk-box {
+  border-left-color: var(--accent-amber) !important;
+}
+
+.status-card,
+.status-item,
+.glossary-item,
+.faq-card,
+.demo-pillar {
+  background: rgba(var(--bg-elevated-rgb), 0.94) !important;
+  border-color: rgba(var(--border-subtle-rgb), 0.72) !important;
+}
+
+.problem-card p,
+.solution-box p,
+.feature-card p,
+.sample-output-body p,
+.step-card p,
+.audience-card p,
+.faq-item p,
+.cta-section p {
+  color: var(--text-secondary) !important;
+}
+
+.problem-card h3 {
+  color: #b4233d !important;
+}
+
+.solution-box h3,
+.audience-card h3,
+.use-case-card h3 {
+  color: var(--accent-green-dark) !important;
+}
+
+.comparison-table td,
+.comparison-table th,
+.rating-table td,
+.rating-table th {
+  line-height: 1.55;
+}
+
+.stock-table tbody td,
+.stock-table tbody td strong,
+.stock-table tbody td a,
+.ticker-insight-headline,
+.ticker-insight-summary,
+.ticker-insight-news,
+.ticker-insight-newsline,
+.ticker-insight-updated,
+.ticker-insight-subhead {
+  color: var(--text-primary) !important;
+}
+
+.ticker-insight-chip,
+.price-badge,
+.exchange-chip {
+  color: var(--text-secondary) !important;
+}
+
 .footer-main {
   display: grid;
   grid-template-columns: 1fr;
@@ -867,6 +1038,11 @@ details {
 
 .footer-links a {
   color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.4rem 0.45rem;
 }
 
 .footer-links a:hover {
@@ -899,6 +1075,11 @@ footer a:hover,
 }
 
 @media (prefers-color-scheme: light) {
+  header {
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 8px 28px rgba(51, 65, 85, 0.08);
+  }
+
   .hero .lead,
   .hero .subtitle,
   .hero-tagline,
@@ -914,6 +1095,16 @@ footer a:hover,
   .trust-strip.security,
   .trust-strip.disclaimer {
     background: rgba(255, 255, 255, 0.82) !important;
+  }
+
+  .section.section--light,
+  .demo-section.demo-section--light {
+    background: rgba(15, 23, 42, 0.05) !important;
+  }
+
+  .highlight-box,
+  .risk-box {
+    background: rgba(255, 255, 255, 0.94) !important;
   }
 
   .comparison-table th {
@@ -937,6 +1128,63 @@ footer a:hover,
 
   .faq-item p {
     color: var(--text-secondary) !important;
+  }
+
+  .hero::before,
+  .pricing-hero::before,
+  .demo-hero::before,
+  .auth-full-screen::before {
+    opacity: 0.72;
+  }
+
+  .problem-card,
+  .feature-card,
+  .sample-output-card,
+  .step-card,
+  .audience-card,
+  .faq-item,
+  .pricing-card,
+  .use-case-card,
+  .usage-card,
+  .pillar-card,
+  .glossary-section,
+  .article-card,
+  .contact-card,
+  .contact-form-wrap,
+  .auth-card,
+  .card,
+  .status-card,
+  .status-item,
+  .glossary-item,
+  .faq-card,
+  .demo-pillar {
+    background: rgba(255, 255, 255, 0.94) !important;
+  }
+
+  .demo-page .stock-table tbody td,
+  .dashboard-page .stock-table tbody td,
+  .demo-page .stock-table tbody td strong,
+  .dashboard-page .stock-table tbody td strong {
+    color: #0f172a !important;
+  }
+
+  .demo-page .stock-table tbody tr.demo-row-featured td {
+    background: rgba(220, 252, 231, 0.92) !important;
+  }
+
+  .demo-page .stock-table tbody tr.demo-row-blur td {
+    color: rgba(100, 116, 139, 0.72) !important;
+  }
+
+  .comparison-table tbody tr:nth-child(even) td,
+  .rating-table tbody tr:nth-child(even) td {
+    background: rgba(15, 23, 42, 0.03) !important;
+  }
+
+  .featured .price-badge {
+    background: #15803d !important;
+    color: #ffffff !important;
+    border-color: rgba(21, 128, 61, 0.24) !important;
   }
 }
 
@@ -972,6 +1220,52 @@ footer a:hover,
     background: #166534 !important;
     color: #f8fafc !important;
     border-color: rgba(134, 239, 172, 0.3) !important;
+  }
+
+  .highlight-box,
+  .risk-box {
+    background: rgba(var(--bg-raised-rgb), 0.42) !important;
+  }
+
+  .problem-card p,
+  .solution-box p,
+  .feature-card p,
+  .sample-output-body p,
+  .step-card p,
+  .audience-card p,
+  .faq-item p,
+  .cta-section p,
+  .faq-card p,
+  .glossary-item p,
+  .status-value,
+  .demo-pillar p {
+    color: #d7def1 !important;
+  }
+
+  .demo-page .stock-table tbody td,
+  .dashboard-page .stock-table tbody td,
+  .demo-page .stock-table tbody td strong,
+  .dashboard-page .stock-table tbody td strong {
+    color: #e8eeff !important;
+  }
+
+  .demo-page .stock-table tbody tr.demo-row-featured td,
+  .dashboard-page .stock-table tbody tr.row-insight-active td {
+    background: rgba(34, 197, 94, 0.14) !important;
+  }
+
+  .demo-page .stock-table tbody tr.demo-row-blur td {
+    color: rgba(203, 213, 225, 0.62) !important;
+  }
+
+  .problem-card h3 {
+    color: #fca5a5 !important;
+  }
+
+  .audience-card h3,
+  .use-case-card h3,
+  .solution-box h3 {
+    color: #86efac !important;
   }
 }
 
@@ -1092,13 +1386,25 @@ footer a:hover,
     -webkit-overflow-scrolling: touch;
   }
 
+  .table-container {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .comparison-table {
     min-width: 720px !important;
     table-layout: auto !important;
   }
 
+  .rating-table {
+    min-width: 720px !important;
+    table-layout: auto !important;
+  }
+
   .comparison-table th,
-  .comparison-table td {
+  .comparison-table td,
+  .rating-table th,
+  .rating-table td {
     min-width: 130px;
     padding: 12px 14px !important;
     white-space: normal !important;
@@ -1109,8 +1415,28 @@ footer a:hover,
   }
 
   .comparison-table th:first-child,
-  .comparison-table td:first-child {
+  .comparison-table td:first-child,
+  .rating-table th:first-child,
+  .rating-table td:first-child {
     min-width: 180px;
+  }
+
+  .section--narrow p,
+  .section p,
+  .lead,
+  .hero .lead,
+  .pricing-hero .subtitle,
+  .demo-lead {
+    font-size: 1rem !important;
+    line-height: 1.78 !important;
+  }
+
+  .highlight-box,
+  .risk-box,
+  .status-card,
+  .faq-card,
+  .glossary-item {
+    padding: 18px !important;
   }
 
   .check-yes,
@@ -1122,5 +1448,10 @@ footer a:hover,
   .footer-main,
   .footer-links {
     text-align: center;
+  }
+
+  .footer-links a {
+    width: 100%;
+    max-width: 220px;
   }
 }
