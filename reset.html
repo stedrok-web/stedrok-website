@@ -49,7 +49,8 @@
   </script>
 </head>
 <body>
-  <div class="auth-full-screen">
+  <a href="#main" class="skip-link">Skip to content</a>
+  <main id="main" class="auth-full-screen">
     <div class="auth-card">
       <div class="auth-branding">
         <a href="index.html" class="logo">STEDROK</a>
@@ -59,26 +60,26 @@
       <h1>Set New Password</h1>
       <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:16px;">Authentication is handled by Supabase. Stedrok never sees your password.</p>
 
-      <div id="success-alert" class="callout callout--success" style="display:none;">
+      <div id="success-alert" class="callout callout--success" style="display:none;" role="status" aria-live="polite">
         <strong>Password updated!</strong>
         <p style="margin-top:8px;">Redirecting to dashboard...</p>
       </div>
 
-      <div id="error-alert" class="error-message" style="display:none;"></div>
+      <div id="error-alert" class="error-message" style="display:none;" role="alert" aria-live="polite"></div>
 
-      <div id="loading-state" style="text-align:center; padding:20px;">
+      <div id="loading-state" style="text-align:center; padding:20px;" role="status" aria-live="polite">
         <p style="color: var(--text-secondary);">Verifying reset link...</p>
       </div>
 
       <form id="reset-form" style="display:none;">
         <div class="form-group">
-          <label>New Password</label>
-          <input type="password" id="password" placeholder="At least 8 characters" required minlength="8">
+          <label for="password">New Password</label>
+          <input type="password" id="password" name="password" autocomplete="new-password" placeholder="At least 8 characters" required minlength="8">
           <small>At least 8 characters with a mix of letters, numbers, and symbols.</small>
         </div>
         <div class="form-group">
-          <label>Confirm Password</label>
-          <input type="password" id="password-confirm" placeholder="Confirm your password" required minlength="8">
+          <label for="password-confirm">Confirm Password</label>
+          <input type="password" id="password-confirm" name="password-confirm" autocomplete="new-password" placeholder="Confirm your password" required minlength="8">
         </div>
         <button type="submit" class="btn-primary btn-block" id="submit-btn">Update Password</button>
         <div class="form-footer">
@@ -86,7 +87,7 @@
         </div>
       </form>
     </div>
-  </div>
+  </main>
 
   <footer>
     <div class="container">

@@ -49,7 +49,8 @@
   </script>
 </head>
 <body>
-  <div class="auth-full-screen">
+  <a href="#main" class="skip-link">Skip to content</a>
+  <main id="main" class="auth-full-screen">
     <div class="auth-card">
       <div class="auth-branding">
         <a href="index.html" class="logo">STEDROK</a>
@@ -62,17 +63,17 @@
 
       <form id="registerForm">
         <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="email" required placeholder="your@email.com">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" autocomplete="email" required placeholder="your@email.com">
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" required minlength="8" placeholder="At least 8 characters">
+          <input type="password" id="password" name="password" autocomplete="new-password" required minlength="8" placeholder="At least 8 characters">
           <small>At least 8 characters</small>
         </div>
         <button type="submit" class="btn-primary btn-block">Create Account</button>
-        <div id="error" class="error-message"></div>
-        <div id="success" class="success-message" style="display:none;"></div>
+        <div id="error" class="error-message" role="alert" aria-live="polite"></div>
+        <div id="success" class="success-message" style="display:none;" role="status" aria-live="polite"></div>
 
         <div class="legal-notice">
           Authentication is handled by Supabase. Stedrok never sees your password, and payments are processed by PayPal.
@@ -85,7 +86,7 @@
         </div>
       </form>
     </div>
-  </div>
+  </main>
 
   <footer>
     <div class="container">
