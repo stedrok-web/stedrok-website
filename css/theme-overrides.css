@@ -876,6 +876,14 @@ details {
 footer,
 .site-footer {
   background: rgba(var(--bg-elevated-rgb), 0.82);
+  text-align: center;
+}
+
+footer .container,
+.site-footer .container {
+  display: grid;
+  justify-items: center;
+  text-align: center;
 }
 
 footer p,
