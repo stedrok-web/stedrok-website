@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -26,6 +26,17 @@
   <meta name="twitter:description" content="Privacy policy for Stedrok, an independent stock research platform for long term investors. Explains what data we collect, how it is used and your rights.">
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
+  <script>
+  (function(){
+    var saved = localStorage.getItem('stedrok-theme');
+    var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', saved || system);
+  })();
+  </script>
+
+  <link rel="stylesheet" href="css/tokens.css?v=20260310d1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Sora:wght@700;800&display=swap">
+
 
   <link rel="stylesheet" href="css/main.css?v=20260310c">
 
@@ -73,6 +84,7 @@
     .legal-content a { color: var(--accent-green); text-decoration: none; }
     .legal-callout { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.3); border-radius: 10px; padding: 20px; margin: 24px 0; }
   </style>
+  <link rel="stylesheet" href="css/theme-overrides.css?v=20260310d2">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -130,13 +142,13 @@
         <p><strong>Account Registration:</strong></p>
         <ul>
           <li>Email address (required)</li>
-          <li>Password (hashed — never stored in plaintext)</li>
+          <li>Password (hashed â€” never stored in plaintext)</li>
         </ul>
 
         <p><strong>Payment Information:</strong></p>
         <ul>
           <li>PayPal transaction ID and subscription status</li>
-          <li>We never store your credit card numbers — PayPal handles this securely</li>
+          <li>We never store your credit card numbers â€” PayPal handles this securely</li>
         </ul>
 
         <h3>1.2 Information We Collect Automatically</h3>
@@ -181,9 +193,9 @@
 
         <h2>5. Your Rights</h2>
         <ul>
-          <li><strong>Access:</strong> Request a copy of your data — email contact@stedrok.org</li>
+          <li><strong>Access:</strong> Request a copy of your data â€” email contact@stedrok.org</li>
           <li><strong>Correction:</strong> Update email/password in Account Settings</li>
-          <li><strong>Deletion:</strong> Account Settings → Danger Zone → Delete Account</li>
+          <li><strong>Deletion:</strong> Account Settings â†’ Danger Zone â†’ Delete Account</li>
           <li><strong>Opt-out:</strong> Unsubscribe link in all promotional emails</li>
         </ul>
 
@@ -194,7 +206,7 @@
 
         <h2>7. Data Security</h2>
         <p>All data uses HTTPS/TLS encryption. Passwords are hashed. Supabase is SOC 2 Type II certified.
-           No system is 100% secure — we are not liable for breaches beyond our control.</p>
+           No system is 100% secure â€” we are not liable for breaches beyond our control.</p>
 
         <h2>8. Children's Privacy</h2>
         <p>Stedrok is not intended for users under 18. We do not knowingly collect data from children.</p>
@@ -234,8 +246,10 @@
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
-  <script src="js/mobile-menu.js?v=20260310c"></script>
+  <script src="js/mobile-menu.js?v=20260310d2"></script>
   <script src="js/public-auth-nav.js?v=20260227a4"></script>
+  <script src="js/site-theme.js?v=20260310d1"></script>
 </body>
 </html>
+
 

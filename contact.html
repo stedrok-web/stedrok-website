@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -28,6 +28,17 @@
   <meta name="twitter:description" content="Contact the Stedrok team with questions about the value stock screener, your account or feedback on the methodology.">
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
+  <script>
+  (function(){
+    var saved = localStorage.getItem('stedrok-theme');
+    var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', saved || system);
+  })();
+  </script>
+
+  <link rel="stylesheet" href="css/tokens.css?v=20260310d1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Sora:wght@700;800&display=swap">
+
 
   <link rel="stylesheet" href="css/main.css?v=20260310c">
 
@@ -68,6 +79,7 @@
   </script>
   <style>
 </style>
+  <link rel="stylesheet" href="css/theme-overrides.css?v=20260310d2">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -198,7 +210,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
-  <script src="js/mobile-menu.js?v=20260310c"></script>
+  <script src="js/mobile-menu.js?v=20260310d2"></script>
   <script src="js/public-auth-nav.js?v=20260227a4"></script>
   <script>
     const client = window.supabaseClient;
@@ -239,7 +251,7 @@
           status.style.background = 'rgba(34,197,94,0.15)';
           status.style.color = 'var(--accent-green)';
           status.style.borderLeft = '4px solid var(--accent-green)';
-          status.textContent = '✓ Message sent! We\'ll get back to you soon.';
+          status.textContent = 'âœ“ Message sent! We\'ll get back to you soon.';
           document.getElementById('contactForm').reset();
         } else {
           throw new Error('Failed to send message');
@@ -249,12 +261,14 @@
         status.style.background = 'rgba(239,68,68,0.15)';
         status.style.color = '#ef4444';
         status.style.borderLeft = '4px solid #ef4444';
-        status.textContent = '✗ Failed to send message. Please try again or email us directly at contact@stedrok.org';
+        status.textContent = 'âœ— Failed to send message. Please try again or email us directly at contact@stedrok.org';
       } finally {
         btn.disabled = false;
         btn.textContent = 'Send Message';
       }
     });
   </script>
+  <script src="js/site-theme.js?v=20260310d1"></script>
 </body>
 </html>
+

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -26,6 +26,17 @@
   <meta name="twitter:description" content="Background on Stedrok, an independent value stock research platform focused on downside risk, fundamentals and a simple rules based framework.">
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
+  <script>
+  (function(){
+    var saved = localStorage.getItem('stedrok-theme');
+    var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', saved || system);
+  })();
+  </script>
+
+  <link rel="stylesheet" href="css/tokens.css?v=20260310d1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Sora:wght@700;800&display=swap">
+
 
   <link rel="stylesheet" href="css/main.css?v=20260310c">
 
@@ -68,6 +79,7 @@
     .section--narrow p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px; font-size: 17px; }
     .lead { font-size: 20px; color: var(--text-secondary); margin-bottom: 40px; line-height: 1.7; }
 </style>
+  <link rel="stylesheet" href="css/theme-overrides.css?v=20260310d2">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -105,7 +117,7 @@
         </p>
         <h2>Why This Platform Exists</h2>
         <p>
-          We built these screens for our own research and used them internally for roughly five years before deciding to open the tool. During that time the framework survived several market drawdowns, policy shocks and sector rotations without requiring major structural changes — which gave us enough confidence to share it.
+          We built these screens for our own research and used them internally for roughly five years before deciding to open the tool. During that time the framework survived several market drawdowns, policy shocks and sector rotations without requiring major structural changes â€” which gave us enough confidence to share it.
         </p>
         <p>
           The idea was simple: a clean ranked list of companies that pass a set of value rules we trust, updated every trading day. Behind the scenes the engine scans more than seven thousand listed companies twice each trading day, cleans the data and surfaces a small, focused output.
@@ -133,9 +145,9 @@
           It is one input into your process, not a full solution.
         </p>
         <p style="margin-top:32px;font-size:15px;">
-          Learn more: <a href="learn.html" style="color:var(--accent-green);text-decoration:underline;">Learn Hub</a> · 
-          <a href="philosophy.html" style="color:var(--accent-green);text-decoration:underline;">Philosophy</a> · 
-          <a href="methodology.html" style="color:var(--accent-green);text-decoration:underline;">Methodology</a> · 
+          Learn more: <a href="learn.html" style="color:var(--accent-green);text-decoration:underline;">Learn Hub</a> Â· 
+          <a href="philosophy.html" style="color:var(--accent-green);text-decoration:underline;">Philosophy</a> Â· 
+          <a href="methodology.html" style="color:var(--accent-green);text-decoration:underline;">Methodology</a> Â· 
           <a href="research-trust-disclosures.html" style="color:var(--accent-green);text-decoration:underline;">Trust and Disclosures</a>
         </p>
       </div>
@@ -165,8 +177,10 @@
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
-  <script src="js/mobile-menu.js?v=20260310c"></script>
+  <script src="js/mobile-menu.js?v=20260310d2"></script>
   <script src="js/public-auth-nav.js?v=20260227a4"></script>
+  <script src="js/site-theme.js?v=20260310d1"></script>
 </body>
 </html>
+
 
