@@ -1099,8 +1099,8 @@ function showFreeUserBanner(count) {
         <h3 style="margin: 0 0 10px 0; color: var(--text-primary);">Free Research Access</h3>
         <p style="margin: 0 0 15px 0; color: var(--text-secondary);">
           You're viewing <strong>${count} preview rows</strong> from the current batch.
-          This public preview remains fixed within the same completed batch. Click any symbol for a short summary preview.
-          Pro membership unlocks the full ranked research universe and full ticker insights.
+          This view reflects the latest completed batch and includes abbreviated company notes.
+          Pro membership unlocks the full ranked research universe and full company research notes.
         </p>
         <a href="pricing.html" class="btn-primary" 
            style="display: inline-block; padding: 12px 24px; border-radius: 6px; text-decoration: none;">
@@ -1256,8 +1256,8 @@ function setTickerInsightAvailability(isPaidUser) {
   if (hint) {
     hint.style.display = 'block';
     hint.textContent = isPaidUser
-      ? 'Tip: click any symbol to open a quick insight popup.'
-      : 'Tip: click any symbol for a 30-word preview. Upgrade to unlock full thesis details.';
+      ? 'Select any symbol to open the company research note.'
+      : 'Select any symbol to read the abbreviated company note. Pro includes the full research note.';
   }
 }
 
@@ -1578,7 +1578,7 @@ function renderTickerInsight(summary, stock) {
       guidanceParts.push(guidanceText);
     }
     if (isPreview) {
-      guidanceParts.push('Preview limited to 30 words. Upgrade to Pro for full insight.');
+      guidanceParts.push('This access tier includes an abbreviated company note. Pro includes the full research note.');
     }
     guidanceEl.textContent = guidanceParts.filter(Boolean).join(' ');
     guidanceEl.style.display = guidanceEl.textContent ? 'block' : 'none';
