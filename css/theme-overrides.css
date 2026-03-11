@@ -877,13 +877,14 @@ textarea:disabled {
   padding: 0 !important;
   border: 0 !important;
   background: transparent !important;
-  color: rgba(125, 211, 252, 0.74) !important;
-  font-size: 0.42rem !important;
+  color: rgba(186, 230, 253, 0.96) !important;
+  font-size: 0.55rem !important;
   font-weight: 700 !important;
-  letter-spacing: 0.02em !important;
+  letter-spacing: 0.03em !important;
   line-height: 1 !important;
-  opacity: 0.7 !important;
-  transform: translateY(-0.72em) !important;
+  opacity: 1 !important;
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.18);
+  transform: translateY(-0.68em) !important;
 }
 
 .stock-table .ticker-new-badge::before {
