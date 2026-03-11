@@ -853,6 +853,24 @@ textarea:disabled {
   flex-wrap: nowrap;
 }
 
+.stock-table .ticker-insight-trigger {
+  display: inline-flex !important;
+  align-items: baseline;
+  justify-content: flex-start;
+  text-align: left;
+  white-space: nowrap;
+  max-width: none;
+}
+
+.stock-table .ticker-label-main,
+.stock-table .ticker-label-secondary {
+  white-space: nowrap;
+}
+
+.stock-table .ticker-label-secondary {
+  margin-left: 0;
+}
+
 .stock-table .ticker-new-badge {
   display: inline-block !important;
   min-width: 0 !important;
