@@ -617,6 +617,16 @@ function toNumberOrNull(value) {
   return Number.isFinite(n) ? n : null;
 }
 
+function normalizeBooleanFlag(value) {
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'number' && Number.isFinite(value)) return value !== 0;
+  const normalized = String(value || '').trim().toLowerCase();
+  if (!normalized) return false;
+  if (['true', '1', 'yes', 'y'].includes(normalized)) return true;
+  if (['false', '0', 'no', 'n'].includes(normalized)) return false;
+  return false;
+}
+
 function decisionPriorityScore(decision) {
   const normalized = String(decision || '').trim().toUpperCase();
   if (normalized === 'BUY') return 0;
@@ -648,7 +658,8 @@ function normalizePickRowShape(stock) {
     dip_score: toNumberOrNull(row.dip_score ?? row.dipScore),
     total_score: toNumberOrNull(row.total_score ?? row.totalScore),
     confidence: toNumberOrNull(row.confidence),
-    decision: decision || (row.decision || '')
+    decision: decision || (row.decision || ''),
+    is_new: normalizeBooleanFlag(row.is_new)
   };
 }
 
@@ -688,6 +699,7 @@ function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
     const chooseNext = Number.isFinite(nextScore) && (!Number.isFinite(existingScore) || nextScore > existingScore);
 
     const merged = chooseNext ? { ...existing, ...normalized } : { ...normalized, ...existing };
+    merged.is_new = Boolean(existing?.is_new || normalized?.is_new);
     merged.selection_lane = 'blended_shared';
     byTicker.set(ticker, merged);
   };
@@ -697,6 +709,11 @@ function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
 
   let merged = Array.from(byTicker.values());
   merged.sort((a, b) => {
+    const newDelta = Number(Boolean(b?.is_new)) - Number(Boolean(a?.is_new));
+    if (newDelta !== 0) {
+      return newDelta;
+    }
+
     const scoreA = blendedRankScore(a);
     const scoreB = blendedRankScore(b);
     if (Number.isFinite(scoreA) && Number.isFinite(scoreB) && scoreA !== scoreB) {
@@ -1663,14 +1680,18 @@ function renderTable(stocks) {
     const decisionClass = stock.decision === 'BUY' ? 'badge-buy' :
                          stock.decision === 'WATCH' ? 'badge-watch' : 'badge-avoid';
     const tickerDisplay = getTickerDisplayParts(stock);
+    const newBadgeHtml = stock.is_new ? '<span class="badge badge-new ticker-new-badge">NEW</span>' : '';
 
     if (isFreeUser) {
       // Free user: Show only ticker, company, country, sector, then upgrade prompt
       tr.innerHTML = `
         <td>
-          <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View preview for ${tickerDisplay.plain}">
-            <span class="ticker-label-main">${tickerDisplay.main}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${tickerDisplay.secondary})</span>` : ''}
-          </button>
+          <div class="ticker-cell">
+            <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View preview for ${tickerDisplay.plain}">
+              <span class="ticker-label-main">${tickerDisplay.main}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${tickerDisplay.secondary})</span>` : ''}
+            </button>
+            ${newBadgeHtml}
+          </div>
         </td>
         <td>${stock.company_name || '-'}</td>
         <td>${stock.country || '-'}</td>
@@ -1699,9 +1720,12 @@ function renderTable(stocks) {
 
       tr.innerHTML = `
         <td>
-          <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View insight for ${tickerDisplay.plain}">
-            <span class="ticker-label-main">${tickerDisplay.main}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${tickerDisplay.secondary})</span>` : ''}
-          </button>
+          <div class="ticker-cell">
+            <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View insight for ${tickerDisplay.plain}">
+              <span class="ticker-label-main">${tickerDisplay.main}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${tickerDisplay.secondary})</span>` : ''}
+            </button>
+            ${newBadgeHtml}
+          </div>
         </td>
         <td>${stock.company_name || '-'}</td>
         <td>${stock.country || '-'}</td>
@@ -2278,6 +2302,11 @@ function applyFilters() {
 
   // Apply sorting
   filtered.sort((a, b) => {
+    const newDelta = Number(Boolean(b?.is_new)) - Number(Boolean(a?.is_new));
+    if (newDelta !== 0) {
+      return newDelta;
+    }
+
     const decisionDelta = decisionPriorityScore(a?.decision) - decisionPriorityScore(b?.decision);
     if (decisionDelta !== 0) {
       return decisionDelta;

@@ -31,7 +31,7 @@
 
   <link rel="stylesheet" href="css/main.css?v=20260310e">
   <link rel="stylesheet" href="css/tokens.css?v=20260310i1">
-  <link rel="stylesheet" href="css/theme-overrides.css?v=20260310w1">
+  <link rel="stylesheet" href="css/theme-overrides.css?v=20260311a1">
 
   <script type="application/ld+json">
   {
@@ -577,6 +577,16 @@
         return Number.isFinite(n) ? n : null;
       }
 
+      function normalizeBooleanFlag(value) {
+        if (typeof value === 'boolean') return value;
+        if (typeof value === 'number' && Number.isFinite(value)) return value !== 0;
+        const normalized = String(value || '').trim().toLowerCase();
+        if (!normalized) return false;
+        if (['true', '1', 'yes', 'y'].includes(normalized)) return true;
+        if (['false', '0', 'no', 'n'].includes(normalized)) return false;
+        return false;
+      }
+
       function fmtNum(value, decimals) {
         const n = safeNum(value);
         if (n === null) return '-';
@@ -635,6 +645,12 @@
         tableState.textContent = msg;
       }
 
+      function renderEtfSymbolCell(row) {
+        const symbol = row.symbol || '-';
+        const newBadge = row.is_new ? '<span class="badge badge-new ticker-new-badge">NEW</span>' : '';
+        return '<div class="ticker-cell"><strong>' + symbol + '</strong>' + newBadge + '</div>';
+      }
+
       function applyFilters() {
         const q = (searchInput.value || '').trim().toLowerCase();
         const rec = recommendationFilter.value;
@@ -650,6 +666,10 @@
         });
 
         filtered.sort(function (a, b) {
+          const newDelta = Number(Boolean(b.is_new)) - Number(Boolean(a.is_new));
+          if (newDelta !== 0) {
+            return newDelta;
+          }
           if (sort === 'symbolAsc') {
             return String(a.symbol || '').localeCompare(String(b.symbol || ''));
           }
@@ -681,7 +701,7 @@
 
           return [
             '<tr>',
-            '<td><strong>' + (row.symbol || '-') + '</strong></td>',
+            '<td>' + renderEtfSymbolCell(row) + '</td>',
             '<td>' + (row.name || '-') + '</td>',
             '<td>' + (row.category || '-') + '</td>',
             '<td>' + recommendationTag(row.recommendation) + '</td>',
@@ -720,7 +740,9 @@
             throw new Error('ETF API payload format invalid');
           }
 
-          rows = apiPayload.rows;
+          rows = apiPayload.rows.map(function (row) {
+            return Object.assign({}, row, { is_new: normalizeBooleanFlag(row && row.is_new) });
+          });
           if (!rows.length) {
             validationValue.textContent = 'Source returned zero rows';
             showState('The ETF research feed is reachable but no rows are available in the latest snapshot. Please check the next pipeline run.');
@@ -737,8 +759,9 @@
 
           const source = String(apiPayload.source_table || 'etfs');
           const count = Number(apiPayload.count);
+          const newCount = Number(apiPayload.new_count);
           validationValue.textContent = Number.isFinite(count)
-            ? 'Live source verified: ' + count + ' rows (' + source + ')'
+            ? 'Live source verified: ' + count + ' rows (' + source + ')' + (Number.isFinite(newCount) ? '; newly identified at top: ' + newCount : '')
             : 'Live source verified: (' + source + ')';
 
           applyFilters();

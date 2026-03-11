@@ -817,6 +817,29 @@ textarea:disabled {
 .badge-buy::before { content: "\25B2"; }
 .badge-watch::before { content: "\2192"; }
 .badge-avoid::before { content: "\25BC"; }
+.badge-new {
+  color: #7dd3fc;
+  border-color: rgba(125, 211, 252, 0.9);
+  background: rgba(14, 165, 233, 0.18);
+  min-width: 0;
+  padding: 0.24rem 0.52rem;
+  letter-spacing: 0.08em;
+}
+
+.badge-new::before {
+  content: none;
+}
+
+.ticker-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.ticker-new-badge {
+  text-decoration: none;
+}
 
 .auth-full-screen {
   position: relative;
