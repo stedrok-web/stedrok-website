@@ -819,11 +819,11 @@ textarea:disabled {
 .badge-avoid::before { content: "\25BC"; }
 .badge-new {
   color: #7dd3fc;
-  border-color: rgba(125, 211, 252, 0.9);
-  background: rgba(14, 165, 233, 0.18);
+  border-color: rgba(125, 211, 252, 0.72);
+  background: rgba(14, 165, 233, 0.12);
   min-width: 0;
-  padding: 0.24rem 0.52rem;
-  letter-spacing: 0.08em;
+  padding: 0.18rem 0.42rem;
+  letter-spacing: 0.07em;
 }
 
 .badge-new::before {
@@ -832,13 +832,20 @@ textarea:disabled {
 
 .ticker-cell {
   display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
+  align-items: baseline;
+  gap: 0.24rem;
   flex-wrap: wrap;
 }
 
 .ticker-new-badge {
+  padding: 0.02rem 0.24rem;
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  opacity: 0.8;
   text-decoration: none;
+  transform: translateY(-0.55em);
 }
 
 .auth-full-screen {
