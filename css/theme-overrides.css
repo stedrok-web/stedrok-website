@@ -2024,3 +2024,46 @@ section,
     padding: 20px 14px !important;
   }
 }
+
+/* ============================================================
+   ADDITIONAL RESPONSIVE FIXES - v20260316c
+   Contact form 2-col -> 1-col, general 1fr 1fr inline grids,
+   trust-badges text wrap, hero h1 scaling
+   ============================================================ */
+
+/* Contact form Name|Email side-by-side → stack on mobile */
+@media (max-width: 640px) {
+  [style*="grid-template-columns:1fr 1fr"],
+  [style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Trust badges: ensure text wraps cleanly on narrow phones */
+.trust-badges {
+  text-align: center;
+  line-height: 1.6;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Hero h1: fluid size on very narrow phones */
+@media (max-width: 360px) {
+  .hero h1,
+  .pricing-hero h1 {
+    font-size: 1.6rem !important;
+  }
+}
+
+/* CTA buttons: ensure they stack cleanly on very narrow phones */
+@media (max-width: 360px) {
+  .cta-buttons {
+    flex-direction: column !important;
+    align-items: stretch;
+  }
+  .cta-buttons .btn-primary,
+  .cta-buttons .btn-secondary {
+    width: 100%;
+    text-align: center;
+  }
+}
