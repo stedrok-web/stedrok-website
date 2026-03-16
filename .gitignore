@@ -62,3 +62,4 @@ wrangler.toml
 yarn-debug.log*
 yarn-error.log*
 yarn.lock
+venv_linux/
