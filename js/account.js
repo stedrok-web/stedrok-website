@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       ? new Date(profile.paid_until).toLocaleDateString()
       : 'N/A';
     statusDiv.innerHTML = `
-      <p style="color: var(--accent-green); font-weight:600;">✓ Active Pro Subscription ($3/month)</p>
+      <p style="color: var(--accent-green); font-weight:600;">✓ Active Pro Subscription ($5/month)</p>
       <p style="color: var(--text-secondary); margin-top:8px;">Paid until: ${paidUntil}</p>
       <p style="color: var(--text-secondary); margin-top:12px; font-size:13px;">
         To cancel your subscription, log in to 
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     statusDiv.innerHTML = `
       <p style="color: var(--text-secondary);">Free Tier (3 stocks only)</p>
       <a href="pricing.html" class="btn-primary" style="margin-top:12px; display:inline-block;">
-        Upgrade to Pro – $3/month
+        Upgrade to Pro – $5/month
       </a>
     `;
   }
