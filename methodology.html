@@ -36,9 +36,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap"></noscript>
-  <link rel="stylesheet" href="css/main.css?v=20260310e">
-  <link rel="stylesheet" href="css/tokens.css?v=20260310i1">
-  <link rel="stylesheet" href="css/theme-overrides.css?v=20260310w1">
+  <link rel="stylesheet" href="css/main.css?v=20260317">
+  <link rel="stylesheet" href="css/tokens.css?v=20260317">
+  <link rel="stylesheet" href="css/theme-overrides.css?v=20260317">
 
   <!-- JSON-LD: TechArticle / methodology -->
   <script type="application/ld+json">
@@ -207,6 +207,8 @@
       .two-column { grid-template-columns: 1fr; }
       .hero h1 { font-size: 32px; }
     }
+  
+    @media(max-width:640px){.not-measured-grid{grid-template-columns:1fr!important;}}
   </style>
 </head>
 <body>
@@ -553,7 +555,44 @@
         </div>
       </div>
     </section>
-  </main>
+  
+    <section class="section section--light">
+      <div class="container">
+        <h2>What the Screener Does Not Measure</h2>
+        <p class="section-lead">Defining scope honestly is as important as defining what a model does. The following signals are deliberately excluded from the Stedrok scoring engine.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0;" class="not-measured-grid">
+          <div style="padding:18px 20px;background:var(--bg-card);border-radius:10px;border:1px solid var(--border-color);">
+            <strong>Analyst price targets</strong><br>
+            <span style="color:var(--text-muted);font-size:14px;line-height:1.6;">Sell-side targets are forecasts, not facts. The model uses reported financial data only.</span>
+          </div>
+          <div style="padding:18px 20px;background:var(--bg-card);border-radius:10px;border:1px solid var(--border-color);">
+            <strong>Forward earnings estimates</strong><br>
+            <span style="color:var(--text-muted);font-size:14px;line-height:1.6;">Forward estimates embed assumptions. The scoring engine is backward-looking on reported numbers — deliberately.</span>
+          </div>
+          <div style="padding:18px 20px;background:var(--bg-card);border-radius:10px;border:1px solid var(--border-color);">
+            <strong>Social sentiment &amp; news flow</strong><br>
+            <span style="color:var(--text-muted);font-size:14px;line-height:1.6;">Narrative-driven price action reverts. Reported fundamentals do not.</span>
+          </div>
+          <div style="padding:18px 20px;background:var(--bg-card);border-radius:10px;border:1px solid var(--border-color);">
+            <strong>Momentum &amp; technical signals</strong><br>
+            <span style="color:var(--text-muted);font-size:14px;line-height:1.6;">Short-term chart patterns are excluded. The only price-based input is the 52-week price context pillar.</span>
+          </div>
+          <div style="padding:18px 20px;background:var(--bg-card);border-radius:10px;border:1px solid var(--border-color);">
+            <strong>Management quality scores</strong><br>
+            <span style="color:var(--text-muted);font-size:14px;line-height:1.6;">Qualitative judgements cannot be automated reliably. Capital allocation is captured indirectly through ROIC trends.</span>
+          </div>
+          <div style="padding:18px 20px;background:var(--bg-card);border-radius:10px;border:1px solid var(--border-color);">
+            <strong>Macro &amp; sector calls</strong><br>
+            <span style="color:var(--text-muted);font-size:14px;line-height:1.6;">The screener does not predict interest rates, recessions, or sector rotations. It identifies companies with the fundamentals to survive them.</span>
+          </div>
+        </div>
+        <div style="padding:20px 24px;background:rgba(242,201,76,0.07);border-left:3px solid var(--accent-fill);border-radius:8px;">
+          <p style="margin:0;color:var(--text-secondary);font-size:15px;line-height:1.7;font-style:italic;">Forecasts are noise. Reported numbers are facts. The model is built on the latter.</p>
+        </div>
+      </div>
+    </section>
+
+</main>
 
   <footer>
     <div class="container">
@@ -578,8 +617,8 @@
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
-  <script src="js/mobile-menu.js?v=20260310h1"></script>
-  <script src="js/public-auth-nav.js?v=20260227a4"></script>
+  <script src="js/mobile-menu.js?v=20260317"></script>
+  <script src="js/public-auth-nav.js?v=20260317"></script>
 </body>
 </html>
 

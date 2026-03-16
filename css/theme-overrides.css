@@ -1490,7 +1490,7 @@ footer a:hover,
   .hero h1,
   .pricing-hero h1,
   .demo-hero h1 {
-    max-width: 10ch;
+    max-width: 100%;
   }
 
   .comparison-table-wrap {
@@ -1727,4 +1727,39 @@ footer a:hover,
   font-size: 13px;
   font-weight: 700;
   text-align: right;
+}
+
+
+/* === MOBILE FIX: Explicit gold for hero primary CTA === */
+.hero .cta-buttons .btn-primary,
+.hero .cta-buttons a.btn-primary {
+  background: #f2c94c !important;
+  color: #050b2e !important;
+  border-color: rgba(242,201,76,0.3) !important;
+  box-shadow: 0 4px 16px rgba(242,201,76,0.25) !important;
+}
+@media (prefers-color-scheme: light) {
+  .hero .cta-buttons .btn-primary,
+  .hero .cta-buttons a.btn-primary {
+    background: #c9a030 !important;
+    color: #0a0d2e !important;
+  }
+}
+
+/* === MOBILE FIX: cost-compare-grid responsive padding === */
+@media (max-width: 640px) {
+  .cost-compare-grid-wrapper {
+    padding: 20px 16px !important;
+  }
+}
+
+/* === Disclaimer footnote === */
+.disclaimer-footnote {
+  font-size: 11px;
+  color: var(--text-muted);
+  opacity: 0.65;
+  text-align: center;
+  margin: 10px auto 0;
+  max-width: 500px;
+  line-height: 1.55;
 }
