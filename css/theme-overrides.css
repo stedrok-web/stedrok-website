@@ -1763,3 +1763,264 @@ footer a:hover,
   max-width: 500px;
   line-height: 1.55;
 }
+
+
+/* ============================================================
+   COMPREHENSIVE RESPONSIVE / MOBILE FIX - v20260317c
+   Fixes: pricing grid bleed, 4-col grids, overflow, touch targets
+   ============================================================ */
+
+/* --- 1. PRICING: cost-compare-grid mobile bleed fix --- */
+@media (max-width: 900px) {
+  .cost-compare-grid-wrapper {
+    padding: 20px 16px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+  .cost-compare-grid {
+    gap: 10px !important;
+  }
+  .cost-compare-grid > div {
+    min-width: 0 !important;
+    padding: 12px 8px !important;
+    box-sizing: border-box !important;
+  }
+  .cost-compare-grid > div > div[style*="font-size:28px"],
+  .cost-compare-grid > div > div[style*="font-size: 28px"],
+  .cost-compare-grid > div > div[style*="font-size:36px"],
+  .cost-compare-grid > div > div[style*="font-size: 36px"] {
+    font-size: 20px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .cost-compare-grid-wrapper {
+    padding: 14px 10px !important;
+    margin: 0 !important;
+  }
+  .cost-compare-grid {
+    gap: 8px !important;
+  }
+  .cost-compare-grid > div {
+    padding: 10px 6px !important;
+  }
+  .cost-compare-grid > div > div[style*="font-size:28px"],
+  .cost-compare-grid > div > div[style*="font-size: 28px"],
+  .cost-compare-grid > div > div[style*="font-size:36px"],
+  .cost-compare-grid > div > div[style*="font-size: 36px"] {
+    font-size: 18px !important;
+  }
+}
+
+/* --- 2. INDEX: model-pillars-grid inline repeat(4,1fr) --- */
+@media (max-width: 768px) {
+  .model-pillars-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+@media (max-width: 480px) {
+  .model-pillars-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* --- 3. METHODOLOGY: not-measured-grid --- */
+@media (max-width: 640px) {
+  .not-measured-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* --- 4. Global: prevent inline grids from bleeding --- */
+@media (max-width: 768px) {
+  .container {
+    overflow-x: hidden;
+  }
+  [style*="grid-template-columns:repeat(4"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  [style*="grid-template-columns: repeat(4"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  [style*="grid-template-columns:repeat(3"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+@media (max-width: 480px) {
+  [style*="grid-template-columns:repeat(4"],
+  [style*="grid-template-columns: repeat(4"],
+  [style*="grid-template-columns:repeat(3"],
+  [style*="grid-template-columns: repeat(3"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* --- 5. Sector pages: ensure stock tables do not overflow --- */
+@media (max-width: 768px) {
+  .sector-stocks-table,
+  .stock-preview-table {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    display: block;
+    width: 100%;
+  }
+}
+
+/* --- 6. ETF/Dashboard tables: scroll wrapper --- */
+.table-container {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+/* --- 7. Pricing hero h1 line-break fix on mobile --- */
+@media (max-width: 480px) {
+  .pricing-hero h1 {
+    font-size: 1.7rem !important;
+    line-height: 1.3 !important;
+  }
+  .pricing-hero .subtitle {
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+}
+
+/* --- 8. Feature grid / problem grid: 3-col to 2-col to 1-col --- */
+@media (max-width: 900px) {
+  .feature-grid,
+  .problem-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+@media (max-width: 540px) {
+  .feature-grid,
+  .problem-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* --- 9. Stat bar: 2x2 on narrow screens --- */
+@media (max-width: 480px) {
+  .stat-bar {
+    gap: 8px 16px !important;
+  }
+  .stat-bar .stat-item {
+    min-width: 80px;
+    flex: 1 1 80px;
+  }
+}
+
+/* --- 10. Section containers: no horizontal overflow --- */
+section,
+.section {
+  overflow-x: hidden;
+}
+
+/* --- 11. Pricing cards: stacked on mobile --- */
+@media (max-width: 640px) {
+  .pricing-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* --- 12. Glossary / learn term lists on mobile --- */
+@media (max-width: 640px) {
+  .glossary-grid,
+  .term-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* --- 13. Touch targets: all buttons/links min 44px height --- */
+@media (max-width: 768px) {
+  .btn-primary,
+  .btn-secondary,
+  button[type="submit"],
+  .nav-links a {
+    min-height: 44px !important;
+  }
+}
+
+/* ============================================================
+   ADDITIONAL RESPONSIVE FIXES - v20260316_165051
+   Container padding reduction on sub-480px phones
+   Intermediate tablet breakpoints for content grids
+   ============================================================ */
+
+/* Container padding: tighter on phones */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 12px;
+  }
+}
+@media (max-width: 360px) {
+  .container {
+    padding: 0 8px;
+  }
+}
+
+/* Steps grid & audience grid: intermediate tablet layout */
+@media (max-width: 900px) {
+  .steps-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 20px;
+  }
+}
+@media (max-width: 540px) {
+  .steps-grid,
+  .audience-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Sample output grid: 2-col on tablet */
+@media (max-width: 900px) {
+  .sample-output-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+@media (max-width: 540px) {
+  .sample-output-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Methodology usage-grid: 2-col on tablet */
+@media (max-width: 900px) {
+  .usage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+@media (max-width: 540px) {
+  .usage-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Pricing cost-compare: further reinforcement */
+@media (max-width: 480px) {
+  .cost-compare-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .cost-compare-grid-wrapper {
+    padding: 14px 10px !important;
+    margin: 0 !important;
+  }
+}
+
+/* Trust strip: ensure it never overflows */
+.trust-strip {
+  box-sizing: border-box;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Any card with inline padding: prevent overflow */
+@media (max-width: 480px) {
+  .pricing-card {
+    padding: 24px 16px !important;
+  }
+  #checkout-container {
+    padding: 20px 14px !important;
+  }
+}
