@@ -1,76 +1,64 @@
-# ============================================
-# CRITICAL: Never commit these files to GitHub
-# ============================================
 
-# Environment variables (contains SECRET KEYS)
+# ============================================
+*~
+*$py.class
+AGENTS.md
+backups/
+# Backup session directories
+*.bak
+*.bak_*
+build/
+# Build outputs
+.cache/
+# CRITICAL: Never commit these files to GitHub
+data/dashboard_ticker_summaries.json
+data/stocks.json
+deploy.bat
+desktop.ini
+dist/
+DOCUMENTATION_STATUS.md
+.DS_Store
 .env
+# Environment variables (contains SECRET KEYS)
 .env.local
 .env.production
-
-# Virtual environment
-venv/
-
-# Logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# OS files
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# IDE files
-.vscode/
 .idea/
-*.swp
-*.swo
-*~
-
-# Python cache
-__pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-*.pyc
-
-# Node modules & dependencies
+# IDE files
+*.log
+# Logs
 node_modules/
+# Node modules & dependencies
+npm-debug.log*
+# OS files
 package-lock.json
-yarn.lock
 .pnp/
 .pnp.js
-
-# Build outputs
-dist/
-build/
-.cache/
-.wrangler/
-
-# Temporary files
-*.tmp
-*.temp
-.DS_Store
-
-# Sensitive generated market data (paywalled via API only)
-data/stocks.json
-data/dashboard_ticker_summaries.json
-scripts/stocks.json
-
 # Private backend / infra / ops tooling (must never be public)
+*.pyc
+__pycache__/
+*.py[cod]
+.pytest_cache/
+# Python cache
 scripts/
-supabase/
-workers/
-wrangler.toml
-upload_stocks_to_supabase.py
-upload_stocks.bat
-deploy.bat
+scripts/stocks.json
+# Sensitive generated market data (paywalled via API only)
 set-secrets.bat
+supabase/
+*.swo
+*.swp
+*.temp
+# Temporary files
+Thumbs.db
+*.tmp
+upload_stocks.bat
+upload_stocks_to_supabase.py
+venv/
 verify-all.bat
-AGENTS.md
-
-# Backup session directories
-backups/
-*.bak_*
-*.bak
+# Virtual environment
+.vscode/
+workers/
+.wrangler/
+wrangler.toml
+yarn-debug.log*
+yarn-error.log*
+yarn.lock
