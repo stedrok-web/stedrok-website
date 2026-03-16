@@ -319,6 +319,7 @@
           <span></span>
         </button>
         <ul class="nav-links" id="navLinks">
+          <li><a href="demo.html">Demo</a></li>
           <li><a href="philosophy.html">Philosophy</a></li>
           <li><a href="methodology.html">Methodology</a></li>
           <li><a href="pricing.html">Pricing</a></li>
@@ -422,7 +423,17 @@
                 <th scope="col">Price (USD)</th>
               </tr>
             </thead>
-            <tbody id="etfTbody"></tbody>
+            <tbody id="etfTbody">
+  <tr class="etf-fallback-row" style="opacity:0.75;">
+    <td><strong>QQQ</strong></td><td>Invesco QQQ Trust</td><td>Technology</td><td>—</td><td>—</td><td>—</td><td>—</td>
+  </tr>
+  <tr class="etf-fallback-row" style="opacity:0.75;">
+    <td><strong>VTV</strong></td><td>Vanguard Value ETF</td><td>Value</td><td>—</td><td>—</td><td>—</td><td>—</td>
+  </tr>
+  <tr class="etf-fallback-row" style="opacity:0.75;">
+    <td><strong>IWD</strong></td><td>iShares Russell 1000 Value ETF</td><td>Value</td><td>—</td><td>—</td><td>—</td><td>—</td>
+  </tr>
+</tbody>
           </table>
         </div>
 
@@ -725,6 +736,8 @@
         }).join('');
 
         tbody.innerHTML = html;
+        // Hide static fallback rows once real data loads
+        document.querySelectorAll('.etf-fallback-row').forEach(r => r.style.display = 'none');
         tableState.style.display = 'none';
         tableWrap.style.display = 'block';
       }

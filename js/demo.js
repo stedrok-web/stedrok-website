@@ -253,6 +253,8 @@ function renderTable(rows) {
   if (!tbody) return;
 
   tbody.innerHTML = '';
+  // Hide static fallback rows once real data loads
+  document.querySelectorAll('.demo-fallback-row').forEach(r => r.style.display = 'none');
 
   rows.forEach((row) => {
     const tr = document.createElement('tr');

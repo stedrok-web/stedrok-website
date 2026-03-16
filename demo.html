@@ -418,8 +418,19 @@
               </tr>
             </thead>
             <tbody id="demoTableBody">
-              <tr>
-                <td colspan="13" style="text-align:center; color:var(--text-secondary); padding:30px;">Loading research rows...</td>
+              <tr id="demo-static-fallback" class="demo-fallback-row">
+                <td colspan="13" style="text-align:center; color:var(--text-secondary); padding:16px; font-style:italic; font-size:13px;">
+                  Sample data shown below — live delayed snapshot loads automatically.
+                </td>
+              </tr>
+              <tr class="demo-fallback-row" style="opacity:0.75;">
+                <td><strong>MSFT</strong></td><td>Microsoft Corporation</td><td>United States</td><td>Technology</td><td style="color:var(--accent-green);font-weight:700;"><span class="badge badge-buy">BUY</span></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+              </tr>
+              <tr class="demo-fallback-row" style="opacity:0.75;">
+                <td><strong>ACN</strong></td><td>Accenture plc</td><td>Ireland</td><td>Technology</td><td style="color:var(--accent-green);font-weight:700;"><span class="badge badge-buy">BUY</span></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
+              </tr>
+              <tr class="demo-fallback-row" style="opacity:0.75;">
+                <td><strong>EVO.ST</strong></td><td>Evolution AB</td><td>Sweden</td><td>Consumer Cyclical</td><td style="color:var(--accent-green);font-weight:700;"><span class="badge badge-watch">WATCH</span></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>
               </tr>
             </tbody>
           </table>
