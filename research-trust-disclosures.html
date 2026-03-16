@@ -121,33 +121,53 @@
     </div>
   </header>
   <main class="page-main" id="main">
-    <section class="section section--narrow">
-      <div class="container">
-        <h1>Research Trust and Disclosures</h1>
-        <p class="lead">
-          This page explains how Stedrok operates, where data comes from, and what this model does and does not do.
-        </p>
-        <p>
-          Stedrok currently publishes two research views: Core (rules based) and AI Hybrid (AI-assisted with separate guardrails). Blended is a comparison view that combines both in one ranked table.
-        </p>
-        <div class="card-grid">
-          <article class="card"><h3>Entity</h3><p>Stedrok Pty Ltd is based in Australia and operates as an independent research platform.</p></article>
-          <article class="card"><h3>Scope</h3><p>Core and AI Hybrid outputs are for idea generation and research workflow support, not personal financial advice.</p></article>
-          <article class="card"><h3>Data and Refresh</h3><p>Public market and fundamentals data are processed on a recurring trading-day schedule.</p></article>
-          <article class="card"><h3>Conflicts</h3><p>No paid stock placement is used in ranking output. Educational pages are process-focused.</p></article>
-        </div>
-        <h2>What Stedrok Does Not Do</h2>
-        <ul class="list-clean">
-          <li>No personal advice or suitability assessment.</li>
-          <li>No performance guarantees or return promises.</li>
-          <li>No automated execution on user behalf.</li>
-          <li>No claim that one score replaces due diligence.</li>
-        </ul>
-        <div class="callout">
-          Research only, not financial advice. Always evaluate decisions against your own objectives, risk tolerance, and jurisdictional requirements.
-        </div>
-      </div>
-    </section>
+    <section class="section">
+  <div class="container" style="max-width:800px;">
+    <h1>Research Trust and Disclosures</h1>
+    <p class="lead">This page explains how Stedrok operates, where data comes from, and what this model does and does not do.</p>
+
+    <h2>About Stedrok</h2>
+    <p>Stedrok Pty Ltd is an independent stock research platform incorporated in Australia. It is not a registered financial adviser, broker, or fund manager in any jurisdiction. Stedrok does not hold, manage, or execute client funds or securities.</p>
+    <p>Stedrok currently publishes two research views: <strong>Core</strong> (rules-based systematic screening) and <strong>AI Hybrid</strong> (AI-assisted validation layer, currently in beta). <strong>Blended</strong> is a comparison view combining both in one ranked table.</p>
+
+    <h2>Regulatory Status</h2>
+    <p>Stedrok is not licensed under the Australian Financial Services (AFS) framework or any equivalent regulatory scheme in other jurisdictions. The platform provides general research information only. Nothing published by Stedrok constitutes personal financial advice, a recommendation to buy or sell any security, or a statement about the suitability of any investment for any specific person.</p>
+    <p>Users outside Australia should check whether access to or use of a service of this type is permitted under the laws of their own jurisdiction.</p>
+
+    <h2>Data Sources and Quality</h2>
+    <p>Company financial data (earnings, cash flow, balance sheet items) is sourced from institutional-grade market data providers via third-party API services. Price data is sourced from exchange feeds with intraday updates. Stedrok does not itself originate or warehouse primary financial statement data.</p>
+    <p>Data is refreshed on each scoring run (typically twice per trading day). All input fields are passed through an automated anomaly-detection step before scoring begins. Records with missing, stale, or inconsistent data are flagged and excluded or downweighted before publication.</p>
+    <p>Despite these controls, data errors do occur. Financial API data for smaller or less-covered companies can be incomplete or delayed. Stedrok scores should be treated as a starting point for research, not as a definitive statement of a company&#39;s financial position.</p>
+
+    <h2>Model Methodology Summary</h2>
+    <p>The scoring engine applies a transparent, rules-based framework across four pillars: valuation, business quality, balance sheet resilience, and price context. The full methodology is published at <a href="methodology.html">Methodology</a>. Weights, thresholds, and scoring logic are documented and applied identically across all covered securities.</p>
+    <p>The AI Hybrid layer takes shortlisted Core candidates through an additional validation step: cross-referencing live data feeds and current context using an AI model before publication. AI Hybrid results are published only when the validation step clears an integrity threshold.</p>
+
+    <h2>Conflicts of Interest</h2>
+    <p>Stedrok has no paid placement, sponsored content, or affiliate arrangement that influences ranking output. No company pays Stedrok to be included in, excluded from, or elevated within research results. Educational content on this platform describes process and methodology &#8212; it does not constitute a recommendation for any specific company.</p>
+    <p>Stedrok may hold positions in securities covered by its own screener. Where applicable, this is disclosed in relevant content.</p>
+
+    <h2>What Stedrok Does Not Do</h2>
+    <ul>
+      <li>No personal advice or suitability assessment for any individual investor.</li>
+      <li>No performance guarantees, return promises, or forward projections.</li>
+      <li>No automated execution of trades on behalf of users.</li>
+      <li>No claim that a Stedrok score replaces individual due diligence, professional advice, or independent judgment.</li>
+      <li>No real-time trading signals or price alerts.</li>
+    </ul>
+
+    <h2>Model Limitations</h2>
+    <p>The scoring model is backward-looking. It uses reported financial data only &#8212; it does not incorporate analyst forecasts, management quality assessments, qualitative competitive analysis, or macroeconomic outlooks. A high Stedrok score does not predict that a share price will rise. A low score does not predict that it will fall. Markets are uncertain and losses are always possible.</p>
+    <p>The model applies the same ruleset across all geographies and sectors. Sector-specific accounting norms, regulatory differences, and local market conditions are not individually calibrated. Users researching companies in unfamiliar markets should apply additional judgment.</p>
+
+    <h2>Copyright and Use</h2>
+    <p>Research outputs, scores, rankings, and explanatory text published on Stedrok are the property of Stedrok Pty Ltd. They may be used for personal research purposes. Redistribution, resale, or incorporation into other commercial products requires prior written permission.</p>
+
+    <h2>Contact</h2>
+    <p>For questions about this page or our research practices: <a href="mailto:contact@stedrok.org">contact@stedrok.org</a></p>
+    <p>See also: <a href="methodology.html">Full Methodology</a> &#183; <a href="terms.html">Terms of Service</a> &#183; <a href="privacy.html">Privacy Policy</a></p>
+  </div>
+</section>
 
   </main>
   <footer>
