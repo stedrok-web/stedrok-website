@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -19,6 +19,8 @@
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
   <meta property="og:image" content="https://stedrok.org/img/og-home.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Stedrok value stock screener dashboard preview">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How to Build a Long Term Value Portfolio with a Stock Screener">
@@ -26,6 +28,10 @@
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap"></noscript>
   <link rel="stylesheet" href="css/main.css?v=20260310e">
   <link rel="stylesheet" href="css/tokens.css?v=20260310i1">
   <link rel="stylesheet" href="css/theme-overrides.css?v=20260310w1">
@@ -34,30 +40,38 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "How to build a long term value portfolio with a stock screener",
-    "description": "A practical guide to building a long term value portfolio using a rules based stock screener and a focus on downside risk.",
-    "image": "https://stedrok.org/img/og-home.jpg",
+    "@id": "https://stedrok.org/guide-long-term-value-portfolio.html#article",
+    "headline": "How to Build a Long-Term Value Portfolio with a Stock Screener",
+    "description": "A practical guide to building a long-term value portfolio using a rules-based stock screener and a focus on downside risk. Covers stock selection, position sizing, rebalancing, and risk controls.",
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://stedrok.org/img/og-home.jpg",
+      "width": 1200,
+      "height": 630
+    },
     "datePublished": "2026-02-16",
     "dateModified": "2026-02-20",
     "author": {
       "@type": "Person",
+      "@id": "https://stedrok.org/authors.html#team",
       "name": "Stedrok Research Team",
-      "jobTitle": "Investment Research Team",
+      "jobTitle": "Investment Research Analyst",
       "url": "https://stedrok.org/authors.html",
       "worksFor": {
-        "@type": "Organization",
-        "name": "Stedrok Pty Ltd",
-        "url": "https://stedrok.org"
+        "@id": "https://stedrok.org/#organization"
       }
     },
     "publisher": {
-      "@type": "Organization",
-      "name": "Stedrok",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://stedrok.org/img/og-home.jpg"
-      }
+      "@id": "https://stedrok.org/#organization"
     },
+    "about": [
+      {"@type": "Thing", "name": "value investing"},
+      {"@type": "Thing", "name": "long-term portfolio construction"},
+      {"@type": "Thing", "name": "stock screening"},
+      {"@type": "Thing", "name": "margin of safety"},
+      {"@type": "Thing", "name": "ROIC analysis"}
+    ],
+    "keywords": "long-term value portfolio, value investing, stock screener, portfolio construction, margin of safety, ROIC, downside risk",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://stedrok.org/guide-long-term-value-portfolio.html"

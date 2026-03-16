@@ -1619,3 +1619,112 @@ footer a:hover,
     box-shadow: none !important;
   }
 }
+
+/* Score cell color graduation */
+.score-high { color: var(--accent-green) !important; font-weight: 600; }
+.score-mid  { color: #f59e0b !important; font-weight: 600; }
+.score-low  { color: var(--accent-red) !important; font-weight: 600; }
+
+/* Mini score bar inside score cells */
+.score-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.score-bar {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.12);
+  width: 48px;
+  overflow: hidden;
+  position: relative;
+}
+.score-bar-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.score-bar-fill.high { background: var(--accent-green); }
+.score-bar-fill.mid  { background: #f59e0b; }
+.score-bar-fill.low  { background: var(--accent-red); }
+
+/* Loading skeleton shimmer */
+@keyframes shimmer {
+  0%   { background-position: -500px 0; }
+  100% { background-position: 500px 0; }
+}
+.skeleton-row td {
+  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.09) 50%, rgba(255,255,255,0.04) 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 1.5s infinite linear;
+  color: transparent !important;
+  border-radius: 4px;
+}
+
+/* Dashboard stat badges */
+.dash-stat-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 12px 0 0;
+}
+.dash-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.dash-stat.buy   { background: rgba(74,222,128,0.15); color: var(--accent-green); border: 1px solid rgba(74,222,128,0.3); }
+.dash-stat.watch { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+.dash-stat.avoid { background: rgba(248,113,113,0.15); color: var(--accent-red); border: 1px solid rgba(248,113,113,0.3); }
+
+/* Pillar radar visual in ticker insight panel */
+.pillar-bars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+  padding: 16px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+.pillar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.pillar-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+}
+.pillar-track {
+  height: 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.pillar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+.pillar-fill.value   { background: var(--pillar-value); }
+.pillar-fill.quality { background: var(--pillar-quality); }
+.pillar-fill.risk    { background: var(--pillar-risk); }
+.pillar-fill.dip     { background: var(--pillar-dip); }
+.pillar-value-label {
+  font-size: 13px;
+  font-weight: 700;
+  text-align: right;
+}

@@ -20,6 +20,77 @@ let currentAccessToken = '';
 let lastInsightTriggerEl = null;
 let currentLaneMode = 'core';
 
+// ============================================================
+// Score cell helper - color graduation + mini bar
+// ============================================================
+function scoreCell(val) {
+  if (val == null || val === '' || val === undefined) return '<td class="score-val">—</td>';
+  const n = Math.round(parseFloat(val));
+  const tier = n >= 70 ? 'high' : n >= 40 ? 'mid' : 'low';
+  const cls  = n >= 70 ? 'score-high' : n >= 40 ? 'score-mid' : 'score-low';
+  return '<td class="score-val ' + cls + '" data-value="' + n + '"><div class="score-bar-wrap"><span>' + n + '</span><div class="score-bar"><div class="score-bar-fill ' + tier + '" style="width:' + n + '%"></div></div></div></td>';
+}
+
+// ============================================================
+// Skeleton loading rows
+// ============================================================
+function showTableSkeleton() {
+  const tbody = document.getElementById('stocksTableBody');
+  if (!tbody) return;
+  let html = '';
+  for (let i = 0; i < 6; i++) {
+    html += '<tr class="skeleton-row">' + '<td>&nbsp;</td>'.repeat(14) + '</tr>';
+  }
+  tbody.innerHTML = html;
+}
+
+// ============================================================
+// Dashboard stat bar (BUY / WATCH / AVOID counts)
+// ============================================================
+function updateStatBar(stocks) {
+  const bar = document.getElementById('dashStatBar');
+  if (!bar) return;
+  const buy   = stocks.filter(s => s.decision === 'BUY').length;
+  const watch = stocks.filter(s => s.decision === 'WATCH').length;
+  const avoid = stocks.filter(s => s.decision === 'AVOID').length;
+  if (buy + watch + avoid === 0) { bar.style.display = 'none'; return; }
+  bar.innerHTML =
+    (buy   ? '<span class="dash-stat buy">▲ ' + buy + ' BUY</span>' : '') +
+    (watch ? '<span class="dash-stat watch">◉ ' + watch + ' WATCH</span>' : '') +
+    (avoid ? '<span class="dash-stat avoid">▽ ' + avoid + ' AVOID</span>' : '');
+  bar.style.display = 'flex';
+}
+
+// ============================================================
+// Pillar bars in ticker insight panel
+// ============================================================
+function populatePillarBars(stock) {
+  const wrap = document.getElementById('tickerPillarBars');
+  if (!wrap) return;
+  const pillars = [
+    { fill: 'pillarFillValue',   val: 'pillarValValue',   v: stock ? stock.value_score   : null },
+    { fill: 'pillarFillQuality', val: 'pillarValQuality', v: stock ? stock.quality_score : null },
+    { fill: 'pillarFillRisk',    val: 'pillarValRisk',    v: stock ? stock.risk_score    : null },
+    { fill: 'pillarFillDip',     val: 'pillarValDip',     v: stock ? stock.dip_score     : null }
+  ];
+  let hasData = false;
+  pillars.forEach(function(p) {
+    const el = document.getElementById(p.fill);
+    const vl = document.getElementById(p.val);
+    if (p.v != null && p.v !== '') {
+      const n = Math.round(parseFloat(p.v));
+      if (el) el.style.width = n + '%';
+      if (vl) vl.textContent = n;
+      hasData = true;
+    } else {
+      if (el) el.style.width = '0%';
+      if (vl) vl.textContent = '—';
+    }
+  });
+  wrap.style.display = hasData ? 'grid' : 'none';
+}
+
+
 // API URL from central config (js/config.js must be loaded before this file)
 const API_URL = CONFIG.API_BASE_URL;
 
@@ -954,6 +1025,7 @@ async function loadDashboardLane(userToken, laneMode) {
 
     setupExchangeGlobe(allStocks);
     applyFilters();
+    updateStatBar(allStocks);
 
     const updatedText = formatDate(meta.last_updated) || 'Update time unavailable';
     if (lastUpdatedEl) {
@@ -1075,6 +1147,7 @@ function showLoading(isLoading) {
   if (tableEl) {
     tableEl.style.opacity = isLoading ? '0.5' : '1';
   }
+  if (isLoading) { showTableSkeleton(); }
 }
 
 function updateDashboardHeading(count, isFreeUser, laneMode = currentLaneMode) {
@@ -1615,6 +1688,7 @@ async function showTickerInsight(ticker, triggerEl = null) {
   document.getElementById('closeTickerInsightBtn')?.focus({ preventScroll: true });
 
   const stock = findStockByTicker(normalizedTicker);
+  populatePillarBars(stock);
   renderTickerInsight(
     {
       symbol: normalizedTicker,
@@ -1733,10 +1807,10 @@ function renderTable(stocks) {
         <td><span class="badge ${decisionClass}">${stock.decision || '-'}</span></td>
         <td data-value="${marketCapRaw}">${formatMarketCap(stock.market_cap, stock)}</td>
         <td data-value="${confidenceRaw}">${stock.confidence != null ? stock.confidence.toFixed(1) + '%' : '-'}</td>
-        <td data-value="${valueRaw}">${stock.value_score != null ? stock.value_score.toFixed(1) + '%' : '-'}</td>
-        <td data-value="${qualityRaw}">${stock.quality_score != null ? stock.quality_score.toFixed(1) + '%' : '-'}</td>
-        <td data-value="${riskRaw}">${stock.risk_score != null ? stock.risk_score.toFixed(1) + '%' : '-'}</td>
-        <td data-value="${dipRaw}">${stock.dip_score != null ? stock.dip_score.toFixed(1) + '%' : '-'}</td>
+        ${scoreCell(stock.value_score)}
+        ${scoreCell(stock.quality_score)}
+        ${scoreCell(stock.risk_score)}
+        ${scoreCell(stock.dip_score)}
         <td data-value="${currentPriceRaw}">${formatPrice(stock.current_price, stock)}</td>
         <td data-value="${fairValueRaw}">${formatPrice(stock.fair_value, stock)}</td>
         <td class="${discountClassName}" data-value="${discountRaw}">

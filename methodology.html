@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -23,6 +23,8 @@
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
   <meta property="og:image" content="https://stedrok.org/img/og-home.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Stedrok value stock screener dashboard preview">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Stedrok Methodology, Value Stock Scoring Framework">
@@ -30,6 +32,10 @@
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap"></noscript>
   <link rel="stylesheet" href="css/main.css?v=20260310e">
   <link rel="stylesheet" href="css/tokens.css?v=20260310i1">
   <link rel="stylesheet" href="css/theme-overrides.css?v=20260310w1">
@@ -114,6 +120,28 @@
         "item": "https://stedrok.org/methodology.html"
       }
     ]
+  }
+  </script>
+  <!-- JSON-LD: Speakable / WebPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://stedrok.org/methodology.html",
+    "name": "Stedrok Value Stock Screening Methodology",
+    "url": "https://stedrok.org/methodology.html",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": ["h1", "h2", ".methodology-intro", ".pillar-description"]
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "Quantitative Value Stock Screening Methodology",
+      "description": "Stedrok uses a four-pillar framework scoring companies on Value (intrinsic worth vs price), Quality (financial health and ROIC), Risk Resilience (balance sheet strength), and Price Context (recent dip from highs). Over 5,700 global companies are screened twice daily."
+    },
+    "publisher": {
+      "@id": "https://stedrok.org/#organization"
+    }
   }
   </script>
   <style>
@@ -212,6 +240,17 @@
       <div class="container hero-inner">
         <div class="hero-copy">
           <h1>How the Stedrok Value Framework Works</h1>
+          <p class="methodology-intro" style="font-size:19px;color:var(--text-secondary);line-height:1.8;margin:16px 0 0;max-width:780px;">The four pillars serious value investors have applied since Benjamin Graham — systematically automated across 5,740+ global companies, recalculated twice every trading day. Every scoring decision is documented, auditable, and grounded in public financial data.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;">
+            <span style="padding:5px 12px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:6px;font-size:12px;font-weight:700;color:var(--accent-green);">ROIC</span>
+            <span style="padding:5px 12px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:6px;font-size:12px;font-weight:700;color:var(--accent-green);">DCF Fair Value</span>
+            <span style="padding:5px 12px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:6px;font-size:12px;font-weight:700;color:var(--accent-green);">EV/EBITDA</span>
+            <span style="padding:5px 12px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:6px;font-size:12px;font-weight:700;color:var(--accent-green);">P/FCF</span>
+            <span style="padding:5px 12px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:6px;font-size:12px;font-weight:700;color:var(--accent-green);">Net Debt / EBITDA</span>
+            <span style="padding:5px 12px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:6px;font-size:12px;font-weight:700;color:var(--accent-green);">Margin of Safety</span>
+            <span style="padding:5px 12px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:6px;font-size:12px;font-weight:700;color:var(--accent-green);">Piotroski F-Score</span>
+            <span style="padding:5px 12px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:6px;font-size:12px;font-weight:700;color:var(--accent-green);">52-Week Dip %</span>
+          </div>
         <p class="author-byline" style="margin-top:10px; color:var(--text-secondary); font-size:14px;">By <a href="authors.html" style="color:var(--accent-green); text-decoration:underline;">Stedrok Research Team</a></p>
           <p class="hero-tagline">
             Stedrok scans more than seven thousand listed companies twice each trading day, cleans the data, and applies a rules based value lens. The goal is simple - surface sound businesses at sensible prices and avoid fragile balance sheets. The system is clear enough to follow and strict enough to repeat. Alongside this Core process, AI Hybrid applies separate guardrails before results are published.

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -25,6 +25,8 @@
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
   <meta property="og:image" content="https://stedrok.org/img/sample-output-table.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Stedrok delayed demo ranked table">
 
   <meta name="twitter:card" content="summary_large_image">
@@ -33,6 +35,10 @@
   <meta name="twitter:image" content="https://stedrok.org/img/sample-output-table.jpg">
   <meta name="twitter:image:alt" content="Stedrok delayed demo ranked table">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap"></noscript>
   <link rel="stylesheet" href="css/main.css?v=20260310e">
   <link rel="stylesheet" href="css/tokens.css?v=20260310i1">
   <link rel="stylesheet" href="css/theme-overrides.css?v=20260310w1">
@@ -358,10 +364,9 @@
   <main id="main">
     <section class="demo-hero">
       <div class="container">
-        <h1>Delayed Research Snapshot</h1>
+        <h1 class="demo-hero-title">What institutional screens surface.<br><span class="gradient-text">See it without logging in.</span></h1>
         <p class="demo-lead">
-          Review a delayed snapshot of the Stedrok research interface before creating an account: ranked rows,
-          company research fields, and four-pillar context. This page uses delayed data and a reduced row set.
+          This is a delayed public preview of the Stedrok four-pillar output — the same ranked format Pro members see twice every trading day. Every company in the live dashboard has passed screening across <strong>Value</strong> (DCF discount, P/FCF), <strong>Quality</strong> (ROIC, margins), <strong>Resilience</strong> (balance sheet stress), and <strong>Price Context</strong> (dip from highs). Below is a limited sample. <a href="register.html" style="color:var(--accent-green);">Create a free account</a> to unlock the current batch.
         </p>
 
         <div class="demo-actions" style="margin-top:0;">

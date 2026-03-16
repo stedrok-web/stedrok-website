@@ -69,3 +69,8 @@ deploy.bat
 set-secrets.bat
 verify-all.bat
 AGENTS.md
+
+# Backup session directories
+backups/
+*.bak_*
+*.bak

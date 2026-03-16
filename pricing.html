@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -26,6 +26,8 @@
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
   <meta property="og:image" content="https://stedrok.org/img/og-home.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Stedrok value stock screener dashboard preview">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Stedrok Pricing, Value Stock Screener Subscription">
@@ -33,6 +35,10 @@
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap"></noscript>
   <link rel="stylesheet" href="css/main.css?v=20260310e">
   <link rel="stylesheet" href="css/tokens.css?v=20260310i1">
   <link rel="stylesheet" href="css/theme-overrides.css?v=20260310w1">
@@ -46,13 +52,35 @@
     "applicationCategory": "FinancialApplication",
     "operatingSystem": "Web",
     "description": "Independent stock research platform for long term value investors. Stedrok Pro unlocks the full universe of ranked companies and export tools.",
-    "offers": {
-      "@type": "Offer",
-      "price": "3.00",
-      "priceCurrency": "USD",
-      "category": "subscription",
-      "url": "https://stedrok.org/pricing.html"
-    }
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Stedrok Pro",
+        "price": "3.00",
+        "priceCurrency": "USD",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": 3.00,
+          "priceCurrency": "USD",
+          "billingDuration": "P1M",
+          "billingIncrement": 1
+        },
+        "category": "subscription",
+        "url": "https://stedrok.org/pricing.html",
+        "description": "Full access to Stedrok ranked stock dashboard including Core, AI Hybrid, and Blended views. Updated twice daily.",
+        "availability": "https://schema.org/InStock",
+        "seller": {"@id": "https://stedrok.org/#organization"}
+      },
+      {
+        "@type": "Offer",
+        "name": "Stedrok Free",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "3 preview stocks from the current ranked batch. No credit card required.",
+        "availability": "https://schema.org/InStock",
+        "url": "https://stedrok.org/pricing.html"
+      }
+    ]
   }
   </script>
 
@@ -229,7 +257,8 @@
         word-break: break-word;
       }
     }
-  </style>
+  @media(max-width:768px){.cost-compare-grid{grid-template-columns:1fr 1fr!important;}}
+    </style>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -260,10 +289,10 @@
     <!-- Hero -->
     <section class="pricing-hero">
       <div class="container">
-        <h1>Simple, Transparent Pricing</h1>
+        <h1>Institutional-Grade Screening.<br><span class="gradient-text">Individual Investor Price.</span></h1>
         <p class="subtitle">
-          Professional stock screening at $3 per month. Free tier available long-term.<br>
-          Includes Core, AI Hybrid, and Blended dashboard views.<br>
+          Bloomberg Terminal: <strong>$24,000/year</strong>. FactSet: <strong>$12,000+/year</strong>. Stedrok Pro: <strong>$36/year</strong>.<br>
+          The same four-pillar fundamental framework used by disciplined value investors — automated across 5,740+ companies, updated twice daily.<br>
           No hidden fees. Cancel online at any time.
         </p>
         <div class="trust-strip">
@@ -275,6 +304,37 @@
       </div>
     </section>
 
+    <!-- Cost Comparison -->
+    <section class="section" style="padding-top:0;padding-bottom:0;">
+      <div class="container">
+        <div style="max-width:900px;margin:0 auto 40px;padding:28px 32px;background:var(--bg-card);border:1px solid rgba(74,222,128,0.25);border-radius:14px;">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent-green);margin-bottom:16px;">The Real Cost of Institutional Research</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:end;" class="cost-compare-grid">
+            <div style="text-align:center;padding:16px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid var(--border-color);">
+              <div style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">Bloomberg Terminal</div>
+              <div style="font-size:28px;font-weight:800;color:var(--accent-red);">$24,000</div>
+              <div style="font-size:12px;color:var(--text-muted);">per year</div>
+            </div>
+            <div style="text-align:center;padding:16px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid var(--border-color);">
+              <div style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">FactSet</div>
+              <div style="font-size:28px;font-weight:800;color:var(--accent-red);">$12,000+</div>
+              <div style="font-size:12px;color:var(--text-muted);">per year</div>
+            </div>
+            <div style="text-align:center;padding:16px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid var(--border-color);">
+              <div style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">Refinitiv Eikon</div>
+              <div style="font-size:28px;font-weight:800;color:var(--accent-red);">$22,000</div>
+              <div style="font-size:12px;color:var(--text-muted);">per year</div>
+            </div>
+            <div style="text-align:center;padding:20px;background:rgba(74,222,128,0.08);border-radius:10px;border:2px solid rgba(74,222,128,0.4);">
+              <div style="font-size:13px;color:var(--accent-green);font-weight:600;margin-bottom:6px;">Stedrok Pro</div>
+              <div style="font-size:36px;font-weight:800;color:var(--accent-green);">$36</div>
+              <div style="font-size:12px;color:var(--text-muted);">per year ($3/month)</div>
+            </div>
+          </div>
+          <p style="margin-top:16px;font-size:14px;color:var(--text-muted);text-align:center;">Stedrok focuses on what individual investors actually need: a rigorous, transparent fundamental screener updated daily. No newsfeeds, no FX desks, no features you'll never use.</p>
+        </div>
+      </div>
+    </section>
     <!-- Pricing Cards -->
     <section class="section">
       <div class="container">
@@ -304,7 +364,7 @@
             <div class="price">$3<span>/month</span></div>
             <p class="price-note">Billed monthly via PayPal. Cancel anytime.</p>
             <ul class="benefits">
-              <li>Full access to the full ranked daily list (typically 50+ BUY stocks)</li>
+              <li><strong>Full ranked daily list</strong> — typically 50–70 BUY-rated stocks from a universe of 5,740+</li>
               <li>Core, AI Hybrid, and Blended dashboard views included</li>
               <li>Daily updates with fresh market data</li>
               <li>Detailed pillar scores across the four pillars for every stock</li>
@@ -431,6 +491,10 @@
             contact us at <a href="mailto:contact@stedrok.org" style="color:var(--accent-green);text-decoration:underline;">contact@stedrok.org</a>
             for a full refund. No questions asked. We typically process refunds within 3 business days.
           </p>
+        </div>
+        <div style="max-width:700px;margin:32px auto;padding:28px 32px;background:var(--bg-card);border-left:4px solid var(--accent-green);border-radius:0 12px 12px 0;">
+          <p style="font-size:19px;font-style:italic;color:var(--text-primary);line-height:1.7;margin:0 0 12px;">“The stock market is a device for transferring money from the impatient to the patient. A systematic value framework is how you stay patient with conviction.”</p>
+          <p style="font-size:13px;color:var(--text-muted);margin:0;">— Value investing principle. The Stedrok framework is built around this idea.</p>
         </div>
         <p style="max-width:700px;margin:24px auto 0;text-align:center;font-size:15px;color:var(--text-secondary);line-height:1.7;">
           The three-dollar monthly price covers data licensing, cloud hosting, authentication services, payment processing and ongoing development. There are no add-ons, no upsells and no advertising. We set the price low enough that most long-term investors can treat it as a minor research expense - less than a single coffee - while still keeping the service sustainable.

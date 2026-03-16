@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -19,6 +19,8 @@
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
   <meta property="og:image" content="https://stedrok.org/img/og-home.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Stedrok value stock screener dashboard preview">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Value Investing Glossary, Stedrok">
@@ -26,6 +28,10 @@
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap"></noscript>
   <link rel="stylesheet" href="css/main.css?v=20260310e">
   <link rel="stylesheet" href="css/tokens.css?v=20260310i1">
   <link rel="stylesheet" href="css/theme-overrides.css?v=20260310w1">
@@ -69,6 +75,55 @@
     .lead { font-size: 20px; color: var(--text-secondary); margin-bottom: 40px; line-height: 1.7; }
     .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 28px; margin-bottom: 20px; }
 </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between price-to-earnings and price-to-book ratio?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The price-to-earnings (P/E) ratio measures how much investors pay per dollar of current earnings, while the price-to-book (P/B) ratio compares market price to net asset value. P/E is best for profitable businesses with stable earnings; P/B is more relevant for asset-heavy companies like banks, insurers, and miners where book value is a reliable value anchor."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a margin of safety in value investing?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A margin of safety is the gap between a stock's estimated intrinsic value and its current market price, expressed as a percentage. Benjamin Graham popularised the concept: buying at a 30-50% discount to intrinsic value protects investors if their valuation assumptions turn out to be too optimistic. Stedrok flags stocks with the largest positive discount as BUY candidates."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does ROIC tell you about a stock?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Return on Invested Capital (ROIC) measures how effectively management converts capital into operating profit. A ROIC consistently above the company's cost of capital means the business is creating economic value. Stedrok uses ROIC stability over multiple years as a key quality signal — companies with durable high ROIC typically have economic moats."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you calculate intrinsic value for a stock?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Intrinsic value is estimated by discounting projected future free cash flows back to today at a rate that reflects the risk of the business. Stedrok uses a blended model combining discounted cash flow analysis with EV/EBITDA and FCF yield benchmarking to produce a daily estimated value for each covered company."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is EV/EBITDA and why is it useful?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "EV/EBITDA divides enterprise value (market cap plus net debt) by EBITDA (earnings before interest, taxes, depreciation, and amortisation). It is capital-structure neutral and strips out non-cash accounting charges, making it useful for comparing companies with different debt levels or depreciation policies. A lower EV/EBITDA relative to peers often signals undervaluation."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -174,6 +229,106 @@
             Current assets divided by current liabilities.
             Measures whether a company can pay its short term debts.
             A ratio below 1 means the company might struggle to meet near term obligations.
+          </p>
+        </article>
+
+        
+        <article class="card">
+          <h2>Price-to-Book Ratio (P/B)</h2>
+          <p>
+            The price-to-book ratio compares a company's market capitalisation to its net asset value on the balance sheet.
+            A P/B below 1.0 implies the market values the company below what its assets are worth after liabilities — a classic Graham-style value signal.
+            Stedrok incorporates P/B in its value score, particularly for asset-heavy sectors such as financials, industrials, and basic materials.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2>Enterprise Value (EV)</h2>
+          <p>
+            Enterprise Value is the total takeover cost of a business: market capitalisation plus net debt minus cash.
+            It represents what an acquirer would effectively pay to own the company outright, free of financial structure distortions.
+            Stedrok uses EV as the numerator in EV/EBITDA and EV/FCF calculations to normalise valuations across companies with different capital structures.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2>EV/EBITDA</h2>
+          <p>
+            EV/EBITDA divides enterprise value by earnings before interest, taxes, depreciation, and amortisation.
+            It is one of the most widely used cross-sector valuation multiples because it strips out capital structure and accounting differences.
+            Stedrok compares each company's EV/EBITDA to its sector median; stocks trading at a meaningful discount to peers score higher on the value dimension.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2>Return on Invested Capital (ROIC)</h2>
+          <p>
+            ROIC measures how efficiently a company generates after-tax operating profit from the total capital deployed in the business (equity plus interest-bearing debt).
+            A ROIC consistently above the company's cost of capital signals a genuine competitive advantage and value-creating management.
+            Stedrok rewards high and stable ROIC in its quality score because it identifies durable moat businesses rather than cyclical earnings spikes.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2>Intrinsic Value</h2>
+          <p>
+            Intrinsic value is the present value of all future cash flows a business is expected to generate, discounted at an appropriate rate.
+            It is the anchor concept in value investing: the goal is to buy assets trading below their intrinsic value to create a margin of safety.
+            Stedrok estimates intrinsic value for each covered stock using a blended DCF and multiple-based model, updating the estimate each trading day.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2>Economic Moat</h2>
+          <p>
+            An economic moat — coined by Warren Buffett — is a durable competitive advantage that protects a company's profitability from competitors over time.
+            Moat sources include network effects, switching costs, cost advantages, intangible assets (patents, brands), and efficient scale.
+            Stedrok proxies moat strength using multi-year ROIC stability, gross margin trends, and pricing power indicators within the quality score.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2>Capital Allocation</h2>
+          <p>
+            Capital allocation refers to how management deploys the cash the business generates: reinvestment into operations, acquisitions, dividends, buybacks, or debt repayment.
+            Disciplined capital allocation compounds shareholder value; poor allocation — such as overpriced acquisitions or value-destructive buybacks — erodes it.
+            Stedrok evaluates capital allocation quality through ROIC on incremental capital, buyback timing, and M&amp;A track record as part of the quality score.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2>Net Asset Value (NAV)</h2>
+          <p>
+            Net Asset Value is total assets minus total liabilities — the accounting book value of equity.
+            For asset-intensive companies such as real estate, mining, and insurance, NAV is often a more reliable valuation anchor than earnings-based multiples.
+            Stedrok uses estimated NAV alongside earnings-based metrics to score companies in asset-heavy sectors, flagging stocks trading at steep discounts to asset value.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2>Interest Coverage Ratio</h2>
+          <p>
+            The interest coverage ratio divides a company's operating earnings (EBIT) by its interest expense.
+            It shows how many times over the business can pay its debt interest from operating profits — a ratio below 2x is a red flag.
+            Stedrok penalises low interest coverage in its risk score because interest burden becomes dangerous when earnings deteriorate.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2>Graham Number</h2>
+          <p>
+            The Graham Number is a formula devised by Benjamin Graham to estimate the maximum fair price for a defensive value stock: the square root of (22.5 times earnings per share times book value per share).
+            It provides a conservative upper bound on valuation by combining both earnings power and asset value.
+            Stedrok references the Graham Number as one input in the value score for dividend-paying, asset-backed businesses where Graham's original framework applies best.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2>PEG Ratio</h2>
+          <p>
+            The PEG ratio adjusts the price-to-earnings ratio for expected earnings growth: PEG = P/E divided by the annual EPS growth rate.
+            A PEG below 1.0 is often cited as indicating a growth stock trading at a value price.
+            Stedrok uses a modified PEG concept in scoring growth-oriented technology and healthcare companies where current P/E alone understates long-term earning power.
           </p>
         </article>
 

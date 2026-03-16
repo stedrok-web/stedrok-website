@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -19,6 +19,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://ziysjyzdbmgvmzjcjbjj.supabase.co" crossorigin>
   <link rel="preconnect" href="https://stedrok-api.stedrok.workers.dev" crossorigin>
+  <!-- Must run synchronously: redirects /index.html -> / before first paint. Do NOT add defer. -->
   <script src="js/index-canonical-redirect.js?v=20260221a"></script>
 
   <!-- Open Graph -->
@@ -30,6 +31,8 @@
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
   <meta property="og:image" content="https://stedrok.org/img/og-home.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Stedrok value stock screener dashboard preview">
 
   <!-- Twitter Card -->
@@ -45,6 +48,12 @@
   <meta name="referrer" content="no-referrer-when-downgrade">
 
   <!-- CSS -->
+  <link rel="preload" href="css/tokens.css?v=20260310i1" as="style">
+  <link rel="preload" href="css/main.css?v=20260310e" as="style">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap"></noscript>
   <link rel="stylesheet" href="css/main.css?v=20260310e">
   <link rel="stylesheet" href="css/tokens.css?v=20260310i1">
   <link rel="stylesheet" href="css/theme-overrides.css?v=20260310w1">
@@ -53,17 +62,36 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["Organization", "FinancialService"],
     "@id": "https://stedrok.org/#organization",
     "name": "Stedrok Pty Ltd",
     "alternateName": "Stedrok",
     "url": "https://stedrok.org",
-    "logo": "https://stedrok.org/img/og-home.jpg",
-    "foundingLocation": "Australia",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://stedrok.org/img/og-home.jpg",
+      "width": 1200,
+      "height": 630
+    },
+    "foundingLocation": {
+      "@type": "Place",
+      "addressCountry": "AU"
+    },
     "email": "contact@stedrok.org",
-    "sameAs": [
-      "https://github.com/stedrok-web/stedrok-website"
-    ]
+    "description": "Stedrok is an independent quantitative stock research platform for long-term value investors. It screens over 5,700 global companies using a four-pillar framework: Value, Quality, Risk resilience, and Price Context.",
+    "knowsAbout": [
+      "value investing",
+      "stock screening",
+      "fundamental analysis",
+      "DCF valuation",
+      "ROIC analysis",
+      "margin of safety",
+      "long-term investing",
+      "quantitative finance"
+    ],
+    "areaServed": "Worldwide",
+    "serviceType": "Stock Research Platform",
+    "sameAs": ["https://github.com/stedrok-web/stedrok-website"]
   }
   </script>
 
@@ -270,7 +298,8 @@
       }
       .check-yes, .check-no { font-size: 15px; }
     }
-  </style>
+  @media(max-width:768px){.model-pillars-grid{grid-template-columns:1fr 1fr!important;}}@media(max-width:540px){.model-pillars-grid{grid-template-columns:1fr!important;}}
+    </style>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -301,13 +330,32 @@
     <!-- Hero -->
     <section class="hero">
       <div class="container">
-        <h1>Serious value research<br><span class="gradient-text">without staring at charts all day</span></h1>
+        <h1>The metrics institutional investors<br>use to find value.<br><span class="gradient-text">Now accessible to everyone.</span></h1>
         <p class="lead">
-          Stedrok scans more than seven thousand companies twice each trading day and ranks them using a clear rules based value framework.
-          It focuses on business strength, balance sheet resilience, sensible valuation and where the current price sits in its range.
-          You get a short list of ideas so you can spend your time on real research instead of hunting through raw data.
-          Pro members can review three dashboard views in one place: Core, AI Hybrid, and Blended.
+          Stedrok runs a rules-based fundamental scan across <strong>5,740+ companies</strong> on <strong>40+ global exchanges</strong> — twice every trading day. Each company is scored on four pillars: intrinsic value discount, business quality (ROIC, margins), balance sheet resilience, and price context. The result: a ranked shortlist of the strongest value candidates, updated daily, with a written research note for every name.
         </p>
+        <div class="stat-bar" style="display:flex;flex-wrap:wrap;gap:10px 24px;margin:0 0 28px;padding:18px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;">
+          <div class="stat-item" style="display:flex;flex-direction:column;gap:2px;">
+            <span style="font-size:26px;font-weight:800;color:var(--accent-green);line-height:1;">5,740+</span>
+            <span style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;">Companies Scanned</span>
+          </div>
+          <div class="stat-item" style="display:flex;flex-direction:column;gap:2px;">
+            <span style="font-size:26px;font-weight:800;color:var(--accent-green);line-height:1;">2×</span>
+            <span style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;">Daily Updates</span>
+          </div>
+          <div class="stat-item" style="display:flex;flex-direction:column;gap:2px;">
+            <span style="font-size:26px;font-weight:800;color:var(--accent-green);line-height:1;">40+</span>
+            <span style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;">Global Exchanges</span>
+          </div>
+          <div class="stat-item" style="display:flex;flex-direction:column;gap:2px;">
+            <span style="font-size:26px;font-weight:800;color:var(--accent-green);line-height:1;">4</span>
+            <span style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;">Scoring Pillars</span>
+          </div>
+          <div class="stat-item" style="display:flex;flex-direction:column;gap:2px;">
+            <span style="font-size:26px;font-weight:800;color:var(--accent-green);line-height:1;">$3</span>
+            <span style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;">Per Month</span>
+          </div>
+        </div>
         <div class="cta-buttons">
           <a href="register.html" class="btn-primary btn-large">Start Free, No Card Required</a>
           <a href="demo.html" class="btn-secondary btn-large">View No-Login Demo</a>
@@ -330,38 +378,34 @@
     <!-- Problem / Solution -->
     <section class="section section--light">
       <div class="container">
-        <h2>Built for Investors Who Value Discipline Over Hype</h2>
+        <h2>The Fundamental Metrics Retail Investors Ignore<br><span style="color:var(--accent-green);">And Institutions Exploit</span></h2>
         <p class="section-lead">
-          Most stock screening tools prioritise momentum, growth stories, or short-term noise.
-          Stedrok is designed for a different approach.
+          Professional analysts at hedge funds and asset managers run systematic fundamental screens every single day. They look for ROIC trends, free cash flow yield, balance sheet stress signals, and price-to-intrinsic-value gaps. Retail investors rarely have access to the same framework at scale. That's the gap Stedrok was built to close.
         </p>
 
         <div class="problem-grid">
           <div class="problem-card">
-            <h3>Too Much Noise</h3>
+            <h3>Chasing Narratives, Not Numbers</h3>
             <p>
-              Endless headlines, hot tips, and market chatter make it hard to focus on
-              companies with solid fundamentals trading at reasonable prices.
+              Most retail platforms rank stocks by momentum, analyst ratings, or social sentiment. Institutions measure ROIC trends, FCF yield, and margin of safety. These are fundamentally different signals — and conflating them is how retail investors consistently overpay.
             </p>
           </div>
           <div class="problem-card">
-            <h3>Black Box Scoring</h3>
+            <h3>Black Boxes Dressed as Insights</h3>
             <p>
-              Many tools give you a rating with no explanation of how it was calculated.
-              You're expected to trust the algorithm without understanding it.
+              A tool that gives you a score with no auditable methodology is marketing, not research. If you can't trace a rating back to specific financial metrics — P/FCF, net debt ratio, earnings stability — you have no basis for trusting it when the market turns.
             </p>
           </div>
           <div class="problem-card">
-            <h3>Expensive or Bloated</h3>
+            <h3>Institutional Tools at Institutional Prices</h3>
             <p>
-              Professional platforms cost hundreds per month and come loaded with features
-              you don't need. Free options are ad-heavy or data quality is questionable.
+              Bloomberg Terminal: $24,000/year. FactSet: $12,000+/year. Refinitiv Eikon: $22,000/year. The data infrastructure to run institutional fundamental analysis has been locked behind price points designed to exclude individual investors. Until now.
             </p>
           </div>
         </div>
 
         <div class="solution-box">
-            <h3>Stedrok Takes a Different Path</h3>
+            <h3>Institutional Rigour. Individual Investor Price.</h3>
           <p>
             We focus on value, business strength, resilience, and price context - not momentum or hype.
             The methodology is fully transparent. Every rating comes with a clear explanation of the
@@ -386,7 +430,7 @@
             <div class="feature-icon">&#128202;</div>
             <h3>Ranked List Every Market Day</h3>
             <p>
-              More than seven thousand companies scanned twice each trading day and distilled into a focused list of roughly one hundred names. Transparent scoring across four pillars: value first, then business strength, resilience and price context.
+              More than 5,740 companies across 40+ global exchanges scored twice each trading day. The engine measures intrinsic value discount, ROIC trends, balance sheet strength, and price pullback — then distills the results into a focused ranked list of the strongest fundamental candidates.
             </p>
           </div>
 
@@ -394,8 +438,7 @@
             <div class="feature-icon">&#128269;</div>
             <h3>Transparent Methodology</h3>
             <p>
-              No black boxes. See exactly how each score is calculated, which metrics matter most,
-              and why. The approach is rooted in long-standing value investing principles.
+              No black boxes. Every score traces back to publicly available financial data: Price-to-FCF, EV/EBITDA, Return on Invested Capital, net debt/EBITDA, earnings stability, and 52-week price context. The full model logic is published. Read it before you subscribe.
             </p>
           </div>
 
@@ -403,8 +446,7 @@
             <div class="feature-icon">&#128737;</div>
             <h3>Resilience-First Mindset</h3>
             <p>
-              Before highlighting value or quality, Stedrok checks balance sheet strength and
-              liquidity. Companies that fail basic resilience tests are flagged, regardless of price.
+              Value traps have destroyed more portfolios than overpriced growth stocks. Before Stedrok highlights any undervaluation, every company must pass a balance sheet stress test: net debt levels, interest coverage, current ratio, and earnings consistency. Cheap for a reason gets filtered out first.
             </p>
           </div>
 
@@ -430,14 +472,43 @@
             <div class="feature-icon">&#128200;</div>
             <h3>Data You Can Trust</h3>
             <p>
-              Company financials and prices sourced from reputable market data providers.
-              Regular quality checks and updates aligned with reporting schedules.
+              Company financials and prices sourced from institutional market data providers and cross-referenced on each run. Anomaly detection flags data quality issues before scores are published. No stock gets a BUY rating on corrupted or incomplete fundamentals.
             </p>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- What the model measures -->
+    <section class="section section--border">
+      <div class="container">
+        <h2 style="text-align:center;margin-bottom:12px;">What the Model Actually Measures</h2>
+        <p class="section-lead" style="margin-bottom:32px;">Four pillars. Specific metrics. Auditable logic. No guesswork.</p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;" class="model-pillars-grid">
+          <div style="padding:24px;background:var(--bg-card);border:1px solid rgba(74,222,128,0.3);border-radius:12px;border-top:3px solid var(--pillar-value);">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--pillar-value);margin-bottom:10px;">Pillar 1 — Value</div>
+            <div style="font-size:16px;font-weight:700;margin-bottom:10px;color:var(--text-primary);">Is it cheap relative to intrinsic worth?</div>
+            <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">DCF discount to fair value · Price-to-FCF · EV/EBITDA · Price-to-Book</div>
+          </div>
+          <div style="padding:24px;background:var(--bg-card);border:1px solid rgba(155,135,245,0.3);border-radius:12px;border-top:3px solid var(--pillar-quality);">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--pillar-quality);margin-bottom:10px;">Pillar 2 — Quality</div>
+            <div style="font-size:16px;font-weight:700;margin-bottom:10px;color:var(--text-primary);">Is the business actually good?</div>
+            <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">Return on Invested Capital (ROIC) · Gross &amp; operating margins · Earnings stability · Revenue consistency</div>
+          </div>
+          <div style="padding:24px;background:var(--bg-card);border:1px solid rgba(248,113,113,0.3);border-radius:12px;border-top:3px solid var(--pillar-risk);">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--pillar-risk);margin-bottom:10px;">Pillar 3 — Resilience</div>
+            <div style="font-size:16px;font-weight:700;margin-bottom:10px;color:var(--text-primary);">Can it survive a downturn?</div>
+            <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">Net Debt / EBITDA · Interest coverage · Current ratio · Balance sheet stress score</div>
+          </div>
+          <div style="padding:24px;background:var(--bg-card);border:1px solid rgba(245,158,11,0.3);border-radius:12px;border-top:3px solid var(--pillar-dip);">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--pillar-dip);margin-bottom:10px;">Pillar 4 — Price Context</div>
+            <div style="font-size:16px;font-weight:700;margin-bottom:10px;color:var(--text-primary);">Is it at an interesting entry point?</div>
+            <div style="font-size:13px;color:var(--text-muted);line-height:1.6;">% below 52-week high · Distance from recent support · Short-term price momentum context</div>
+          </div>
+        </div>
+        <p style="text-align:center;margin-top:20px;font-size:14px;color:var(--text-muted);">All metrics calculated from public company financials and market price data. <a href="methodology.html" style="color:var(--accent-green);">Read the full methodology →</a></p>
+      </div>
+    </section>
     <!-- Sample Output -->
     <section class="section section--light section--border" id="sample-output">
       <div class="container">
@@ -488,7 +559,7 @@
     <!-- How It Works -->
     <section class="section section--light">
       <div class="container">
-        <h2>How It Works</h2>
+        <h2>From 5,740 Companies to Your Shortlist</h2>
         <p class="section-lead">
           The engine does the heavy lifting at scale.
           You keep control of the decisions and add your own judgment on top.
@@ -737,7 +808,7 @@
     <!-- Final CTA -->
     <section class="cta-section">
       <div class="container">
-        <h2>Start Screening Smarter Today</h2>
+        <h2>The same framework. A fraction of the price.</h2>
         <p>
           Free access to 3 ranked preview stocks. No credit card required. Upgrade when you're ready for the full list.
         </p>
