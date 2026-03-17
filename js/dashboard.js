@@ -1834,7 +1834,7 @@ function renderTable(stocks) {
                          stock.decision === 'WATCH' ? 'badge-watch' : 'badge-avoid';
     const tickerDisplay = getTickerDisplayParts(stock);
     const newBadgeHtml = stock.is_new ? '<span class="badge badge-new ticker-new-badge">NEW</span>' : '';
-    const geminiBadgeHtml = stock.gemini_selected ? '<span class="badge badge-ai-pick ticker-ai-badge" title="Selected by Gemini AI as a top high-conviction pick">★ AI</span>' : '';
+    const const geminiBadgeHtml = stock.gemini_selected ? '<span class=\"badge badge-ai-pick ticker-ai-badge\" title=\"Selected by Gemini AI as a top high-conviction pick\">* TOP</span>' : '';
 
     if (isFreeUser) {
       // Free user: Show only ticker, company, country, sector, then upgrade prompt
