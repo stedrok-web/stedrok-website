@@ -1852,8 +1852,8 @@ function renderTable(stocks) {
       tr.innerHTML = `
         <td>
           <div class="ticker-cell">
-            <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View preview for ${tickerDisplay.plain}">
-              <span class="ticker-label-main">${tickerDisplay.main}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${tickerDisplay.secondary})</span>` : ''}
+            <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View preview for ${_escHtml(tickerDisplay.plain)}">
+              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${_escHtml(tickerDisplay.secondary)})</span>` : ''}
             </button>
             ${geminiBadgeHtml}${newBadgeHtml}
           </div>
@@ -1886,8 +1886,8 @@ function renderTable(stocks) {
       tr.innerHTML = `
         <td>
           <div class="ticker-cell">
-            <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View insight for ${tickerDisplay.plain}">
-              <span class="ticker-label-main">${tickerDisplay.main}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${tickerDisplay.secondary})</span>` : ''}
+            <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View insight for ${_escHtml(tickerDisplay.plain)}">
+              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${_escHtml(tickerDisplay.secondary)})</span>` : ''}
             </button>
             ${geminiBadgeHtml}${newBadgeHtml}
           </div>
@@ -1895,7 +1895,7 @@ function renderTable(stocks) {
         <td>${_escHtml(stock.company_name || '-')}</td>
         <td>${_escHtml(stock.country || '-')}</td>
         <td>${_escHtml(stock.sector || '-')}</td>
-        <td><span class="badge ${decisionClass}">${stock.decision || '-'}</span></td>
+        <td><span class="badge ${decisionClass}">${_escHtml(stock.decision || '-')}</span></td>
         <td data-value="${marketCapRaw}">${formatMarketCap(stock.market_cap, stock)}</td>
         <td data-value="${confidenceRaw}">${stock.confidence != null ? stock.confidence.toFixed(1) + '%' : '-'}</td>
         ${scoreCell(stock.value_score)}
