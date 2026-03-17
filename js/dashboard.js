@@ -1547,6 +1547,9 @@ function resolveTickerSummaryMode(stock) {
   if (selectedLane === 'hybrid' || selectedLane === 'blended') return 'hybrid';
   if (selectedLane === 'swarm') return 'blended';
   if (String(stock?.selection_lane || '').toLowerCase() === 'blended_shared') return 'blended';
+  // Default for blended/swarm mode: use blended table plan (swarm→hybrid→core)
+  // Swarm picks lack selection_lane; this ensures they still hit ticker_summaries_swarm
+  if (activeLane === 'blended') return 'blended';
   return 'core';
 }
 
