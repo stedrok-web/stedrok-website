@@ -866,7 +866,7 @@ function setDashboardLaneToggle(mode) {
   swarmCells.forEach(function(td) { td.style.display = isSwarm ? '' : 'none'; });
   // Update free-user upgrade prompt colspan
   document.querySelectorAll('[data-free-colspan]').forEach(function(td) {
-    td.setAttribute('colspan', isSwarm ? '11' : '10');
+    td.setAttribute('colspan', isSwarm ? '15' : '14');
   });
 
   document.querySelectorAll('[data-dashboard-lane]').forEach(btn => {
@@ -1820,7 +1820,7 @@ function renderTable(stocks) {
   if (stocks.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="14" style="text-align:center; padding:40px; color:#999;">
+        <td colspan="15" style="text-align:center; padding:40px; color:#999;">
           No research rows are available in the current batch. Please check the next refresh.
         </td>
       </tr>
@@ -1853,7 +1853,7 @@ function renderTable(stocks) {
         <td>${stock.company_name || '-'}</td>
         <td>${stock.country || '-'}</td>
         <td>${stock.sector || '-'}</td>
-        <td colspan="${currentLaneMode === 'blended' ? 11 : 10}" style="text-align:center; color:var(--text-secondary);">
+        <td colspan="${currentLaneMode === 'blended' ? 15 : 14}" style="text-align:center; color:var(--text-secondary);">
           <a href="pricing.html" style="color:var(--accent-green); font-weight:bold;">
             Upgrade to Pro for full metrics &rarr;
           </a>
