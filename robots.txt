@@ -21,6 +21,7 @@ Allow: /llms-full.txt
 Disallow: /scripts/
 Disallow: /supabase/
 Disallow: /workers/
+Disallow: /data/
 
 # AI crawler policy: explicitly allow core research pages and machine-readable discovery files.
 User-agent: GPTBot
@@ -32,6 +33,7 @@ Allow: /robots.txt
 Disallow: /scripts/
 Disallow: /supabase/
 Disallow: /workers/
+Disallow: /data/
 
 User-agent: ChatGPT-User
 Allow: /
@@ -42,6 +44,7 @@ Allow: /robots.txt
 Disallow: /scripts/
 Disallow: /supabase/
 Disallow: /workers/
+Disallow: /data/
 
 User-agent: ClaudeBot
 Allow: /
@@ -52,6 +55,7 @@ Allow: /robots.txt
 Disallow: /scripts/
 Disallow: /supabase/
 Disallow: /workers/
+Disallow: /data/
 
 User-agent: PerplexityBot
 Allow: /
@@ -62,6 +66,7 @@ Allow: /robots.txt
 Disallow: /scripts/
 Disallow: /supabase/
 Disallow: /workers/
+Disallow: /data/
 
 User-agent: CCBot
 Allow: /
@@ -72,6 +77,7 @@ Allow: /robots.txt
 Disallow: /scripts/
 Disallow: /supabase/
 Disallow: /workers/
+Disallow: /data/
 
 User-agent: Google-Extended
 Allow: /
@@ -82,5 +88,6 @@ Allow: /robots.txt
 Disallow: /scripts/
 Disallow: /supabase/
 Disallow: /workers/
+Disallow: /data/
 
 Sitemap: https://stedrok.org/sitemap.xml
