@@ -68,3 +68,6 @@ index.audit.html
 data/dashboard_ticker_summaries_swarm.json
 data/dashboard_ticker_summaries_hybrid.json
 data/stocks_swarm.json
+
+# Swarm picks served via Supabase - not needed on Pages
+data/stocks_swarm.json
