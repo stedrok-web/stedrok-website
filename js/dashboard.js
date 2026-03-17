@@ -844,6 +844,17 @@ function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
 
 function setDashboardLaneToggle(mode) {
   const normalized = normalizeDashboardLane(mode);
+  // Show Swarm Score column only in Swarm-Lite (blended) mode
+  const swarmHeader = document.getElementById('thSwarmScore');
+  const swarmCells = document.querySelectorAll('[data-col="swarm_score"]');
+  const isSwarm = normalized === 'blended';
+  if (swarmHeader) swarmHeader.style.display = isSwarm ? '' : 'none';
+  swarmCells.forEach(function(td) { td.style.display = isSwarm ? '' : 'none'; });
+  // Update free-user upgrade prompt colspan
+  document.querySelectorAll('[data-free-colspan]').forEach(function(td) {
+    td.setAttribute('colspan', isSwarm ? '11' : '10');
+  });
+
   document.querySelectorAll('[data-dashboard-lane]').forEach(btn => {
     const lane = normalizeDashboardLane(btn.getAttribute('data-dashboard-lane'));
     const active = lane === normalized;
@@ -1688,6 +1699,39 @@ function renderTickerInsight(summary, stock) {
     updatedEl.textContent = formatted ? `Updated: ${formatted}` : '';
     updatedEl.style.display = formatted ? 'block' : 'none';
   }
+
+  // Swarm-Lite section
+  const swarmSection = document.getElementById('swarmInsightSection');
+  const swarmScoreEl = document.getElementById('swarmScoreValue');
+  const swarmBase = document.getElementById('swarmChipBase');
+  const swarmBull = document.getElementById('swarmChipBull');
+  const swarmBear = document.getElementById('swarmChipBear');
+  const swarmCrisis = document.getElementById('swarmChipCrisis');
+  const swarmReasonEl = document.getElementById('swarmSelectionReason');
+
+  const hasSwarm = stock && stock.swarm_score != null;
+  if (swarmSection) swarmSection.style.display = hasSwarm ? 'block' : 'none';
+
+  if (hasSwarm) {
+    if (swarmScoreEl) swarmScoreEl.textContent = stock.swarm_score.toFixed(1);
+    const sb = stock.scenario_breakdown || {};
+    function scenarioChip(el, label, scenario) {
+      if (!el) return;
+      const s = sb[scenario];
+      if (!s) { el.textContent = label + ' —'; return; }
+      const verdict = s.verdict === 'NET_BULL' ? '↑ Bull' : s.verdict === 'NET_BEAR' ? '↓ Bear' : '→ Neutral';
+      el.textContent = label + ': ' + verdict;
+      el.style.color = s.verdict === 'NET_BULL' ? 'var(--accent-green)' : s.verdict === 'NET_BEAR' ? '#f87171' : '';
+    }
+    scenarioChip(swarmBase, 'BASE', 'BASE');
+    scenarioChip(swarmBull, 'BULL', 'BULL');
+    scenarioChip(swarmBear, 'BEAR', 'BEAR');
+    scenarioChip(swarmCrisis, 'CRISIS', 'CRISIS');
+    if (swarmReasonEl) {
+      const reason = stock.selection_reason || stock.selectionReason || '';
+      swarmReasonEl.textContent = reason ? 'Signal: ' + reason : '';
+    }
+  }
 }
 
 async function showTickerInsight(ticker, triggerEl = null) {
@@ -1835,6 +1879,9 @@ function renderTable(stocks) {
         <td data-value="${fairValueRaw}">${formatPrice(stock.fair_value, stock)}</td>
         <td class="${discountClassName}" data-value="${discountRaw}">
           ${stock.discount_pct != null ? stock.discount_pct.toFixed(1) + '%' : '-'}
+        </td>
+        <td data-col="swarm_score" data-value="${formatNumericDataValue(stock.swarm_score)}" style="display:none;">
+          ${stock.swarm_score != null ? stock.swarm_score.toFixed(1) : '&#8212;'}
         </td>
       `;
     }
