@@ -837,6 +837,27 @@ textarea:disabled {
   flex-wrap: wrap;
 }
 
+
+/* Gemini AI Pick badge */
+.badge-ai-pick {
+  color: #a78bfa;
+  border-color: rgba(167, 139, 250, 0.65);
+  background: rgba(139, 92, 246, 0.12);
+  min-width: 0;
+  padding: 0.18rem 0.42rem;
+  letter-spacing: 0.06em;
+}
+.badge-ai-pick::before {
+  content: none;
+}
+.ticker-ai-badge {
+  padding: 0.02rem 0.24rem;
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
 .ticker-new-badge {
   padding: 0.02rem 0.24rem;
   font-size: 0.54rem;
@@ -871,7 +892,28 @@ textarea:disabled {
   margin-left: 0;
 }
 
-.stock-table .ticker-new-badge {
+.stock-table 
+/* Gemini AI Pick badge */
+.badge-ai-pick {
+  color: #a78bfa;
+  border-color: rgba(167, 139, 250, 0.65);
+  background: rgba(139, 92, 246, 0.12);
+  min-width: 0;
+  padding: 0.18rem 0.42rem;
+  letter-spacing: 0.06em;
+}
+.badge-ai-pick::before {
+  content: none;
+}
+.ticker-ai-badge {
+  padding: 0.02rem 0.24rem;
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.ticker-new-badge {
   display: inline-block !important;
   min-width: 0 !important;
   padding: 0 !important;

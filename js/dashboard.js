@@ -779,7 +779,9 @@ function normalizePickRowShape(stock) {
     selection_reason: String(row.selection_reason || row.selectionReason || ''),
     scenario_breakdown: row.scenario_breakdown || row.scenarioBreakdown || null,
     archetype_breakdown: row.archetype_breakdown || row.archetypeBreakdown || null,
-    external_headline: String(row.external_headline || row.externalHeadlineSample || '')
+    external_headline: String(row.external_headline || row.externalHeadlineSample || ''),
+    gemini_selected: normalizeBooleanFlag(row.gemini_selected),
+    gemini_rank: toNumberOrNull(row.gemini_rank)
   };
 }
 
@@ -829,6 +831,10 @@ function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
 
   let merged = Array.from(byTicker.values());
   merged.sort((a, b) => {
+    const geminiDelta = Number(Boolean(b?.gemini_selected)) - Number(Boolean(a?.gemini_selected));
+    if (geminiDelta !== 0) return geminiDelta;
+    const geminiRankDelta = (a?.gemini_rank ?? 999) - (b?.gemini_rank ?? 999);
+    if (a?.gemini_selected && b?.gemini_selected && geminiRankDelta !== 0) return geminiRankDelta;
     const newDelta = Number(Boolean(b?.is_new)) - Number(Boolean(a?.is_new));
     if (newDelta !== 0) {
       return newDelta;
@@ -1828,6 +1834,7 @@ function renderTable(stocks) {
                          stock.decision === 'WATCH' ? 'badge-watch' : 'badge-avoid';
     const tickerDisplay = getTickerDisplayParts(stock);
     const newBadgeHtml = stock.is_new ? '<span class="badge badge-new ticker-new-badge">NEW</span>' : '';
+    const geminiBadgeHtml = stock.gemini_selected ? '<span class="badge badge-ai-pick ticker-ai-badge" title="Selected by Gemini AI as a top high-conviction pick">★ AI</span>' : '';
 
     if (isFreeUser) {
       // Free user: Show only ticker, company, country, sector, then upgrade prompt
@@ -1837,7 +1844,7 @@ function renderTable(stocks) {
             <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View preview for ${tickerDisplay.plain}">
               <span class="ticker-label-main">${tickerDisplay.main}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${tickerDisplay.secondary})</span>` : ''}
             </button>
-            ${newBadgeHtml}
+            ${geminiBadgeHtml}${newBadgeHtml}
           </div>
         </td>
         <td>${stock.company_name || '-'}</td>
@@ -1871,7 +1878,7 @@ function renderTable(stocks) {
             <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View insight for ${tickerDisplay.plain}">
               <span class="ticker-label-main">${tickerDisplay.main}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${tickerDisplay.secondary})</span>` : ''}
             </button>
-            ${newBadgeHtml}
+            ${geminiBadgeHtml}${newBadgeHtml}
           </div>
         </td>
         <td>${stock.company_name || '-'}</td>
@@ -2454,6 +2461,10 @@ function applyFilters() {
 
   // Apply sorting
   filtered.sort((a, b) => {
+    const geminiDelta = Number(Boolean(b?.gemini_selected)) - Number(Boolean(a?.gemini_selected));
+    if (geminiDelta !== 0) return geminiDelta;
+    const geminiRankDelta = (a?.gemini_rank ?? 999) - (b?.gemini_rank ?? 999);
+    if (a?.gemini_selected && b?.gemini_selected && geminiRankDelta !== 0) return geminiRankDelta;
     const newDelta = Number(Boolean(b?.is_new)) - Number(Boolean(a?.is_new));
     if (newDelta !== 0) {
       return newDelta;
