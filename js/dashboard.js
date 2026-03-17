@@ -54,10 +54,18 @@ function updateStatBar(stocks) {
   const watch = stocks.filter(s => s.decision === 'WATCH').length;
   const avoid = stocks.filter(s => s.decision === 'AVOID').length;
   if (buy + watch + avoid === 0) { bar.style.display = 'none'; return; }
-  bar.innerHTML =
+  let html =
     (buy   ? '<span class="dash-stat buy">▲ ' + buy + ' BUY</span>' : '') +
     (watch ? '<span class="dash-stat watch">◉ ' + watch + ' WATCH</span>' : '') +
     (avoid ? '<span class="dash-stat avoid">▽ ' + avoid + ' AVOID</span>' : '');
+  if ((typeof currentLaneMode !== 'undefined' ? currentLaneMode : 'core') === 'blended') {
+    const swarmScores = stocks.map(s => s.swarm_score).filter(v => v != null && !isNaN(Number(v)));
+    if (swarmScores.length > 0) {
+      const avgSwarm = (swarmScores.reduce((a, b) => a + Number(b), 0) / swarmScores.length).toFixed(1);
+      html += '<span class="dash-stat swarm">⚡ Avg Swarm: ' + avgSwarm + '</span>';
+    }
+  }
+  bar.innerHTML = html;
   bar.style.display = 'flex';
 }
 
@@ -1518,7 +1526,7 @@ function buildFallbackSummary(stock) {
 
 function normalizeTickerSummaryMode(value) {
   const mode = String(value || '').trim().toLowerCase();
-  if (mode === 'hybrid' || mode === 'blended') return mode;
+  if (mode === 'hybrid' || mode === 'blended' || mode === 'swarm') return mode;
   return 'core';
 }
 
@@ -1531,6 +1539,7 @@ function resolveTickerSummaryMode(stock) {
 
   // Blended mode: ask for hybrid-first summaries when the row came from hybrid lane.
   if (selectedLane === 'hybrid' || selectedLane === 'blended') return 'hybrid';
+  if (selectedLane === 'swarm') return 'blended';
   if (String(stock?.selection_lane || '').toLowerCase() === 'blended_shared') return 'blended';
   return 'core';
 }
