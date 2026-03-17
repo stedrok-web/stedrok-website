@@ -758,7 +758,7 @@ function normalizePickRowShape(stock) {
     risk_score: toNumberOrNull(row.risk_score ?? row.riskScore),
     dip_score: toNumberOrNull(row.dip_score ?? row.dipScore),
     total_score: toNumberOrNull(row.total_score ?? row.totalScore),
-    confidence: toNumberOrNull(row.confidence),
+    confidence: (() => { const _c = toNumberOrNull(row.confidence); return (_c != null && _c <= 1.5) ? _c * 100 : _c; })(),
     decision: decision || (row.decision || ''),
     is_new: normalizeBooleanFlag(row.is_new),
     swarm_score: toNumberOrNull(row.swarm_score ?? row.swarmScore),
@@ -1834,7 +1834,7 @@ function renderTable(stocks) {
         <td>${stock.company_name || '-'}</td>
         <td>${stock.country || '-'}</td>
         <td>${stock.sector || '-'}</td>
-        <td colspan="10" style="text-align:center; color:var(--text-secondary);">
+        <td colspan="${currentLaneMode === 'blended' ? 11 : 10}" style="text-align:center; color:var(--text-secondary);">
           <a href="pricing.html" style="color:var(--accent-green); font-weight:bold;">
             Upgrade to Pro for full metrics &rarr;
           </a>
