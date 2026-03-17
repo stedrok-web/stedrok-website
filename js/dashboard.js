@@ -1899,6 +1899,8 @@ function renderTable(stocks) {
   });
 
   syncActiveInsightRow();
+  // Refresh swarm score column visibility after rows render
+  setDashboardLaneToggle(typeof currentLaneMode !== "undefined" ? currentLaneMode : "core");
 }
 
 // ============================================================
