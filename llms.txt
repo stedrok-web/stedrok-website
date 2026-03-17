@@ -21,7 +21,7 @@ Stedrok is an independent value stock research platform for long-term investors.
 
 ## Data and Interpretation Rules
 - Core framework uses four pillars: Value, Quality, Risk (resilience), and Price Context (dip).
-- Core, AI Hybrid, and Blended dashboard lanes are distinct modes and should not be conflated.
+- Core, AI Hybrid, and Swarm-Lite dashboard lanes are distinct modes and should not be conflated.
 - Scores are for research workflows only, not personal financial advice.
 - Always cite the page URL and the relevant data date or update timestamp.
 

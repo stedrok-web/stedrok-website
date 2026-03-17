@@ -760,7 +760,7 @@ function normalizePickRowShape(stock) {
     market_cap: toNumberOrNull(row.market_cap ?? row.marketCap),
     current_price: toNumberOrNull(row.current_price ?? row.price),
     fair_value: toNumberOrNull(row.fair_value ?? row.estimatedValue),
-    discount_pct: toNumberOrNull(row.discount_pct ?? row.discountPct),
+    discount_pct: (() => { const _d = toNumberOrNull(row.discount_pct ?? row.discountPct); return (_d != null && Math.abs(_d) <= 3.5) ? _d * 100 : _d; })(),
     value_score: toNumberOrNull(row.value_score ?? row.valueScore),
     quality_score: toNumberOrNull(row.quality_score ?? row.qualityScore),
     risk_score: toNumberOrNull(row.risk_score ?? row.riskScore),
