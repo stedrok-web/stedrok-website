@@ -721,6 +721,11 @@ function laneEndpoint(mode) {
   return `${API_URL}/api/picks`;
 }
 
+function _escHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 function toNumberOrNull(value) {
   const n = Number(value);
   return Number.isFinite(n) ? n : null;
@@ -1046,7 +1051,10 @@ async function loadDashboardLane(userToken, laneMode) {
     lastUpdatedEl.textContent = 'Refreshing...';
   }
 
-  const requestController = new AbortController();
+  // Abort any prior in-flight lane request (prevents race condition on rapid clicks)
+  if (window._activeLaneController) { try { window._activeLaneController.abort(); } catch(e){} }
+  window._activeLaneController = new AbortController();
+  const requestController = window._activeLaneController;
   const requestTimeoutId = setTimeout(() => requestController.abort(), 12000);
 
   try {
@@ -1844,15 +1852,15 @@ function renderTable(stocks) {
       tr.innerHTML = `
         <td>
           <div class="ticker-cell">
-            <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View preview for ${tickerDisplay.plain}">
+            <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View preview for ${tickerDisplay.plain}">
               <span class="ticker-label-main">${tickerDisplay.main}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${tickerDisplay.secondary})</span>` : ''}
             </button>
             ${geminiBadgeHtml}${newBadgeHtml}
           </div>
         </td>
-        <td>${stock.company_name || '-'}</td>
-        <td>${stock.country || '-'}</td>
-        <td>${stock.sector || '-'}</td>
+        <td>${_escHtml(stock.company_name || '-')}</td>
+        <td>${_escHtml(stock.country || '-')}</td>
+        <td>${_escHtml(stock.sector || '-')}</td>
         <td colspan="${currentLaneMode === 'blended' ? 15 : 14}" style="text-align:center; color:var(--text-secondary);">
           <a href="pricing.html" style="color:var(--accent-green); font-weight:bold;">
             Upgrade to Pro for full metrics &rarr;
@@ -1878,15 +1886,15 @@ function renderTable(stocks) {
       tr.innerHTML = `
         <td>
           <div class="ticker-cell">
-            <button type="button" class="ticker-insight-trigger" data-ticker="${stock.ticker}" aria-label="View insight for ${tickerDisplay.plain}">
+            <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View insight for ${tickerDisplay.plain}">
               <span class="ticker-label-main">${tickerDisplay.main}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${tickerDisplay.secondary})</span>` : ''}
             </button>
             ${geminiBadgeHtml}${newBadgeHtml}
           </div>
         </td>
-        <td>${stock.company_name || '-'}</td>
-        <td>${stock.country || '-'}</td>
-        <td>${stock.sector || '-'}</td>
+        <td>${_escHtml(stock.company_name || '-')}</td>
+        <td>${_escHtml(stock.country || '-')}</td>
+        <td>${_escHtml(stock.sector || '-')}</td>
         <td><span class="badge ${decisionClass}">${stock.decision || '-'}</span></td>
         <td data-value="${marketCapRaw}">${formatMarketCap(stock.market_cap, stock)}</td>
         <td data-value="${confidenceRaw}">${stock.confidence != null ? stock.confidence.toFixed(1) + '%' : '-'}</td>
