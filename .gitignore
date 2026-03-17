@@ -71,3 +71,14 @@ data/stocks_swarm.json
 
 # Swarm picks served via Supabase - not needed on Pages
 data/stocks_swarm.json
+
+# Runtime data files (served via Supabase, not static hosting)
+data/etf.json
+data/etf_run_metadata_latest.json
+data/etf_validation_summary_latest.json
+data/sector_pages_index.json
+data/stocks_hybrid.json
+data/stocks.json
+data/dashboard_ticker_summaries.json
+data/dashboard_ticker_summaries_hybrid.json
+data/dashboard_ticker_summaries_swarm.json
