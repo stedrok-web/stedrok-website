@@ -67,6 +67,3 @@ index.audit.html
 .codex_backup/
 data/dashboard_ticker_summaries_swarm.json
 data/dashboard_ticker_summaries_hybrid.json
-data/demo_sample.json
-data/demo_ticker_summaries.json
-data/metric_definitions.json
