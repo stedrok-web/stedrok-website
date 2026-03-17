@@ -1723,6 +1723,11 @@ footer a:hover,
 .pillar-fill.quality { background: var(--pillar-quality); }
 .pillar-fill.risk    { background: var(--pillar-risk); }
 .pillar-fill.dip     { background: var(--pillar-dip); }
+
+/* Tier-based colour overrides for pillar score bars (higher specificity wins) */
+.pillar-fill.tier-high { background: var(--accent-green) !important; }
+.pillar-fill.tier-mid  { background: var(--accent-amber) !important; }
+.pillar-fill.tier-low  { background: var(--accent-red)   !important; }
 .pillar-value-label {
   font-size: 13px;
   font-weight: 700;

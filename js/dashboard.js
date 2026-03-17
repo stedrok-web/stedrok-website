@@ -79,7 +79,11 @@ function populatePillarBars(stock) {
     const vl = document.getElementById(p.val);
     if (p.v != null && p.v !== '') {
       const n = Math.round(parseFloat(p.v));
-      if (el) el.style.width = n + '%';
+      const tier = n >= 70 ? 'tier-high' : n >= 40 ? 'tier-mid' : 'tier-low';
+      if (el) {
+        el.style.width = n + '%';
+        el.className = el.className.replace(/\btier-(high|mid|low)\b/g, '').trim() + ' ' + tier;
+      }
       if (vl) vl.textContent = n;
       hasData = true;
     } else {
@@ -97,13 +101,13 @@ const API_URL = CONFIG.API_BASE_URL;
 const DASHBOARD_LANE_LABELS = {
   core: 'Core',
   hybrid: 'AI Hybrid',
-  blended: 'Blended'
+  blended: 'Swarm-Lite'
 };
 
 const DASHBOARD_LANE_DESCRIPTIONS = {
   core: 'Core: Deterministic, rule-based picks from the production fundamental value and quality engine.',
   hybrid: 'AI Hybrid (beta): Separate research lane that cross-checks shortlisted companies against live data and current context before publication. Core ratings remain unchanged.',
-  blended: 'Blended: Ranked view combining top candidates from Core and AI Hybrid so you can compare where the two processes agree and where they diverge.'
+  blended: 'Swarm-Lite: Consensus picks from 300 deterministic agents across BASE, BULL, BEAR and CRISIS scenarios. Swarm Score reflects multi-scenario conviction — higher scores mean stronger cross-scenario agreement.'
 };
 
 
@@ -678,9 +682,35 @@ function normalizeDashboardLane(value) {
   if (mode === 'hybrid' || mode === 'blended') return mode;
   return 'core';
 }
+function updateColumnHeadersForLane(mode) {
+  const thMap = {
+    value_score: document.querySelector('#stocksTable th[data-sort="value_score"]'),
+    quality_score: document.querySelector('#stocksTable th[data-sort="quality_score"]'),
+    risk_score: document.querySelector('#stocksTable th[data-sort="risk_score"]'),
+    dip_score: document.querySelector('#stocksTable th[data-sort="dip_score"]'),
+    confidence: document.querySelector('#stocksTable th[data-sort="confidence"]'),
+  };
+  if (!thMap.value_score) return;
+  if (mode === 'blended') {
+    if (thMap.value_score) thMap.value_score.textContent = 'Fund.';
+    if (thMap.quality_score) thMap.quality_score.textContent = 'Convg.';
+    if (thMap.risk_score) thMap.risk_score.textContent = 'Bear-Free';
+    if (thMap.dip_score) thMap.dip_score.textContent = 'Agree';
+    if (thMap.confidence) thMap.confidence.textContent = 'Bull%';
+  } else {
+    if (thMap.value_score) thMap.value_score.textContent = 'Value';
+    if (thMap.quality_score) thMap.quality_score.textContent = 'Quality';
+    if (thMap.risk_score) thMap.risk_score.textContent = 'Risk';
+    if (thMap.dip_score) thMap.dip_score.textContent = 'Dip';
+    if (thMap.confidence) thMap.confidence.textContent = 'Conf.';
+  }
+}
+
 
 function laneEndpoint(mode) {
-  return mode === 'hybrid' ? `${API_URL}/api/hybrid-picks` : `${API_URL}/api/picks`;
+  if (mode === 'hybrid') return `${API_URL}/api/hybrid-picks`;
+  if (mode === 'blended') return `${API_URL}/api/swarm-picks`;
+  return `${API_URL}/api/picks`;
 }
 
 function toNumberOrNull(value) {
@@ -730,7 +760,18 @@ function normalizePickRowShape(stock) {
     total_score: toNumberOrNull(row.total_score ?? row.totalScore),
     confidence: toNumberOrNull(row.confidence),
     decision: decision || (row.decision || ''),
-    is_new: normalizeBooleanFlag(row.is_new)
+    is_new: normalizeBooleanFlag(row.is_new),
+    swarm_score: toNumberOrNull(row.swarm_score ?? row.swarmScore),
+    net_bull: toNumberOrNull(row.net_bull ?? row.netBull),
+    net_bear: toNumberOrNull(row.net_bear ?? row.netBear),
+    convergence_score: toNumberOrNull(row.convergence_score ?? row.convergenceScore),
+    dominant_verdict: String(row.dominant_verdict || row.dominantVerdict || ''),
+    macro_regime: String(row.macro_regime || row.macroRegime || ''),
+    market_impact_bps: toNumberOrNull(row.market_impact_bps ?? row.marketImpactBps),
+    selection_reason: String(row.selection_reason || row.selectionReason || ''),
+    scenario_breakdown: row.scenario_breakdown || row.scenarioBreakdown || null,
+    archetype_breakdown: row.archetype_breakdown || row.archetypeBreakdown || null,
+    external_headline: String(row.external_headline || row.externalHeadlineSample || '')
   };
 }
 
@@ -934,43 +975,21 @@ async function fetchLanePayload(userToken, mode, signal) {
 
   const normalized = normalizeDashboardLane(mode);
   if (normalized === 'blended') {
-    const corePromise = fetch(laneEndpoint('core'), { method: 'GET', headers, signal });
-    const hybridPromise = fetch(laneEndpoint('hybrid'), { method: 'GET', headers, signal });
-
-    const [coreResponse, hybridResponse] = await Promise.all([corePromise, hybridPromise]);
-
-    if (!coreResponse.ok) {
-      throw new Error(`Core API returned ${coreResponse.status}`);
+    const swarmResponse = await fetch(laneEndpoint('blended'), { method: 'GET', headers, signal });
+    if (!swarmResponse.ok) {
+      throw new Error(`Swarm API returned ${swarmResponse.status}`);
     }
-
-    const coreData = await coreResponse.json();
-    let hybridData = { picks: [], meta: {}, user: coreData.user };
-
-    if (hybridResponse.ok) {
-      hybridData = await hybridResponse.json();
-    } else {
-      console.warn(`Hybrid API returned ${hybridResponse.status}; continuing with core lane in blended mode.`);
-    }
-
-    const user = coreData.user || hybridData.user || {};
-    const isFreeUser = user?.subscription_status === 'free';
-    const mergedPicks = mergeBlendedPicks(coreData.picks || [], hybridData.picks || [], isFreeUser);
-    const coreUpdated = Date.parse(coreData?.meta?.last_updated || '') || 0;
-    const hybridUpdated = Date.parse(hybridData?.meta?.last_updated || '') || 0;
-    const lastUpdated = coreUpdated >= hybridUpdated ? coreData?.meta?.last_updated : hybridData?.meta?.last_updated;
-
+    const swarmData = await swarmResponse.json();
+    const picks = (swarmData.picks || []).map(r => normalizePickRowShape({ ...r, selection_lane: 'swarm' }));
     return {
-      picks: mergedPicks,
-      user,
+      picks,
+      user: swarmData.user || {},
       meta: {
         lane: 'blended',
-        count: mergedPicks.length,
-        limit: isFreeUser ? 3 : 100,
-        last_updated: lastUpdated || coreData?.meta?.last_updated || hybridData?.meta?.last_updated || new Date().toISOString(),
-        blended: {
-          core_count: Array.isArray(coreData?.picks) ? coreData.picks.length : 0,
-          hybrid_count: Array.isArray(hybridData?.picks) ? hybridData.picks.length : 0
-        }
+        count: picks.length,
+        limit: swarmData.meta?.limit || 50,
+        last_updated: swarmData.meta?.last_updated || new Date().toISOString(),
+        swarm: { total_picks: swarmData.meta?.total_available || picks.length }
       }
     };
   }
@@ -994,6 +1013,7 @@ async function loadDashboardLane(userToken, laneMode) {
 
   showLoading(true);
   setDashboardLaneToggle(normalized);
+  updateColumnHeadersForLane(normalized);
   updateDashboardLaneDescription(normalized);
   updateDashboardLaneQuery(normalized);
 
