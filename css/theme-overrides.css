@@ -222,6 +222,15 @@ header {
   line-height: 1;
 }
 
+.auth-branding .logo {
+  font-size: 1.82rem;
+  gap: 10px;
+}
+
+.auth-branding .logo-icon {
+  height: 38px;
+}
+
 @media (max-width: 768px) {
   .logo {
     gap: 8px;
@@ -230,6 +239,13 @@ header {
   }
 
   .logo-icon { height: 31px; }
+
+  .auth-branding .logo {
+    font-size: 1.46rem;
+    gap: 8px;
+  }
+
+  .auth-branding .logo-icon { height: 31px; }
 }
 
 .nav-links {
