@@ -212,51 +212,7 @@ header {
   height: 40px;
   width: auto;
   flex-shrink: 0;
-  overflow: visible;
-  --logo-mountain-base: #e5e7eb;
-  --logo-outline: #b8c0cc;
-  --logo-fill: #ffffff;
-  --logo-chart-up: #4ade80;
-  --logo-chart-down: #fb7185;
-  --logo-star: #e0b75a;
-  --logo-star-stroke: #8b6a25;
-  --logo-stroke-width: 4.4;
-  --logo-star-stroke-width: 0.9;
-}
-
-.logo-icon .logo-mountain-base { fill: var(--logo-mountain-base); }
-.logo-icon .logo-peak-fill { fill: var(--logo-fill); }
-.logo-icon .logo-outline,
-.logo-icon .logo-chart-up-1,
-.logo-icon .logo-chart-up-2,
-.logo-icon .logo-chart-up-3,
-.logo-icon .logo-chart-down-1,
-.logo-icon .logo-chart-down-2 {
-  fill: none;
-  stroke-width: var(--logo-stroke-width);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
-}
-
-.logo-icon .logo-outline { stroke: var(--logo-outline); }
-.logo-icon .logo-chart-up-1,
-.logo-icon .logo-chart-up-2,
-.logo-icon .logo-chart-up-3 { stroke: var(--logo-chart-up); }
-.logo-icon .logo-chart-down-1,
-.logo-icon .logo-chart-down-2 { stroke: var(--logo-chart-down); }
-.logo-icon .logo-star { fill: var(--logo-star); stroke: var(--logo-star-stroke); stroke-width: var(--logo-star-stroke-width); stroke-linejoin: round; paint-order: stroke fill; vector-effect: non-scaling-stroke; }
-
-@media (prefers-color-scheme: light) {
-  .logo-icon {
-    --logo-mountain-base: #333333;
-    --logo-outline: #666666;
-    --logo-fill: #ffffff;
-    --logo-chart-up: #2d9f3c;
-    --logo-chart-down: #c41e3a;
-    --logo-star: #c9a043;
-    --logo-star-stroke: #8d6c21;
-  }
+  display: block;
 }
 
 @media (max-width: 768px) {

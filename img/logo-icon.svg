@@ -1,12 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 170 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stedrok logo">
-  <path fill="#333333" d="M10 92 L32 74 L46 84 L62 60 L80 20 L101 52 L118 40 L143 67 L160 92 Z"/>
-  <polygon fill="#ffffff" points="10 92 36 66 80 20 92 42 76 32 44 82 28 74"/>
-  <polyline fill="none" stroke="#666666" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" points="10 92 36 66 80 20 92 42"/>
-  <polyline fill="none" stroke="#2D9F3C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" points="10 92 28 74"/>
-  <polyline fill="none" stroke="#C41E3A" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" points="28 74 44 82"/>
-  <polyline fill="none" stroke="#2D9F3C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" points="44 82 76 32"/>
-  <polyline fill="none" stroke="#C41E3A" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" points="76 32 92 42"/>
-  <polyline fill="none" stroke="#2D9F3C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" points="92 42 128 18"/>
-  <polygon fill="#C9A043" stroke="#8d6c21" stroke-width="0.9" stroke-linejoin="round" paint-order="stroke fill" points="128.0,3.8 130.5,10.4 137.5,10.7 132.0,15.1 133.9,21.9 128.0,18.0 122.1,21.9 124.0,15.1 118.5,10.7 125.5,10.4"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <path d="M40 400 L180 150 L300 280 L420 120 L520 240 L650 180 L760 400 Z" fill="#0B1F33"/>
+  <path d="M180 150 L260 260 L340 200 L420 120 L380 260 L300 280 Z" fill="#FFFFFF"/>
+  <path d="M360 320 L440 220 L470 245 L470 130 L530 130 L470 70 L410 130 L440 130 L440 245 Z" fill="#C9CDD3"/>
+  <polygon points="470,40 485,75 520,75 492,98 505,132 470,110 435,132 448,98 420,75 455,75" fill="#C9CDD3"/>
 </svg>
