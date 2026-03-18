@@ -194,8 +194,6 @@ header {
   align-items: center;
   min-height: 44px;
   gap: 10px;
-  font-size: 1.82rem;
-  letter-spacing: 0.08em;
   color: var(--text-primary) !important;
 }
 
@@ -216,14 +214,16 @@ header {
 }
 
 .logo-text {
+  display: block;
   white-space: nowrap;
   font-family: "Sora", "Inter", sans-serif;
+  font-size: 2.1rem;
+  letter-spacing: 0.08em;
   font-weight: 700;
   line-height: 1;
 }
 
 .auth-branding .logo {
-  font-size: 1.82rem;
   gap: 10px;
 }
 
@@ -234,14 +234,16 @@ header {
 @media (max-width: 768px) {
   .logo {
     gap: 8px;
-    font-size: 1.46rem;
+  }
+
+  .logo-text {
+    font-size: 1.68rem;
     letter-spacing: 0.08em;
   }
 
   .logo-icon { height: 31px; }
 
   .auth-branding .logo {
-    font-size: 1.46rem;
     gap: 8px;
   }
 
