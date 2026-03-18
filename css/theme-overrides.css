@@ -194,8 +194,8 @@ header {
   align-items: center;
   min-height: 44px;
   gap: 10px;
-  font-size: 1.36rem;
-  letter-spacing: 0.14em;
+  font-size: 1.82rem;
+  letter-spacing: 0.08em;
   color: var(--text-primary) !important;
 }
 
@@ -209,17 +209,24 @@ header {
 }
 
 .logo-icon {
-  height: 40px;
+  height: 38px;
   width: auto;
   flex-shrink: 0;
   display: block;
 }
 
+.logo-text {
+  white-space: nowrap;
+  font-family: "Sora", "Inter", sans-serif;
+  font-weight: 700;
+  line-height: 1;
+}
+
 @media (max-width: 768px) {
   .logo {
     gap: 8px;
-    font-size: 1.12rem;
-    letter-spacing: 0.12em;
+    font-size: 1.46rem;
+    letter-spacing: 0.08em;
   }
 
   .logo-icon { height: 31px; }
