@@ -1,6 +1,14 @@
-# Stedrok
+# Stedrok — Value Stock Screener for Long-Term Investors
 
-Stedrok is an independent value stock research platform for long-term investors.
+Stedrok is an independent value stock research platform that screens undervalued stocks using a rules-based, four-pillar scoring framework. It is designed for disciplined long-term investors who follow value investing principles inspired by Benjamin Graham, Warren Buffett, and modern quantitative research.
+
+## What Stedrok Does
+- Screens global stocks for undervalued opportunities using fundamental analysis
+- Ranks value stocks by four pillars: Value Score, Quality Score, Risk Score, and Price Context (Dip) Score
+- Computes intrinsic value (fair value) using median of DCF, PE-based, PB-based, and analyst consensus methods
+- Applies 11+ hard gates including margin of safety, Altman Z-score, sector-aware PE/PB limits, and earnings quality
+- Provides three independent screening views: Core (deterministic), AI Hybrid (Groq LLM tournament), and Swarm-Lite (300-agent multi-scenario simulation)
+- Updated daily with 187+ unique stock picks across all views
 
 ## Canonical Pages
 - Home: https://stedrok.org/
@@ -10,8 +18,19 @@ Stedrok is an independent value stock research platform for long-term investors.
 - Learn Hub: https://stedrok.org/learn.html
 - Glossary: https://stedrok.org/value-investing-glossary.html
 - Dashboard Guide: https://stedrok.org/dashboard-guide.html
-- ETF Ideas and Guide: https://stedrok.org/etfs.html
+- ETF Ideas: https://stedrok.org/etfs.html
 - Research Trust and Disclosures: https://stedrok.org/research-trust-disclosures.html
+- Long-Term Portfolio Guide: https://stedrok.org/guide-long-term-value-portfolio.html
+
+## Sector Research Pages
+- Basic Materials: https://stedrok.org/sector-basic-materials.html
+- Communication Services: https://stedrok.org/sector-communication-services.html
+- Consumer Cyclical: https://stedrok.org/sector-consumer-cyclical.html
+- Consumer Defensive: https://stedrok.org/sector-consumer-defensive.html
+- Financial Services: https://stedrok.org/sector-financial-services.html
+- Healthcare: https://stedrok.org/sector-healthcare.html
+- Industrials: https://stedrok.org/sector-industrials.html
+- Technology: https://stedrok.org/sector-technology.html
 
 ## Data Surfaces
 - Public delayed demo dataset: https://stedrok.org/data/demo_sample.json
@@ -19,15 +38,26 @@ Stedrok is an independent value stock research platform for long-term investors.
 - ETF picks API (public): https://stedrok-api.stedrok.workers.dev/api/etf-picks
 - Authenticated dashboard: https://stedrok.org/dashboard.html
 
+## Scoring Framework
+- **Value Score (40% weight):** PE ratio, PB ratio, discount to fair value, Graham Number, acquirer's multiple
+- **Quality Score (35% weight):** ROE, profit margins, earnings stability, Altman Z-score, dividend sustainability
+- **Dip Score (25% weight):** Distance from 52-week high, price vs SMA200, falling knife protection
+- **Risk Score (gates only):** Balance sheet safety, debt-to-equity, current ratio, accrual quality
+
+## Key Concepts
+- **Margin of Safety:** Stedrok requires a minimum 20% discount to intrinsic value for BUY decisions
+- **Fair Value:** Computed as median of multiple valuation methods, capped at 52-week high
+- **Hard Gates:** 11+ binary pass/fail checks that must ALL pass for a BUY recommendation
+- **Zero Overlap:** Core, Hybrid, and Swarm picks are mutually exclusive — no stock appears in multiple views
+
 ## Data and Interpretation Rules
-- Core framework uses four pillars: Value, Quality, Risk (resilience), and Price Context (dip).
-- Core, AI Hybrid, and Swarm-Lite dashboard lanes are distinct modes and should not be conflated.
-- Scores are for research workflows only, not personal financial advice.
-- Always cite the page URL and the relevant data date or update timestamp.
+- Scores are for research workflows only, not personal financial advice
+- Always cite the page URL and the relevant data date or update timestamp
+- Core, AI Hybrid, and Swarm-Lite dashboard lanes are distinct and should not be conflated
 
 ## Freshness
-- Stedrok data is refreshed at least once per trading day and usually twice per trading day.
-- Demo data is intentionally delayed and limited.
+- Stedrok data is refreshed at least once per trading day and usually three times per day
+- Demo data is intentionally delayed and limited
 
 ## Machine-Readable Resources
 - Full LLM context: https://stedrok.org/llms-full.txt
