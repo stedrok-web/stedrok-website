@@ -214,24 +214,29 @@ header {
   flex-shrink: 0;
   overflow: visible;
   --logo-mountain-base: #dfe7ff;
-  --logo-mountain-cap: #1c407a;
-  --logo-chart-red: #f87171;
-  --logo-chart-green: #4ade80;
+  --logo-mountain-cap: #f8fafc;
+  --logo-mountain-cap-stroke: #a8c2ff;
+  --logo-chart-up: #4ade80;
+  --logo-chart-down: #f87171;
   --logo-star: #f2c94c;
 }
 
 .logo-icon .logo-mountain-base { fill: var(--logo-mountain-base); }
-.logo-icon .logo-mountain-cap { fill: var(--logo-mountain-cap); }
-.logo-icon .logo-chart-red { stroke: var(--logo-chart-red); }
-.logo-icon .logo-chart-green { stroke: var(--logo-chart-green); }
+.logo-icon .logo-mountain-cap { fill: var(--logo-mountain-cap); stroke: var(--logo-mountain-cap-stroke); stroke-width: 1.4; stroke-linejoin: round; }
+.logo-icon .logo-chart-up-1,
+.logo-icon .logo-chart-up-2,
+.logo-icon .logo-chart-up-3 { stroke: var(--logo-chart-up); }
+.logo-icon .logo-chart-down-1,
+.logo-icon .logo-chart-down-2 { stroke: var(--logo-chart-down); }
 .logo-icon .logo-star { fill: var(--logo-star); }
 
 @media (prefers-color-scheme: light) {
   .logo-icon {
     --logo-mountain-base: #0f172a;
-    --logo-mountain-cap: #ffffff;
-    --logo-chart-red: #d64545;
-    --logo-chart-green: #15803d;
+    --logo-mountain-cap: #e5e7eb;
+    --logo-mountain-cap-stroke: #475569;
+    --logo-chart-up: #15803d;
+    --logo-chart-down: #d64545;
     --logo-star: #b8860b;
   }
 }
