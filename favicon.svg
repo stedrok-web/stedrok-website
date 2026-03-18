@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <mask id="fm">
-      <rect width="32" height="32" fill="white"/>
-      <polyline points="6,28 12,16 14,20 18,10 20,15 23,3"
-               stroke="black" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
-    </mask>
-  </defs>
-  <path d="M0,30 L3,22 L5,24 L8,18 L10,20 L14,12 L16,8 L18,12 L20,10 L24,16 L28,22 L32,30Z"
-        fill="#e8eeff" mask="url(#fm)"/>
-  <line x1="23" y1="3" x2="26" y2="0" stroke="#e8eeff" stroke-width="0.6" opacity="0.4"/>
+  <path d="M2 29 L8 24 L10 26 L17 7 L22 14 L25 11 L29 18 L31 29 Z" fill="#e8eeff"/>
+  <path d="M5 26 L9.5 22 L12 24 L17.2 12.5 L21.4 16.2 L24.6 10.4" fill="none" stroke="#f2c94c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.98"/>
+  <path d="M26.6 6.2 L27.5 8.8 L30.1 9.7 L27.5 10.6 L26.6 13.2 L25.7 10.6 L23.1 9.7 L25.7 8.8 Z" fill="#f2c94c"/>
 </svg>
