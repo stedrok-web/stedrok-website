@@ -1930,8 +1930,8 @@ function exportToCSV() {
     return;
   }
 
-  // Check if user has full data (paid)
-  if (!allStocks[0].fair_value) {
+  // Check subscription status (not data-based heuristic)
+  if (!userProfile || userProfile.subscription_status === 'free') {
     alert('Export is only available for Pro members');
     window.location.href = 'pricing.html';
     return;
@@ -2556,6 +2556,7 @@ function formatPrice(value, stock = null) {
 function formatDate(dateString) {
   if (!dateString) return '';
   const date = new Date(dateString);
+  if (isNaN(date.getTime())) return '';
   return date.toLocaleDateString('en-US', { 
     year: 'numeric', 
     month: 'short', 

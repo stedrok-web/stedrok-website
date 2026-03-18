@@ -22,7 +22,7 @@ const CONFIG = {
   try {
     if (window.supabaseClient) {
       // Already initialized
-      console.log('ℹ️ Supabase client already initialized')
+      // console.log('ℹ️ Supabase client already initialized')
       return;
     }
 
@@ -45,7 +45,7 @@ const CONFIG = {
     if (client) {
       // Expose only `supabaseClient` to avoid clobbering any existing `supabase` symbol.
       window.supabaseClient = client;
-      console.log('✅ Supabase client initialized')
+      // console.log('✅ Supabase client initialized')
       return;
     }
 
