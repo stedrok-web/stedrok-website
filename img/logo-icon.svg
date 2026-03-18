@@ -4,7 +4,7 @@
       .mountain { fill:#CFCFCF; }
       .rise { stroke:#18A64B; }
       .fall { stroke:#D62828; }
-      .trend { fill:none; stroke-width:10; stroke-linecap:round; stroke-linejoin:round; }
+      .trend { fill:none; stroke-width:14; stroke-linecap:round; stroke-linejoin:round; }
       .star { fill:#D4AF37; }
     </style>
   </defs>
@@ -17,5 +17,5 @@
   <path class="trend fall" d="M 171 155 L 208 182"/>
   <path class="trend rise" d="M 208 182 L 236 138 L 294 47"/>
 
-  <polygon class="star" points="304,17 309,29 322,31 312,39 315,52 304,45 292,52 295,39 285,31 298,29"/>
+  <polygon class="star" points="304,9.8 311,26.6 329.2,29.4 315.2,40.6 319.4,58.8 304,49 287.2,58.8 291.4,40.6 277.4,29.4 295.6,26.6"/>
 </svg>
