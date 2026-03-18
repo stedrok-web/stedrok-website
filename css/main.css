@@ -166,12 +166,26 @@ header {
 }
 
 .logo {
-  font-size: 26px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
   font-weight: 800;
   color: var(--text-primary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   text-decoration: none;
+  line-height: 1;
+}
+
+.logo-icon {
+  height: 32px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  white-space: nowrap;
 }
 
 .nav-links {
@@ -649,6 +663,9 @@ header {
 
 
 @media (max-width: 900px) {
+  .logo { font-size: 20px; gap: 8px; }
+  .logo-icon { height: 28px; }
+
   .table-container {
     margin: 18px 0;
     border-radius: 10px;
@@ -1388,14 +1405,26 @@ footer {
 }
 
 .auth-branding .logo {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 800;
   color: var(--text-primary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
   margin-bottom: 8px;
+}
+
+.auth-branding .logo-icon {
+  height: 44px;
+}
+
+@media (max-width: 480px) {
+  .auth-branding .logo { font-size: 22px; gap: 10px; }
+  .auth-branding .logo-icon { height: 36px; }
 }
 
 .auth-branding .tagline {
@@ -1459,6 +1488,9 @@ footer {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .logo { font-size: 18px; gap: 7px; }
+  .logo-icon { height: 26px; }
+
   .mobile-menu-toggle { display: flex; }
 
   .navbar {
