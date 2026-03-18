@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 -1 32 34" xmlns="http://www.w3.org/2000/svg">
-  <rect x="0" y="-1" width="32" height="34" rx="6" fill="#050b2e"/>
-  <path fill-rule="evenodd" fill="#e8eeff" d="M1,30 L4,23 L6,25 L9,19 L11,21 L14,14 L16,10 L18,14 L20,12 L23,18 L26,24 L30,28 L32,30Z M4,30 L10,19 L12,23 L16,13 L18,18 L21,8 L25,6 L22,17 L19,12 L14,22 L12,18 L7,30Z"/>
-  <line x1="23" y1="7" x2="25" y2="2" stroke="#e8eeff" stroke-width="0.8" opacity="0.4"/>
-  <path d="M25,1 L25.3,2.5 L27,3 L25.3,3.5 L25,5 L24.7,3.5 L23,3 L24.7,2.5Z" fill="#e8eeff" opacity="0.35"/>
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <mask id="fm">
+      <rect width="32" height="32" fill="white"/>
+      <polyline points="6,28 12,16 14,20 18,10 20,15 23,3"
+               stroke="black" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+    </mask>
+  </defs>
+  <path d="M0,30 L3,22 L5,24 L8,18 L10,20 L14,12 L16,8 L18,12 L20,10 L24,16 L28,22 L32,30Z"
+        fill="#e8eeff" mask="url(#fm)"/>
+  <line x1="23" y1="3" x2="26" y2="0" stroke="#e8eeff" stroke-width="0.6" opacity="0.4"/>
 </svg>
