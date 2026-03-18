@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-  <rect width="32" height="32" rx="6" fill="#050b2e"/>
-  <path d="M2,28 L6,22 L8,24 L12,17 L14,19 L18,12 L20,8 L22,12 L24,10 L27,16 L30,22 L32,28Z" fill="#e8eeff" opacity="0.9"/>
-  <polyline points="3,26 7,22 10,24 14,18 17,20 21,13 24,16 27,5 30,2" stroke="#00c9b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-  <path d="M30,0.5 L30.5,2.2 L32,2.7 L30.5,3.2 L30,5 L29.5,3.2 L28,2.7 L29.5,2.2Z" fill="#f2c94c"/>
+<svg viewBox="0 -1 32 34" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="-1" width="32" height="34" rx="6" fill="#050b2e"/>
+  <path fill-rule="evenodd" fill="#e8eeff" d="M1,30 L4,23 L6,25 L9,19 L11,21 L14,14 L16,10 L18,14 L20,12 L23,18 L26,24 L30,28 L32,30Z M4,30 L10,19 L12,23 L16,13 L18,18 L21,8 L25,6 L22,17 L19,12 L14,22 L12,18 L7,30Z"/>
+  <line x1="23" y1="7" x2="25" y2="2" stroke="#e8eeff" stroke-width="0.8" opacity="0.4"/>
+  <path d="M25,1 L25.3,2.5 L27,3 L25.3,3.5 L25,5 L24.7,3.5 L23,3 L24.7,2.5Z" fill="#e8eeff" opacity="0.35"/>
 </svg>
