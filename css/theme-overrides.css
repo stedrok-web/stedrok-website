@@ -214,7 +214,7 @@ header {
   flex-shrink: 0;
   overflow: visible;
   --logo-mountain-base: #dfe7ff;
-  --logo-mountain-cap: #18386f;
+  --logo-mountain-cap: #1c407a;
   --logo-chart-red: #f87171;
   --logo-chart-green: #4ade80;
   --logo-star: #f2c94c;
@@ -229,7 +229,7 @@ header {
 @media (prefers-color-scheme: light) {
   .logo-icon {
     --logo-mountain-base: #0f172a;
-    --logo-mountain-cap: #f8fafc;
+    --logo-mountain-cap: #ffffff;
     --logo-chart-red: #d64545;
     --logo-chart-green: #15803d;
     --logo-star: #b8860b;
