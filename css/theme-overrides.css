@@ -215,21 +215,24 @@ header {
   overflow: visible;
   --logo-mountain-base: #dfe7ff;
   --logo-mountain-cap: #18386f;
-  --logo-chart: var(--accent-fill);
-  --logo-star: #f3f5fb;
+  --logo-chart-red: #f87171;
+  --logo-chart-green: #4ade80;
+  --logo-star: #f2c94c;
 }
 
 .logo-icon .logo-mountain-base { fill: var(--logo-mountain-base); }
 .logo-icon .logo-mountain-cap { fill: var(--logo-mountain-cap); }
-.logo-icon .logo-chart { stroke: var(--logo-chart); }
+.logo-icon .logo-chart-red { stroke: var(--logo-chart-red); }
+.logo-icon .logo-chart-green { stroke: var(--logo-chart-green); }
 .logo-icon .logo-star { fill: var(--logo-star); }
 
 @media (prefers-color-scheme: light) {
   .logo-icon {
     --logo-mountain-base: #0f172a;
     --logo-mountain-cap: #f8fafc;
-    --logo-chart: #c9a030;
-    --logo-star: #cbd5e1;
+    --logo-chart-red: #d64545;
+    --logo-chart-green: #15803d;
+    --logo-star: #b8860b;
   }
 }
 
