@@ -5,8 +5,12 @@
       .rise { stroke:#18A64B; }
       .fall { stroke:#D62828; }
       .trend { fill:none; stroke-width:17; stroke-linecap:round; stroke-linejoin:round; }
-      .turn-rise { fill:none; stroke:#18A64B; stroke-width:26; stroke-linecap:round; stroke-linejoin:round; }
-      .turn-fall { fill:none; stroke:#D62828; stroke-width:26; stroke-linecap:round; stroke-linejoin:round; }
+      .taper-rise-1 { fill:none; stroke:#18A64B; stroke-width:20; stroke-linecap:round; stroke-linejoin:round; }
+      .taper-rise-2 { fill:none; stroke:#18A64B; stroke-width:23; stroke-linecap:round; stroke-linejoin:round; }
+      .taper-rise-3 { fill:none; stroke:#18A64B; stroke-width:26; stroke-linecap:round; stroke-linejoin:round; }
+      .taper-fall-1 { fill:none; stroke:#D62828; stroke-width:20; stroke-linecap:round; stroke-linejoin:round; }
+      .taper-fall-2 { fill:none; stroke:#D62828; stroke-width:23; stroke-linecap:round; stroke-linejoin:round; }
+      .taper-fall-3 { fill:none; stroke:#D62828; stroke-width:26; stroke-linecap:round; stroke-linejoin:round; }
       .star { fill:#D4AF37; }
     </style>
   </defs>
@@ -19,14 +23,33 @@
   <path class="trend fall" d="M 171 155 L 208 182"/>
   <path class="trend rise" d="M 208 182 L 236 138 L 294 47"/>
 
-  <path class="turn-rise" d="M 96 208 L 107 201"/>
-  <path class="turn-fall" d="M 107 201 L 119 207"/>
-  <path class="turn-fall" d="M 112 204 L 123 209"/>
-  <path class="turn-rise" d="M 123 209 L 136 194"/>
-  <path class="turn-rise" d="M 159 169 L 171 155"/>
-  <path class="turn-fall" d="M 171 155 L 183 164"/>
-  <path class="turn-fall" d="M 196 173 L 208 182"/>
-  <path class="turn-rise" d="M 208 182 L 218 166"/>
+  <path class="taper-rise-1" d="M 88 214 L 99 206"/>
+  <path class="taper-rise-2" d="M 94 210 L 103 204"/>
+  <path class="taper-rise-3" d="M 100 205 L 107 201"/>
+  <path class="taper-fall-1" d="M 107 201 L 118 206"/>
+  <path class="taper-fall-2" d="M 107 201 L 115 205"/>
+  <path class="taper-fall-3" d="M 107 201 L 112 203"/>
+
+  <path class="taper-fall-1" d="M 112 204 L 122 209"/>
+  <path class="taper-fall-2" d="M 116 206 L 123 209"/>
+  <path class="taper-fall-3" d="M 119 207 L 123 209"/>
+  <path class="taper-rise-1" d="M 123 209 L 133 197"/>
+  <path class="taper-rise-2" d="M 123 209 L 130 200"/>
+  <path class="taper-rise-3" d="M 123 209 L 128 203"/>
+
+  <path class="taper-rise-1" d="M 154 174 L 165 162"/>
+  <path class="taper-rise-2" d="M 160 168 L 168 159"/>
+  <path class="taper-rise-3" d="M 166 161 L 171 155"/>
+  <path class="taper-fall-1" d="M 171 155 L 182 163"/>
+  <path class="taper-fall-2" d="M 171 155 L 179 161"/>
+  <path class="taper-fall-3" d="M 171 155 L 176 159"/>
+
+  <path class="taper-fall-1" d="M 197 174 L 208 182"/>
+  <path class="taper-fall-2" d="M 201 177 L 208 182"/>
+  <path class="taper-fall-3" d="M 204 179 L 208 182"/>
+  <path class="taper-rise-1" d="M 208 182 L 217 168"/>
+  <path class="taper-rise-2" d="M 208 182 L 214 172"/>
+  <path class="taper-rise-3" d="M 208 182 L 212 176"/>
 
   <polygon class="star" points="304,4.76 312.4,24.92 334.24,28.28 317.44,41.72 322.48,63.56 304,51.8 283.84,63.56 288.88,41.72 272.08,28.28 293.92,24.92"/>
 </svg>

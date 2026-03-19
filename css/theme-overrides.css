@@ -217,10 +217,11 @@ header {
   display: block;
   white-space: nowrap;
   font-family: "Sora", "Inter", sans-serif;
-  font-size: 2.415rem;
-  letter-spacing: 0.08em;
-  font-weight: 700;
+  font-size: 2.6565rem;
+  letter-spacing: 0.075em;
+  font-weight: 800;
   line-height: 1;
+  color: var(--accent-ink);
 }
 
 .auth-branding .logo {
@@ -237,8 +238,8 @@ header {
   }
 
   .logo-text {
-    font-size: 1.932rem;
-    letter-spacing: 0.08em;
+    font-size: 2.125rem;
+    letter-spacing: 0.075em;
   }
 
   .logo-icon { height: 31px; }
