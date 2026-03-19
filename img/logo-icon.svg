@@ -4,7 +4,9 @@
       .mountain { fill:#CFCFCF; }
       .rise { stroke:#18A64B; }
       .fall { stroke:#D62828; }
-      .trend { fill:none; stroke-width:14; stroke-linecap:round; stroke-linejoin:round; }
+      .trend { fill:none; stroke-width:17; stroke-linecap:round; stroke-linejoin:round; }
+      .turn-rise { fill:none; stroke:#18A64B; stroke-width:26; stroke-linecap:round; stroke-linejoin:round; }
+      .turn-fall { fill:none; stroke:#D62828; stroke-width:26; stroke-linecap:round; stroke-linejoin:round; }
       .star { fill:#D4AF37; }
     </style>
   </defs>
@@ -17,5 +19,14 @@
   <path class="trend fall" d="M 171 155 L 208 182"/>
   <path class="trend rise" d="M 208 182 L 236 138 L 294 47"/>
 
-  <polygon class="star" points="304,9.8 311,26.6 329.2,29.4 315.2,40.6 319.4,58.8 304,49 287.2,58.8 291.4,40.6 277.4,29.4 295.6,26.6"/>
+  <path class="turn-rise" d="M 96 208 L 107 201"/>
+  <path class="turn-fall" d="M 107 201 L 119 207"/>
+  <path class="turn-fall" d="M 112 204 L 123 209"/>
+  <path class="turn-rise" d="M 123 209 L 136 194"/>
+  <path class="turn-rise" d="M 159 169 L 171 155"/>
+  <path class="turn-fall" d="M 171 155 L 183 164"/>
+  <path class="turn-fall" d="M 196 173 L 208 182"/>
+  <path class="turn-rise" d="M 208 182 L 218 166"/>
+
+  <polygon class="star" points="304,4.76 312.4,24.92 334.24,28.28 317.44,41.72 322.48,63.56 304,51.8 283.84,63.56 288.88,41.72 272.08,28.28 293.92,24.92"/>
 </svg>
