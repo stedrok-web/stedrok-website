@@ -1,10 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stedrok icon">
   <rect x="2" y="2" width="60" height="60" rx="14" fill="#14295b"/>
-  <path fill="#f3f5fb" d="M8 49 L18 37 L24 42 L33 24 L42 34 L50 28 L56 49 Z"/>
-  <path fill="#aeb8d8" d="M24 42 L33 24 L36 31 L30 30 Z"/>
-  <path fill="none" stroke="#19a44b" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" d="M9 48 L18 40"/>
-  <path fill="none" stroke="#d62d3b" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" d="M18 40 L24 43"/>
-  <path fill="none" stroke="#19a44b" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" d="M24 43 L31 27 L39 22"/>
-  <polygon fill="#f2c94c" points="42,10 43.9,14.8 49,15.6 45.1,18.9 46.3,24 42,21.3 37.7,24 38.9,18.9 35,15.6 40.1,14.8"/>
+  <g transform="translate(4.2 6.6) scale(0.17)">
+    <defs>
+      <style>
+        .mountain { fill:#CFCFCF; }
+        .rise { stroke:#18A64B; }
+        .fall { stroke:#D62828; }
+        .trend { fill:none; stroke-width:17; stroke-linecap:round; stroke-linejoin:round; }
+        .taper-rise-1 { fill:none; stroke:#18A64B; stroke-width:19; stroke-linecap:round; stroke-linejoin:round; }
+        .taper-rise-2 { fill:none; stroke:#18A64B; stroke-width:21; stroke-linecap:round; stroke-linejoin:round; }
+        .taper-rise-3 { fill:none; stroke:#18A64B; stroke-width:23; stroke-linecap:round; stroke-linejoin:round; }
+        .taper-rise-4 { fill:none; stroke:#18A64B; stroke-width:25; stroke-linecap:round; stroke-linejoin:round; }
+        .taper-fall-1 { fill:none; stroke:#D62828; stroke-width:19; stroke-linecap:round; stroke-linejoin:round; }
+        .taper-fall-2 { fill:none; stroke:#D62828; stroke-width:21; stroke-linecap:round; stroke-linejoin:round; }
+        .taper-fall-3 { fill:none; stroke:#D62828; stroke-width:23; stroke-linecap:round; stroke-linejoin:round; }
+        .taper-fall-4 { fill:none; stroke:#D62828; stroke-width:25; stroke-linecap:round; stroke-linejoin:round; }
+        .star { fill:#D4AF37; }
+      </style>
+    </defs>
+
+    <path class="mountain" d="M 404.0 259.5 L 16.5 258.0 L 55.5 202.0 L 63.5 182.0 L 75.5 171.0 L 83.5 153.0 L 101.5 132.0 L 105.0 129.5 L 125.0 134.5 L 134.5 122.0 L 143.5 103.0 L 161.5 89.0 L 164.5 77.0 L 174.0 70.5 L 194.5 47.0 L 211.0 32.5 L 236.5 61.0 L 239.5 68.0 L 243.0 71.5 L 250.0 71.5 L 252.5 74.0 L 261.5 91.0 L 209.5 172.0 L 207.0 174.5 L 204.0 173.5 L 170.0 148.5 L 122.0 203.5 L 108.0 195.5 L 32.5 248.0 L 36.0 248.5 L 108.0 207.5 L 123.0 219.5 L 172.0 168.5 L 212.0 202.5 L 269.0 100.5 L 289.5 116.0 L 310.0 151.5 L 328.0 147.5 L 337.5 161.0 L 351.5 173.0 L 371.5 210.0 L 387.5 227.0 L 392.5 240.0 L 404.5 256.0 L 404.0 259.5 Z M 40.5 234.0 L 104.0 187.5 L 108.0 185.5 L 113.0 187.5 L 136.0 159.5 L 134.0 176.5 L 169.0 136.5 L 203.0 161.5 L 205.5 159.0 L 218.5 136.0 L 207.5 123.0 L 201.5 110.0 L 192.5 109.0 L 211.5 80.0 L 205.5 62.0 L 207.0 40.5 L 185.5 66.0 L 168.5 80.0 L 160.5 112.0 L 157.5 112.0 L 157.0 98.5 L 146.5 107.0 L 133.5 133.0 L 107.0 168.5 L 102.5 155.0 L 104.5 139.0 L 101.5 139.0 L 86.5 157.0 L 77.5 176.0 L 67.5 184.0 L 62.5 199.0 L 38.5 233.0 L 40.5 234.0 Z M 327.5 206.0 L 313.5 178.0 L 324.5 163.0 L 323.0 152.5 L 306.0 158.5 L 295.0 170.5 L 284.0 174.5 L 267.5 192.0 L 269.0 193.5 L 286.0 183.5 L 300.0 181.5 L 327.5 206.0 Z M 259.5 211.0 L 238.0 177.5 L 230.5 189.0 L 237.0 190.5 L 259.5 211.0 Z"/>
+
+    <path class="trend rise" d="M 53 236 L 107 201"/>
+    <path class="trend fall" d="M 107 201 L 123 209"/>
+    <path class="trend rise" d="M 123 209 L 171 155"/>
+    <path class="trend fall" d="M 171 155 L 208 182"/>
+    <path class="trend rise" d="M 208 182 L 236 138 L 294 47"/>
+
+    <path class="taper-rise-1" d="M 84 217 L 95 209"/>
+    <path class="taper-rise-2" d="M 90 213 L 100 206"/>
+    <path class="taper-rise-3" d="M 96 208 L 104 203"/>
+    <path class="taper-rise-4" d="M 101 204 L 107 201"/>
+    <path class="taper-fall-1" d="M 107 201 L 118 206"/>
+    <path class="taper-fall-2" d="M 107 201 L 116 205"/>
+    <path class="taper-fall-3" d="M 107 201 L 114 204"/>
+    <path class="taper-fall-4" d="M 107 201 L 111 203"/>
+
+    <path class="taper-fall-1" d="M 109 203 L 120 208"/>
+    <path class="taper-fall-2" d="M 113 205 L 121 209"/>
+    <path class="taper-fall-3" d="M 117 207 L 122 209"/>
+    <path class="taper-fall-4" d="M 120 208 L 123 209"/>
+    <path class="taper-rise-1" d="M 123 209 L 133 198"/>
+    <path class="taper-rise-2" d="M 123 209 L 131 200"/>
+    <path class="taper-rise-3" d="M 123 209 L 129 202"/>
+    <path class="taper-rise-4" d="M 123 209 L 127 205"/>
+
+    <path class="taper-rise-1" d="M 150 179 L 161 167"/>
+    <path class="taper-rise-2" d="M 156 172 L 165 163"/>
+    <path class="taper-rise-3" d="M 162 166 L 168 159"/>
+    <path class="taper-rise-4" d="M 167 160 L 171 155"/>
+    <path class="taper-fall-1" d="M 171 155 L 182 163"/>
+    <path class="taper-fall-2" d="M 171 155 L 180 162"/>
+    <path class="taper-fall-3" d="M 171 155 L 177 160"/>
+    <path class="taper-fall-4" d="M 171 155 L 175 158"/>
+
+    <path class="taper-fall-1" d="M 194 171 L 205 179"/>
+    <path class="taper-fall-2" d="M 199 175 L 207 181"/>
+    <path class="taper-fall-3" d="M 203 178 L 208 182"/>
+    <path class="taper-fall-4" d="M 206 180 L 208 182"/>
+    <path class="taper-rise-1" d="M 208 182 L 217 168"/>
+    <path class="taper-rise-2" d="M 208 182 L 215 171"/>
+    <path class="taper-rise-3" d="M 208 182 L 213 174"/>
+    <path class="taper-rise-4" d="M 208 182 L 211 177"/>
+
+    <polygon class="star" points="304,4.76 312.4,24.92 334.24,28.28 317.44,41.72 322.48,63.56 304,51.8 283.84,63.56 288.88,41.72 272.08,28.28 293.92,24.92"/>
+  </g>
 </svg>
