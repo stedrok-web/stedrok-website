@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 170 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stedrok logo">
-  <path fill="#333333" d="M10 92 L32 74 L46 84 L62 60 L80 20 L101 52 L118 40 L143 67 L160 92 Z"/>
-  <polygon fill="#ffffff" points="10 92 36 66 80 20 92 42 76 32 44 82 28 74"/>
-  <polyline fill="none" stroke="#666666" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" points="10 92 36 66 80 20 92 42"/>
-  <polyline fill="none" stroke="#2D9F3C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" points="10 92 28 74"/>
-  <polyline fill="none" stroke="#C41E3A" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" points="28 74 44 82"/>
-  <polyline fill="none" stroke="#2D9F3C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" points="44 82 76 32"/>
-  <polyline fill="none" stroke="#C41E3A" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" points="76 32 92 42"/>
-  <polyline fill="none" stroke="#2D9F3C" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round" points="92 42 128 18"/>
-  <polygon fill="#C9A043" stroke="#8d6c21" stroke-width="0.9" stroke-linejoin="round" paint-order="stroke fill" points="128.0,3.8 130.5,10.4 137.5,10.7 132.0,15.1 133.9,21.9 128.0,18.0 122.1,21.9 124.0,15.1 118.5,10.7 125.5,10.4"/>
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Stedrok icon">
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#14295b"/>
+  <path fill="#f3f5fb" d="M8 49 L18 37 L24 42 L33 24 L42 34 L50 28 L56 49 Z"/>
+  <path fill="#aeb8d8" d="M24 42 L33 24 L36 31 L30 30 Z"/>
+  <path fill="none" stroke="#19a44b" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" d="M9 48 L18 40"/>
+  <path fill="none" stroke="#d62d3b" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" d="M18 40 L24 43"/>
+  <path fill="none" stroke="#19a44b" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" d="M24 43 L31 27 L39 22"/>
+  <polygon fill="#f2c94c" points="42,10 43.9,14.8 49,15.6 45.1,18.9 46.3,24 42,21.3 37.7,24 38.9,18.9 35,15.6 40.1,14.8"/>
 </svg>
