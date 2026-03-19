@@ -146,7 +146,7 @@ h6,
 .pricing-hero h1,
 .demo-hero h1,
 .page-hero h1 {
-  font-family: "Sora", "Inter", sans-serif;
+  font-family: "Exo 2", "Sora", "Inter", sans-serif;
   color: var(--text-primary);
   letter-spacing: -0.03em;
 }
@@ -216,10 +216,10 @@ header {
 .logo-text {
   display: block;
   white-space: nowrap;
-  font-family: "Sora", "Inter", sans-serif;
+  font-family: "Exo 2", "Sora", "Inter", sans-serif;
   font-size: 2.6565rem;
   letter-spacing: 0.075em;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
   color: var(--accent-ink);
 }
