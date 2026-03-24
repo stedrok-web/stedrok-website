@@ -20,6 +20,39 @@ let currentAccessToken = '';
 let lastInsightTriggerEl = null;
 let currentLaneMode = 'core';
 
+const DEFAULT_MIN_SCORE_THRESHOLD = 50;
+
+const EUROPE_REGION_COUNTRIES = new Set([
+  'GERMANY',
+  'FRANCE',
+  'ITALY',
+  'SPAIN',
+  'NETHERLANDS',
+  'BELGIUM',
+  'PORTUGAL',
+  'AUSTRIA',
+  'FINLAND',
+  'SWEDEN',
+  'DENMARK',
+  'NORWAY',
+  'SWITZERLAND',
+  'LUXEMBOURG',
+  'GREECE',
+  'POLAND',
+  'CZECH REPUBLIC',
+  'IRELAND'
+]);
+
+const DEVELOPED_REGION_COUNTRIES = new Set([
+  'CANADA',
+  'NEW ZEALAND',
+  'SINGAPORE',
+  'HONG KONG',
+  'SOUTH KOREA',
+  'TAIWAN',
+  'ISRAEL'
+]);
+
 // ============================================================
 // Score cell helper - color graduation + mini bar
 // ============================================================
@@ -1062,23 +1095,24 @@ async function loadDashboardLane(userToken, laneMode) {
     clearTimeout(requestTimeoutId);
 
     allStocks = (data?.picks || []).map(row => normalizePickRowShape({ ...row, selection_lane: row?.selection_lane || normalized }));
+    allStocks = allStocks.filter(row => passesMinScoreThreshold(row, DEFAULT_MIN_SCORE_THRESHOLD, normalized));
     userProfile = data?.user || {};
     const meta = data?.meta || {};
 
     const isFreeUser = userProfile.subscription_status === 'free';
     setTickerInsightAvailability(!isFreeUser);
     updateDashboardHeading(meta?.count, isFreeUser, normalized);
-    updateDashboardMachineReadableMetadata(meta, normalized, meta?.count || allStocks.length);
+    updateDashboardMachineReadableMetadata(meta, normalized, allStocks.length);
 
     if (isFreeUser) {
-      showFreeUserBanner(meta.count || allStocks.length);
+      showFreeUserBanner(allStocks.length);
     } else {
-      showPaidUserStatus(userProfile.paid_until, meta.count || allStocks.length);
+      showPaidUserStatus(userProfile.paid_until, allStocks.length);
     }
 
     setupExchangeGlobe(allStocks);
     applyFilters();
-    updateStatBar(allStocks);
+    // Stat bar is updated inside applyFilters() to stay aligned with visible rows.
 
     const updatedText = formatDate(meta.last_updated) || 'Update time unavailable';
     if (lastUpdatedEl) {
@@ -2421,6 +2455,74 @@ function setupSorting() {
   updateSortIndicators();
 }
 
+function getScoreValuesForFiltering(stock, laneMode = currentLaneMode) {
+  const normalizedLane = normalizeDashboardLane(laneMode);
+  const scores = [
+    Number(stock?.value_score),
+    Number(stock?.quality_score),
+    Number(stock?.risk_score),
+    Number(stock?.dip_score)
+  ].filter(Number.isFinite);
+
+  if (normalizedLane === 'blended') {
+    const swarmScore = Number(stock?.swarm_score);
+    if (Number.isFinite(swarmScore)) {
+      scores.push(swarmScore);
+    }
+  }
+
+  return scores;
+}
+
+function passesMinScoreThreshold(stock, threshold, laneMode = currentLaneMode) {
+  if (!Number.isFinite(threshold)) return true;
+  const values = getScoreValuesForFiltering(stock, laneMode);
+  if (values.length === 0) return true;
+  return values.every(value => value >= threshold);
+}
+
+function marketRegionRank(stock) {
+  const country = canonicalCountryName(stock?.country).toUpperCase();
+  const exchange = normalizeExchangeLabel(deriveExchangeLabel(stock)).toUpperCase();
+  const suffix = extractTickerSuffix(stock?.ticker || stock?.symbol).toUpperCase();
+
+  const isUsCountry = country === 'UNITED STATES' || country === 'USA' || country === 'US';
+  const isUsExchange =
+    exchange.includes('NYSE') ||
+    exchange.includes('NASDAQ') ||
+    exchange.includes('AMEX') ||
+    exchange.includes('USA');
+  if (isUsCountry || isUsExchange) return 0;
+
+  const isUkCountry = country === 'UNITED KINGDOM';
+  const isUkExchange = exchange.includes('LONDON') || exchange.includes('LSE') || exchange.includes('(UK)');
+  if (isUkCountry || isUkExchange || suffix === 'L') return 1;
+
+  const isEuropeExchange = /FRANKFURT|PARIS|AMSTERDAM|MADRID|MILAN|STOCKHOLM|HELSINKI|COPENHAGEN|OSLO|BRUSSELS|SWITZERLAND|ZURICH|LISBON|VIENNA|WARSAW|ATHENS|PRAGUE|EURONEXT|XETRA|SIX/.test(exchange);
+  if (EUROPE_REGION_COUNTRIES.has(country) || isEuropeExchange) return 2;
+
+  const isAustralia = country === 'AUSTRALIA' || exchange.includes('ASX') || exchange.includes('AUSTRALIA') || suffix === 'AX';
+  if (isAustralia) return 3;
+
+  const isJapan = country === 'JAPAN' || exchange.includes('TOKYO') || exchange.includes('JPX') || suffix === 'T';
+  if (isJapan) return 4;
+
+  const isDevelopedExchange =
+    exchange.includes('TORONTO') ||
+    exchange.includes('TSX') ||
+    exchange.includes('CANADA') ||
+    exchange.includes('NEW ZEALAND') ||
+    exchange.includes('NZX') ||
+    exchange.includes('SINGAPORE') ||
+    exchange.includes('SOUTH KOREA') ||
+    exchange.includes('TAIWAN') ||
+    exchange.includes('HONG KONG') ||
+    exchange.includes('TEL AVIV');
+  if (DEVELOPED_REGION_COUNTRIES.has(country) || isDevelopedExchange) return 5;
+
+  return 6;
+}
+
 function applyFilters() {
   let filtered = [...allStocks];
   const enforceChinaBottomForPaid = isPaidUserProfile();
@@ -2450,14 +2552,15 @@ function applyFilters() {
     );
   }
 
-  // Apply minimum score filter (uses Value Score)
-  const minScore = document.getElementById('minScoreFilter')?.value;
-  if (minScore && !isNaN(minScore)) {
-    const threshold = parseFloat(minScore);
-    filtered = filtered.filter(s => 
-      s.value_score != null && s.value_score >= threshold
-    );
-  }
+  // Apply minimum score filter across all score columns with a default floor.
+  const minScoreRaw = document.getElementById('minScoreFilter')?.value;
+  const hasCustomMinScore = String(minScoreRaw ?? '').trim() !== '' && !Number.isNaN(Number(minScoreRaw));
+  const customMinScore = hasCustomMinScore ? Number(minScoreRaw) : null;
+  const scoreThreshold = hasCustomMinScore
+    ? Math.max(DEFAULT_MIN_SCORE_THRESHOLD, customMinScore)
+    : DEFAULT_MIN_SCORE_THRESHOLD;
+
+  filtered = filtered.filter(s => passesMinScoreThreshold(s, scoreThreshold, currentLaneMode));
 
   // Apply decision/rating filter
   const decisionFilter = document.getElementById('decisionFilter')?.value;
@@ -2472,24 +2575,24 @@ function applyFilters() {
 
   // Apply sorting
   filtered.sort((a, b) => {
-    const geminiDelta = Number(Boolean(b?.gemini_selected)) - Number(Boolean(a?.gemini_selected));
-    if (geminiDelta !== 0) return geminiDelta;
-    const geminiRankDelta = (a?.gemini_rank ?? 999) - (b?.gemini_rank ?? 999);
-    if (a?.gemini_selected && b?.gemini_selected && geminiRankDelta !== 0) return geminiRankDelta;
-    const newDelta = Number(Boolean(b?.is_new)) - Number(Boolean(a?.is_new));
-    if (newDelta !== 0) {
-      return newDelta;
-    }
+    // Region order is always first: USA, UK, Europe, Australia, Japan, developed, rest.
+    const regionDelta = marketRegionRank(a) - marketRegionRank(b);
+    if (regionDelta !== 0) return regionDelta;
 
     const decisionDelta = decisionPriorityScore(a?.decision) - decisionPriorityScore(b?.decision);
     if (decisionDelta !== 0) {
       return decisionDelta;
     }
 
-    const aPriority = isPriorityMarketStock(a);
-    const bPriority = isPriorityMarketStock(b);
-    if (aPriority !== bPriority) {
-      return aPriority ? -1 : 1;
+    const geminiDelta = Number(Boolean(b?.gemini_selected)) - Number(Boolean(a?.gemini_selected));
+    if (geminiDelta !== 0) return geminiDelta;
+    const geminiRankDelta = (a?.gemini_rank ?? 999) - (b?.gemini_rank ?? 999);
+    if (a?.gemini_selected && b?.gemini_selected && geminiRankDelta !== 0) return geminiRankDelta;
+
+    // Keep NEW within the same market bucket only.
+    const newDelta = Number(Boolean(b?.is_new)) - Number(Boolean(a?.is_new));
+    if (newDelta !== 0) {
+      return newDelta;
     }
 
     if (enforceChinaBottomForPaid) {
@@ -2502,23 +2605,24 @@ function applyFilters() {
 
     let aVal = a[currentSortColumn];
     let bVal = b[currentSortColumn];
-    
+
     // Handle null/undefined values
     if (aVal == null) aVal = currentSortDirection === 'desc' ? -Infinity : Infinity;
     if (bVal == null) bVal = currentSortDirection === 'desc' ? -Infinity : Infinity;
-    
+
     // String comparison for text columns
     if (typeof aVal === 'string') {
-      return currentSortDirection === 'desc' 
+      return currentSortDirection === 'desc'
         ? bVal.localeCompare(aVal)
         : aVal.localeCompare(bVal);
     }
-    
+
     // Numeric comparison
     return currentSortDirection === 'desc' ? bVal - aVal : aVal - bVal;
   });
 
   renderTable(filtered);
+  updateStatBar(filtered);
 }
 
 // ============================================================
