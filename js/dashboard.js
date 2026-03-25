@@ -20,7 +20,7 @@ let currentAccessToken = '';
 let lastInsightTriggerEl = null;
 let currentLaneMode = 'core';
 
-const DEFAULT_MIN_SCORE_THRESHOLD = 50;
+const DEFAULT_MIN_SCORE_THRESHOLD = 58;
 
 const EUROPE_REGION_COUNTRIES = new Set([
   'GERMANY',
