@@ -137,7 +137,7 @@
     "about": {
       "@type": "Thing",
       "name": "Quantitative Value Stock Screening Methodology",
-      "description": "Stedrok uses a four-pillar framework scoring companies on Value (intrinsic worth vs price), Quality (financial health and ROIC), Risk Resilience (balance sheet strength), and Price Context (recent dip from highs). Over 5,700 global companies are screened twice daily."
+      "description": "Stedrok uses a four-pillar framework scoring companies on Value (intrinsic worth vs price), Quality (financial health and ROIC), Risk Resilience (balance sheet strength), and Price Context (recent dip from highs). 7,000+ global companies are screened twice daily."
     },
     "publisher": {
       "@id": "https://stedrok.org/#organization"
@@ -199,6 +199,12 @@
 
     .text-muted { color: var(--text-secondary); font-style: italic; }
 
+    .not-measured-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:28px 0; }
+    .exclusion-card { padding:18px 20px; background: rgba(239,68,68,0.08); border-radius:10px; border:1px solid rgba(239,68,68,0.35); }
+    .exclusion-chip { display:inline-block; margin-bottom:8px; padding:2px 8px; border-radius:999px; border:1px solid rgba(239,68,68,0.35); font-size:11px; color:#fecaca; text-transform:uppercase; letter-spacing:0.04em; }
+    .exclusion-card h3 { margin:0 0 6px; color:#fca5a5; text-decoration:line-through; text-decoration-thickness:2px; }
+    .exclusion-card p { margin:0; color:var(--text-secondary); font-size:14px; line-height:1.65; }
+
     /* Footer */
 /* Responsive */
     @media (max-width: 768px) {
@@ -215,7 +221,7 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "Value Stock Scoring Methodology | 4-Pillar Framework",
-  "description": "Transparent value stock scoring methodology using four pillars: valuation, business quality, risk/resilience, and entry timing. Applied to 5,700+ companies globally.",
+  "description": "Transparent value stock scoring methodology using four pillars: valuation, business quality, risk/resilience, and entry timing. Applied to 7,000+ companies globally.",
   "author": {"@type": "Organization", "name": "Stedrok"},
   "publisher": {"@type": "Organization", "name": "Stedrok", "url": "https://stedrok.org"},
   "url": "https://stedrok.org/methodology.html",
@@ -256,7 +262,7 @@
       <div class="container hero-inner">
         <div class="hero-copy">
           <h1>How the Stedrok Value Framework Works</h1>
-          <p class="methodology-intro" style="font-size:19px;color:var(--text-secondary);line-height:1.8;margin:16px 0 0;max-width:780px;">The four pillars serious value investors have applied since Benjamin Graham — systematically automated across 5,740+ global companies, recalculated twice every trading day. Every scoring decision is documented, auditable, and grounded in public financial data.</p>
+          <p class="methodology-intro" style="font-size:19px;color:var(--text-secondary);line-height:1.8;margin:16px 0 0;max-width:780px;">The four pillars serious value investors have applied since Benjamin Graham — systematically automated across 7,000+ global companies, recalculated twice every trading day. Every scoring decision is documented, auditable, and grounded in public financial data.</p>
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;">
             <span style="padding:5px 12px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:6px;font-size:12px;font-weight:700;color:var(--accent-green);">ROIC</span>
             <span style="padding:5px 12px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.3);border-radius:6px;font-size:12px;font-weight:700;color:var(--accent-green);">DCF Fair Value</span>
@@ -269,7 +275,7 @@
           </div>
         <p class="author-byline" style="margin-top:10px; color:var(--text-secondary); font-size:14px;">By <a href="authors.html" style="color:var(--accent-green); text-decoration:underline;">Stedrok Research Team</a></p>
           <p class="hero-tagline">
-            Stedrok scans more than seven thousand listed companies twice each trading day, cleans the data, and applies a rules based value lens. The goal is simple - surface sound businesses at sensible prices and avoid fragile balance sheets. The system is clear enough to follow and strict enough to repeat. Alongside this Core process, AI Hybrid applies separate guardrails before results are published.
+            Stedrok scans 7,000+ listed companies twice each trading day, cleans the data, and applies a rules based value lens. The goal is simple - surface sound businesses at sensible prices and avoid fragile balance sheets. The system is clear enough to follow and strict enough to repeat. Alongside this Core process, AI Hybrid applies separate guardrails before results are published.
           </p>
           <p class="hero-subtext">
             Stedrok does not provide personal financial advice. The scores are
@@ -284,7 +290,7 @@
       <div class="container">
         <h2>Investment Philosophy</h2>
         <p>
-          Stedrok is built for patient, conservative investors who care more about downside risk and fundamentals than momentum or stories. We scan a universe of more than seven thousand listed companies twice each day. We clean noisy fields, then apply a research backed set of rules that point to value and resilience. The output is a simple ranked view and a clear label that guides your work. The model is open enough to understand, yet strict enough to stay consistent.
+          Stedrok is built for patient, conservative investors who care more about downside risk and fundamentals than momentum or stories. We scan a universe of 7,000+ listed companies twice each day. We clean noisy fields, then apply a research backed set of rules that point to value and resilience. The output is a simple ranked view and a clear label that guides your work. The model is open enough to understand, yet strict enough to stay consistent.
         </p>
         <p>
           Rather than chasing themes or short-term noise, we concentrate on the
@@ -303,7 +309,7 @@
           The aim is not to guess tomorrow's move but to keep a clean, timely snapshot of fundamentals and price context.
         </p>
         <p>
-          The model tracks more than seven thousand listed companies across major markets.
+          The model tracks 7,000+ listed companies across major markets.
           Prices and fundamentals are pulled into our data tables then standardised so the same rules apply across regions, sectors and sizes.
         </p>
         <p>
@@ -629,31 +635,37 @@
 
         <h2>What the Screener Does Not Measure</h2>
         <p class="section-lead">Defining scope honestly is as important as defining what a model does. The following signals are deliberately excluded from the Stedrok scoring engine.</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0;" class="not-measured-grid">
-          <div style="padding:18px 20px;background:var(--bg-card);border-radius:10px;border:1px solid var(--border-color);">
-            <strong>Analyst price targets</strong><br>
-            <span style="color:var(--text-muted);font-size:14px;line-height:1.6;">Sell-side targets are forecasts, not facts. The model uses reported financial data only.</span>
-          </div>
-          <div style="padding:18px 20px;background:var(--bg-card);border-radius:10px;border:1px solid var(--border-color);">
-            <strong>Forward earnings estimates</strong><br>
-            <span style="color:var(--text-muted);font-size:14px;line-height:1.6;">Forward estimates embed assumptions. The scoring engine is backward-looking on reported numbers — deliberately.</span>
-          </div>
-          <div style="padding:18px 20px;background:var(--bg-card);border-radius:10px;border:1px solid var(--border-color);">
-            <strong>Social sentiment &amp; news flow</strong><br>
-            <span style="color:var(--text-muted);font-size:14px;line-height:1.6;">Narrative-driven price action reverts. Reported fundamentals do not.</span>
-          </div>
-          <div style="padding:18px 20px;background:var(--bg-card);border-radius:10px;border:1px solid var(--border-color);">
-            <strong>Momentum &amp; technical signals</strong><br>
-            <span style="color:var(--text-muted);font-size:14px;line-height:1.6;">Short-term chart patterns are excluded. The only price-based input is the 52-week price context pillar.</span>
-          </div>
-          <div style="padding:18px 20px;background:var(--bg-card);border-radius:10px;border:1px solid var(--border-color);">
-            <strong>Management quality scores</strong><br>
-            <span style="color:var(--text-muted);font-size:14px;line-height:1.6;">Qualitative judgements cannot be automated reliably. Capital allocation is captured indirectly through ROIC trends.</span>
-          </div>
-          <div style="padding:18px 20px;background:var(--bg-card);border-radius:10px;border:1px solid var(--border-color);">
-            <strong>Macro &amp; sector calls</strong><br>
-            <span style="color:var(--text-muted);font-size:14px;line-height:1.6;">The screener does not predict interest rates, recessions, or sector rotations. It identifies companies with the fundamentals to survive them.</span>
-          </div>
+        <div class="not-measured-grid">
+          <article class="exclusion-card">
+            <span class="exclusion-chip">Deliberately Excluded</span>
+            <h3>Analyst price targets</h3>
+            <p>Sell-side targets are forecasts, not facts. The model uses reported financial data only.</p>
+          </article>
+          <article class="exclusion-card">
+            <span class="exclusion-chip">Deliberately Excluded</span>
+            <h3>Forward earnings estimates</h3>
+            <p>Forward estimates embed assumptions. The scoring engine is backward-looking on reported numbers — deliberately.</p>
+          </article>
+          <article class="exclusion-card">
+            <span class="exclusion-chip">Deliberately Excluded</span>
+            <h3>Social sentiment and news flow</h3>
+            <p>Narrative-driven price action reverts. Reported fundamentals do not.</p>
+          </article>
+          <article class="exclusion-card">
+            <span class="exclusion-chip">Deliberately Excluded</span>
+            <h3>Momentum and technical signals</h3>
+            <p>Short-term chart patterns are excluded. The only price-based input is the 52-week price context pillar.</p>
+          </article>
+          <article class="exclusion-card">
+            <span class="exclusion-chip">Deliberately Excluded</span>
+            <h3>Management quality scores</h3>
+            <p>Qualitative judgements cannot be automated reliably. Capital allocation is captured indirectly through ROIC trends.</p>
+          </article>
+          <article class="exclusion-card">
+            <span class="exclusion-chip">Deliberately Excluded</span>
+            <h3>Macro and sector calls</h3>
+            <p>The screener does not predict interest rates, recessions, or sector rotations. It identifies companies with the fundamentals to survive them.</p>
+          </article>
         </div>
         <div style="padding:20px 24px;background:rgba(242,201,76,0.07);border-left:3px solid var(--accent-fill);border-radius:8px;">
           <p style="margin:0;color:var(--text-secondary);font-size:15px;line-height:1.7;font-style:italic;">Forecasts are noise. Reported numbers are facts. The model is built on the latter.</p>

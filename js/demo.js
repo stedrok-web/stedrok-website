@@ -175,6 +175,44 @@ function cleanupInsightSummary(rawText, headlineText) {
   return (cleaned.length ? cleaned : paragraphs).join('\n\n');
 }
 
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function summarySectionLabel(sentence, index) {
+  const text = String(sentence || '').toLowerCase();
+  if (/(discount|valuation|fair value|intrinsic|multiple|underval)/.test(text)) return 'Valuation Backdrop';
+  if (/(roic|margin|cash flow|quality|durab|moat|profit)/.test(text)) return 'Business Durability';
+  if (/(risk|debt|leverage|balance sheet|liquidity|downside|volatility)/.test(text)) return 'Risk Checkpoints';
+  if (/(monitor|watch|trigger|catalyst|next)/.test(text)) return 'Monitoring Cue';
+  if (index === 0) return 'Valuation Backdrop';
+  if (index === 1) return 'Business Durability';
+  if (index === 2) return 'Risk Checkpoints';
+  return 'Monitoring Cue';
+}
+
+function formatInsightSummaryStructured(summaryText) {
+  const sentences = String(summaryText || '')
+    .replace(/\n+/g, ' ')
+    .split(/(?<=[.!?])\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  if (!sentences.length) return '';
+
+  const cards = sentences.slice(0, 4).map((sentence, index) => {
+    const heading = summarySectionLabel(sentence, index);
+    return '<article class="ticker-insight-brief-card"><h4>' + escapeHtml(heading) + '</h4><p>' + escapeHtml(sentence) + '</p></article>';
+  }).join('');
+
+  return '<div class="ticker-insight-brief">' + cards + '</div>';
+}
+
 function rowByTicker(ticker) {
   const symbol = normalizeTicker(ticker);
   return demoRows.find((row) => normalizeTicker(row.symbol) === symbol) || null;
@@ -337,7 +375,7 @@ function renderInsight(summary, row) {
   if (summaryEl) {
     const rawText = payload.dashboard_story || payload.summary_short || payload.summary_300w || '';
     const cleaned = cleanupInsightSummary(rawText, headlineEl?.textContent || '');
-    summaryEl.textContent = cleaned;
+    summaryEl.innerHTML = formatInsightSummaryStructured(cleaned);
     summaryEl.style.display = cleaned ? 'block' : 'none';
   }
 
