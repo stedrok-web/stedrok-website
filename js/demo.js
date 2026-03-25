@@ -59,6 +59,21 @@ function formatDateTime(value) {
   });
 }
 
+function normalizeForComparison(value) {
+  return String(value || '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function normalizeForLooseComparison(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function setText(id, text) {
   const el = document.getElementById(id);
   if (el) el.textContent = text;
@@ -156,61 +171,49 @@ function cleanupInsightSummary(rawText, headlineText) {
   const stripped = stripPrimaryNewsLine(rawText);
   if (!stripped) return '';
 
-  const headlineNorm = String(headlineText || '').trim().toLowerCase();
+  const headlineNorm = normalizeForComparison(headlineText);
+  const headlineLooseNorm = normalizeForLooseComparison(headlineText);
   const paragraphs = stripped
     .split(/\n\s*\n+/)
-    .map((value) => value.trim())
-    .filter(Boolean)
-    .filter((value, idx, arr) => arr.indexOf(value) === idx);
-
-  const cleaned = paragraphs.filter((p) => {
-    const norm = p.toLowerCase();
-    if (headlineNorm && norm === headlineNorm) return false;
-    if (/currently\s+sits\s+in\s+a\s+\w+\s+view/i.test(p)) return false;
-    if (/^evaluating\s+/i.test(p)) return false;
-    if (/headline is older and should be treated as background context/i.test(p)) return false;
-    return true;
-  });
-
-  return (cleaned.length ? cleaned : paragraphs).join('\n\n');
-}
-
-function escapeHtml(value) {
-  return String(value || '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-function summarySectionLabel(sentence, index) {
-  const text = String(sentence || '').toLowerCase();
-  if (/(discount|valuation|fair value|intrinsic|multiple|underval)/.test(text)) return 'Valuation Backdrop';
-  if (/(roic|margin|cash flow|quality|durab|moat|profit)/.test(text)) return 'Business Durability';
-  if (/(risk|debt|leverage|balance sheet|liquidity|downside|volatility)/.test(text)) return 'Risk Checkpoints';
-  if (/(monitor|watch|trigger|catalyst|next)/.test(text)) return 'Monitoring Cue';
-  if (index === 0) return 'Valuation Backdrop';
-  if (index === 1) return 'Business Durability';
-  if (index === 2) return 'Risk Checkpoints';
-  return 'Monitoring Cue';
-}
-
-function formatInsightSummaryStructured(summaryText) {
-  const sentences = String(summaryText || '')
-    .replace(/\n+/g, ' ')
-    .split(/(?<=[.!?])\s+/)
-    .map((s) => s.trim())
+    .map(value => value.trim())
     .filter(Boolean);
 
-  if (!sentences.length) return '';
+  const cleaned = [];
+  for (let i = 0; i < paragraphs.length; i += 1) {
+    const paragraph = paragraphs[i];
+    const norm = normalizeForComparison(paragraph);
+    const looseNorm = normalizeForLooseComparison(paragraph);
+    if (!norm) continue;
 
-  const cards = sentences.slice(0, 4).map((sentence, index) => {
-    const heading = summarySectionLabel(sentence, index);
-    return '<article class="ticker-insight-brief-card"><h4>' + escapeHtml(heading) + '</h4><p>' + escapeHtml(sentence) + '</p></article>';
-  }).join('');
+    if (headlineNorm && norm === headlineNorm) {
+      continue;
+    }
+    if (headlineLooseNorm && (looseNorm === headlineLooseNorm || looseNorm.startsWith(`${headlineLooseNorm} `))) {
+      continue;
+    }
 
-  return '<div class="ticker-insight-brief">' + cards + '</div>';
+    if (/currently\s+sits\s+in\s+a\s+\w+\s+view/i.test(paragraph) && i < 2) {
+      continue;
+    }
+
+    if (/^evaluating\s+/i.test(paragraph) || /headline is older and should be treated as background context/i.test(paragraph)) {
+      continue;
+    }
+
+    if (cleaned.length > 0) {
+      const previousNorm = normalizeForComparison(cleaned[cleaned.length - 1]);
+      if (previousNorm === norm) {
+        continue;
+      }
+    }
+
+    cleaned.push(paragraph);
+  }
+
+  if (cleaned.length === 0) {
+    return stripped;
+  }
+  return cleaned.join('\n\n');
 }
 
 function rowByTicker(ticker) {
@@ -375,8 +378,8 @@ function renderInsight(summary, row) {
   if (summaryEl) {
     const rawText = payload.dashboard_story || payload.summary_short || payload.summary_300w || '';
     const cleaned = cleanupInsightSummary(rawText, headlineEl?.textContent || '');
-    summaryEl.innerHTML = formatInsightSummaryStructured(cleaned);
-    summaryEl.style.display = cleaned ? 'block' : 'none';
+    summaryEl.textContent = cleaned;
+    summaryEl.style.display = summaryEl.textContent ? 'block' : 'none';
   }
 
   const guidanceEl = document.getElementById('tickerInsightNewsGuidance');
