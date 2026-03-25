@@ -124,6 +124,32 @@
       font-weight: 600;
       color: var(--text-primary);
     }
+    .philosophy-pull-quote {
+      margin: 20px 0 16px;
+      padding: 24px 26px;
+      border-radius: 14px;
+      border: 1px solid rgba(74, 222, 128, 0.35);
+      border-left: 4px solid var(--accent-green);
+      background: linear-gradient(135deg, rgba(74, 222, 128, 0.10), rgba(59, 130, 246, 0.08));
+      max-width: 780px;
+    }
+    .philosophy-pull-quote p {
+      margin: 0;
+      font-size: 21px;
+      line-height: 1.7;
+      color: var(--text-primary);
+      font-style: italic;
+    }
+    .philosophy-pull-quote cite {
+      display: block;
+      margin-top: 10px;
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent-green);
+    }
 @media (max-width: 768px) {
       .section--narrow h1 { font-size: 32px; }
       .section--narrow h2 { font-size: 24px; }
@@ -161,7 +187,11 @@
     <section class="section section--narrow">
       <div class="container">
         <h1>Our Investment Philosophy</h1>
-          <p style="font-size:20px;color:var(--text-secondary);line-height:1.8;margin:20px 0;max-width:760px;font-style:italic;">“Price is what you pay. Value is what you get.” — Warren Buffett. Stedrok exists to make the gap between those two things visible — systematically, at scale, every trading day.</p>
+          <blockquote class="philosophy-pull-quote">
+          <p>“Price is what you pay. Value is what you get.”</p>
+          <cite>Warren Buffett</cite>
+        </blockquote>
+        <p style="margin-top:0;max-width:760px;">Stedrok exists to make the gap between those two things visible - systematically, at scale, every trading day.</p>
         <p class="author-byline" style="margin-top:10px; color:var(--text-secondary); font-size:14px;">By <a href="authors.html" style="color:var(--accent-green); text-decoration:underline;">Stedrok Research Team</a></p>
         <p class="lead">
           Value investing has a consistent logic: identify businesses trading at a genuine discount to their long-run worth, and hold until the gap closes. The difficulty has never been the theory — it has been running those checks reliably across thousands of companies without institutional infrastructure. That is what Stedrok does.

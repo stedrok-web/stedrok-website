@@ -233,6 +233,17 @@
       text-align: center;
     }
 
+    .demo-page .table-container {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .demo-page .stock-table thead th:nth-child(n+6),
+    .demo-page .stock-table tbody td:nth-child(n+6) {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
     .stock-table tbody tr.demo-row-blur {
       filter: blur(4px);
       opacity: 0.40;
