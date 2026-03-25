@@ -20,7 +20,11 @@ let currentAccessToken = '';
 let lastInsightTriggerEl = null;
 let currentLaneMode = 'core';
 
-const DEFAULT_MIN_SCORE_THRESHOLD = 58;
+const DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE = Object.freeze({
+  core: 55,
+  hybrid: 55,
+  blended: 60
+});
 
 const EUROPE_REGION_COUNTRIES = new Set([
   'GERMANY',
@@ -1095,7 +1099,8 @@ async function loadDashboardLane(userToken, laneMode) {
     clearTimeout(requestTimeoutId);
 
     allStocks = (data?.picks || []).map(row => normalizePickRowShape({ ...row, selection_lane: row?.selection_lane || normalized }));
-    allStocks = allStocks.filter(row => passesMinScoreThreshold(row, DEFAULT_MIN_SCORE_THRESHOLD, normalized));
+    const laneDefaultThreshold = defaultMinScoreThresholdForLane(normalized);
+    allStocks = allStocks.filter(row => passesMinScoreThreshold(row, laneDefaultThreshold, normalized));
     userProfile = data?.user || {};
     const meta = data?.meta || {};
 
@@ -2481,6 +2486,11 @@ function passesMinScoreThreshold(stock, threshold, laneMode = currentLaneMode) {
   return values.every(value => value >= threshold);
 }
 
+function defaultMinScoreThresholdForLane(laneMode = currentLaneMode) {
+  const normalizedLane = normalizeDashboardLane(laneMode);
+  return DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE[normalizedLane] ?? 55;
+}
+
 function marketRegionRank(stock) {
   const country = canonicalCountryName(stock?.country).toUpperCase();
   const exchange = normalizeExchangeLabel(deriveExchangeLabel(stock)).toUpperCase();
@@ -2556,9 +2566,10 @@ function applyFilters() {
   const minScoreRaw = document.getElementById('minScoreFilter')?.value;
   const hasCustomMinScore = String(minScoreRaw ?? '').trim() !== '' && !Number.isNaN(Number(minScoreRaw));
   const customMinScore = hasCustomMinScore ? Number(minScoreRaw) : null;
+  const laneDefaultThreshold = defaultMinScoreThresholdForLane(currentLaneMode);
   const scoreThreshold = hasCustomMinScore
-    ? Math.max(DEFAULT_MIN_SCORE_THRESHOLD, customMinScore)
-    : DEFAULT_MIN_SCORE_THRESHOLD;
+    ? Math.max(laneDefaultThreshold, customMinScore)
+    : laneDefaultThreshold;
 
   filtered = filtered.filter(s => passesMinScoreThreshold(s, scoreThreshold, currentLaneMode));
 
