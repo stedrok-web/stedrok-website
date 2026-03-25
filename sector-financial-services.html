@@ -142,7 +142,8 @@
   <style>
     .sector-hero { padding: 60px 0 40px; border-bottom: 1px solid var(--border-color); }
     .sector-hero h1 { font-size: 42px; margin-bottom: 16px; }
-    .sector-hero .lead { font-size: 19px; color: var(--text-secondary); max-width: 700px; line-height: 1.7; margin-bottom: 24px; }
+    .sector-hero .lead { font-size: 19px; color: var(--text-secondary); max-width: 780px; line-height: 1.65; margin: 0 0 12px; }
+    .lead-kicker { color: var(--accent-green); font-weight: 600; font-style: italic; }
     .sector-stats { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 24px; }
     .stat-pill { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px 20px; }
     .stat-pill .stat-num { font-size: 28px; font-weight: 700; color: var(--accent-green); }
@@ -157,7 +158,7 @@
     .td-ticker { font-weight: 700; color: var(--accent-green); font-size: 15px; white-space: nowrap; }
     .td-company { max-width: 220px; }
     .td-score, .td-disc { text-align: right; }
-    .badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .badge { display: inline-flex; align-items: center; justify-content: center; min-width: 64px; height: 24px; padding: 0 10px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1; vertical-align: middle; }
     .badge-buy { background: rgba(0,200,100,.15); color: #00c864; }
     .badge-watch { background: rgba(255,190,0,.12); color: #f0b400; }
     .blurred-val { filter: blur(4px); user-select: none; color: var(--text-secondary); cursor: pointer; }
@@ -183,7 +184,7 @@
     .btn-primary:hover { opacity: .88; }
     .btn-secondary:hover { border-color: var(--accent-green); color: var(--accent-green); }
         .sample-note {
-      margin-top: 16px;
+      margin-top: 10px;
       padding: 12px 14px;
       border-radius: 8px;
       border: 1px solid rgba(245, 158, 11, 0.35);
@@ -242,8 +243,7 @@
           <span>Financial Services Value Stocks</span>
         </nav>
         <h1>Top Ranked Financial Services Companies by Fundamental Value</h1>
-        <p style="font-size:17px;color:var(--accent-green);font-weight:600;margin:8px 0 0;font-style:italic;">Financial businesses generate extraordinary returns on equity when managed with discipline. The challenge is identifying which ones actually are.</p>
-        <p class="lead">Banks, insurance, asset managers and fintech — screen undervalued financial services companies by price-to-book and return metrics. This is a delayed sample snapshot (last refreshed 2026-03-16), not the live dashboard feed.</p>
+        <p class="lead"><span class="lead-kicker">Financial businesses generate extraordinary returns on equity when managed with discipline. The challenge is identifying which ones actually are.</span> Banks, insurance, asset managers and fintech — screen undervalued financial services companies by price-to-book and return metrics. This is a delayed sample snapshot (last refreshed 2026-03-16), not the live dashboard feed.</p>
         <div class="sample-note"><strong>Sample Snapshot:</strong> This page is a delayed illustrative sample and may differ from the current dashboard. Last sample refresh: 2026-03-16.</div>
         <div class="sector-stats">
           <div class="stat-pill">
