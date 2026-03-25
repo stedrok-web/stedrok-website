@@ -374,26 +374,35 @@ function renderInsight(summary, row) {
     headlineEl.style.display = headline ? 'block' : 'none';
   }
 
+  const rawText = payload.dashboard_story || payload.summary_short || payload.summary_300w || '';
+  const summaryText = cleanupInsightSummary(rawText, headlineEl?.textContent || '');
   const summaryEl = document.getElementById('tickerInsightSummary');
   if (summaryEl) {
-    const rawText = payload.dashboard_story || payload.summary_short || payload.summary_300w || '';
-    const cleaned = cleanupInsightSummary(rawText, headlineEl?.textContent || '');
-    summaryEl.textContent = cleaned;
-    summaryEl.style.display = summaryEl.textContent ? 'block' : 'none';
+    summaryEl.textContent = summaryText;
+    summaryEl.style.display = summaryText ? 'block' : 'none';
   }
 
   const guidanceEl = document.getElementById('tickerInsightNewsGuidance');
   if (guidanceEl) {
-    const guidance = stripPrimaryNewsLine(payload.news_guidance || '').trim();
-    guidanceEl.textContent = guidance || 'This public demo uses delayed and limited rows.';
+    const guidanceText = stripPrimaryNewsLine(payload.news_guidance || '').trim();
+    const summaryComparable = normalizeForComparison(summaryText);
+    const guidanceComparable = normalizeForComparison(guidanceText);
+    const guidanceIsDuplicate = Boolean(
+      guidanceComparable &&
+      summaryComparable &&
+      (summaryComparable === guidanceComparable || summaryComparable.includes(guidanceComparable))
+    );
+    guidanceEl.textContent = guidanceIsDuplicate
+      ? 'This public demo uses delayed and limited rows.'
+      : (guidanceText || 'This public demo uses delayed and limited rows.');
     guidanceEl.style.display = 'block';
   }
 
   const newsHeadlineEl = document.getElementById('tickerInsightNewsHeadline');
   if (newsHeadlineEl) {
-    const primary = String(payload.primary_news_headline || '').trim();
-    newsHeadlineEl.textContent = primary;
-    newsHeadlineEl.style.display = primary ? 'block' : 'none';
+    // Keep demo output clean and avoid appending a duplicate trailing headline line.
+    newsHeadlineEl.textContent = '';
+    newsHeadlineEl.style.display = 'none';
   }
 
   const updatedEl = document.getElementById('tickerInsightUpdated');
