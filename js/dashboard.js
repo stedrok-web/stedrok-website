@@ -21,35 +21,35 @@ let lastInsightTriggerEl = null;
 let currentLaneMode = 'core';
 
 const DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE = Object.freeze({
-  core: 60,
-  hybrid: 55,
-  blended: 47
+  core: 58,
+  hybrid: 52,
+  blended: 46
 });
 
 // High-conviction defaults calibrated from recent production runs.
 // Enforced before the UI min-score input so weak-tail BUYs stay hidden by default.
 const DEFAULT_LANE_GUARDRAILS = Object.freeze({
   core: Object.freeze({
-    total_score: 65.11,
-    value_score: 61.96,
-    quality_score: 60.23,
-    risk_score: 60.81,
-    confidence: 83.99
+    total_score: 62,
+    value_score: 60,
+    quality_score: 58,
+    risk_score: 58,
+    confidence: 80
   }),
   hybrid: Object.freeze({
-    total_score: 67.67,
-    value_score: 68.66,
-    quality_score: 55.9,
-    risk_score: 63.92,
-    confidence: 75.0
+    total_score: 65,
+    value_score: 65,
+    quality_score: 54,
+    risk_score: 62,
+    confidence: 72
   }),
   blended: Object.freeze({
-    total_score: 67.92,
-    value_score: 61.35,
+    total_score: 65,
+    value_score: 60,
     // Swarm pillars now use fundamental scores; these are re-calibrated guardrails.
-    quality_score: 60.61,
-    risk_score: 68.92,
-    confidence: 62.86
+    quality_score: 58,
+    risk_score: 65,
+    confidence: 60
   })
 });
 
