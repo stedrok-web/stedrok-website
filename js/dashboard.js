@@ -21,34 +21,34 @@ let lastInsightTriggerEl = null;
 let currentLaneMode = 'core';
 
 const DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE = Object.freeze({
-  core: 55,
+  core: 60,
   hybrid: 55,
-  blended: 60
+  blended: 47
 });
 
 // High-conviction defaults calibrated from recent production runs.
 // Enforced before the UI min-score input so weak-tail BUYs stay hidden by default.
 const DEFAULT_LANE_GUARDRAILS = Object.freeze({
   core: Object.freeze({
-    total_score: 70,
+    total_score: 66,
     value_score: 64,
-    quality_score: 66,
-    risk_score: 70,
+    quality_score: 60,
+    risk_score: 64,
     confidence: 85
   }),
   hybrid: Object.freeze({
-    total_score: 76,
+    total_score: 74,
     value_score: 76,
     quality_score: 55,
-    risk_score: 86,
-    confidence: 74
+    risk_score: 78,
+    confidence: 75
   }),
   blended: Object.freeze({
-    total_score: 70,
+    total_score: 68,
     value_score: 72,
-    quality_score: 97,
-    risk_score: 88,
-    confidence: 97
+    quality_score: 98,
+    risk_score: 92,
+    confidence: 98
   })
 });
 
