@@ -26,6 +26,32 @@ const DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE = Object.freeze({
   blended: 60
 });
 
+// High-conviction defaults calibrated from recent production runs.
+// Enforced before the UI min-score input so weak-tail BUYs stay hidden by default.
+const DEFAULT_LANE_GUARDRAILS = Object.freeze({
+  core: Object.freeze({
+    total_score: 70,
+    value_score: 64,
+    quality_score: 66,
+    risk_score: 70,
+    confidence: 85
+  }),
+  hybrid: Object.freeze({
+    total_score: 76,
+    value_score: 76,
+    quality_score: 55,
+    risk_score: 86,
+    confidence: 74
+  }),
+  blended: Object.freeze({
+    total_score: 70,
+    value_score: 72,
+    quality_score: 97,
+    risk_score: 88,
+    confidence: 97
+  })
+});
+
 const EUROPE_REGION_COUNTRIES = new Set([
   'GERMANY',
   'FRANCE',
@@ -1099,6 +1125,7 @@ async function loadDashboardLane(userToken, laneMode) {
     clearTimeout(requestTimeoutId);
 
     allStocks = (data?.picks || []).map(row => normalizePickRowShape({ ...row, selection_lane: row?.selection_lane || normalized }));
+    allStocks = allStocks.filter(row => passesLaneGuardrails(row, normalized));
     const laneDefaultThreshold = defaultMinScoreThresholdForLane(normalized);
     allStocks = allStocks.filter(row => passesMinScoreThreshold(row, laneDefaultThreshold, normalized));
     userProfile = data?.user || {};
@@ -2491,6 +2518,17 @@ function defaultMinScoreThresholdForLane(laneMode = currentLaneMode) {
   return DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE[normalizedLane] ?? 55;
 }
 
+function passesLaneGuardrails(stock, laneMode = currentLaneMode) {
+  const normalizedLane = normalizeDashboardLane(laneMode);
+  const laneGuardrails = DEFAULT_LANE_GUARDRAILS[normalizedLane];
+  if (!laneGuardrails) return true;
+
+  return Object.entries(laneGuardrails).every(([metric, threshold]) => {
+    const value = Number(stock?.[metric]);
+    return Number.isFinite(value) && value >= threshold;
+  });
+}
+
 function marketRegionRank(stock) {
   const country = canonicalCountryName(stock?.country).toUpperCase();
   const exchange = normalizeExchangeLabel(deriveExchangeLabel(stock)).toUpperCase();
@@ -2561,6 +2599,9 @@ function applyFilters() {
       s.sector && s.sector.toLowerCase().includes(sectorTerm)
     );
   }
+
+  // Enforce lane-specific quality guardrails before user-adjustable score floor.
+  filtered = filtered.filter(s => passesLaneGuardrails(s, currentLaneMode));
 
   // Apply minimum score filter across all score columns with a default floor.
   const minScoreRaw = document.getElementById('minScoreFilter')?.value;
