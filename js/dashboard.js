@@ -46,8 +46,9 @@ const DEFAULT_LANE_GUARDRAILS = Object.freeze({
   blended: Object.freeze({
     total_score: 68,
     value_score: 72,
-    quality_score: 98,
-    risk_score: 92,
+    // Swarm quality/risk are consensus-derived and highly saturated; keep as guardrails.
+    quality_score: 92,
+    risk_score: 86,
     confidence: 98
   })
 });
