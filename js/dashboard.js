@@ -30,26 +30,26 @@ const DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE = Object.freeze({
 // Enforced before the UI min-score input so weak-tail BUYs stay hidden by default.
 const DEFAULT_LANE_GUARDRAILS = Object.freeze({
   core: Object.freeze({
-    total_score: 66,
-    value_score: 64,
-    quality_score: 60,
-    risk_score: 64,
-    confidence: 85
+    total_score: 65.11,
+    value_score: 61.96,
+    quality_score: 60.23,
+    risk_score: 60.81,
+    confidence: 83.99
   }),
   hybrid: Object.freeze({
-    total_score: 74,
-    value_score: 76,
-    quality_score: 55,
-    risk_score: 78,
-    confidence: 75
+    total_score: 67.67,
+    value_score: 68.66,
+    quality_score: 55.9,
+    risk_score: 63.92,
+    confidence: 75.0
   }),
   blended: Object.freeze({
-    total_score: 68,
-    value_score: 72,
-    // Swarm quality/risk are consensus-derived and highly saturated; keep as guardrails.
-    quality_score: 92,
-    risk_score: 86,
-    confidence: 98
+    total_score: 67.92,
+    value_score: 61.35,
+    // Swarm pillars now use fundamental scores; these are re-calibrated guardrails.
+    quality_score: 60.61,
+    risk_score: 68.92,
+    confidence: 62.86
   })
 });
 
@@ -2720,5 +2720,4 @@ function formatDate(dateString) {
     day: 'numeric' 
   });
 }
-
 
