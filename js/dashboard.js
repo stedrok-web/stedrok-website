@@ -764,11 +764,11 @@ function updateColumnHeadersForLane(mode) {
   };
   if (!thMap.value_score) return;
   if (mode === 'blended') {
-    if (thMap.value_score) thMap.value_score.textContent = 'Fund.';
-    if (thMap.quality_score) thMap.quality_score.textContent = 'Convg.';
-    if (thMap.risk_score) thMap.risk_score.textContent = 'Bear-Free';
-    if (thMap.dip_score) thMap.dip_score.textContent = 'Agree';
-    if (thMap.confidence) thMap.confidence.textContent = 'Bull%';
+    if (thMap.value_score) thMap.value_score.textContent = 'Value';
+    if (thMap.quality_score) thMap.quality_score.textContent = 'Quality';
+    if (thMap.risk_score) thMap.risk_score.textContent = 'Risk';
+    if (thMap.dip_score) thMap.dip_score.textContent = 'Dip';
+    if (thMap.confidence) thMap.confidence.textContent = 'Conf.';
   } else {
     if (thMap.value_score) thMap.value_score.textContent = 'Value';
     if (thMap.quality_score) thMap.quality_score.textContent = 'Quality';
