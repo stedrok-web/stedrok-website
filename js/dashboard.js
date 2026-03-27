@@ -20,31 +20,17 @@ let currentAccessToken = '';
 let lastInsightTriggerEl = null;
 let currentLaneMode = 'core';
 
+// No hidden dashboard score filters or guardrails — all BUYs show for all lanes.
 const DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE = Object.freeze({
   core: Number.NaN,
-  hybrid: 52,
-  blended: 46
+  hybrid: Number.NaN,
+  blended: Number.NaN
 });
 
-// Core no longer applies hidden dashboard-only guardrails.
-// Hybrid and StedrokGPT lane behavior is unchanged here.
 const DEFAULT_LANE_GUARDRAILS = Object.freeze({
   core: Object.freeze({}),
-  hybrid: Object.freeze({
-    total_score: 65,
-    value_score: 65,
-    quality_score: 54,
-    risk_score: 62,
-    confidence: 72
-  }),
-  blended: Object.freeze({
-    total_score: 65,
-    value_score: 60,
-    // Swarm pillars now use fundamental scores; these are re-calibrated guardrails.
-    quality_score: 58,
-    risk_score: 65,
-    confidence: 60
-  })
+  hybrid: Object.freeze({}),
+  blended: Object.freeze({})
 });
 
 const EUROPE_REGION_COUNTRIES = new Set([
