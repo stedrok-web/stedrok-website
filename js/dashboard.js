@@ -21,21 +21,15 @@ let lastInsightTriggerEl = null;
 let currentLaneMode = 'core';
 
 const DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE = Object.freeze({
-  core: 58,
+  core: Number.NaN,
   hybrid: 52,
   blended: 46
 });
 
-// High-conviction defaults calibrated from recent production runs.
-// Enforced before the UI min-score input so weak-tail BUYs stay hidden by default.
+// Core no longer applies hidden dashboard-only guardrails.
+// Hybrid and StedrokGPT lane behavior is unchanged here.
 const DEFAULT_LANE_GUARDRAILS = Object.freeze({
-  core: Object.freeze({
-    total_score: 62,
-    value_score: 60,
-    quality_score: 58,
-    risk_score: 58,
-    confidence: 80
-  }),
+  core: Object.freeze({}),
   hybrid: Object.freeze({
     total_score: 65,
     value_score: 65,
@@ -2592,8 +2586,6 @@ function getScoreValuesForFiltering(stock, laneMode = currentLaneMode) {
 }
 
 function passesMinScoreThreshold(stock, threshold, laneMode = currentLaneMode) {
-  const normalizedLane = normalizeDashboardLane(laneMode);
-  if (normalizedLane === 'hybrid' || normalizedLane === 'blended') return true;
   if (!Number.isFinite(threshold)) return true;
   const values = getScoreValuesForFiltering(stock, laneMode);
   if (values.length === 0) return true;
@@ -2602,13 +2594,13 @@ function passesMinScoreThreshold(stock, threshold, laneMode = currentLaneMode) {
 
 function defaultMinScoreThresholdForLane(laneMode = currentLaneMode) {
   const normalizedLane = normalizeDashboardLane(laneMode);
-  if (normalizedLane === 'hybrid' || normalizedLane === 'blended') return Number.NaN;
-  return DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE[normalizedLane] ?? 55;
+  if (normalizedLane === 'core' || normalizedLane === 'hybrid' || normalizedLane === 'blended') return Number.NaN;
+  return DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE[normalizedLane] ?? Number.NaN;
 }
 
 function passesLaneGuardrails(stock, laneMode = currentLaneMode) {
   const normalizedLane = normalizeDashboardLane(laneMode);
-  if (normalizedLane === 'hybrid' || normalizedLane === 'blended') return true;
+  if (normalizedLane === 'core' || normalizedLane === 'hybrid' || normalizedLane === 'blended') return true;
   const laneGuardrails = DEFAULT_LANE_GUARDRAILS[normalizedLane];
   if (!laneGuardrails) return true;
 
@@ -2698,7 +2690,7 @@ function applyFilters() {
   const customMinScore = hasCustomMinScore ? Number(minScoreRaw) : null;
   const laneDefaultThreshold = defaultMinScoreThresholdForLane(currentLaneMode);
   const scoreThreshold = hasCustomMinScore
-    ? Math.max(laneDefaultThreshold, customMinScore)
+    ? (Number.isFinite(laneDefaultThreshold) ? Math.max(laneDefaultThreshold, customMinScore) : customMinScore)
     : laneDefaultThreshold;
 
   filtered = filtered.filter(s => passesMinScoreThreshold(s, scoreThreshold, currentLaneMode));
