@@ -126,7 +126,7 @@ function updateStatBar(stocks) {
     const swarmScores = stocks.map(s => s.swarm_score).filter(v => v != null && !isNaN(Number(v)));
     if (swarmScores.length > 0) {
       const avgSwarm = (swarmScores.reduce((a, b) => a + Number(b), 0) / swarmScores.length).toFixed(1);
-      html += '<span class="dash-stat swarm">⚡ Avg Swarm: ' + avgSwarm + '</span>';
+      html += '<span class="dash-stat swarm">⚡ Avg Pick Score: ' + avgSwarm + '</span>';
     }
   }
   bar.innerHTML = html;
@@ -173,13 +173,13 @@ const API_URL = CONFIG.API_BASE_URL;
 const DASHBOARD_LANE_LABELS = {
   core: 'Core',
   hybrid: 'AI Hybrid',
-  blended: 'Swarm-Lite'
+  blended: 'StedrokGPT Pick'
 };
 
 const DASHBOARD_LANE_DESCRIPTIONS = {
   core: 'Core: Deterministic, rule-based picks from the production fundamental value and quality engine.',
   hybrid: 'AI Hybrid (beta): Separate research lane that cross-checks shortlisted companies against live data and current context before publication. Core ratings remain unchanged.',
-  blended: 'Swarm-Lite: Consensus picks from 300 deterministic agents across BASE, BULL, BEAR and CRISIS scenarios. Swarm Score reflects multi-scenario conviction — higher scores mean stronger cross-scenario agreement.'
+  blended: 'StedrokGPT Pick: Blind-buy promotion lane that applies the final local internet review, evidence checks, and conviction filters on top of the broader Stedrok stack.'
 };
 
 
@@ -752,6 +752,7 @@ function currencySymbolForStock(stock) {
 function normalizeDashboardLane(value) {
   const mode = String(value || '').trim().toLowerCase();
   if (mode === 'hybrid' || mode === 'blended') return mode;
+  if (mode === 'stedrokgpt_pick' || mode === 'stedrokgpt-pick' || mode === 'swarm') return 'blended';
   return 'core';
 }
 function updateColumnHeadersForLane(mode) {
@@ -781,7 +782,7 @@ function updateColumnHeadersForLane(mode) {
 
 function laneEndpoint(mode) {
   if (mode === 'hybrid') return `${API_URL}/api/hybrid-picks`;
-  if (mode === 'blended') return `${API_URL}/api/swarm-picks`;
+  if (mode === 'blended') return `${API_URL}/api/stedrokgpt-picks`;
   return `${API_URL}/api/picks`;
 }
 
@@ -839,6 +840,10 @@ function normalizePickRowShape(stock) {
     decision: decision || (row.decision || ''),
     is_new: normalizeBooleanFlag(row.is_new),
     swarm_score: toNumberOrNull(row.swarm_score ?? row.swarmScore),
+    internet_verdict: String(row.internet_verdict || row.internetVerdict || ''),
+    internet_catalyst_strength: String(row.internet_catalyst_strength || row.internetCatalystStrength || ''),
+    internet_valuation_context: String(row.internet_valuation_context || row.internetValuationContext || ''),
+    internet_evidence_score: toNumberOrNull(row.internet_evidence_score ?? row.internetEvidenceScore),
     net_bull: toNumberOrNull(row.net_bull ?? row.netBull),
     net_bear: toNumberOrNull(row.net_bear ?? row.netBear),
     convergence_score: toNumberOrNull(row.convergence_score ?? row.convergenceScore),
@@ -927,7 +932,7 @@ function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
 
 function setDashboardLaneToggle(mode) {
   const normalized = normalizeDashboardLane(mode);
-  // Show Swarm Score column only in Swarm-Lite (blended) mode
+  // Show the third-lane score column only in StedrokGPT Pick (blended) mode
   const swarmHeader = document.getElementById('thSwarmScore');
   const swarmCells = document.querySelectorAll('[data-col="swarm_score"]');
   const isSwarm = normalized === 'blended';
@@ -1071,10 +1076,10 @@ async function fetchLanePayload(userToken, mode, signal) {
   if (normalized === 'blended') {
     const swarmResponse = await fetch(laneEndpoint('blended'), { method: 'GET', headers, signal });
     if (!swarmResponse.ok) {
-      throw new Error(`Swarm API returned ${swarmResponse.status}`);
+      throw new Error(`StedrokGPT Pick API returned ${swarmResponse.status}`);
     }
     const swarmData = await swarmResponse.json();
-    const picks = (swarmData.picks || []).map(r => normalizePickRowShape({ ...r, selection_lane: 'swarm' }));
+    const picks = (swarmData.picks || []).map(r => normalizePickRowShape({ ...r, selection_lane: 'stedrokgpt_pick' }));
     return {
       picks,
       user: swarmData.user || {},
@@ -1083,7 +1088,7 @@ async function fetchLanePayload(userToken, mode, signal) {
         count: picks.length,
         limit: swarmData.meta?.limit || 50,
         last_updated: swarmData.meta?.last_updated || new Date().toISOString(),
-        swarm: { total_picks: swarmData.meta?.total_available || picks.length }
+        stedrokgpt_pick: { total_picks: swarmData.meta?.total_available || picks.length }
       }
     };
   }
@@ -1608,6 +1613,7 @@ function buildFallbackSummary(stock) {
 function normalizeTickerSummaryMode(value) {
   const mode = String(value || '').trim().toLowerCase();
   if (mode === 'hybrid' || mode === 'blended' || mode === 'swarm') return mode;
+  if (mode === 'stedrokgpt_pick' || mode === 'stedrokgpt-pick') return 'blended';
   return 'core';
 }
 
@@ -1620,7 +1626,7 @@ function resolveTickerSummaryMode(stock) {
 
   // Blended mode: ask for hybrid-first summaries when the row came from hybrid lane.
   if (selectedLane === 'hybrid' || selectedLane === 'blended') return 'hybrid';
-  if (selectedLane === 'swarm') return 'blended';
+  if (selectedLane === 'swarm' || selectedLane === 'stedrokgpt_pick') return 'blended';
   if (String(stock?.selection_lane || '').toLowerCase() === 'blended_shared') return 'blended';
   // Default for blended/swarm mode: use blended table plan (swarm→hybrid→core)
   // Swarm picks lack selection_lane; this ensures they still hit ticker_summaries_swarm
@@ -1793,7 +1799,7 @@ function renderTickerInsight(summary, stock) {
     updatedEl.style.display = formatted ? 'block' : 'none';
   }
 
-  // Swarm-Lite section
+  // StedrokGPT Pick / compatibility third-lane section
   const swarmSection = document.getElementById('swarmInsightSection');
   const swarmScoreEl = document.getElementById('swarmScoreValue');
   const swarmBase = document.getElementById('swarmChipBase');
@@ -1802,11 +1808,14 @@ function renderTickerInsight(summary, stock) {
   const swarmCrisis = document.getElementById('swarmChipCrisis');
   const swarmReasonEl = document.getElementById('swarmSelectionReason');
 
-  const hasSwarm = stock && stock.swarm_score != null;
+  const hasSwarm = stock && (stock.swarm_score != null || stock.internet_verdict);
   if (swarmSection) swarmSection.style.display = hasSwarm ? 'block' : 'none';
 
   if (hasSwarm) {
-    if (swarmScoreEl) swarmScoreEl.textContent = stock.swarm_score.toFixed(1);
+    if (swarmScoreEl) {
+      const scoreValue = stock.swarm_score ?? stock.internet_evidence_score;
+      swarmScoreEl.textContent = Number.isFinite(Number(scoreValue)) ? Number(scoreValue).toFixed(1) : '—';
+    }
     const sb = stock.scenario_breakdown || {};
     function scenarioChip(el, label, scenario) {
       if (!el) return;
@@ -1816,10 +1825,20 @@ function renderTickerInsight(summary, stock) {
       el.textContent = label + ': ' + verdict;
       el.style.color = s.verdict === 'NET_BULL' ? 'var(--accent-green)' : s.verdict === 'NET_BEAR' ? '#f87171' : '';
     }
-    scenarioChip(swarmBase, 'BASE', 'BASE');
-    scenarioChip(swarmBull, 'BULL', 'BULL');
-    scenarioChip(swarmBear, 'BEAR', 'BEAR');
-    scenarioChip(swarmCrisis, 'CRISIS', 'CRISIS');
+    if (Object.keys(sb).length > 0) {
+      scenarioChip(swarmBase, 'BASE', 'BASE');
+      scenarioChip(swarmBull, 'BULL', 'BULL');
+      scenarioChip(swarmBear, 'BEAR', 'BEAR');
+      scenarioChip(swarmCrisis, 'CRISIS', 'CRISIS');
+    } else {
+      if (swarmBase) swarmBase.textContent = 'Verdict: ' + (stock.internet_verdict || '—');
+      if (swarmBull) swarmBull.textContent = 'Catalyst: ' + (stock.internet_catalyst_strength || '—');
+      if (swarmBear) swarmBear.textContent = 'Value: ' + (stock.internet_valuation_context || '—');
+      if (swarmCrisis) {
+        const evidence = Number.isFinite(Number(stock.internet_evidence_score)) ? Number(stock.internet_evidence_score).toFixed(1) : '—';
+        swarmCrisis.textContent = 'Evidence: ' + evidence;
+      }
+    }
     if (swarmReasonEl) {
       const reason = stock.selection_reason || stock.selectionReason || '';
       swarmReasonEl.textContent = reason ? 'Signal: ' + reason : '';
@@ -2720,4 +2739,3 @@ function formatDate(dateString) {
     day: 'numeric' 
   });
 }
-

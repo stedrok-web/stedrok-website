@@ -11,7 +11,7 @@
   <link rel="alternate" hreflang="en" href="https://stedrok.org/dashboard.html">
   <link rel="alternate" hreflang="x-default" href="https://stedrok.org/dashboard.html">
 
-  <meta name="stedrok:data-source" content="Authenticated Stedrok API endpoints: /api/picks, /api/hybrid-picks, /api/swarm-picks, and /api/ticker-summary.">
+  <meta name="stedrok:data-source" content="Authenticated Stedrok API endpoints: /api/picks, /api/hybrid-picks, /api/stedrokgpt-picks, and /api/ticker-summary.">
   <meta name="stedrok:data-refresh-cadence" content="At least once per trading day; usually twice per trading day.">
   <meta name="stedrok:data-point-in-time" content="Scores reflect the latest completed batch and are for research workflows only.">
   <meta name="stedrok:data-last-updated-utc" id="dashboardDataLastUpdatedMeta" content="">
@@ -143,7 +143,7 @@
         <div id="dashboardLaneToggle" class="dashboard-lane-toggle" role="group" aria-label="Dashboard mode selector" style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; justify-content:center;">
           <button type="button" id="laneToggleCore" class="btn-secondary is-active" data-dashboard-lane="core" aria-pressed="true">Core</button>
           <button type="button" id="laneToggleHybrid" class="btn-secondary" data-dashboard-lane="hybrid" aria-pressed="false" aria-label="AI Hybrid beta" title="AI Hybrid beta">AI Hybrid</button>
-          <button type="button" id="laneToggleSwarm" class="btn-secondary" data-dashboard-lane="blended" aria-pressed="false" aria-label="Swarm-Lite: 300-agent consensus picks" title="Swarm-Lite: 300-agent consensus picks">Swarm-Lite <span style="font-size:0.65em;font-weight:700;letter-spacing:0.03em;background:var(--accent-orange,#e07000);color:#fff;border-radius:3px;padding:1px 5px;vertical-align:middle;margin-left:3px;">BETA</span></button>
+          <button type="button" id="laneToggleSwarm" class="btn-secondary" data-dashboard-lane="blended" aria-pressed="false" aria-label="StedrokGPT Pick: blind-buy promotion lane" title="StedrokGPT Pick: blind-buy promotion lane">StedrokGPT Pick <span style="font-size:0.65em;font-weight:700;letter-spacing:0.03em;background:var(--accent-orange,#e07000);color:#fff;border-radius:3px;padding:1px 5px;vertical-align:middle;margin-left:3px;">BETA</span></button>
         </div>
         <p id="dashboardLaneDescription" style="color: var(--text-secondary); margin-top: 10px; font-size: 14px;">Core: Deterministic, rule-based picks from the production fundamental value and quality engine.</p>
         <p class="last-updated">Last updated: <span id="lastUpdated">Pending refresh</span></p>
@@ -203,7 +203,7 @@
               <th scope="col" data-sort="current_price">Price</th>
               <th scope="col" data-sort="fair_value">Fair Value</th>
               <th scope="col" data-sort="discount_pct">Discount</th>
-              <th id="thSwarmScore" scope="col" data-sort="swarm_score" style="display:none;">Swarm</th>
+              <th id="thSwarmScore" scope="col" data-sort="swarm_score" style="display:none;">Pick Score</th>
             </tr>
           </thead>
           <tbody id="stocksTableBody">
@@ -265,13 +265,13 @@
           </div>
 
           <div id="swarmInsightSection" style="display:none; margin-top:14px; padding-top:12px; border-top:1px solid var(--border-color);">
-            <p style="font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--text-secondary); margin-bottom:8px;">Swarm-Lite Analysis</p>
+            <p style="font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--text-secondary); margin-bottom:8px;">StedrokGPT Pick Analysis</p>
             <div class="ticker-insight-meta" style="flex-wrap:wrap; gap:6px;">
               <span class="ticker-insight-chip" style="font-weight:700; color:var(--accent-orange,#e07000);">Score: <span id="swarmScoreValue">&#8212;</span></span>
-              <span id="swarmChipBase"  class="ticker-insight-chip">BASE &#8212;</span>
-              <span id="swarmChipBull"  class="ticker-insight-chip">BULL &#8212;</span>
-              <span id="swarmChipBear"  class="ticker-insight-chip">BEAR &#8212;</span>
-              <span id="swarmChipCrisis" class="ticker-insight-chip">CRISIS &#8212;</span>
+              <span id="swarmChipBase"  class="ticker-insight-chip">Verdict &#8212;</span>
+              <span id="swarmChipBull"  class="ticker-insight-chip">Catalyst &#8212;</span>
+              <span id="swarmChipBear"  class="ticker-insight-chip">Value &#8212;</span>
+              <span id="swarmChipCrisis" class="ticker-insight-chip">Evidence &#8212;</span>
             </div>
             <p id="swarmSelectionReason" style="font-size:12px; color:var(--text-secondary); margin-top:8px; line-height:1.6;"></p>
           </div>
@@ -367,5 +367,4 @@
   <script src="js/mobile-menu.js?v=20260317b"></script>
 </body>
 </html>
-
 

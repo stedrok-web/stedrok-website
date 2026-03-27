@@ -379,23 +379,21 @@ function renderInsight(summary, row) {
   const summaryEl = document.getElementById('tickerInsightSummary');
   if (summaryEl) {
     summaryEl.textContent = summaryText;
-    summaryEl.style.display = summaryText ? 'block' : 'none';
+    summaryEl.style.display = summaryEl.textContent ? 'block' : 'none';
   }
 
   const guidanceEl = document.getElementById('tickerInsightNewsGuidance');
   if (guidanceEl) {
-    const guidanceText = stripPrimaryNewsLine(payload.news_guidance || '').trim();
+    const guidanceText = stripPrimaryNewsLine(String(payload.news_guidance || '').trim());
     const summaryComparable = normalizeForComparison(summaryText);
     const guidanceComparable = normalizeForComparison(guidanceText);
-    const guidanceIsDuplicate = Boolean(
-      guidanceComparable &&
-      summaryComparable &&
-      (summaryComparable === guidanceComparable || summaryComparable.includes(guidanceComparable))
-    );
-    guidanceEl.textContent = guidanceIsDuplicate
-      ? 'This public demo uses delayed and limited rows.'
-      : (guidanceText || 'This public demo uses delayed and limited rows.');
-    guidanceEl.style.display = 'block';
+    const shouldShowGuidance = Boolean(guidanceText) &&
+      (!guidanceComparable || !summaryComparable.includes(guidanceComparable));
+
+    guidanceEl.textContent = shouldShowGuidance
+      ? guidanceText
+      : 'This public demo uses delayed and limited rows.';
+    guidanceEl.style.display = guidanceEl.textContent ? 'block' : 'none';
   }
 
   const newsHeadlineEl = document.getElementById('tickerInsightNewsHeadline');
