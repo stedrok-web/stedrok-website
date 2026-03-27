@@ -2593,7 +2593,7 @@ function getScoreValuesForFiltering(stock, laneMode = currentLaneMode) {
 
 function passesMinScoreThreshold(stock, threshold, laneMode = currentLaneMode) {
   const normalizedLane = normalizeDashboardLane(laneMode);
-  if (normalizedLane === 'blended') return true;
+  if (normalizedLane === 'hybrid' || normalizedLane === 'blended') return true;
   if (!Number.isFinite(threshold)) return true;
   const values = getScoreValuesForFiltering(stock, laneMode);
   if (values.length === 0) return true;
@@ -2602,13 +2602,13 @@ function passesMinScoreThreshold(stock, threshold, laneMode = currentLaneMode) {
 
 function defaultMinScoreThresholdForLane(laneMode = currentLaneMode) {
   const normalizedLane = normalizeDashboardLane(laneMode);
-  if (normalizedLane === 'blended') return Number.NaN;
+  if (normalizedLane === 'hybrid' || normalizedLane === 'blended') return Number.NaN;
   return DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE[normalizedLane] ?? 55;
 }
 
 function passesLaneGuardrails(stock, laneMode = currentLaneMode) {
   const normalizedLane = normalizeDashboardLane(laneMode);
-  if (normalizedLane === 'blended') return true;
+  if (normalizedLane === 'hybrid' || normalizedLane === 'blended') return true;
   const laneGuardrails = DEFAULT_LANE_GUARDRAILS[normalizedLane];
   if (!laneGuardrails) return true;
 
@@ -2662,7 +2662,7 @@ function marketRegionRank(stock) {
 
 function applyFilters() {
   let filtered = [...allStocks];
-  const enforceChinaBottomForPaid = isPaidUserProfile();
+  const enforceChinaBottomForPaid = isPaidUserProfile() && normalizeDashboardLane(currentLaneMode) === 'core';
 
   // Apply search filter (ticker or company name)
   const searchTerm = document.getElementById('searchInput')?.value?.toLowerCase();
@@ -2716,9 +2716,11 @@ function applyFilters() {
 
   // Apply sorting
   filtered.sort((a, b) => {
-    // Region order is always first: USA, UK, Europe, Australia, Japan, developed, rest.
-    const regionDelta = marketRegionRank(a) - marketRegionRank(b);
-    if (regionDelta !== 0) return regionDelta;
+    // Keep market-region prioritization only for Core. Hybrid and StedrokGPT Pick should show raw ranked output.
+    if (normalizeDashboardLane(currentLaneMode) === 'core') {
+      const regionDelta = marketRegionRank(a) - marketRegionRank(b);
+      if (regionDelta !== 0) return regionDelta;
+    }
 
     const decisionDelta = decisionPriorityScore(a?.decision) - decisionPriorityScore(b?.decision);
     if (decisionDelta !== 0) {
