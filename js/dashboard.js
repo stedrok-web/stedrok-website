@@ -1099,7 +1099,7 @@ async function fetchLanePayload(userToken, mode, signal) {
         if (picks.length === 0) continue;
         return {
           picks,
-          user: { subscription_status: 'paid' },
+          user: { subscription_status: 'free', fallback_local: true },
           meta: {
             lane: 'blended',
             count: picks.length,
