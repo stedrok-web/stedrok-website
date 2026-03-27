@@ -2566,6 +2566,15 @@ function passesLaneGuardrails(stock, laneMode = currentLaneMode) {
   const laneGuardrails = DEFAULT_LANE_GUARDRAILS[normalizedLane];
   if (!laneGuardrails) return true;
 
+  if (normalizedLane === 'blended') {
+    const metricKeys = Object.keys(laneGuardrails);
+    const presentMetrics = metricKeys.filter(metric => Number.isFinite(Number(stock?.[metric])));
+    const hasPreviewIdentity = Boolean(stock?.ticker || stock?.symbol) && Number.isFinite(Number(stock?.confidence));
+    if (presentMetrics.length === 0 && hasPreviewIdentity) {
+      return true;
+    }
+  }
+
   return Object.entries(laneGuardrails).every(([metric, threshold]) => {
     const value = Number(stock?.[metric]);
     return Number.isFinite(value) && value >= threshold;
