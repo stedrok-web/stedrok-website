@@ -786,6 +786,16 @@ function laneEndpoint(mode) {
   return `${API_URL}/api/picks`;
 }
 
+function laneEndpointFallbacks(mode) {
+  if (mode === 'blended') {
+    return [
+      `${API_URL}/api/stedrokgpt-picks`,
+      `${API_URL}/api/swarm-picks`
+    ];
+  }
+  return [laneEndpoint(mode)];
+}
+
 function _escHtml(s) {
   if (s == null) return '';
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -1074,9 +1084,22 @@ async function fetchLanePayload(userToken, mode, signal) {
 
   const normalized = normalizeDashboardLane(mode);
   if (normalized === 'blended') {
-    const swarmResponse = await fetch(laneEndpoint('blended'), { method: 'GET', headers, signal });
-    if (!swarmResponse.ok) {
-      throw new Error(`StedrokGPT Pick API returned ${swarmResponse.status}`);
+    let swarmResponse = null;
+    let lastStatus = null;
+    for (const endpoint of laneEndpointFallbacks('blended')) {
+      const response = await fetch(endpoint, { method: 'GET', headers, signal });
+      if (response.ok) {
+        swarmResponse = response;
+        break;
+      }
+      lastStatus = response.status;
+      if (response.status !== 404) {
+        swarmResponse = response;
+        break;
+      }
+    }
+    if (!swarmResponse || !swarmResponse.ok) {
+      throw new Error(`StedrokGPT Pick API returned ${lastStatus || swarmResponse?.status || 'unknown'}`);
     }
     const swarmData = await swarmResponse.json();
     const picks = (swarmData.picks || []).map(r => normalizePickRowShape({ ...r, selection_lane: 'stedrokgpt_pick' }));
