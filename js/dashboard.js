@@ -1082,38 +1082,80 @@ async function fetchLanePayload(userToken, mode, signal) {
     'Content-Type': 'application/json'
   };
 
+  async function fetchStedrokGptLocalFallback() {
+    const fallbackPaths = [
+      './data/stocks_stedrokgpt_pick.json',
+      './data/stocks_swarm.json'
+    ];
+
+    for (const path of fallbackPaths) {
+      try {
+        const response = await fetch(path, { method: 'GET', signal, cache: 'no-store' });
+        if (!response.ok) continue;
+        const payload = await response.json();
+        const picks = Array.isArray(payload?.picks)
+          ? payload.picks.map(r => normalizePickRowShape({ ...r, selection_lane: 'stedrokgpt_pick' }))
+          : [];
+        if (picks.length === 0) continue;
+        return {
+          picks,
+          user: { subscription_status: 'paid' },
+          meta: {
+            lane: 'blended',
+            count: picks.length,
+            limit: picks.length,
+            last_updated: payload.generated_at_utc || payload.data_date || new Date().toISOString(),
+            stedrokgpt_pick: { total_picks: payload.pickCount || picks.length },
+            source: 'local_fallback'
+          }
+        };
+      } catch (error) {
+        console.warn('StedrokGPT Pick local fallback failed for', path, error);
+      }
+    }
+    throw new Error('StedrokGPT Pick fallback unavailable');
+  }
+
   const normalized = normalizeDashboardLane(mode);
   if (normalized === 'blended') {
-    let swarmResponse = null;
-    let lastStatus = null;
-    for (const endpoint of laneEndpointFallbacks('blended')) {
-      const response = await fetch(endpoint, { method: 'GET', headers, signal });
-      if (response.ok) {
-        swarmResponse = response;
-        break;
+    try {
+      let swarmResponse = null;
+      let lastStatus = null;
+      for (const endpoint of laneEndpointFallbacks('blended')) {
+        const response = await fetch(endpoint, { method: 'GET', headers, signal });
+        if (response.ok) {
+          swarmResponse = response;
+          break;
+        }
+        lastStatus = response.status;
+        if (response.status !== 404) {
+          swarmResponse = response;
+          break;
+        }
       }
-      lastStatus = response.status;
-      if (response.status !== 404) {
-        swarmResponse = response;
-        break;
+      if (!swarmResponse || !swarmResponse.ok) {
+        throw new Error(`StedrokGPT Pick API returned ${lastStatus || swarmResponse?.status || 'unknown'}`);
       }
+      const swarmData = await swarmResponse.json();
+      const picks = (swarmData.picks || []).map(r => normalizePickRowShape({ ...r, selection_lane: 'stedrokgpt_pick' }));
+      if (picks.length === 0) {
+        return await fetchStedrokGptLocalFallback();
+      }
+      return {
+        picks,
+        user: swarmData.user || {},
+        meta: {
+          lane: 'blended',
+          count: picks.length,
+          limit: swarmData.meta?.limit || 50,
+          last_updated: swarmData.meta?.last_updated || new Date().toISOString(),
+          stedrokgpt_pick: { total_picks: swarmData.meta?.total_available || picks.length }
+        }
+      };
+    } catch (error) {
+      console.warn('StedrokGPT Pick API fetch failed, using local fallback:', error);
+      return await fetchStedrokGptLocalFallback();
     }
-    if (!swarmResponse || !swarmResponse.ok) {
-      throw new Error(`StedrokGPT Pick API returned ${lastStatus || swarmResponse?.status || 'unknown'}`);
-    }
-    const swarmData = await swarmResponse.json();
-    const picks = (swarmData.picks || []).map(r => normalizePickRowShape({ ...r, selection_lane: 'stedrokgpt_pick' }));
-    return {
-      picks,
-      user: swarmData.user || {},
-      meta: {
-        lane: 'blended',
-        count: picks.length,
-        limit: swarmData.meta?.limit || 50,
-        last_updated: swarmData.meta?.last_updated || new Date().toISOString(),
-        stedrokgpt_pick: { total_picks: swarmData.meta?.total_available || picks.length }
-      }
-    };
   }
 
   const response = await fetch(laneEndpoint(normalized), {
@@ -2550,6 +2592,8 @@ function getScoreValuesForFiltering(stock, laneMode = currentLaneMode) {
 }
 
 function passesMinScoreThreshold(stock, threshold, laneMode = currentLaneMode) {
+  const normalizedLane = normalizeDashboardLane(laneMode);
+  if (normalizedLane === 'blended') return true;
   if (!Number.isFinite(threshold)) return true;
   const values = getScoreValuesForFiltering(stock, laneMode);
   if (values.length === 0) return true;
@@ -2558,22 +2602,15 @@ function passesMinScoreThreshold(stock, threshold, laneMode = currentLaneMode) {
 
 function defaultMinScoreThresholdForLane(laneMode = currentLaneMode) {
   const normalizedLane = normalizeDashboardLane(laneMode);
+  if (normalizedLane === 'blended') return Number.NaN;
   return DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE[normalizedLane] ?? 55;
 }
 
 function passesLaneGuardrails(stock, laneMode = currentLaneMode) {
   const normalizedLane = normalizeDashboardLane(laneMode);
+  if (normalizedLane === 'blended') return true;
   const laneGuardrails = DEFAULT_LANE_GUARDRAILS[normalizedLane];
   if (!laneGuardrails) return true;
-
-  if (normalizedLane === 'blended') {
-    const metricKeys = Object.keys(laneGuardrails);
-    const presentMetrics = metricKeys.filter(metric => Number.isFinite(Number(stock?.[metric])));
-    const hasPreviewIdentity = Boolean(stock?.ticker || stock?.symbol) && Number.isFinite(Number(stock?.confidence));
-    if (presentMetrics.length === 0 && hasPreviewIdentity) {
-      return true;
-    }
-  }
 
   return Object.entries(laneGuardrails).every(([metric, threshold]) => {
     const value = Number(stock?.[metric]);
