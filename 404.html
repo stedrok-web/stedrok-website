@@ -29,9 +29,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="css/main.css?v=20260316b">
+  <link rel="stylesheet" href="css/main.css?v=20260329fix">
   <link rel="stylesheet" href="css/tokens.css?v=20260316b">
-  <link rel="stylesheet" href="css/theme-overrides.css?v=20260319asset8">
+  <link rel="stylesheet" href="css/theme-overrides.css?v=20260329fix">
 
   <script type="application/ld+json">
   {
@@ -106,6 +106,15 @@
       gap: 16px;
       flex-wrap: wrap;
       justify-content: center;
+    }
+
+    @media (max-width: 480px) {
+      .error-code { font-size: 72px; }
+      .error-title { font-size: 24px; }
+      .error-desc { font-size: 16px; }
+      .error-search-wrap { flex-wrap: wrap; }
+      .error-search-wrap input[type="text"] { width: 100%; }
+      .error-search-wrap button { width: 100%; }
     }
   </style>
     <meta name="geo.region" content="AU">

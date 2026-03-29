@@ -2210,3 +2210,23 @@ section,
   color: var(--text-secondary);
   padding: 0 4px;
 }
+
+/* --- AUTH: small-screen card fix (≤400px) --- */
+@media (max-width: 400px) {
+  .auth-card {
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 12px !important;
+    padding: 24px 16px !important;
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    font-size: 16px !important;
+  }
+  .auth-full-screen {
+    padding: 16px 12px !important;
+    align-items: flex-start;
+    padding-top: 32px !important;
+  }
+}
