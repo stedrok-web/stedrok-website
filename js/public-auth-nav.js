@@ -6,14 +6,14 @@
   const navDashboardItem = navDashboardLink ? navDashboardLink.closest('li') : null;
 
   const loggedOutMarkup = `
-    <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
-    <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+    <a href="login.html" class="btn-secondary" id="loginBtn">Login</a>
+    <a href="register.html" class="btn-primary" id="registerBtn">Register</a>
   `;
 
   const loggedInMarkup = `
     <a href="dashboard.html" class="btn-primary" id="dashboardBtn">Dashboard</a>
     <a href="account.html" class="btn-secondary" id="accountBtn">Account</a>
-    <button class="btn-secondary" id="logoutBtn" type="button">Log Out</button>
+    <button class="btn-secondary" id="logoutBtn" type="button">Logout</button>
   `;
 
   function setLoggedOutMarkup() {

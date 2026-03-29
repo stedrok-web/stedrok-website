@@ -8,14 +8,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta name="description"
-        content="Stedrok is an independent stock research platform for long term value investors. Companies are ranked on valuation, quality, resilience and price context.">
+        content="Stedrok is an independent global value stock screener for long-term investors. Screen 5,900+ companies worldwide for undervalued stocks ranked by valuation, quality, resilience and price context.">
   <meta name="author" content="Stedrok">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="keywords"
-        content="value stock screener, stock research platform, fundamental analysis, downside risk, long term investing">
+        content="value stock screener, undervalued stocks, stock ranking, fundamental analysis, global stock screener, value investing, downside risk, long term investing">
 
   <link rel="canonical" href="https://stedrok.org/">
   <link rel="alternate" hreflang="en" href="https://stedrok.org/">
+  <link rel="alternate" hreflang="en-AU" href="https://stedrok.org/">
+  <link rel="alternate" hreflang="en-US" href="https://stedrok.org/">
+  <link rel="alternate" hreflang="en-GB" href="https://stedrok.org/">
+  <link rel="alternate" hreflang="en-CA" href="https://stedrok.org/">
   <link rel="alternate" hreflang="x-default" href="https://stedrok.org/">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="preconnect" href="https://ziysjyzdbmgvmzjcjbjj.supabase.co" crossorigin>
@@ -78,7 +82,7 @@
       "addressCountry": "AU"
     },
     "email": "contact@stedrok.org",
-    "description": "Stedrok is an independent quantitative stock research platform for long-term value investors. It screens 7,000+ global companies using a four-pillar framework: Value, Quality, Risk resilience, and Price Context.",
+    "description": "Stedrok is an independent quantitative stock research platform for long-term value investors. It screens 5,900+ global companies using a four-pillar framework: Value, Quality, Risk resilience, and Price Context.",
     "knowsAbout": [
       "value investing",
       "stock screening",
@@ -302,7 +306,24 @@
       .check-yes, .check-no { font-size: 15px; }
     }
   @media(max-width:768px){.model-pillars-grid{grid-template-columns:1fr 1fr!important;}}@media(max-width:540px){.model-pillars-grid{grid-template-columns:1fr!important;}}
+    /* Live pulse animation for urgency indicator */
+    @keyframes sp{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.35;transform:scale(.8);}}
+    /* Price guarantee line */
+    .hero-price-line{font-size:14px;color:#4ade80;margin:8px 0 14px;letter-spacing:.01em;}
+    .hero-price-line strong.amt{color:#f0fdf4;}
+    /* Social proof section */
+    .social-proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:960px;margin:0 auto 36px;}
+    .sp-card{padding:28px 24px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;text-align:left;}
+    .sp-card .sp-icon{font-size:30px;margin-bottom:14px;}
+    .sp-card h3{font-size:17px;margin-bottom:10px;color:var(--text-primary);}
+    .sp-card p{color:#d1d5db;font-size:14px;line-height:1.65;}
+    @media(max-width:768px){.social-proof-grid{grid-template-columns:1fr;}}
     </style>
+    <meta name="geo.region" content="AU">
+    <meta name="geo.placename" content="Australia">
+    <meta name="geo.position" content="-25.2744;133.7751">
+    <meta name="ICBM" content="-25.2744, 133.7751">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -335,13 +356,13 @@
     <!-- Hero -->
     <section class="hero">
       <div class="container">
-        <h1>The metrics institutional investors<br>use to find value.<br><span class="gradient-text">Now accessible to everyone.</span></h1>
+        <h1>Value Stock Screener<br>Built on Institutional Metrics.<br><span class="gradient-text">Now accessible to everyone.</span></h1>
         <p class="lead">
-          Every trading day, <strong>7,000+ companies</strong> across <strong>40+ global exchanges</strong> are scored on four pillars: intrinsic value discount, business quality, balance sheet resilience, and price context. The output: a focused ranked list of the strongest fundamental candidates — updated twice daily, with a research note on every name.
+          Every trading day, <strong>5,900+ companies</strong> across <strong>30+ global exchanges</strong> are scored on four pillars: intrinsic value discount, business quality, balance sheet resilience, and price context. The output: a focused ranked list of the strongest fundamental candidates — updated twice daily, with a research note on every name.
         </p>
         <div class="stat-bar" style="display:flex;flex-wrap:wrap;gap:10px 24px;margin:0 0 28px;padding:18px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;">
           <div class="stat-item" style="display:flex;flex-direction:column;gap:2px;">
-            <span style="font-size:26px;font-weight:800;color:var(--accent-green);line-height:1;">7,000+</span>
+            <span style="font-size:26px;font-weight:800;color:var(--accent-green);line-height:1;">5,900+</span>
             <span style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;">Companies Scanned</span>
           </div>
           <div class="stat-item" style="display:flex;flex-direction:column;gap:2px;">
@@ -364,10 +385,10 @@
         <div class="cta-buttons">
           <a href="register.html" class="btn-primary btn-large">Start Free, No Card Required</a>
           <a href="demo.html" class="btn-secondary btn-large">View No-Login Demo</a>
-          <a href="philosophy.html" class="btn-secondary btn-large">Read Our Philosophy</a>
         </div>
+        <p class="hero-price-line">&#10003;&nbsp;Free tier — no card required&nbsp;&nbsp;&middot;&nbsp;&nbsp;Then <strong class="amt">$5&thinsp;/&thinsp;month</strong> for the full list&nbsp;&nbsp;&middot;&nbsp;&nbsp;<strong>30-day money-back guarantee</strong></p>
         <p class="trust-badges">
-          Founded in Australia (Stedrok Pty Ltd)&nbsp;&nbsp;|&nbsp;&nbsp;PayPal billing; we never store card details&nbsp;&nbsp;|&nbsp;&nbsp;Public, transparent methodology
+          Incorporated in Australia (Stedrok Pty Ltd)&nbsp;&nbsp;|&nbsp;&nbsp;PayPal billing; we never store card details&nbsp;&nbsp;|&nbsp;&nbsp;Public, transparent methodology
         </p>
         <div class="trust-strip">
           <strong>Security:</strong> Payments processed entirely by PayPal — Stedrok never handles or stores your card details.
@@ -379,7 +400,7 @@
     <!-- Problem / Solution -->
     <section class="section section--light">
       <div class="container">
-        <h2>The Fundamental Metrics Retail Investors Ignore<br><span style="color:var(--accent-green);">And Institutions Exploit</span></h2>
+        <h2>The Fundamental Metrics Retail Investors Ignore<br><span style="color:var(--accent-green);">And Institutions Use</span></h2>
         <p class="section-lead">
           Professional analysts at hedge funds and asset managers run systematic fundamental screens every single day. They look for ROIC trends, free cash flow yield, balance sheet stress signals, and price-to-intrinsic-value gaps. Retail investors rarely have access to the same framework at scale. That's the gap Stedrok was built to close.
         </p>
@@ -415,7 +436,7 @@
           </p>
           <ul class="solution-advanced-list">
             <li><strong>AI Hybrid (beta):</strong> Adds an independent AI-assisted validation pass that cross-checks shortlisted results against live sources and current context before publication.</li>
-            <li><strong>StedrokGPT Pick:</strong> Applies a stricter blind-buy promotion layer with local internet review, evidence checks, and final conviction filters before publication.</li>
+            <li><strong>StedrokGPT Pick:</strong> Applies a final conviction validation layer with live news checks, independent evidence verification, and multi-source confidence filters before publication.</li>
           </ul>
           <a href="methodology.html" class="btn-primary">Read the Full Methodology</a>
         </div>
@@ -432,15 +453,15 @@
 
         <div class="feature-grid">
           <div class="feature-card">
-            <div class="feature-icon">&#128202;</div>
+            <div class="feature-icon" aria-hidden="true">&#128202;</div>
             <h3>Ranked List Every Market Day</h3>
             <p>
-              7,000+ companies across 40+ global exchanges scored twice each trading day. The engine measures intrinsic value discount, ROIC trends, balance sheet strength, and price pullback — then distills the results into a focused ranked list of the strongest fundamental candidates.
+              5,900+ companies across 30+ global exchanges scored twice each trading day. The engine measures intrinsic value discount, ROIC trends, balance sheet strength, and price pullback — then distills the results into a focused ranked list of the strongest fundamental candidates.
             </p>
           </div>
 
           <div class="feature-card">
-            <div class="feature-icon">&#128269;</div>
+            <div class="feature-icon" aria-hidden="true">&#128269;</div>
             <h3>Transparent Methodology</h3>
             <p>
               No black boxes. Every score traces back to publicly available financial data: Price-to-FCF, EV/EBITDA, Return on Invested Capital, net debt/EBITDA, earnings stability, and 52-week price context. The full model logic is published. Read it before you subscribe.
@@ -448,15 +469,15 @@
           </div>
 
           <div class="feature-card">
-            <div class="feature-icon">&#128737;</div>
+            <div class="feature-icon" aria-hidden="true">&#128737;</div>
             <h3>Resilience-First Mindset</h3>
             <p>
-              Value traps have destroyed more portfolios than overpriced growth stocks. Before Stedrok highlights any undervaluation, every company must pass a balance sheet stress test: net debt levels, interest coverage, current ratio, and earnings consistency. Cheap for a reason gets filtered out first.
+              Value traps have quietly undermined more portfolios than most investors realise. Before Stedrok highlights any undervaluation, every company must pass a balance sheet stress test: net debt levels, interest coverage, current ratio, and earnings consistency. Cheap for a reason gets filtered out first.
             </p>
           </div>
 
           <div class="feature-card">
-            <div class="feature-icon">&#9881;</div>
+            <div class="feature-icon" aria-hidden="true">&#9881;</div>
             <h3>Your Private Account</h3>
             <p>
               Secure account access with full data ownership. Export data to CSV for your own analysis.
@@ -465,7 +486,7 @@
           </div>
 
           <div class="feature-card">
-            <div class="feature-icon">&#128176;</div>
+            <div class="feature-icon" aria-hidden="true">&#128176;</div>
             <h3>Simple, Honest Pricing</h3>
             <p>
               $5 per month via PayPal. Manage or cancel your subscription online at any time.
@@ -474,7 +495,7 @@
           </div>
 
           <div class="feature-card">
-            <div class="feature-icon">&#128200;</div>
+            <div class="feature-icon" aria-hidden="true">&#128200;</div>
             <h3>Data You Can Trust</h3>
             <p>
               Company financials and prices sourced from institutional market data providers and cross-referenced on each run. Anomaly detection flags data quality issues before scores are published. No stock gets a BUY rating on corrupted or incomplete fundamentals.
@@ -549,14 +570,14 @@
             </a>
             <div class="sample-output-body">
               <h3>Pillar Explanation View</h3>
-              <p>See how Value, Quality, Risk, and Dip pillars are explained in plain language for new users evaluating the model.</p>
+              <p>See how Value, Quality, Resilience, and Price Context pillars are explained in plain language for new users evaluating the model.</p>
             </div>
           </article>
         </div>
 
         <div class="sample-output-actions">
           <a href="demo.html" class="btn-primary btn-large">Open No-Login Demo</a>
-          <a href="register.html" class="btn-secondary btn-large">Create Free Account</a>
+          <a href="register.html" class="btn-secondary btn-large">Start Free, No Card Required</a>
         </div>
       </div>
     </section>
@@ -564,7 +585,7 @@
     <!-- How It Works -->
     <section class="section section--light">
       <div class="container">
-        <h2>From 7,000+ Companies to Your Shortlist</h2>
+        <h2>From 5,900+ Companies to Your Shortlist</h2>
         <p class="section-lead">
           The engine does the heavy lifting at scale.
           You keep control of the decisions and add your own judgment on top.
@@ -584,7 +605,7 @@
             <div class="step-number" style="font-size:16px;font-weight:700;">Screen</div>
             <h3>Let the Model Narrow the Field</h3>
             <p>
-              Our pipeline scans 7,000+ stocks twice per day and scores them on value, business strength, resilience and price context.
+              Our engine analyzes 5,900+ stocks twice per day and scores them on value, business strength, resilience and price context.
               The dashboard shows a ranked list with clear Buy (green), Watch (amber), or Avoid (red) tags and a written summary for each company.
             </p>
           </div>
@@ -593,8 +614,8 @@
             <div class="step-number" style="font-size:16px;font-weight:700;">Decide</div>
             <h3>Run Your Own Checks and Invest</h3>
             <p>
-              Take two minutes to scan recent news, filings, and broker terms for any company you are serious about.
-              If it still looks sensible, place the trade through your chosen broker. Stedrok does not execute trades or hold client money, and most investors continue with disciplined dollar cost averaging over time.
+              Take two minutes to scan recent news, filings, and broker reports for any company you are serious about.
+              If it still looks sensible, place the trade through your chosen broker. Stedrok does not execute trades or hold client money, and many investors choose to continue with disciplined dollar-cost averaging over time.
             </p>
           </div>
         </div>
@@ -664,7 +685,7 @@
               <tr>
                 <th scope="col">Feature</th>
                 <th scope="col">Stedrok</th>
-                <th scope="col">Simply Wall St / Finviz</th>
+                <th scope="col">Premium Screeners</th>
                 <th scope="col">Free Screeners</th>
               </tr>
             </thead>
@@ -717,6 +738,33 @@
       </div>
     </section>
 
+
+    <!-- Social Proof & Credibility ─ inserted by conversion patch -->
+    <section class="section section--border">
+      <div class="container" style="text-align:center;">
+        <h2>Why Investors Trust Stedrok</h2>
+        <p class="section-lead">Credibility you can verify, not marketing you have to believe.</p>
+        <div class="social-proof-grid">
+          <div class="sp-card">
+            <div class="sp-icon">&#129514;</div>
+            <h3>5+ Years of Private Use Before Launch</h3>
+            <p>The scoring framework was built and refined by the founder for their own long-term portfolio — not created to sell. It ran privately for five years before Stedrok opened to the public. You&#8217;re using a tool that was stress-tested on real money first.</p>
+          </div>
+          <div class="sp-card">
+            <div class="sp-icon">&#128203;</div>
+            <h3>Fully Transparent &#8212; Read It Before You Pay</h3>
+            <p>Every scoring rule is published on the Methodology page. You can read exactly how a company earns a BUY, WATCH, or AVOID rating &#8212; metric by metric &#8212; before you commit a single dollar. No black boxes. No hidden logic.</p>
+          </div>
+          <div class="sp-card">
+            <div class="sp-icon">&#128737;</div>
+            <h3>Zero Financial Risk to Start</h3>
+            <p>The free tier needs no credit card and never expires. If you upgrade and change your mind, the 30-day money-back guarantee means you carry zero financial risk. Cancel any time from your account or directly through PayPal &#8212; no hoops, no penalties.</p>
+          </div>
+        </div>
+        <a href="demo.html" class="btn-secondary btn-large">See the Tool Before Signing Up &#8594;</a>
+      </div>
+    </section>
+
     <!-- FAQ -->
     <section class="section">
       <div class="container">
@@ -758,9 +806,8 @@
           <div class="faq-item">
             <h3>How Often Is Data Updated?</h3>
             <p>
-              Market prices and scores are refreshed at least once per trading day, and in practice
-              the engine usually runs twice each trading day. Financial statement data is updated
-              shortly after companies report earnings. This is built for long term investors, not day traders.
+              Market prices and scores are refreshed twice each trading day. Financial statement data is updated
+              shortly after companies report earnings. This is built for long-term investors, not day traders.
             </p>
           </div>
 
@@ -815,13 +862,13 @@
       <div class="container">
         <h2>The same framework. A fraction of the price.</h2>
         <p>
-          Free access to 3 BUY-rated stocks. No credit card required. Upgrade when you're ready for the full list.
+          Free access to 3 BUY-rated stocks. No credit card required. Upgrade to <strong>$5/month</strong> when you want the full ranked list &#8212; cancel any time, 30-day money-back guaranteed.
         </p>
         <p class="muted" style="font-size:14px;color:var(--text-secondary);margin-bottom:24px;">
-          We charge a small monthly fee to cover servers and support. There are no add ons. Past outcomes do not promise future outcomes.
+          We charge a small monthly fee ($5/month) to cover servers and support. There are no add-ons. Past outcomes do not promise future outcomes.
         </p>
         <div class="cta-buttons" style="justify-content: center;">
-          <a href="register.html" class="btn-primary btn-large">Start Free</a>
+          <a href="register.html" class="btn-primary btn-large">Start Free, No Card Required</a>
           <a href="pricing.html" class="btn-secondary btn-large">View Pricing</a>
         </div>
       </div>
@@ -845,7 +892,7 @@
         <div class="footer-left">
           <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
                     <p class="footer-tagline">
-            Independent stock research for long-term investors. General information only, not personal financial advice.
+            Independent stock research for long-term investors. General information only, not personal financial advice. Past results do not guarantee future performance. Always do your own research before investing.
           </p>
         </div>
         <nav class="footer-links">

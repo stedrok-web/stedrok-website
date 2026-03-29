@@ -53,6 +53,11 @@
     ]
   }
   </script>
+    <meta name="geo.region" content="AU">
+    <meta name="geo.placename" content="Australia">
+    <meta name="geo.position" content="-25.2744;133.7751">
+    <meta name="ICBM" content="-25.2744, 133.7751">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -101,10 +106,10 @@
             cancel your subscription, or view invoices, visit your PayPal account.
           </p>
           <a href="https://www.paypal.com/myaccount/autopay/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
-            Manage Subscription on PayPal ->
+            Manage Subscription on PayPal &rarr;
           </a>
           <p style="color:var(--text-secondary); margin-top:12px; font-size:13px;">
-            Stedrok does not store card data. Your payment provider handles that.
+            Stedrok does not store card data. Your payment provider handles all card data securely.
           </p>
         </div>
 
@@ -115,12 +120,19 @@
         </div>
 
         <div class="card">
+          <h2>Your Data</h2>
+          <p style="color:var(--text-secondary); margin-bottom:12px;">
+            Your account stores only your email address and subscription status. To request a copy of your data, email <a href="mailto:contact@stedrok.org" style="color:var(--accent-green);">contact@stedrok.org</a> with the subject line &ldquo;Data export request&rdquo;. We respond within two business days.
+          </p>
+        </div>
+
+                <div class="card">
           <h2 style="color:var(--accent-red);">Danger Zone</h2>
           <p style="color:var(--text-secondary); margin-bottom:12px;">
             To delete your account, email <a href="mailto:contact@stedrok.org" style="color:var(--accent-green);">contact@stedrok.org</a> with the subject line "Delete my account" from the email address on file. We will confirm within two business days.
             We keep minimal billing records only where tax law requires it. See <a href="privacy.html" style="color:var(--accent-green);">Privacy Policy</a> for details.
           </p>
-          <button id="deleteAccountBtn" class="btn-danger">Delete Account</button>
+          <button id="deleteAccountBtn" class="btn-danger">Request Account Deletion</button>
           <div id="deleteMessage" style="display:none; margin-top:16px; padding:12px; background:rgba(239,68,68,0.1); border-radius:8px; color:var(--accent-red); font-size:14px;"></div>
         </div>
       </div>
@@ -133,7 +145,7 @@
         <div class="footer-left">
           <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
                     <p class="footer-tagline">
-            Independent stock research for long-term investors. General information only, not personal financial advice.
+            Independent stock research for long-term investors. General information only, not personal financial advice. Past results do not guarantee future performance. Always do your own research before investing.
           </p>
         </div>
         <nav class="footer-links">

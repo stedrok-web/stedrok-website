@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, follow">
   <title>Stedrok Dashboard | Ranked Value Stock Screener Output</title>
-    <meta name="description" content="Browse Stedrok ranked stock output with value, quality, resilience, and price context scores, updated daily for disciplined long-term research.">
+    <meta name="description" content="Browse Stedrok ranked stock output with value, quality, resilience, and price context scores, updated twice daily for disciplined long-term research.">
   <link rel="canonical" href="https://stedrok.org/dashboard.html">
   <link rel="alternate" hreflang="en" href="https://stedrok.org/dashboard.html">
   <link rel="alternate" hreflang="x-default" href="https://stedrok.org/dashboard.html">
@@ -19,7 +19,7 @@
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Stedrok Dashboard | Ranked Value Stock Screener Output">
-  <meta property="og:description" content="Browse Stedrok ranked stock output with value, quality, resilience, and price context scores, updated daily for disciplined long-term research.">
+  <meta property="og:description" content="Browse Stedrok ranked stock output with value, quality, resilience, and price context scores, updated twice daily for disciplined long-term research.">
   <meta property="og:url" content="https://stedrok.org/dashboard.html">
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
@@ -29,7 +29,7 @@
   <meta property="og:image:alt" content="Stedrok value stock screener dashboard preview">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Stedrok Dashboard | Ranked Value Stock Screener Output">
-  <meta name="twitter:description" content="Browse Stedrok ranked stock output with value, quality, resilience, and price context scores, updated daily for disciplined long-term research.">
+  <meta name="twitter:description" content="Browse Stedrok ranked stock output with value, quality, resilience, and price context scores, updated twice daily for disciplined long-term research.">
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -80,7 +80,7 @@
     "isBasedOn": "https://stedrok.org/methodology.html",
     "license": "https://stedrok.org/terms.html",
     "isAccessibleForFree": false,
-    "measurementTechnique": "Four-pillar framework: Value, Quality, Risk (resilience), and Price Context (Dip).",
+    "measurementTechnique": "Four-pillar framework: Value, Quality, Resilience, and Price Context.",
     "temporalCoverage": "P1D",
     "variableMeasured": [
       { "@type": "PropertyValue", "name": "value_score" },
@@ -107,6 +107,11 @@
     "usageInfo": "General information for research workflows only; not personal financial advice."
   }
   </script>
+    <meta name="geo.region" content="AU">
+    <meta name="geo.placename" content="Australia">
+    <meta name="geo.position" content="-25.2744;133.7751">
+    <meta name="ICBM" content="-25.2744, 133.7751">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 </head>
 <body class="dashboard-page">
   <a href="#main" class="skip-link">Skip to content</a>
@@ -142,14 +147,14 @@
         <h1 id="dashboardTitle">Current Ranked Stock Coverage</h1>
         <div id="dashboardLaneToggle" class="dashboard-lane-toggle" role="group" aria-label="Dashboard mode selector" style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; justify-content:center;">
           <button type="button" id="laneToggleCore" class="btn-secondary is-active" data-dashboard-lane="core" aria-pressed="true">Core</button>
-          <button type="button" id="laneToggleHybrid" class="btn-secondary" data-dashboard-lane="hybrid" aria-pressed="false" aria-label="AI Hybrid beta" title="AI Hybrid beta">AI Hybrid</button>
-          <button type="button" id="laneToggleSwarm" class="btn-secondary" data-dashboard-lane="blended" aria-pressed="false" aria-label="StedrokGPT Pick: blind-buy promotion lane" title="StedrokGPT Pick: blind-buy promotion lane">StedrokGPT Pick <span style="font-size:0.65em;font-weight:700;letter-spacing:0.03em;background:var(--accent-orange,#e07000);color:#fff;border-radius:3px;padding:1px 5px;vertical-align:middle;margin-left:3px;">BETA</span></button>
+          <button type="button" id="laneToggleHybrid" class="btn-secondary" data-dashboard-lane="hybrid" aria-pressed="false" aria-label="AI Hybrid (Beta)" title="AI Hybrid (Beta)">AI Hybrid <span style="font-size:0.65em;font-weight:700;letter-spacing:0.03em;background:var(--accent-orange,#e07000);color:#fff;border-radius:3px;padding:1px 5px;vertical-align:middle;margin-left:3px;">BETA</span></button>
+          <button type="button" id="laneToggleSwarm" class="btn-secondary" data-dashboard-lane="blended" aria-pressed="false" aria-label="StedrokGPT Pick: Highest-conviction validated picks" title="StedrokGPT Pick: Highest-conviction validated picks">StedrokGPT Pick <span style="font-size:0.65em;font-weight:700;letter-spacing:0.03em;background:var(--accent-orange,#e07000);color:#fff;border-radius:3px;padding:1px 5px;vertical-align:middle;margin-left:3px;">BETA</span></button>
         </div>
         <p id="dashboardLaneDescription" style="color: var(--text-secondary); margin-top: 10px; font-size: 14px;">Core: Deterministic, rule-based picks from the production fundamental value and quality engine.</p>
         <p class="last-updated">Last updated: <span id="lastUpdated">Pending refresh</span></p>
         <div id="dashStatBar" class="dash-stat-bar" style="display:none;"></div>
         <p style="color: var(--text-secondary); margin-top: 12px; font-size: 15px; line-height: 1.7;">
-          This table is the current ranked output of the Stedrok engine. Behind it are 7,000+ companies scanned twice each trading day - cleaned, scored across four pillars and filtered down to the names with the strongest combined profiles.
+          This table is the current ranked output of the Stedrok engine. Behind it are 5,900+ companies scanned twice each trading day - cleaned, scored across four pillars and filtered down to the names with the strongest combined profiles.
         </p>
         <p style="color: var(--text-secondary); margin-top: 10px; font-size: 14px;">
           Newly identified names are marked <span class="badge badge-new">NEW</span> and pinned to the top of the table.
@@ -184,7 +189,8 @@
         </select>
       </div>
 
-      <div class="table-container">
+      <div id="tableStatus" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;"></div>
+      <div class="table-container" role="region" aria-label="Scrollable stock rankings table" tabindex="0">
         <table class="stock-table" id="stocksTable">
           <caption style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">Current ranked stock coverage table with sortable columns for symbol, company, country, sector, rating, scores, and price context.</caption>
           <thead>
@@ -225,10 +231,10 @@
           <div class="ticker-insight-head">
             <div>
               <p class="ticker-insight-label">Company Research Note</p>
-              <h3 id="tickerInsightTitle">Select a ticker</h3>
+              <h3 id="tickerInsightTitle">Select a symbol</h3>
               <p id="tickerInsightSubhead" class="ticker-insight-subhead">Select a symbol in the table to review the current research note.</p>
             </div>
-            <button type="button" id="closeTickerInsightBtn" class="ticker-insight-close" aria-label="Close ticker insight">Close</button>
+            <button type="button" id="closeTickerInsightBtn" class="ticker-insight-close" aria-label="Close company research note">Close</button>
           </div>
 
           <div class="ticker-insight-meta">
@@ -342,7 +348,7 @@
         <div class="footer-left">
           <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
                     <p class="footer-tagline">
-            Independent stock research for long-term investors. General information only, not personal financial advice.
+            Independent stock research for long-term investors. General information only, not personal financial advice. Past results do not guarantee future performance. Always do your own research before investing.
           </p>
         </div>
         <nav class="footer-links">

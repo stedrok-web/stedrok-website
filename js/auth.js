@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         errorEl.textContent = 'Please enter a valid email address.';
         return;
       }
-      if (!password || password.length < 6) {
-        errorEl.textContent = 'Password must be at least 6 characters.';
+      if (!password) {
+        errorEl.textContent = 'Please enter your password.';
         return;
       }
 
@@ -65,10 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     type: 'signup',
                     email: email
                   });
-                  errorEl.textContent = 'Confirmation email sent. Please check your inbox.';
-                  errorEl.style.color = 'green';
+                  errorEl.textContent = 'Confirmation email sent! Please check your inbox (and spam folder).';
+                  errorEl.style.color = 'var(--accent-green)';
                 } catch (err) {
-                  errorEl.textContent = 'Failed to resend email. Please try again later.';
+                  errorEl.textContent = 'Couldn\'t send the confirmation email. Please wait a moment and try again.';
                 }
               });
             }, 0);
@@ -155,14 +155,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const successEl = document.getElementById('success');
         if (successEl) {
-          successEl.textContent = 'Account created successfully. Redirecting to log in...';
+          successEl.textContent = 'Account created! Check your inbox for a confirmation link, then log in.';
           successEl.style.display = 'block';
           registerForm.style.display = 'none';
         }
 
         setTimeout(() => {
           window.location.href = 'login.html';
-        }, 2000);
+        }, 3500);
       } catch (error) {
         errorEl.textContent = error.message || 'Registration failed. Please try again.';
         console.error('Registration error:', error);

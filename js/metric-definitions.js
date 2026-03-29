@@ -1,5 +1,5 @@
 (function bootstrapMetricDefinitions() {
-  const DEFINITIONS_URL = 'data/metric_definitions.json?v=20260221a';
+  const DEFINITIONS_URL = 'data/metric_definitions.json?v=20260329a';
   let definitionsPromise = null;
 
   async function loadDefinitions() {

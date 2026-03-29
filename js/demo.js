@@ -274,7 +274,7 @@ function buildFallbackSummary(row) {
     company_name: row.companyName,
     decision,
     decision_display: decision,
-    headline: `${row.companyName || row.symbol} remains in the delayed demo set based on current model context.`,
+    headline: `${row.companyName || row.symbol} is included in this delayed demo snapshot.`,
     summary_short:
       `Model context: Value ${formatPct(row.valueScore)}, Quality ${formatPct(row.qualityScore)}, ` +
       `Risk ${formatPct(row.riskScore)}, Dip ${formatPct(row.dipScore)}. ` +
@@ -284,7 +284,7 @@ function buildFallbackSummary(row) {
     news_tone_display: 'Neutral',
     news_freshness_display: 'Delayed demo',
     news_relevance_display: 'Illustrative only',
-    news_guidance: 'Delayed demo fallback summary generated from sample row metrics.',
+    news_guidance: 'This summary is generated from sample row metrics. Full AI analysis is available to members.',
     updated_at_utc: ''
   };
 }
@@ -392,7 +392,7 @@ function renderInsight(summary, row) {
 
     guidanceEl.textContent = shouldShowGuidance
       ? guidanceText
-      : 'This public demo uses delayed and limited rows.';
+      : 'This public demo uses delayed and limited data by design.';
     guidanceEl.style.display = guidanceEl.textContent ? 'block' : 'none';
   }
 
@@ -450,7 +450,7 @@ function showInsightForTicker(ticker, triggerEl = null) {
   if (!DEMO_FEATURED_TICKERS.has(symbol)) {
     const hintEl = document.getElementById('tickerInsightHint');
     if (hintEl) {
-      hintEl.textContent = 'Quick Ticker Insight in this public demo is enabled for MSFT, ACN, and EVO.ST.';
+      hintEl.textContent = 'Quick Ticker Insight is available for MSFT, ACN, and EVO.ST in this public demo.';
       hintEl.style.display = 'block';
     }
     return;

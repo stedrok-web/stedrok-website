@@ -41,33 +41,34 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (profile && (profile.subscription_status === 'active')) {
     const paidUntil = profile.paid_until
-      ? new Date(profile.paid_until).toLocaleDateString()
-      : 'N/A';
+      ? new Date(profile.paid_until).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+      : null;
     statusDiv.innerHTML = `
-      <p style="color: var(--accent-green); font-weight:600;">✓ Active Pro Subscription ($5/month)</p>
-      <p style="color: var(--text-secondary); margin-top:8px;">Paid until: ${paidUntil}</p>
+      <p style="color: var(--accent-green); font-weight:600;">&#10003; Pro Plan — Active</p>
+      ${paidUntil ? `<p style="color: var(--text-secondary); margin-top:8px;">Renews: ${paidUntil}</p>` : ''}
       <p style="color: var(--text-secondary); margin-top:12px; font-size:13px;">
-        To cancel your subscription, log in to 
+        To cancel, visit 
         <a href="https://www.paypal.com/myaccount/autopay" target="_blank" 
-           style="color:var(--accent-green);">PayPal → Automatic Payments</a> 
-        and cancel your Stedrok subscription.
+           style="color:var(--accent-green);">PayPal &rarr; Automatic Payments</a> 
+        and cancel your Stedrok subscription. Your access continues until the end of the current billing period.
       </p>
     `;
   } else if (profile && profile.subscription_status === 'suspended') {
     statusDiv.innerHTML = `
-      <p style="color: #facc15; font-weight:600;">⚠ Payment Issue</p>
-      <p style="color: var(--text-secondary); margin-top:8px;">Your last payment failed. We'll retry automatically.</p>
+      <p style="color: #facc15; font-weight:600;">&#9888; Action Required — Payment Failed</p>
+      <p style="color: var(--text-secondary); margin-top:8px;">Your last payment couldn&#39;t be processed. Please update your PayPal payment method to restore full Pro access.</p>
       <p style="color: var(--text-secondary); margin-top:8px;">
-        Please check your PayPal payment method at
+        Update your payment method at
         <a href="https://www.paypal.com/myaccount/autopay" target="_blank"
-           style="color:var(--accent-green);">PayPal → Automatic Payments</a>.
+           style="color:var(--accent-green);">PayPal &rarr; Automatic Payments</a>.
       </p>
     `;
   } else {
     statusDiv.innerHTML = `
-      <p style="color: var(--text-secondary);">Free Tier (3 stocks only)</p>
+      <p style="color: var(--text-secondary); font-weight:600;">Free Plan</p>
+      <p style="color: var(--text-secondary); margin-top:6px; font-size:13px;">You&#39;re tracking up to 3 stocks. Upgrade to unlock unlimited stocks, full analytics, and priority support.</p>
       <a href="pricing.html" class="btn-primary" style="margin-top:12px; display:inline-block;">
-        Upgrade to Pro – $5/month
+        Upgrade to Pro &mdash; $5/month
       </a>
     `;
   }
@@ -87,13 +88,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Delete account
   document.getElementById('deleteAccountBtn')?.addEventListener('click', async () => {
     const confirmed = confirm(
-      'Are you sure you want to delete your account? This action is irreversible.'
+      'Are you sure you want to delete your account? This cannot be undone — all your data will be permanently removed.'
     );
     if (!confirmed) return;
 
     const messageDiv = document.getElementById('deleteMessage');
     if (messageDiv) {
-      messageDiv.textContent = 'To complete account deletion, please email contact@stedrok.org with "Delete Account" in the subject line. You will be logged out now.';
+      messageDiv.textContent = 'To confirm deletion, email contact@stedrok.org with the subject "Delete My Account". We\'ll remove your data within 48 hours. You\'ll be signed out now.';
       messageDiv.style.display = 'block';
     }
 

@@ -6,7 +6,7 @@
   <title>Value Investing Glossary with Plain-Language Definitions | Stedrok</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="Use Stedrok value investing glossary to understand essential terms, formulas, and concepts used across the scoring framework and research guides.">
+  <meta name="description" content="Stedrok value investing glossary: plain-language definitions of essential terms, formulas, and scoring metrics including Pick Score, Fair Value, Total Score, Value Score, Quality Score, Risk Score, Dip Score, and Discount %.">
   <meta name="author" content="Stedrok">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://stedrok.org/value-investing-glossary.html">
@@ -41,7 +41,7 @@
     "@context": "https://schema.org",
     "@type": "DefinedTermSet",
     "name": "Value Investing Glossary",
-    "description": "Plain language definitions of key value investing and fundamental analysis terms used in the Stedrok scoring framework.",
+    "description": "Plain language definitions of key value investing and fundamental analysis terms used in the Stedrok scoring framework, including Pick Score, Total Score, Value Score, Quality Score, Risk Score, Dip Score, Fair Value, and Discount %.",
     "url": "https://stedrok.org/value-investing-glossary.html"
   }
   </script>
@@ -94,7 +94,7 @@
         "name": "What is a margin of safety in value investing?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "A margin of safety is the gap between a stock's estimated intrinsic value and its current market price, expressed as a percentage. Benjamin Graham popularised the concept: buying at a 30-50% discount to intrinsic value protects investors if their valuation assumptions turn out to be too optimistic. Stedrok flags stocks with the largest positive discount as BUY candidates."
+          "text": "A margin of safety is the gap between a stock's estimated intrinsic value and its current market price, expressed as a percentage. Benjamin Graham formalised the concept: buying at a 30\u201350% discount to intrinsic value protects investors if their valuation assumptions turn out to be too optimistic. Stedrok flags stocks with the largest positive Discount % as BUY candidates."
         }
       },
       {
@@ -102,7 +102,7 @@
         "name": "What does ROIC tell you about a stock?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Return on Invested Capital (ROIC) measures how effectively management converts capital into operating profit. A ROIC consistently above the company's cost of capital means the business is creating economic value. Stedrok uses ROIC stability over multiple years as a key quality signal — companies with durable high ROIC typically have economic moats."
+          "text": "Return on Invested Capital (ROIC) measures how effectively management converts capital into operating profit. A ROIC consistently above the company's cost of capital means the business is creating economic value. Stedrok uses ROIC stability over multiple years as a key quality signal \u2014 companies with durable high ROIC typically have economic moats."
         }
       },
       {
@@ -110,7 +110,7 @@
         "name": "How do you calculate intrinsic value for a stock?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Intrinsic value is estimated by discounting projected future free cash flows back to today at a rate that reflects the risk of the business. Stedrok uses a blended model combining discounted cash flow analysis with EV/EBITDA and FCF yield benchmarking to produce a daily estimated value for each covered company."
+          "text": "Intrinsic value is estimated by discounting projected future free cash flows back to today at a rate that reflects the risk of the business. Stedrok uses a blended model combining discounted cash flow (DCF) analysis with EV/EBITDA and FCF yield benchmarking to produce a daily estimated Fair Value for each covered company."
         }
       },
       {
@@ -120,10 +120,23 @@
           "@type": "Answer",
           "text": "EV/EBITDA divides enterprise value (market cap plus net debt) by EBITDA (earnings before interest, taxes, depreciation, and amortisation). It is capital-structure neutral and strips out non-cash accounting charges, making it useful for comparing companies with different debt levels or depreciation policies. A lower EV/EBITDA relative to peers often signals undervaluation."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Pick Score in Stedrok?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Pick Score is the output of the StedrokGPT Pick process \u2014 the highest-conviction layer of the Stedrok research process. Each candidate is evaluated across four scenarios: BASE, BULL, BEAR, and CRISIS. A stock earns a Pick Score only when it demonstrates resilience across all four scenarios simultaneously and passes live news integrity checks. It is designed to surface only the ideas where the margin of safety holds under a wide range of economic futures."
+        }
       }
     ]
   }
   </script>
+    <meta name="geo.region" content="AU">
+    <meta name="geo.placename" content="Australia">
+    <meta name="geo.position" content="-25.2744;133.7751">
+    <meta name="ICBM" content="-25.2744, 133.7751">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -158,70 +171,24 @@
         <h1>Value Investing Glossary</h1>
         <p class="author-byline" style="margin-top:10px; color:var(--text-secondary); font-size:14px;">By <a href="authors.html" style="color:var(--accent-green); text-decoration:underline;">Stedrok Research Team</a></p>
         <p class="lead">
-          This glossary explains the main terms used in the Stedrok framework in plain language. These are the same concepts the engine applies when it scans 7,000+ companies twice each trading day.
+          This glossary explains the main terms used in the Stedrok framework in plain language. These are the same concepts the engine applies when it scans 5,900+ companies twice each trading day.
         </p>
 
         <p style="font-size:15px;color:var(--text-secondary);margin-bottom:32px;">
-          See also: <a href="learn.html" style="color:var(--accent-green);text-decoration:underline;">Learn hub</a> &middot; 
-          <a href="methodology.html" style="color:var(--accent-green);text-decoration:underline;">How the scoring works</a> &middot; 
+          See also: <a href="learn.html" style="color:var(--accent-green);text-decoration:underline;">Learn hub</a> &middot;
+          <a href="methodology.html" style="color:var(--accent-green);text-decoration:underline;">How the scoring works</a> &middot;
           <a href="research-trust-disclosures.html" style="color:var(--accent-green);text-decoration:underline;">Trust and disclosures</a>
         </p>
 
         <article class="card">
-          <h2 id="free-cash-flow">Free Cash Flow</h2>
+          <h2 id="capital-allocation">Capital Allocation</h2>
           <p>
-            Money a company has left after it pays for its normal running costs and needed investment.
-            It is the cash that can be used to pay down debt, buy back shares, pay dividends or reinvest.
-          </p>
-        </article>
-
-        <article class="card">
-          <h2 id="free-cash-flow-yield">Free Cash Flow Yield</h2>
-          <p>
-            Free cash flow per share divided by the share price.
-            It is a way to see how much cash the business generates for each dollar you pay for the stock.
-          </p>
-        </article>
-
-        <article class="card">
-          <h2 id="drawdown">Drawdown</h2>
-          <p>
-            The distance from a recent peak price to the current price, expressed as a percentage.
-            Stedrok looks at drawdowns to understand whether a stock has pulled back to a level that might be interesting for a value investor.
-          </p>
-        </article>
-
-        <article class="card">
-          <h2 id="debt-to-equity">Debt to Equity Ratio</h2>
-          <p>
-            Total debt divided by total equity on the balance sheet.
-            A high ratio means the company uses a lot of borrowed money relative to what shareholders own.
-            Stedrok treats high debt as a red flag for balance sheet risk.
-          </p>
-        </article>
-
-        <article class="card">
-          <h2 id="margin-of-safety">Margin of Safety</h2>
-          <p>
-            The gap between what you pay for a stock and what you think it is worth.
-            A large margin of safety protects you if your valuation is wrong or the business hits trouble.
-          </p>
-        </article>
-
-        <article class="card">
-          <h2 id="return-on-equity">Return on Equity (ROE)</h2>
-          <p>
-            Net income divided by shareholder equity.
-            It measures how efficiently a company uses shareholder capital to generate profit.
-            Higher ROE usually indicates better quality operations.
-          </p>
-        </article>
-
-        <article class="card">
-          <h2 id="pe-ratio">Price to Earnings Ratio (P/E)</h2>
-          <p>
-            Share price divided by earnings per share.
-            A common valuation metric. Lower P/E can mean cheaper, though context matters.
+            Capital allocation refers to how management deploys the cash the business generates:
+            reinvestment into operations, acquisitions, dividends, buybacks, or debt repayment.
+            Disciplined capital allocation compounds shareholder value; poor allocation &#8212;
+            such as overpriced acquisitions or value-destructive buybacks &#8212; erodes it.
+            Stedrok evaluates capital allocation quality through ROIC on incremental capital,
+            buyback timing, and M&amp;A track record as part of the Quality Score.
           </p>
         </article>
 
@@ -229,155 +196,471 @@
           <h2 id="current-ratio">Current Ratio</h2>
           <p>
             Current assets divided by current liabilities.
-            Measures whether a company can pay its short term debts.
-            A ratio below 1 means the company might struggle to meet near term obligations.
-          </p>
-        </article>
-
-        
-        <article class="card">
-          <h2 id="pb-ratio">Price-to-Book Ratio (P/B)</h2>
-          <p>
-            The price-to-book ratio compares a company's market capitalisation to its net asset value on the balance sheet.
-            A P/B below 1.0 implies the market values the company below what its assets are worth after liabilities — a classic Graham-style value signal.
-            Stedrok incorporates P/B in its value score, particularly for asset-heavy sectors such as financials, industrials, and basic materials.
+            Measures whether a company can pay its short-term debts.
+            A ratio below 1 means the company might struggle to meet near-term obligations.
           </p>
         </article>
 
         <article class="card">
-          <h2 id="enterprise-value">Enterprise Value (EV)</h2>
+          <h2 id="dcf">DCF (Discounted Cash Flow)</h2>
           <p>
-            Enterprise Value is the total takeover cost of a business: market capitalisation plus net debt minus cash.
-            It represents what an acquirer would effectively pay to own the company outright, free of financial structure distortions.
-            Stedrok uses EV as the numerator in EV/EBITDA and EV/FCF calculations to normalise valuations across companies with different capital structures.
+            Discounted Cash Flow is a valuation method that estimates the intrinsic value of
+            a business by projecting future free cash flows and discounting them back to the
+            present using a rate that reflects the risk of those cash flows &#8212; typically
+            the weighted average cost of capital (WACC). A lower discount rate or higher
+            projected cash flows produce a higher DCF valuation; a higher discount rate or
+            slower projected growth reduces it.
+          </p>
+          <p>
+            DCF is theoretically the most rigorous valuation approach because it anchors value
+            in the actual economics of the business rather than market comparisons. In practice,
+            its output is sensitive to growth rate and discount rate assumptions, which is why
+            Stedrok uses DCF as one component of a blended Fair Value estimate rather than
+            relying on it alone.
           </p>
         </article>
 
         <article class="card">
-          <h2 id="ev-ebitda">EV/EBITDA</h2>
+          <h2 id="debt-to-equity">Debt to Equity Ratio</h2>
           <p>
-            EV/EBITDA divides enterprise value by earnings before interest, taxes, depreciation, and amortisation.
-            It is one of the most widely used cross-sector valuation multiples because it strips out capital structure and accounting differences.
-            Stedrok compares each company's EV/EBITDA to its sector median; stocks trading at a meaningful discount to peers score higher on the value dimension.
+            Total debt divided by total equity on the balance sheet.
+            A high ratio means the company uses a lot of borrowed money relative to what
+            shareholders own. Stedrok treats high debt as a red flag for balance sheet risk.
           </p>
         </article>
 
         <article class="card">
-          <h2 id="roic">Return on Invested Capital (ROIC)</h2>
+          <h2 id="dip-score">Dip Score</h2>
           <p>
-            ROIC measures how efficiently a company generates after-tax operating profit from the total capital deployed in the business (equity plus interest-bearing debt).
-            A ROIC consistently above the company's cost of capital signals a genuine competitive advantage and value-creating management.
-            Stedrok rewards high and stable ROIC in its quality score because it identifies durable moat businesses rather than cyclical earnings spikes.
+            The Dip Score is Stedrok&#8217;s price context pillar score. It measures how far
+            the current price sits below the 52-week high, expressed as a percentage drawdown.
+            A moderate pullback &#8212; where the stock has retreated meaningfully from its
+            peak but is not in free fall &#8212; produces a higher Dip Score, rewarding
+            constructive entry conditions.
+          </p>
+          <p>
+            The Dip Score is the fourth and lightest-weighted pillar in the composite Total
+            Score. It is not a momentum signal and does not predict price direction. Its role
+            is to distinguish between a sound business at a fair price and the same sound
+            business at a temporarily depressed price &#8212; which historically offers a
+            better risk-adjusted entry for patient investors.
           </p>
         </article>
 
         <article class="card">
-          <h2 id="intrinsic-value">Intrinsic Value</h2>
+          <h2 id="discount-pct">Discount %</h2>
           <p>
-            Intrinsic value is the present value of all future cash flows a business is expected to generate, discounted at an appropriate rate.
-            It is the anchor concept in value investing: the goal is to buy assets trading below their intrinsic value to create a margin of safety.
-            Stedrok estimates intrinsic value for each covered stock using a blended DCF and multiple-based model, updating the estimate each trading day.
+            The percentage gap between a stock&#8217;s current market price and Stedrok&#8217;s
+            estimated Fair Value, calculated as:
+            Discount&nbsp;% = (Fair&nbsp;Value &#8722; Market&nbsp;Price) &#247;
+            Fair&nbsp;Value &#215; 100.
+            A positive Discount % means the stock is trading below Fair Value &#8212; the wider
+            the gap, the larger the margin of safety. A negative Discount % (a premium) means
+            the stock is trading above Stedrok&#8217;s estimated intrinsic worth.
+          </p>
+          <p>
+            Discount % is the most direct output of the valuation pillar. Stocks with a high
+            positive Discount % are the primary candidates for BUY ratings when the Quality
+            Score and Risk Score also pass their respective thresholds.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2 id="drawdown">Drawdown</h2>
+          <p>
+            The distance from a recent peak price to the current price, expressed as a
+            percentage. Stedrok looks at drawdowns to understand whether a stock has pulled
+            back to a level that might be interesting for a value investor.
           </p>
         </article>
 
         <article class="card">
           <h2 id="economic-moat">Economic Moat</h2>
           <p>
-            An economic moat — coined by Warren Buffett — is a durable competitive advantage that protects a company's profitability from competitors over time.
-            Moat sources include network effects, switching costs, cost advantages, intangible assets (patents, brands), and efficient scale.
-            Stedrok proxies moat strength using multi-year ROIC stability, gross margin trends, and pricing power indicators within the quality score.
+            An economic moat &#8212; a term popularised by Warren Buffett &#8212; is a durable
+            competitive advantage that protects a company&#8217;s profitability from competitors
+            over time. Moat sources include network effects, switching costs, cost advantages,
+            intangible assets (patents, brands), and efficient scale.
+            Stedrok proxies moat strength using multi-year ROIC stability, gross margin trends,
+            and pricing power indicators within the Quality Score.
           </p>
         </article>
 
         <article class="card">
-          <h2 id="capital-allocation">Capital Allocation</h2>
+          <h2 id="enterprise-value">Enterprise Value (EV)</h2>
           <p>
-            Capital allocation refers to how management deploys the cash the business generates: reinvestment into operations, acquisitions, dividends, buybacks, or debt repayment.
-            Disciplined capital allocation compounds shareholder value; poor allocation — such as overpriced acquisitions or value-destructive buybacks — erodes it.
-            Stedrok evaluates capital allocation quality through ROIC on incremental capital, buyback timing, and M&amp;A track record as part of the quality score.
+            Enterprise Value is the total takeover cost of a business: market capitalisation
+            plus net debt (total debt minus cash and cash equivalents). It represents what an
+            acquirer would effectively pay to own the company outright, free of financial
+            structure distortions. Stedrok uses EV as the numerator in EV/EBITDA and EV/FCF
+            calculations to normalise valuations across companies with different capital
+            structures.
           </p>
         </article>
 
         <article class="card">
-          <h2 id="net-asset-value">Net Asset Value (NAV)</h2>
+          <h2 id="ev-ebitda">EV/EBITDA</h2>
           <p>
-            Net Asset Value is total assets minus total liabilities — the accounting book value of equity.
-            For asset-intensive companies such as real estate, mining, and insurance, NAV is often a more reliable valuation anchor than earnings-based multiples.
-            Stedrok uses estimated NAV alongside earnings-based metrics to score companies in asset-heavy sectors, flagging stocks trading at steep discounts to asset value.
+            EV/EBITDA divides enterprise value by earnings before interest, taxes,
+            depreciation, and amortisation. It is one of the most widely used cross-sector
+            valuation multiples because it strips out capital structure and accounting
+            differences. Stedrok compares each company&#8217;s EV/EBITDA to its sector
+            median; stocks trading at a meaningful discount to peers score higher on the
+            value dimension.
           </p>
         </article>
 
         <article class="card">
-          <h2 id="interest-coverage">Interest Coverage Ratio</h2>
+          <h2 id="fair-value">Fair Value</h2>
           <p>
-            The interest coverage ratio divides a company's operating earnings (EBIT) by its interest expense.
-            It shows how many times over the business can pay its debt interest from operating profits — a ratio below 2x is a red flag.
-            Stedrok penalises low interest coverage in its risk score because interest burden becomes dangerous when earnings deteriorate.
+            Fair Value is Stedrok&#8217;s estimated intrinsic value per share for each covered
+            stock, updated every trading day. It is calculated using a blended model that
+            combines discounted cash flow (DCF) analysis, EV/EBITDA multiples benchmarked
+            against sector medians, and free cash flow yield comparisons &#8212; reducing
+            reliance on any single method.
+          </p>
+          <p>
+            Fair Value is not a price target or a prediction of where the stock will trade.
+            It is an estimate of what the underlying business is worth today based on its
+            reported financials and normalised earnings power. The gap between the current
+            market price and Fair Value is expressed as the Discount %, which is the primary
+            input to the Value Score.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2 id="free-cash-flow">Free Cash Flow (FCF)</h2>
+          <p>
+            Free Cash Flow is the cash a business generates from its operations after
+            deducting capital expenditure &#8212; the money spent maintaining or expanding the
+            asset base. The basic formula is:
+            FCF&nbsp;=&nbsp;Operating&nbsp;Cash&nbsp;Flow&nbsp;&#8722;&nbsp;Capital&nbsp;Expenditure.
+          </p>
+          <p>
+            FCF is widely considered the most honest measure of a company&#8217;s
+            cash-generating ability because it is harder to manipulate through accounting
+            choices than reported earnings. Free cash flow can be used to pay down debt,
+            return cash to shareholders through dividends or buybacks, or reinvest in the
+            business. Stedrok uses FCF as a core input across multiple valuation metrics,
+            including P/FCF and Free Cash Flow Yield.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2 id="free-cash-flow-yield">Free Cash Flow Yield</h2>
+          <p>
+            Annual free cash flow divided by market capitalisation, expressed as a percentage.
+            It shows how much real cash the business generates for every dollar of market
+            value &#8212; a higher yield indicates better value, all else equal.
+          </p>
+          <p>
+            A FCF yield above 7% is often cited as a marker of potential undervaluation for a
+            stable, capital-light business. Stedrok uses FCF yield as one of the benchmarking
+            inputs in its blended Fair Value model.
           </p>
         </article>
 
         <article class="card">
           <h2 id="graham-number">Graham Number</h2>
           <p>
-            The Graham Number is a formula devised by Benjamin Graham to estimate the maximum fair price for a defensive value stock: the square root of (22.5 times earnings per share times book value per share).
-            It provides a conservative upper bound on valuation by combining both earnings power and asset value.
-            Stedrok references the Graham Number as one input in the value score for dividend-paying, asset-backed businesses where Graham's original framework applies best.
+            The Graham Number is a formula devised by Benjamin Graham to estimate the maximum
+            fair price for a defensive value stock: the square root of (22.5 times earnings
+            per share times book value per share). The 22.5 multiplier derives from
+            Graham&#8217;s rule of thumb that a sound stock should not simultaneously trade
+            above 15&times; earnings and 1.5&times; book value (15&nbsp;&times;&nbsp;1.5
+            = 22.5). It provides a conservative upper bound on valuation by combining both
+            earnings power and asset value.
+          </p>
+          <p>
+            Stedrok references the Graham Number as one input in the value score for
+            dividend-paying, asset-backed businesses where Graham&#8217;s original framework
+            applies best.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2 id="interest-coverage">Interest Coverage Ratio</h2>
+          <p>
+            The interest coverage ratio divides a company&#8217;s operating earnings (EBIT)
+            by its interest expense. It shows how many times over the business can pay its
+            debt interest from operating profits &#8212; a ratio below 2&times; is a
+            red flag. Stedrok penalises low interest coverage in its Risk Score because
+            interest burden becomes dangerous when earnings deteriorate.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2 id="intrinsic-value">Intrinsic Value</h2>
+          <p>
+            Intrinsic value is the present value of all future cash flows a business is
+            expected to generate, discounted at an appropriate rate. It is the anchor concept
+            in value investing: the goal is to buy assets trading below their intrinsic value
+            to create a margin of safety. Stedrok estimates intrinsic value for each covered
+            stock using a blended DCF and multiple-based model, updating the estimate each
+            trading day.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2 id="margin-of-safety">Margin of Safety</h2>
+          <p>
+            Margin of safety is the gap between a stock&#8217;s estimated intrinsic value and
+            its current market price, expressed as a percentage. The concept was formalised
+            by Benjamin Graham: buying at a 30&#8211;50% discount to intrinsic value builds
+            in a buffer that protects the investor if valuation assumptions prove too
+            optimistic or the business hits unexpected difficulty.
+          </p>
+          <p>
+            A wide margin of safety does not guarantee a profit, but it limits the downside
+            if the analysis turns out to be wrong. Stedrok flags stocks with the largest
+            positive Discount % as the strongest BUY candidates &#8212; this gap between
+            price and Fair Value is the practical expression of Graham&#8217;s margin of
+            safety principle.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2 id="net-asset-value">Net Asset Value (NAV)</h2>
+          <p>
+            Net Asset Value is total assets minus total liabilities &#8212; the accounting
+            book value of equity. For asset-intensive companies such as real estate, mining,
+            and insurance, NAV is often a more reliable valuation anchor than earnings-based
+            multiples. Stedrok uses estimated NAV alongside earnings-based metrics to score
+            companies in asset-heavy sectors, flagging stocks trading at steep discounts to
+            asset value.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2 id="net-debt-ebitda">Net Debt / EBITDA</h2>
+          <p>
+            Net Debt to EBITDA measures how many years of operating earnings it would take a
+            company to repay its net debt (total borrowings minus cash and cash equivalents).
+            It is one of the most widely used leverage ratios by credit analysts and
+            institutional investors.
+          </p>
+          <p>
+            A ratio below 2&times; is generally considered conservative. Between 2&times; and
+            4&times; signals moderate leverage that warrants monitoring. Above 4&times; raises
+            serious balance sheet concern, particularly if earnings are cyclical or margins
+            are narrow.
+          </p>
+          <p>
+            Stedrok uses Net Debt / EBITDA as a primary resilience gate. Companies with ratios
+            above the sector threshold receive a lower Risk Score, which can cap the overall
+            rating at WATCH even when Value and Quality scores are strong. This is
+            intentional &#8212; cheap and leveraged is not the same as cheap and sound.
           </p>
         </article>
 
         <article class="card">
           <h2 id="peg-ratio">PEG Ratio</h2>
           <p>
-            The PEG ratio adjusts the price-to-earnings ratio for expected earnings growth: PEG = P/E divided by the annual EPS growth rate.
-            A PEG below 1.0 is often cited as indicating a growth stock trading at a value price.
-            Stedrok uses a modified PEG concept in scoring growth-oriented technology and healthcare companies where current P/E alone understates long-term earning power.
+            The PEG ratio adjusts the price-to-earnings ratio for expected earnings growth:
+            PEG&nbsp;=&nbsp;P/E&nbsp;&#247;&nbsp;annual&nbsp;EPS&nbsp;growth&nbsp;rate.
+            A PEG below 1.0 is often cited as indicating a growth stock trading at a value
+            price. Stedrok uses a modified PEG concept in scoring growth-oriented technology
+            and healthcare companies where current P/E alone understates long-term earning
+            power.
           </p>
         </article>
-          <article id="piotroski-f-score">
+
+        <article class="card">
+          <h2 id="pick-score">Pick Score</h2>
+          <p>
+            The Pick Score is the output of the StedrokGPT Pick process &#8212; the
+            highest-conviction layer of the Stedrok research process. Each candidate stock is
+            evaluated independently across four macro scenarios: BASE (normal operating
+            conditions), BULL (strong growth environment), BEAR (economic contraction), and
+            CRISIS (severe market stress).
+          </p>
+          <p>
+            A stock earns a Pick Score only when it demonstrates resilience across all four
+            scenarios simultaneously &#8212; meaning the investment case holds even under the
+            most adverse conditions modelled. In addition to cross-scenario resilience, each
+            Pick candidate must pass live news integrity checks and meet evidence quality
+            thresholds before the result is published. This multi-scenario conviction framework
+            is designed to surface only the ideas where the margin of safety is robust enough
+            to survive a wide range of economic futures, not just the base case.
+          </p>
+        </article>
+
+        <article class="card">
           <h2 id="piotroski-f-score">Piotroski F-Score</h2>
           <p>
-            The Piotroski F-Score is a nine-point scoring system that measures the financial health of a company using publicly available accounting data. It was developed by academic Joseph Piotroski and published in 2000.
+            The Piotroski F-Score is a nine-point scoring system that measures the financial
+            health of a company using publicly available accounting data. It was developed by
+            academic Joseph Piotroski and published in 2000.
           </p>
           <p>
-            The score combines three groups: profitability signals (return on assets, operating cash flow, change in ROA, accruals ratio), leverage and liquidity signals (change in leverage, change in current ratio, absence of share dilution), and operating efficiency signals (change in gross margin, change in asset turnover). Each test passes or fails. A company can score between zero and nine.
+            The score combines three groups: profitability signals (return on assets, operating
+            cash flow, change in ROA, accruals ratio), leverage and liquidity signals (change
+            in leverage, change in current ratio, absence of share dilution), and operating
+            efficiency signals (change in gross margin, change in asset turnover). Each test
+            passes or fails. A company can score between zero and nine.
           </p>
           <p>
-            Stedrok uses F-Score components as part of the quality and resilience evaluation. Companies scoring seven or above signal improving fundamentals; scores below three indicate deteriorating health and raise the risk penalty in the composite score.
+            Stedrok uses F-Score components as part of the quality and resilience evaluation.
+            Companies scoring seven or above signal improving fundamentals; scores below three
+            indicate deteriorating health and raise the risk penalty in the composite score.
           </p>
-          </article>
+        </article>
 
-
-          <article id="net-debt-ebitda">
-          <h2 id="net-debt-ebitda">Net Debt / EBITDA</h2>
+        <article class="card">
+          <h2 id="pb-ratio">Price-to-Book Ratio (P/B)</h2>
           <p>
-            Net Debt to EBITDA measures how many years of operating earnings it would take a company to repay its net debt (total borrowings minus cash and cash equivalents). It is one of the most widely used leverage ratios by credit analysts and institutional investors.
+            The price-to-book ratio compares a company&#8217;s market capitalisation to its
+            net asset value on the balance sheet. A P/B below 1.0 implies the market values
+            the company below what its assets are worth after liabilities &#8212; a classic
+            Graham-style value signal. Stedrok incorporates P/B in its value score,
+            particularly for asset-heavy sectors such as financials, industrials, and basic
+            materials.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2 id="pe-ratio">Price to Earnings Ratio (P/E)</h2>
+          <p>
+            The P/E ratio divides a company&#8217;s share price by its earnings per share
+            (EPS), answering the question: how much are investors paying for each dollar of
+            current earnings? A P/E of 15 means investors are paying $15 for every $1 of
+            annual earnings.
           </p>
           <p>
-            A ratio below two is generally considered conservative. Between two and four signals moderate leverage that warrants monitoring. Above four raises serious balance sheet concern, particularly if earnings are cyclical or margins are narrow.
+            <strong>Trailing P/E</strong> uses the most recent 12 months of reported
+            earnings. <strong>Forward P/E</strong> uses analysts&#8217; consensus earnings
+            forecast for the next 12 months. Trailing P/E is more reliable because it is
+            based on reported facts; forward P/E embeds estimation risk.
           </p>
           <p>
-            Stedrok uses Net Debt / EBITDA as a primary resilience gate. Companies with ratios above the sector threshold receive a lower resilience score, which can cap the overall rating at WATCH even when value and quality scores are strong. This is intentional &#8212; cheap and leveraged is not the same as cheap and sound.
+            Context matters critically: a low P/E can mean genuine undervaluation, but it
+            can also signal deteriorating earnings, a cyclical trough, or structural decline.
+            P/E is unreliable for companies with negative earnings, heavy non-cash charges,
+            or highly cyclical profits. Stedrok uses P/E alongside EV/EBITDA, P/FCF, and
+            DCF-derived estimates to form a rounded valuation view rather than relying on
+            any single multiple.
           </p>
-          </article>
+        </article>
 
-
-          <article id="price-to-fcf">
+        <article class="card">
           <h2 id="price-to-fcf">Price to Free Cash Flow (P/FCF)</h2>
           <p>
-            Price to Free Cash Flow divides a company&#8217;s market capitalisation by its annual free cash flow &#8212; the cash the business generates after capital expenditure. Unlike earnings-based ratios, P/FCF is harder to distort through accounting choices, making it a more reliable measure of what investors are actually paying for real cash production.
+            Price to Free Cash Flow divides a company&#8217;s market capitalisation by its
+            annual free cash flow &#8212; the cash the business generates after capital
+            expenditure. Unlike earnings-based ratios, P/FCF is harder to distort through
+            accounting choices, making it a more reliable measure of what investors are
+            actually paying for real cash production.
           </p>
           <p>
-            A lower P/FCF generally indicates better value, though the appropriate threshold varies by sector and growth rate. Capital-light businesses in stable industries with a P/FCF below fifteen often signal genuine undervaluation. Asset-heavy industries typically carry higher multiples.
+            A lower P/FCF generally indicates better value, though the appropriate threshold
+            varies by sector and growth rate. Capital-light businesses in stable industries
+            with a P/FCF below 15&times; often signal genuine undervaluation. Asset-heavy
+            industries typically carry higher multiples.
           </p>
           <p>
-            Stedrok incorporates P/FCF as a core valuation input alongside EV/EBITDA and DCF-derived intrinsic value estimates. All three are blended to reduce the noise from any single metric.
+            Stedrok incorporates P/FCF as a core valuation input alongside EV/EBITDA and
+            DCF-derived intrinsic value estimates. All three are blended to reduce the noise
+            from any single metric.
           </p>
-          </article>
+        </article>
 
+        <article class="card">
+          <h2 id="quality-score">Quality Score</h2>
+          <p>
+            The Quality Score is Stedrok&#8217;s internal score for the business quality
+            pillar. It measures the durability and consistency of a company&#8217;s financial
+            performance rather than a single-year snapshot. Primary drivers include ROIC
+            stability across multiple years, gross margin trends, revenue consistency, and
+            capital allocation efficiency.
+          </p>
+          <p>
+            Sustained high ROIC is the dominant quality signal because it indicates the
+            business earns above its cost of capital consistently &#8212; a hallmark of a
+            genuine economic moat. Piotroski F-Score components feed into the Quality Score
+            as additional evidence of improving or deteriorating fundamentals. A strong
+            Quality Score combined with a strong Value Score is the combination that most
+            reliably produces BUY ratings in the Stedrok framework.
+          </p>
+        </article>
 
+        <article class="card">
+          <h2 id="return-on-equity">Return on Equity (ROE)</h2>
+          <p>
+            Net income divided by shareholders&#8217; equity. It measures how efficiently a
+            company uses shareholder capital to generate profit. Higher ROE generally
+            indicates stronger operating performance, though it can also be inflated by high
+            financial leverage &#8212; a heavily indebted company can report a high ROE even
+            with modest earnings, which is why Stedrok evaluates ROE alongside debt ratios
+            rather than in isolation.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2 id="roic">Return on Invested Capital (ROIC)</h2>
+          <p>
+            ROIC measures how efficiently a company generates after-tax operating profit from
+            the total capital deployed in the business (equity plus interest-bearing debt).
+            A ROIC consistently above the company&#8217;s cost of capital signals a genuine
+            competitive advantage and value-creating management. Stedrok rewards high and
+            stable ROIC in its Quality Score because it identifies durable moat businesses
+            rather than cyclical earnings spikes.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2 id="risk-score">Risk Score</h2>
+          <p>
+            The Risk Score is Stedrok&#8217;s internal score for the balance sheet resilience
+            pillar. It evaluates a company&#8217;s ability to withstand financial stress using
+            metrics including Net Debt / EBITDA vs sector thresholds, interest coverage ratio,
+            current ratio, and solvency flags.
+          </p>
+          <p>
+            The Risk Score acts as a gate in the composite rating system. If a company fails
+            to meet the minimum resilience threshold, its overall rating is capped at WATCH
+            regardless of how strong the Value Score and Quality Score are. This design
+            reflects a core principle of the Stedrok framework: a cheap price does not justify
+            a fragile balance sheet. Capital preservation is a prerequisite for compounding
+            wealth.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2 id="total-score">Total Score</h2>
+          <p>
+            The Total Score is Stedrok&#8217;s composite ranking score, combining all four
+            pillars &#8212; Value Score, Quality Score, Risk Score, and Dip Score &#8212;
+            into a single 0&#8211;100 figure used to rank stocks across the covered universe.
+          </p>
+          <p>
+            Value carries the highest weighting in the composite. The Risk Score (resilience)
+            acts as a gate &#8212; companies that fail the balance sheet check have their
+            Total Score capped regardless of how attractive the valuation appears. The Total
+            Score determines the final rating: companies scoring in the top range receive a
+            BUY label, mid-range scores receive WATCH, and low scores receive AVOID. It is
+            updated twice each trading day as price and fundamental data refresh.
+          </p>
+        </article>
+
+        <article class="card">
+          <h2 id="value-score">Value Score</h2>
+          <p>
+            The Value Score is Stedrok&#8217;s internal score for the valuation pillar. It
+            measures how attractively priced a stock is relative to its estimated Fair Value
+            and peer group, synthesising multiple valuation approaches to avoid over-reliance
+            on any single metric.
+          </p>
+          <p>
+            Inputs include the Discount % (market price vs DCF-derived Fair Value), EV/EBITDA
+            relative to sector median, P/FCF relative to sector median, and P/B where
+            relevant for asset-heavy businesses. Value carries the highest weight in the
+            composite Total Score because buying at a significant discount to intrinsic value
+            is the primary driver of long-term risk-adjusted returns in the Stedrok framework.
+          </p>
+        </article>
 
         <p style="font-size:15px;color:var(--text-secondary);margin-top:32px;">
-          Related reading: <a href="methodology.html" style="color:var(--accent-green);text-decoration:underline;">How the scoring works</a> &middot; 
+          Related reading: <a href="methodology.html" style="color:var(--accent-green);text-decoration:underline;">How the scoring works</a> &middot;
           <a href="philosophy.html" style="color:var(--accent-green);text-decoration:underline;">Our investment philosophy</a>
         </p>
       </div>
@@ -389,12 +672,12 @@
       <div class="footer-main">
         <div class="footer-left">
           <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
-                    <p class="footer-tagline">
+          <p class="footer-tagline">
             Independent stock research for long-term investors. General information only, not personal financial advice.
           </p>
         </div>
         <nav class="footer-links">
-                    <a href="pricing.html">Pricing</a>
+          <a href="pricing.html">Pricing</a>
           <a href="methodology.html">Methodology</a>
           <a href="learn.html">Learn</a>
           <a href="contact.html">Contact</a>
@@ -413,5 +696,3 @@
   <script src="js/public-auth-nav.js?v=20260317"></script>
 </body>
 </html>
-
-

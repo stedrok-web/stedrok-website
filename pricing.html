@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta name="description"
-        content="Stedrok Pro gives full access to the value stock screener for $5 per month with Core, AI Hybrid, and Swarm-Lite views. Free tier shows 3 BUY-rated stocks daily.">
+        content="Stedrok Pro gives full access to the value stock screener for $5 per month with Core, AI Hybrid, and StedrokGPT Pick views. Free tier shows 3 BUY-rated stocks daily.">
   <meta name="author" content="Stedrok">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <meta name="keywords"
@@ -22,7 +22,7 @@
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Stedrok Pricing, Value Stock Screener Subscription">
-  <meta property="og:description" content="Stedrok Pro gives full access to the value stock screener for $5 per month with Core, AI Hybrid, and Swarm-Lite views. Free tier shows 3 BUY-rated stocks daily.">
+  <meta property="og:description" content="Stedrok Pro gives full access to the value stock screener for $5 per month with Core, AI Hybrid, and StedrokGPT Pick views. Free tier shows 3 BUY-rated stocks daily.">
   <meta property="og:url" content="https://stedrok.org/pricing.html">
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
@@ -32,7 +32,7 @@
   <meta property="og:image:alt" content="Stedrok value stock screener dashboard preview">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Stedrok Pricing, Value Stock Screener Subscription">
-  <meta name="twitter:description" content="Stedrok Pro gives full access to the value stock screener for $5 per month with Core, AI Hybrid, and Swarm-Lite views. Free tier shows 3 BUY-rated stocks daily.">
+  <meta name="twitter:description" content="Stedrok Pro gives full access to the value stock screener for $5 per month with Core, AI Hybrid, and StedrokGPT Pick views. Free tier shows 3 BUY-rated stocks daily.">
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
 
@@ -67,8 +67,15 @@
         },
         "category": "subscription",
         "url": "https://stedrok.org/pricing.html",
-        "description": "Full access to Stedrok ranked stock dashboard including Core, AI Hybrid, and Swarm-Lite views. Updated twice daily.",
+        "description": "Full access to Stedrok ranked stock dashboard including Core, AI Hybrid, and StedrokGPT Pick views. Updated twice daily.",
         "availability": "https://schema.org/InStock",
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 30,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "refundType": "https://schema.org/FullRefund"
+        },
         "seller": {"@id": "https://stedrok.org/#organization"}
       },
       {
@@ -111,6 +118,38 @@
     "mainEntity": [
       {
         "@type": "Question",
+        "name": "How does the free tier work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Create an account and get instant access to 3 BUY-rated stocks from the current daily list. There is no credit card required and no expiry date. We intend to keep a free tier available long-term, and if that policy changes we will provide notice."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I cancel my Pro subscription anytime?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. You can cancel online at any time from your Account Settings page or directly through PayPal. There are no lock-in contracts, no cancellation fees, and your access continues until the end of your current billing period."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What payment methods do you accept?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "All PayPal payment methods are supported: credit cards, debit cards, and PayPal balance. Payments are securely processed by PayPal using industry-standard encryption. Stedrok never sees or stores your card details."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if data or the service is unavailable?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Stedrok updates data twice each trading day when market data feeds are available. No formal SLA is offered. In the event of extended downtime we will notify affected Pro subscribers by email and, where appropriate, extend subscription periods."
+        }
+      },
+      {
+        "@type": "Question",
         "name": "When will I be charged?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -138,7 +177,7 @@
         "name": "Can I get a refund?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. If you're not satisfied within 30 days of your first payment, email us at contact@stedrok.org for a full refund. We typically process refunds within 3 business days. After the 30-day window, refunds are handled on a case-by-case basis (e.g., technical issues, billing errors)."
+          "text": "Yes. If you're not satisfied within 30 days of your first payment, email us at contact@stedrok.org for a full refund. We typically process refunds within 3 business days. After the 30-day window, no refunds are issued except for documented billing errors."
         }
       },
       {
@@ -259,6 +298,11 @@
     }
   @media(max-width:768px){.cost-compare-grid{grid-template-columns:1fr 1fr!important;}} @media(max-width:480px){.cost-compare-grid{grid-template-columns:1fr!important;}}
     </style>
+    <meta name="geo.region" content="AU">
+    <meta name="geo.placename" content="Australia">
+    <meta name="geo.position" content="-25.2744;133.7751">
+    <meta name="ICBM" content="-25.2744, 133.7751">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -333,7 +377,7 @@
               <div style="font-size:12px;color:var(--text-muted);">per year ($5/month)</div>
             </div>
           </div>
-          <p style="margin-top:16px;font-size:14px;color:var(--text-muted);text-align:center;">Stedrok focuses on what individual investors actually need: a rigorous, transparent fundamental screener updated daily. No newsfeeds, no FX desks, no features you'll never use.</p>
+          <p style="margin-top:16px;font-size:14px;color:var(--text-muted);text-align:center;">Stedrok focuses on what individual investors actually need: a rigorous, transparent fundamental screener updated twice daily. No newsfeeds, no FX desks, no features you'll never use.</p>
         </div>
       </div>
     </section>
@@ -354,7 +398,7 @@
               <li class="disabled">No full stock list access</li>
               <li class="disabled">No CSV export</li>
             </ul>
-            <a href="register.html" class="btn-secondary btn-large btn-block">Start Free</a>
+            <a href="register.html" class="btn-secondary btn-large btn-block">Start Free — No Card Required</a>
             <p class="payment-note">
               The free tier has no expiry date and no card requirement. We intend to keep it available long-term.
             </p>
@@ -364,12 +408,12 @@
           <div class="pricing-card featured">
             <div class="price-badge">Stedrok Pro</div>
             <div class="price">$5<span>/month</span></div>
-            <p class="price-note">Billed monthly via PayPal. Cancel anytime.</p>
+            <p class="price-note">Billed monthly via PayPal. <strong>Auto-renews monthly</strong> — cancel anytime.</p>
             <ul class="benefits">
-              <li><strong>Full ranked daily list</strong> — typically 50–70 BUY-rated stocks from a universe of 7,000+</li>
-              <li>Core, AI Hybrid, and Swarm-Lite dashboard views included</li>
-              <li>Daily updates with fresh market data</li>
-              <li>Detailed pillar scores across the four pillars for every stock</li>
+              <li><strong>Full ranked daily list</strong> — typically 50–70 BUY-rated stocks from a universe of 5,900+</li>
+              <li>Core, AI Hybrid, and StedrokGPT Pick dashboard views included</li>
+              <li>Twice-daily updates with fresh market data</li>
+              <li>Detailed scores across all four fundamental pillars for every stock</li>
               <li>Export full list to CSV</li>
               <li>Priority email support (within 1 business day)</li>
               <li>30-day money-back guarantee</li>
@@ -413,7 +457,7 @@
               <td style="text-align:center;" class="check-yes">Yes</td>
             </tr>
             <tr>
-              <th scope="row">Detailed pillar scores across the four pillars for every stock</th>
+              <th scope="row">Detailed scores across all four fundamental pillars for every stock</th>
               <td style="text-align:center;" class="check-no">No</td>
               <td style="text-align:center;" class="check-yes">Yes</td>
             </tr>
@@ -429,7 +473,7 @@
             </tr>
             <tr>
               <th scope="row">Email support</th>
-              <td style="text-align:center;">Community</td>
+              <td style="text-align:center;">Standard (3 business days)</td>
               <td style="text-align:center;">Priority (24h)</td>
             </tr>
             <tr>
@@ -455,7 +499,7 @@
           <div class="use-case-card">
             <h3>Monitor High-Conviction Ideas</h3>
             <p>
-              Access Core, AI Hybrid (beta), and Swarm-Lite views in one account. Core applies the standard rules-based framework. AI Hybrid adds a separate validation step - each shortlisted result is cross-checked against live data and current context using an AI layer before publication. Swarm-Lite runs 300 deterministic agents across BASE, BULL, BEAR and CRISIS scenarios. Each agent scores independently; picks that survive all four scenarios earn the highest Swarm Score and represent the strongest cross-scenario consensus.
+              Access Core, AI Hybrid (beta), and StedrokGPT Pick views in one account. Core applies the standard rules-based framework. AI Hybrid adds a separate validation step — each shortlisted result is cross-checked against live data and current context using an AI layer before publication. StedrokGPT Pick applies final conviction validation with independent news checks, multi-source evidence verification, and live confidence filters. Only picks that pass all stages are published.
             </p>
           </div>
 
@@ -499,7 +543,7 @@
           <p style="font-size:13px;color:var(--text-muted);margin:0;">— Value investing principle. The Stedrok framework is built around this idea.</p>
         </div>
         <p style="max-width:700px;margin:24px auto 0;text-align:center;font-size:15px;color:var(--text-secondary);line-height:1.7;">
-          The five-dollar monthly price covers data licensing, cloud hosting, authentication services, payment processing and ongoing development. There are no add-ons, no upsells and no advertising. We set the price low enough that most long-term investors can treat it as a minor research expense - less than a single coffee - while still keeping the service sustainable.
+          The five-dollar monthly price covers data licensing, cloud hosting, authentication services, payment processing and ongoing development. There are no add-ons, no upsells and no advertising. We set the price low enough that most long-term investors can treat it as a minor research expense — less than a single coffee — while still keeping the service sustainable.
         </p>
       </div>
     </section>
@@ -508,7 +552,8 @@
     <section class="section">
       <div class="container">
         <div id="checkout-container">
-          <h2 style="text-align:center; margin-bottom:24px;">Upgrade to Pro - $5/month</h2>
+          <h2 style="text-align:center; margin-bottom:24px;">Upgrade to Pro — $5/month</h2>
+          <p style="text-align:center;font-size:14px;color:var(--text-muted);margin:0 0 20px;">Subscription <strong>auto-renews monthly at $5.00</strong> until cancelled. Cancel anytime from Account Settings or PayPal. <a href="terms.html" style="color:var(--accent-green);">See billing terms</a>. Research only — not financial advice.</p>
 
           <div id="checkout-state" class="status-msg" style="display:none;">
             <p><strong id="checkout-state-title"></strong></p>
@@ -580,7 +625,7 @@
           <div class="faq-item">
             <h3>Can I Get a Refund?</h3>
             <p>
-              Yes. If you're not satisfied within 30 days of your first payment, email us at contact@stedrok.org for a full refund. We typically process refunds within 3 business days. After the 30-day window, refunds are handled on a case-by-case basis (e.g., technical issues, billing errors).
+              Yes. If you're not satisfied within 30 days of your first payment, email us at contact@stedrok.org for a full refund. We typically process refunds within 3 business days. After the 30-day window, no refunds are issued except for documented billing errors.
             </p>
           </div>
 
@@ -598,6 +643,13 @@
             </p>
             <p>
               AI Hybrid runs independently from Core and does not alter Core ratings. It is currently in beta, and not all Core results will carry a corresponding AI Hybrid result at all times.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h3>What If Data or the Service Is Unavailable?</h3>
+            <p>
+              Stedrok updates data twice each trading day when market data feeds are available. We do not offer a formal service-level agreement (SLA) or guarantee of uninterrupted availability. In the event of extended downtime or a significant data delay we will notify affected Pro subscribers by email and, where appropriate, extend subscription periods. Individual gaps for a single stock do not constitute a service failure. Contact <a href="mailto:contact@stedrok.org" style="color:var(--accent-green);">contact@stedrok.org</a> if you experience persistent issues.
             </p>
           </div>
 
@@ -625,7 +677,7 @@
         <div class="footer-left">
           <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
                     <p class="footer-tagline">
-            Independent stock research for long-term investors. General information only, not personal financial advice.
+            Independent stock research for long-term investors. General information only, not personal financial advice. Past results do not guarantee future performance. Always do your own research before investing.
           </p>
         </div>
         <nav class="footer-links">

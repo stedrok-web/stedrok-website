@@ -8,6 +8,9 @@ let allStocks = [];
 let currentSortColumn = 'value_score';
 let currentSortDirection = 'desc';
 let selectedExchange = '';
+const PAGE_SIZE = 50;
+let currentPage = 0;
+let _pagedStocks = [];
 let exchangePoints = [];
 let globeView = null;
 let globeResizeBound = false;
@@ -159,7 +162,7 @@ const DASHBOARD_LANE_LABELS = {
 const DASHBOARD_LANE_DESCRIPTIONS = {
   core: 'Core: Deterministic, rule-based picks from the production fundamental value and quality engine.',
   hybrid: 'AI Hybrid (beta): Separate research lane that cross-checks shortlisted companies against live data and current context before publication. Core ratings remain unchanged.',
-  blended: 'StedrokGPT Pick: Blind-buy promotion lane that applies the final local internet review, evidence checks, and conviction filters on top of the broader Stedrok stack.'
+  blended: 'StedrokGPT Pick: Multi-scenario conviction analysis: internet evidence checks, valuation context, and cross-scenario filters on top of the broader Stedrok stack.'
 };
 
 
@@ -1951,12 +1954,18 @@ async function showTickerInsight(ticker, triggerEl = null) {
 // Render stocks table
 // ============================================================
 function renderTable(stocks) {
+  _pagedStocks = stocks;
+  const totalPages = Math.max(1, Math.ceil(stocks.length / PAGE_SIZE));
+  if (currentPage >= totalPages) currentPage = totalPages - 1;
+  const pageStart = currentPage * PAGE_SIZE;
+  const pageStocks = stocks.slice(pageStart, pageStart + PAGE_SIZE);
   const tbody = document.getElementById('stocksTableBody');
   if (!tbody) return;
 
   tbody.innerHTML = '';
 
   if (stocks.length === 0) {
+    renderPaginationControls(0);
     tbody.innerHTML = `
       <tr>
         <td colspan="15" style="text-align:center; padding:40px; color:#999;">
@@ -1970,13 +1979,20 @@ function renderTable(stocks) {
   // Use profile subscription status, not missing fields
   const isFreeUser = userProfile && userProfile.subscription_status === 'free';
 
-  stocks.forEach(stock => {
+  pageStocks.forEach(stock => {
     const tr = document.createElement('tr');
     const decisionClass = stock.decision === 'BUY' ? 'badge-buy' :
                          stock.decision === 'WATCH' ? 'badge-watch' : 'badge-avoid';
     const tickerDisplay = getTickerDisplayParts(stock);
     const newBadgeHtml = stock.is_new ? '<span class="badge badge-new ticker-new-badge">NEW</span>' : '';
     const geminiBadgeHtml = stock.gemini_selected ? '<span class="badge badge-ai-pick ticker-ai-badge" title="Selected by Gemini AI as a top high-conviction pick">★</span>' : '';
+    // INVESTOR SAFETY: Show risk warning badge when risk_score is low
+    const riskScore = typeof stock.risk_score === 'number' ? stock.risk_score : null;
+    const riskBadgeHtml = riskScore !== null && riskScore < 40
+      ? `<span class="badge badge-avoid ticker-risk-badge" title="High Risk: Risk Score ${riskScore.toFixed(0)}/100 — verify fundamentals before investing">⚠ RISK</span>`
+      : riskScore !== null && riskScore < 52
+      ? `<span class="badge badge-watch ticker-risk-badge" title="Moderate Risk: Risk Score ${riskScore.toFixed(0)}/100 — review risk factors before investing">⚠</span>`
+      : '';
 
     if (isFreeUser) {
       // Free user: Show only ticker, company, country, sector, then upgrade prompt
@@ -1986,7 +2002,7 @@ function renderTable(stocks) {
             <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View preview for ${_escHtml(tickerDisplay.plain)}">
               <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${_escHtml(tickerDisplay.secondary)})</span>` : ''}
             </button>
-            ${geminiBadgeHtml}${newBadgeHtml}
+            ${geminiBadgeHtml}${newBadgeHtml}${riskBadgeHtml}
           </div>
         </td>
         <td>${_escHtml(stock.company_name || '-')}</td>
@@ -2020,7 +2036,7 @@ function renderTable(stocks) {
             <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View insight for ${_escHtml(tickerDisplay.plain)}">
               <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${_escHtml(tickerDisplay.secondary)})</span>` : ''}
             </button>
-            ${geminiBadgeHtml}${newBadgeHtml}
+            ${geminiBadgeHtml}${newBadgeHtml}${riskBadgeHtml}
           </div>
         </td>
         <td>${_escHtml(stock.company_name || '-')}</td>
@@ -2047,9 +2063,62 @@ function renderTable(stocks) {
     tbody.appendChild(tr);
   });
 
+  renderPaginationControls(_pagedStocks.length);
   syncActiveInsightRow();
   // Refresh swarm score column visibility after rows render
   setDashboardLaneToggle(typeof currentLaneMode !== "undefined" ? currentLaneMode : "core");
+}
+
+// ============================================================
+// Pagination controls (50 rows per page)
+// ============================================================
+function renderPaginationControls(totalCount) {
+  let container = document.getElementById('dashPagination');
+  if (!container) {
+    const table = document.getElementById('stocksTable');
+    if (!table) return;
+    container = document.createElement('div');
+    container.id = 'dashPagination';
+    table.parentNode.insertBefore(container, table.nextSibling);
+  }
+  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
+  if (totalPages <= 1) { container.innerHTML = ''; return; }
+  const pageStart = currentPage * PAGE_SIZE + 1;
+  const pageEnd = Math.min((currentPage + 1) * PAGE_SIZE, totalCount);
+  const prevOff = currentPage === 0;
+  const nextOff = currentPage >= totalPages - 1;
+  container.innerHTML =
+    '<div style="display:flex;align-items:center;justify-content:center;gap:12px;' +
+    'padding:14px 0;flex-wrap:wrap;">' +
+    '<button onclick="goToPage(' + (currentPage - 1) + ')"' +
+    (prevOff ? ' disabled' : '') +
+    ' style="padding:6px 16px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);' +
+    'background:rgba(255,255,255,0.06);color:var(--text-primary);' +
+    'cursor:' + (prevOff ? 'not-allowed' : 'pointer') + ';' +
+    'opacity:' + (prevOff ? '0.4' : '1') + ';">' +
+    '\u00ab Prev</button>' +
+    '<span style="color:var(--text-secondary);font-size:0.9em;">' +
+    pageStart + '\u2013' + pageEnd + ' of ' + totalCount + ' stocks' +
+    ' \u00b7 Page ' + (currentPage + 1) + ' of ' + totalPages +
+    '</span>' +
+    '<button onclick="goToPage(' + (currentPage + 1) + ')"' +
+    (nextOff ? ' disabled' : '') +
+    ' style="padding:6px 16px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);' +
+    'background:rgba(255,255,255,0.06);color:var(--text-primary);' +
+    'cursor:' + (nextOff ? 'not-allowed' : 'pointer') + ';' +
+    'opacity:' + (nextOff ? '0.4' : '1') + ';">' +
+    'Next \u00bb</button>' +
+    '</div>';
+}
+
+function goToPage(page) {
+  const totalPages = Math.max(1, Math.ceil(_pagedStocks.length / PAGE_SIZE));
+  if (page < 0 || page >= totalPages) return;
+  currentPage = page;
+  renderTable(_pagedStocks);
+  updateStatBar(_pagedStocks);
+  const tableEl = document.getElementById('stocksTable');
+  if (tableEl) tableEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ============================================================
@@ -2742,6 +2811,7 @@ function applyFilters() {
     return currentSortDirection === 'desc' ? bVal - aVal : aVal - bVal;
   });
 
+  currentPage = 0;
   renderTable(filtered);
   updateStatBar(filtered);
 }

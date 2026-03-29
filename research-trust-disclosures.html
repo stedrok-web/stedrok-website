@@ -94,6 +94,11 @@
     }
 
   </style>
+    <meta name="geo.region" content="AU">
+    <meta name="geo.placename" content="Australia">
+    <meta name="geo.position" content="-25.2744;133.7751">
+    <meta name="ICBM" content="-25.2744, 133.7751">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -126,27 +131,31 @@
   <div class="container" style="max-width:800px;">
     <h1>Research Trust and Disclosures</h1>
     <p class="lead">This page explains how Stedrok operates, where data comes from, and what this model does and does not do.</p>
+    <div class="callout" style="border-color:rgba(255,180,0,0.55);background:rgba(255,180,0,0.07);margin-bottom:30px;">
+      <strong>&#9888; Not Investment Advice &#8212; Read Before Proceeding.</strong> All content published by Stedrok is general research information only. Nothing on this platform constitutes personal financial advice, a recommendation to buy or sell any security, or a statement of suitability for any individual investor. <strong>Past performance is not indicative of future results.</strong> All investments carry risk, including the possible loss of principal. Consult a licensed financial adviser before making any investment decision.
+    </div>
 
     <h2>About Stedrok</h2>
     <p>Stedrok Pty Ltd is an independent stock research platform incorporated in Australia. It is not a registered financial adviser, broker, or fund manager in any jurisdiction. Stedrok does not hold, manage, or execute client funds or securities.</p>
-    <p>Stedrok currently publishes two research views: <strong>Core</strong> (rules-based systematic screening) and <strong>AI Hybrid</strong> (AI-assisted validation layer, currently in beta). <strong>Swarm-Lite</strong> runs 300 deterministic agents across BASE, BULL, BEAR and CRISIS scenarios; picks that achieve multi-scenario consensus earn the highest Swarm Score.</p>
+    <p>Stedrok currently publishes three research views: <strong>Core</strong> (rules-based systematic screening), <strong>AI Hybrid</strong> (AI-assisted validation layer using Groq inference, currently in beta), and <strong>StedrokGPT Pick</strong> (multi-scenario AI consensus analysis powered by Google Gemini). StedrokGPT Pick runs 300 structured AI scenario agents across BASE, BULL, BEAR and CRISIS market contexts; picks that achieve multi-scenario consensus earn the highest Pick Score. See <a href="methodology.html">Methodology</a> for full scoring logic.</p>
 
     <h2>Regulatory Status</h2>
     <p>Stedrok is not licensed under the Australian Financial Services (AFS) framework or any equivalent regulatory scheme in other jurisdictions. The platform provides general research information only. Nothing published by Stedrok constitutes personal financial advice, a recommendation to buy or sell any security, or a statement about the suitability of any investment for any specific person.</p>
     <p>Users outside Australia should check whether access to or use of a service of this type is permitted under the laws of their own jurisdiction.</p>
+    <p><strong>Note on “BUY” and “HOLD” labels:</strong> Rating labels used on this platform (e.g., “BUY”, “HOLD”) are internal algorithmic ranking classifications applied uniformly by a rules-based scoring model. They are <em>not</em> investment recommendations, analyst ratings, or opinions about the suitability of any security for any individual investor. These labels exist solely as a shorthand for a quantitative score threshold and carry no advisory meaning.</p>
 
     <h2>Data Sources and Quality</h2>
-    <p>Company financial data (earnings, cash flow, balance sheet items) is sourced from institutional-grade market data providers via third-party API services. Price data is sourced from exchange feeds with intraday updates. Stedrok does not itself originate or warehouse primary financial statement data.</p>
+    <p>Company financial data (earnings, cash flow, balance sheet items) and price data are sourced from third-party financial data services, including Yahoo Finance data accessed via the open-source yfinance library. These are aggregated third-party feeds &#8212; they are not primary exchange data and carry the inherent limitations of their underlying sources, including potential delays, data gaps, corporate-action adjustments, and provider errors. Stedrok does not itself originate or warehouse primary financial statement data.</p>
     <p>Data is refreshed on each scoring run (typically twice per trading day). All input fields are passed through an automated anomaly-detection step before scoring begins. Records with missing, stale, or inconsistent data are flagged and excluded or downweighted before publication.</p>
     <p>Despite these controls, data errors do occur. Financial API data for smaller or less-covered companies can be incomplete or delayed. Stedrok scores should be treated as a starting point for research, not as a definitive statement of a company&#39;s financial position.</p>
 
     <h2>Model Methodology Summary</h2>
     <p>The scoring engine applies a transparent, rules-based framework across four pillars: valuation, business quality, balance sheet resilience, and price context. The full methodology is published at <a href="methodology.html">Methodology</a>. Weights, thresholds, and scoring logic are documented and applied identically across all covered securities.</p>
-    <p>The AI Hybrid layer takes shortlisted Core candidates through an additional validation step: cross-referencing live data feeds and current context using an AI model before publication. AI Hybrid results are published only when the validation step clears an integrity threshold.</p>
+    <p>The AI Hybrid layer takes shortlisted Core candidates through an additional validation step: cross-referencing current financial context using Groq large language model (LLM) inference before publication. AI Hybrid results are published only when the validation step passes an automated data-quality check. Groq LLM outputs are probabilistic and may contain errors or inconsistencies; they are not reviewed by a licensed financial professional prior to publication.</p>
 
     <h2>Conflicts of Interest</h2>
     <p>Stedrok has no paid placement, sponsored content, or affiliate arrangement that influences ranking output. No company pays Stedrok to be included in, excluded from, or elevated within research results. Educational content on this platform describes process and methodology &#8212; it does not constitute a recommendation for any specific company.</p>
-    <p>Stedrok may hold positions in securities covered by its own screener. Where applicable, this is disclosed in relevant content.</p>
+    <p>Stedrok employees or principals may hold positions in securities covered by the screener. Any such holdings are disclosed prominently within the specific research output or article where that security is discussed. Users should assume potential conflicts may exist for any covered security and conduct independent research accordingly.</p>
 
     <h2>What Stedrok Does Not Do</h2>
     <ul>
@@ -157,8 +166,13 @@
       <li>No real-time trading signals or price alerts.</li>
     </ul>
 
+    <h2>Past Performance Disclaimer</h2>
+    <p><strong>Past performance is not a reliable indicator of future results.</strong> Any historical scores, rankings, backtested data, or performance statistics published on Stedrok reflect past conditions only. They do not constitute a forecast, projection, or guarantee of future performance. The value of investments can fall as well as rise. You may receive back less than you originally invest. Capital is at risk at all times.</p>
+
     <h2>Model Limitations</h2>
-    <p>The scoring model is backward-looking. It uses reported financial data only &#8212; it does not incorporate analyst forecasts, management quality assessments, qualitative competitive analysis, or macroeconomic outlooks. A high Stedrok score does not predict that a share price will rise. A low score does not predict that it will fall. Markets are uncertain and losses are always possible.</p>
+    <p><strong>Past performance is not indicative of future results.</strong> Any historical scores, rankings, or backtest results published by Stedrok reflect past market conditions only and do not guarantee any future outcome. Actual investor results may differ materially.</p>
+    <p>The Core scoring model is backward-looking. It uses reported financial data only &#8212; it does not incorporate analyst forecasts, management quality assessments, qualitative competitive analysis, or macroeconomic outlooks. A high Stedrok score does not predict that a share price will rise. A low score does not predict that it will fall. Markets are uncertain and losses are always possible.</p>
+    <p>The AI Hybrid and StedrokGPT Pick layers use large language models (Groq and Google Gemini respectively). LLM outputs are probabilistic and can produce inaccurate, incomplete, or internally inconsistent results &#8212; including hallucinations or misinterpretations of financial data. AI-assisted research outputs have not been audited by a licensed financial professional. Users should treat AI-enhanced views with additional caution and verify key data points independently.</p>
     <p>The model applies the same ruleset across all geographies and sectors. Sector-specific accounting norms, regulatory differences, and local market conditions are not individually calibrated. Users researching companies in unfamiliar markets should apply additional judgment.</p>
 
     <h2>Copyright and Use</h2>
@@ -177,7 +191,7 @@
         <div class="footer-left">
           <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
                     <p class="footer-tagline">
-            Independent stock research for long-term investors. General information only, not personal financial advice.
+            Independent stock research for long-term investors. General information only, not personal financial advice. Past results do not guarantee future performance. Always do your own research before investing.
           </p>
         </div>
 

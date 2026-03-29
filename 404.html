@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Page Not Found | Stedrok Value Stock Research Platform</title>
-      <meta name="description" content="The page you requested was not found. Return to Stedrok to access the value stock screener, methodology, pricing, and research resources and continue your review.">
+  <meta name="description" content="The page you requested was not found. Return to Stedrok to access the value stock screener, methodology, pricing, and research resources.">
   <meta name="robots" content="noindex, follow">
   <link rel="canonical" href="https://stedrok.org/404.html">
   <link rel="alternate" hreflang="en" href="https://stedrok.org/404.html">
@@ -32,9 +32,8 @@
   <link rel="stylesheet" href="css/main.css?v=20260316b">
   <link rel="stylesheet" href="css/tokens.css?v=20260316b">
   <link rel="stylesheet" href="css/theme-overrides.css?v=20260319asset8">
-    
 
-    <script type="application/ld+json">
+  <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -48,14 +47,14 @@
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "404",
+        "name": "Page Not Found",
         "item": "https://stedrok.org/404.html"
       }
     ]
   }
   </script>
 
-<style>
+  <style>
     .error-container {
       display: flex;
       flex-direction: column;
@@ -74,14 +73,33 @@
     }
     .error-title {
       font-size: 32px;
-      margin: 16px 0;
+      margin: 16px 0 8px;
       color: var(--text-primary);
     }
     .error-desc {
       font-size: 18px;
       color: var(--text-secondary);
-      margin-bottom: 32px;
+      margin-bottom: 28px;
       max-width: 600px;
+    }
+    .error-search {
+      margin-bottom: 32px;
+      width: 100%;
+      max-width: 480px;
+    }
+    .error-search-wrap {
+      display: flex;
+      gap: 8px;
+    }
+    .error-search-wrap input[type="text"] {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-size: 15px;
+      font-family: inherit;
     }
     .error-links {
       display: flex;
@@ -90,6 +108,11 @@
       justify-content: center;
     }
   </style>
+    <meta name="geo.region" content="AU">
+    <meta name="geo.placename" content="Australia">
+    <meta name="geo.position" content="-25.2744;133.7751">
+    <meta name="ICBM" content="-25.2744, 133.7751">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -122,16 +145,21 @@
   <main id="main">
     <div class="container">
       <div class="error-container">
-        <h1 class="error-code">404</h1>
-        <h2 class="error-title">Page Not Found</h2>
+        <p class="error-code" aria-hidden="true">404</p>
+        <h1 class="error-title">Oops — That Page Has Gone Missing</h1>
         <p class="error-desc">
-          The page you're looking for doesn't exist or has been moved. 
-          Try navigating back to one of our main pages below.
+          It may have been moved, renamed, or deleted. Try searching Stedrok or jump to one of the pages below.
         </p>
+        <form class="error-search" onsubmit="event.preventDefault(); var q = this.q.value.trim(); if(q) window.open('https://www.google.com/search?q=site:stedrok.org+' + encodeURIComponent(q), '_blank')">
+          <div class="error-search-wrap">
+            <input type="text" name="q" placeholder="Search Stedrok…" aria-label="Search Stedrok">
+            <button type="submit" class="btn-primary">Search</button>
+          </div>
+        </form>
         <div class="error-links">
-          <a href="index.html" class="btn-primary">Home</a>
-          <a href="dashboard.html" class="btn-secondary">Dashboard</a>
-          <a href="methodology.html" class="btn-secondary">Methodology</a>
+          <a href="index.html" class="btn-primary">Go to Homepage</a>
+          <a href="demo.html" class="btn-secondary">View Today&#8217;s Picks</a>
+          <a href="register.html" class="btn-primary">Sign Up Free</a>
           <a href="pricing.html" class="btn-secondary">Pricing</a>
           <a href="contact.html" class="btn-secondary">Contact Us</a>
         </div>
@@ -144,12 +172,12 @@
       <div class="footer-main">
         <div class="footer-left">
           <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
-                    <p class="footer-tagline">
-            Independent stock research for long-term investors. General information only, not personal financial advice.
+          <p class="footer-tagline">
+            Independent stock research for long-term investors. General information only, not personal financial advice. Past results do not guarantee future performance. Always do your own research before investing.
           </p>
         </div>
         <nav class="footer-links">
-                    <a href="pricing.html">Pricing</a>
+          <a href="pricing.html">Pricing</a>
           <a href="methodology.html">Methodology</a>
           <a href="learn.html">Learn</a>
           <a href="contact.html">Contact</a>
@@ -167,6 +195,3 @@
   <script src="js/public-auth-nav.js?v=20260317"></script>
 </body>
 </html>
-
-
-

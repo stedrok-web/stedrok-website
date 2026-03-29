@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <title>HTML Sitemap | Stedrok</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Browse important Stedrok pages in one HTML sitemap, including research guides, methodology docs, pricing details, legal pages, and contact links.">
+  <meta name="description" content="Browse important Stedrok pages in one HTML sitemap, including research guides, methodology docs, pricing details, legal pages, and contact links.">
   <meta name="author" content="Stedrok">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://stedrok.org/site-map.html">
@@ -14,7 +14,7 @@
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="HTML Sitemap - Stedrok">
-  <meta property="og:description" content="Browse all key Stedrok pages in one place.">
+  <meta property="og:description" content="Complete HTML sitemap for Stedrok, the independent value stock research platform. Navigate to methodology, pricing, sector screeners, research guides, and legal pages.">
   <meta property="og:url" content="https://stedrok.org/site-map.html">
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
@@ -25,7 +25,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="HTML Sitemap - Stedrok">
-  <meta name="twitter:description" content="Browse all key Stedrok pages in one place.">
+  <meta name="twitter:description" content="Complete sitemap of Stedrok pages including value screener guides, sector research, methodology, pricing, and legal resources.">
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
 
@@ -42,7 +42,7 @@
     "@type": "WebPage",
     "name": "HTML Sitemap",
     "url": "https://stedrok.org/site-map.html",
-    "description": "Browse all key Stedrok pages in one place."
+    "description": "Complete HTML sitemap for Stedrok, the independent value stock research platform. Navigate to methodology, pricing, sector screeners, research guides, and legal pages."
   }
   </script>
 
@@ -84,6 +84,10 @@
       .sitemap-grid { grid-template-columns: 1fr; }
     }
   </style>
+    <meta name="geo.region" content="AU">
+    <meta name="geo.placename" content="Australia">
+    <meta name="geo.position" content="-25.2744;133.7751">
+    <meta name="ICBM" content="-25.2744, 133.7751">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -101,9 +105,13 @@
           <li><a href="philosophy.html">Philosophy</a></li>
           <li><a href="methodology.html">Methodology</a></li>
           <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="learn.html">Learn</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
-        <div class="auth-buttons" aria-hidden="true"></div>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+          <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+        </div>
       </nav>
     </div>
   </header>
@@ -111,7 +119,7 @@
   <main class="page-main" id="main">
     <div class="container sitemap-wrap">
       <h1>HTML Sitemap</h1>
-      <p>Quick links to all important pages on Stedrok for users and crawlers.</p>
+      <p>Quick links to all important Stedrok pages — for visitors and search engines.</p>
 
       <div class="sitemap-grid">
         <section class="sitemap-card">
@@ -119,7 +127,8 @@
           <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="demo.html">Public Demo</a></li>
-            <li><a href="etfs.html">ETF Ideas and Guide</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="etfs.html">ETF Ideas &amp; Guides</a></li>
             <li><a href="dashboard-guide.html">Dashboard Usage Guide</a></li>
             <li><a href="pricing.html">Pricing</a></li>
             <li><a href="contact.html">Contact</a></li>
@@ -132,7 +141,7 @@
             <li><a href="learn.html">Learn Hub</a></li>
             <li><a href="philosophy.html">Investment Philosophy</a></li>
             <li><a href="methodology.html">Methodology</a></li>
-            <li><a href="guide-long-term-value-portfolio.html">Long Term Value Portfolio Guide</a></li>
+            <li><a href="guide-long-term-value-portfolio.html">Long-Term Value Portfolio Guide</a></li>
             <li><a href="value-investing-glossary.html">Value Investing Glossary</a></li>
             <li><a href="about.html">About Stedrok</a></li>
             <li><a href="research-trust-disclosures.html">Research Trust and Disclosures</a></li>
@@ -152,14 +161,26 @@
             <li><a href="sector-communication-services.html">Communication Services Stocks</a></li>
             <li><a href="sector-basic-materials.html">Basic Materials Stocks</a></li>
           </ul>
-        </section>        <section class="sitemap-card">
+        </section>
+
+        <section class="sitemap-card">
+          <h2>Account &amp; Access</h2>
+          <ul>
+            <li><a href="login.html">Sign In</a></li>
+            <li><a href="register.html">Create Free Account</a></li>
+            <li><a href="account.html">Account Settings</a></li>
+            <li><a href="reset-password.html">Reset Password</a></li>
+          </ul>
+        </section>
+
+        <section class="sitemap-card">
           <h2>Legal</h2>
           <ul>
             <li><a href="terms.html">Terms of Use</a></li>
             <li><a href="privacy.html">Privacy Policy</a></li>
           </ul>
         </section>
-</div>
+      </div>
     </div>
   </main>
 
@@ -168,12 +189,12 @@
       <div class="footer-main">
         <div class="footer-left">
           <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
-                    <p class="footer-tagline">
-            Independent stock research for long-term investors. General information only, not personal financial advice.
+          <p class="footer-tagline">
+            Independent stock research for long-term investors. General information only, not personal financial advice. Past results do not guarantee future performance. Always do your own research before investing.
           </p>
         </div>
         <nav class="footer-links">
-                    <a href="pricing.html">Pricing</a>
+          <a href="pricing.html">Pricing</a>
           <a href="methodology.html">Methodology</a>
           <a href="learn.html">Learn</a>
           <a href="contact.html">Contact</a>
@@ -185,8 +206,9 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
   <script src="js/mobile-menu.js?v=20260317"></script>
+  <script src="js/public-auth-nav.js?v=20260317"></script>
 </body>
 </html>
-
-

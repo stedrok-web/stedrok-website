@@ -911,6 +911,23 @@ textarea:disabled {
   text-decoration: none;
   transform: translateY(-0.55em);
 }
+/* Investor safety: risk warning badge for low risk_score picks */
+.ticker-risk-badge {
+  display: inline-block;
+  padding: 0.02rem 0.28rem;
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  cursor: help;
+  opacity: 0.95;
+  transform: translateY(-0.55em);
+  color: var(--avoid);
+  border: 1px solid rgba(var(--accent-red-rgb), 0.65);
+  background: rgba(var(--accent-red-rgb), 0.12);
+  border-radius: 999px;
+  text-transform: uppercase;
+}
 
 .stock-table .ticker-cell {
   gap: 0.22rem;
@@ -2157,4 +2174,39 @@ section,
     width: 100%;
     text-align: center;
   }
+}
+
+
+/* ============================================================
+   PAGINATION CONTROLS
+   ============================================================ */
+.pagination-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0;
+  font-size: 14px;
+}
+.pagination-controls button {
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  font-size: 14px;
+  transition: background 0.15s, border-color 0.15s;
+}
+.pagination-controls button:hover:not(:disabled) {
+  background: var(--bg-raised);
+  border-color: var(--border-active);
+}
+.pagination-controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.pagination-controls .page-info {
+  color: var(--text-secondary);
+  padding: 0 4px;
 }

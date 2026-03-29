@@ -6,7 +6,7 @@
   <title>Stedrok Demo | Public Value Stock Screener Preview</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="Explore the Stedrok public demo: delayed ranked stock output, ticker insights and four-pillar scoring. Members unlock Core, AI Hybrid and Swarm-Lite views.">
+    <meta name="description" content="Explore the Stedrok public demo: delayed ranked stock output, ticker insights and four-pillar scoring. Members unlock Core, AI Hybrid and StedrokGPT Pick views.">
   <meta name="author" content="Stedrok">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
@@ -21,7 +21,7 @@
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Stedrok Public Demo - Delayed Output Preview">
-  <meta property="og:description" content="Review a delayed no-login demo of Stedrok table output and ticker insight UI. Member dashboard includes Core, AI Hybrid, and Swarm-Lite views.">
+  <meta property="og:description" content="Review a delayed no-login demo of Stedrok table output and ticker insight UI. Member dashboard includes Core, AI Hybrid, and StedrokGPT Pick views.">
   <meta property="og:url" content="https://stedrok.org/demo.html">
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
@@ -32,7 +32,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Stedrok Public Demo - Delayed Output Preview">
-  <meta name="twitter:description" content="No-login delayed preview of ranked output and ticker insight format. Member dashboard includes Core, AI Hybrid, and Swarm-Lite views.">
+  <meta name="twitter:description" content="No-login delayed preview of ranked output and ticker insight format. Member dashboard includes Core, AI Hybrid, and StedrokGPT Pick views.">
   <meta name="twitter:image" content="https://stedrok.org/img/sample-output-table.jpg">
   <meta name="twitter:image:alt" content="Stedrok delayed demo ranked table">
 
@@ -346,6 +346,11 @@
       }
     }
   </style>
+    <meta name="geo.region" content="AU">
+    <meta name="geo.placename" content="Australia">
+    <meta name="geo.position" content="-25.2744;133.7751">
+    <meta name="ICBM" content="-25.2744, 133.7751">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 </head>
 <body class="demo-page">
   <a href="#main" class="skip-link">Skip to content</a>
@@ -378,9 +383,9 @@
   <main id="main">
     <section class="demo-hero">
       <div class="container">
-        <h1 class="demo-hero-title">What institutional screens surface.<br><span class="gradient-text">See it without logging in.</span></h1>
+        <h1 class="demo-hero-title">See what institutional screens surface.<br><span class="gradient-text">No login required.</span></h1>
         <p class="demo-lead">
-          This is a delayed public preview of the Stedrok four-pillar output — the same ranked format Pro members see twice every trading day. Every company in the live dashboard has passed screening across <strong>Value</strong> (DCF discount, P/FCF), <strong>Quality</strong> (ROIC, margins), <strong>Resilience</strong> (balance sheet stress), and <strong>Price Context</strong> (dip from highs). Below is a limited sample. <a href="register.html" style="color:var(--accent-green);">Create a free account</a> to unlock the current batch.
+          This is a delayed public preview of the Stedrok four-pillar output — the same ranked format Pro members see twice every trading day. Every company in the live dashboard has passed screening across <strong>Value</strong> (DCF discount, P/FCF), <strong>Quality</strong> (ROIC, margins), <strong>Risk</strong> (balance sheet resilience), and <strong>Price Context</strong> (dip from highs). Below is a limited sample. <a href="register.html" style="color:var(--accent-green);">Create a free account</a> to unlock the current batch.
         </p>
 
         <div class="demo-actions" style="margin-top:0;">
@@ -390,7 +395,7 @@
 
         <div class="callout callout--warning" style="margin-top:20px; text-align:left;">
           <strong>Research only, not financial advice.</strong>
-          This page uses delayed and limited data by design. The member dashboard includes Core, AI Hybrid, and Swarm-Lite views. Use it to assess the research format, not for trading decisions.
+          This page uses delayed and limited data by design. The member dashboard includes Core, AI Hybrid, and StedrokGPT Pick views. Use it to assess the research format, not for trading decisions.
         </div>
 
         <div class="demo-metrics">
@@ -406,7 +411,7 @@
       <div class="container">
         <h2>Delayed Ranked Table Snapshot</h2>
         <p class="demo-section-lead">
-          Sample data shown below &#8212; live delayed snapshot loads automatically.
+          A live delayed snapshot loads automatically below. MSFT, ACN, and EVO.ST are highlighted with full Ticker Insight access.
         </p>
 
         <p class="demo-fallback-row" id="demoLoadingState">Loading delayed research snapshot...</p>
@@ -424,8 +429,8 @@
                 <th scope="col">Confidence</th>
                 <th scope="col">Value</th>
                 <th scope="col">Quality</th>
-                <th scope="col">Risk</th>
-                <th scope="col">Dip</th>
+                <th scope="col">Resilience</th>
+                <th scope="col">Price Context</th>
                 <th scope="col">Price</th>
                 <th scope="col">Fair Value</th>
                 <th scope="col">Discount</th>
@@ -434,7 +439,7 @@
             <tbody id="demoTableBody">
               <tr id="demo-static-fallback" class="demo-fallback-row">
                 <td colspan="13" style="text-align:center; color:var(--text-secondary); padding:16px; font-style:italic; font-size:13px;">
-                  Sample data shown below — live delayed snapshot loads automatically.
+                  Delayed research snapshot loading...
                 </td>
               </tr>
               <tr class="demo-fallback-row" style="opacity:0.75;">
@@ -451,14 +456,14 @@
         </div>
 
         <p id="tickerInsightHint" class="ticker-insight-hint" style="display:block; margin-top:10px;">
-          Company research notes are available for MSFT, ACN, and EVO.ST.
+          Quick Ticker Insight is available for MSFT, ACN, and EVO.ST in this public demo.
         </p>
 
         <div class="demo-controls" id="demoInsightShot">
           <button type="button" id="openFirstInsightBtn" class="btn-secondary">Open MSFT Insight</button>
         </div>
 
-        <p class="demo-mini-note">Want the full live list and CSV export? <a href="pricing.html">View Pro access</a>.</p>
+        <p class="demo-mini-note">Want the full live ranked list with daily CSV export? <a href="pricing.html">View Pro access</a>.</p>
       </div>
     </section>
 
@@ -479,18 +484,18 @@
             <p>Tracks business durability and operating quality, including profitability consistency and balance-sheet discipline.</p>
           </article>
           <article class="demo-pillar">
-            <h3>Risk</h3>
+            <h3>Resilience</h3>
             <p>Prioritizes downside resilience. Strong scores indicate more robust financial structure under tougher macro conditions.</p>
           </article>
           <article class="demo-pillar">
-            <h3>Dip</h3>
-            <p>Adds price-context awareness by quantifying pullback structure relative to historical range and valuation support.</p>
+            <h3>Price Context</h3>
+            <p>Measures how far a company has pulled back from its highs, adding price-timing context to the valuation signal.</p>
           </article>
         </div>
 
         <div class="demo-actions">
           <a href="methodology.html" class="btn-secondary btn-large">Read Methodology</a>
-          <a href="register.html" class="btn-primary btn-large">Create Free Account</a>
+          <a href="register.html" class="btn-primary btn-large">Start Free, No Card Required</a>
         </div>
       </div>
     </section>
@@ -529,7 +534,7 @@
         <div class="footer-left">
           <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
                     <p class="footer-tagline">
-            Independent stock research for long-term investors. General information only, not personal financial advice.
+            Independent stock research for long-term investors. General information only, not personal financial advice. Past results do not guarantee future performance. Always do your own research before investing.
           </p>
         </div>
         <nav class="footer-links">

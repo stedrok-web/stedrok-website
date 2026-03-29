@@ -17,6 +17,15 @@ Allow: /learn.html
 Allow: /etfs.html
 Allow: /llms.txt
 Allow: /llms-full.txt
+Allow: /sitemap.xml
+Allow: /demo.html
+Allow: /dashboard.html
+Allow: /register.html
+Allow: /login.html
+Disallow: /account.html
+Disallow: /reset-password.html
+Disallow: /reset.html
+Disallow: /404.html
 
 Disallow: /scripts/
 Disallow: /supabase/
@@ -85,6 +94,56 @@ Allow: /llms.txt
 Allow: /llms-full.txt
 Allow: /sitemap.xml
 Allow: /robots.txt
+Disallow: /scripts/
+Disallow: /supabase/
+Disallow: /workers/
+Disallow: /data/
+
+User-agent: Meta-ExternalAgent
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
+Disallow: /scripts/
+Disallow: /supabase/
+Disallow: /workers/
+Disallow: /data/
+
+User-agent: Amazonbot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
+Disallow: /scripts/
+Disallow: /supabase/
+Disallow: /workers/
+Disallow: /data/
+
+User-agent: Applebot-Extended
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
+Disallow: /scripts/
+Disallow: /supabase/
+Disallow: /workers/
+Disallow: /data/
+
+User-agent: Bytespider
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
+Disallow: /scripts/
+Disallow: /supabase/
+Disallow: /workers/
+Disallow: /data/
+
+User-agent: OAI-SearchBot
+Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /sitemap.xml
 Disallow: /scripts/
 Disallow: /supabase/
 Disallow: /workers/

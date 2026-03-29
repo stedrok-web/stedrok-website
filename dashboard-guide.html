@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <title>Dashboard Guide: Filters, Scores and Exports | Stedrok</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="How to use Stedrok Core, AI Hybrid and Swarm-Lite dashboard views: filters, research-state columns, ticker insights and CSV export to review ranked stocks.">
+  <meta name="description" content="How to use Stedrok Core, AI Hybrid and StedrokGPT Pick dashboard views: filters, research-state columns, ticker insights and CSV export to review ranked stocks.">
   <meta name="author" content="Stedrok">
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
   <link rel="canonical" href="https://stedrok.org/dashboard-guide.html">
@@ -13,7 +13,7 @@
   <link rel="alternate" hreflang="x-default" href="https://stedrok.org/dashboard-guide.html">
   <meta property="og:type" content="article">
   <meta property="og:title" content="How to Use the Dashboard | Stedrok Guide">
-  <meta property="og:description" content="Practical guide to using Core, AI Hybrid, and Swarm-Lite dashboard views with filters, confidence, fair value, discount, ticker insights, and CSV export.">
+  <meta property="og:description" content="Practical guide to using Core, AI Hybrid, and StedrokGPT Pick dashboard views with filters, confidence, fair value, discount, ticker insights, and CSV export.">
   <meta property="og:url" content="https://stedrok.org/dashboard-guide.html">
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
@@ -23,7 +23,7 @@
   <meta property="og:image:alt" content="Stedrok dashboard usage guide">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How to Use the Dashboard | Stedrok Guide">
-  <meta name="twitter:description" content="Understand Core, AI Hybrid, and Swarm-Lite views, plus filters, confidence, fair value, discount, and export workflow in the Stedrok dashboard.">
+  <meta name="twitter:description" content="Understand Core, AI Hybrid, and StedrokGPT Pick views, plus filters, confidence, fair value, discount, and export workflow in the Stedrok dashboard.">
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok dashboard usage guide">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,10 +36,11 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
+    "@id": "https://stedrok.org/dashboard-guide.html#article",
     "headline": "How to use the Stedrok dashboard",
     "description": "Practical guide to using filters, confidence, fair value, discount, ticker insights, and CSV export.",
     "datePublished": "2026-02-27",
-    "dateModified": "2026-02-27",
+    "dateModified": "2026-06-01",
     "author": {
       "@type": "Person",
       "name": "Stedrok Research Team",
@@ -72,7 +73,7 @@
     "@type": "HowTo",
     "@id": "https://stedrok.org/dashboard-guide.html#howto",
     "name": "How to Use the Stedrok Stock Research Dashboard",
-    "description": "Step-by-step guide to using the Stedrok dashboard to find, filter, and research undervalued stocks using Core, AI Hybrid, and Swarm-Lite views.",
+    "description": "Step-by-step guide to using the Stedrok dashboard to find, filter, and research undervalued stocks using Core, AI Hybrid, and StedrokGPT Pick views.",
     "totalTime": "PT5M",
     "image": {
       "@type": "ImageObject",
@@ -86,7 +87,7 @@
         "@type": "HowToStep",
         "position": 1,
         "name": "Choose your dashboard view",
-        "text": "Select Core (deterministic rules-based), AI Hybrid (AI-assisted layer), or Swarm-Lite (300-agent scenario consensus) from the view toggle at the top of the dashboard."
+        "text": "Select Core (deterministic rules-based), AI Hybrid (AI-assisted layer), or StedrokGPT Pick (final conviction validation) from the view toggle at the top of the dashboard."
       },
       {
         "@type": "HowToStep",
@@ -98,19 +99,73 @@
         "@type": "HowToStep",
         "position": 3,
         "name": "Review pillar scores",
-        "text": "Inspect the four-pillar breakdown for each company: Value (price vs fair value), Quality (ROIC and earnings stability), Risk Resilience (balance sheet strength), and Price Context (dip from highs)."
+        "text": "Inspect the four-pillar breakdown for each company: Value Score (price vs fair value), Quality Score (ROIC and earnings stability), Risk Score (balance sheet strength), and Dip Score (further from recent highs)."
       },
       {
         "@type": "HowToStep",
         "position": 4,
-        "name": "Open ticker insights",
-        "text": "Click any ticker to view its detailed insight panel showing fair value estimate, margin of safety, confidence level, and key flag indicators."
+        "name": "Check fair value and discount",
+        "text": "Review the fair value estimate and the discount percentage, which shows how far the current price is below the model's estimated intrinsic value."
       },
       {
         "@type": "HowToStep",
         "position": 5,
+        "name": "Open ticker insights",
+        "text": "Click any ticker to view its detailed insight panel showing the model's reasoning, fair value estimate, confidence level, and key flag indicators."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 6,
         "name": "Export your research list",
-        "text": "Use the CSV export button to download your filtered, ranked stock list for offline analysis or portfolio tracking."
+        "text": "Use the Export CSV button above the ranked table to download your filtered, ranked stock list for offline analysis or portfolio tracking."
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between Core, AI Hybrid, and StedrokGPT Pick?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Core is the primary rules-based view derived entirely from reported financial data. AI Hybrid cross-checks Core shortlisted companies against live data and current context as a second layer. StedrokGPT Pick provides a final conviction validation layer with news checks and multi-source evidence, awarding a Pick Score to candidates that pass all checks."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does the Confidence score mean?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Confidence reflects how complete and consistent the underlying data is for that company. High confidence means the model had full, clean inputs. Low confidence means important inputs were missing or inconsistent — the rating may still be valid but warrants extra caution."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the Pick Score?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pick Score is assigned in the StedrokGPT Pick view. It reflects how strongly a company passed the multi-source validation checks — news, context, and cross-scenario evidence. A higher Pick Score indicates stronger conviction across multiple evidence sources."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is Fair Value calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Fair Value is an intrinsic value estimate derived from reported financial data using the Stedrok methodology. The Discount column shows how far the current price is below that estimate as a percentage. A 20% discount means the stock is trading 20% below the model's fair value estimate."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I export the ranked stock list?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Pro members can use the Export CSV button above the ranked table to download the full filtered list for offline analysis, spreadsheet tracking, or portfolio review."
+        }
       }
     ]
   }
@@ -124,6 +179,11 @@
     .guide-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
     .guide-card h3 { margin: 0 0 8px; color: var(--text-primary); font-size: 19px; }
   </style>
+    <meta name="geo.region" content="AU">
+    <meta name="geo.placename" content="Australia">
+    <meta name="geo.position" content="-25.2744;133.7751">
+    <meta name="ICBM" content="-25.2744, 133.7751">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -151,19 +211,20 @@
     <section class="section">
   <div class="container" style="max-width:800px;">
     <h1>How to Use the Stedrok Dashboard</h1>
-    <p class="lead">A practical walkthrough for getting research value from the Core, AI Hybrid, and Swarm-Lite views in under five minutes per session.</p>
+    <p class="lead">A practical walkthrough for getting research value from the Core, AI Hybrid, and StedrokGPT Pick views in under five minutes per session.</p>
 
     <h2>Step 0: Choose a Dashboard View</h2>
     <p><strong>Core</strong> is the primary rules-based view. Every score is derived from reported financial data using the same transparent ruleset. Start here.</p>
     <p><strong>AI Hybrid</strong> is a separate validation layer. Companies shortlisted by Core are cross-checked against live data and current context. Use AI Hybrid as a second confirmation, not a replacement for Core.</p>
-    <p><strong>Swarm-Lite</strong> runs 300 independent scenario agents across BASE, BULL, BEAR and CRISIS. Picks that survive all four scenarios earn the highest Swarm Score. Use it to find candidates with cross-scenario conviction.</p>
+    <p><strong>StedrokGPT Pick</strong> provides a final conviction validation layer with news checks and multi-source evidence. Candidates that pass all checks earn the highest Pick Score. Use it to find candidates with strong cross-scenario conviction.</p>
 
     <h2>Step 1: Apply the Right Filters First</h2>
     <p>Before reading individual rows, narrow the table to what&#39;s relevant for you:</p>
     <ul>
-      <li><strong>Rating filter:</strong> Start with BUY only. WATCH candidates are valuable for building a watchlist but shouldn&#39;t be your first action.</li>
+      <li><strong>Research State:</strong> Start with BUY only. WATCH candidates are valuable for building a watchlist but shouldn&#39;t be your first action.</li>
       <li><strong>Country/Region:</strong> Narrow to markets you can access through your broker before spending time on ideas you can&#39;t act on.</li>
       <li><strong>Sector:</strong> If you have sector convictions (or restrictions), apply them here.</li>
+      <li><strong>Market Cap:</strong> Filter by size if your strategy targets small-, mid-, or large-cap stocks specifically.</li>
       <li><strong>Minimum Score:</strong> The default shows all BUY candidates. Raising the minimum score threshold narrows to highest-conviction ideas.</li>
     </ul>
 
@@ -181,13 +242,17 @@
     </ul>
     <p>A genuine BUY needs all four to be constructive. If Quality or Risk is weak, investigate why before acting &#8212; it may be a value trap.</p>
 
+    <h2>Step 3b: Fair Value and Discount</h2>
+    <p><strong>Fair Value</strong> is the model&#39;s intrinsic value estimate for the company, derived from reported financial data using the Stedrok methodology. <strong>Discount</strong> shows how far the current price sits below that estimate, expressed as a percentage. A 20% discount means the stock is trading at 20% below the model&#39;s fair value estimate.</p>
+    <p>Note that fair value estimates are model outputs, not guarantees. Use them alongside the four pillar scores to assess whether the apparent cheapness has quality and resilience behind it.</p>
+
     <h2>Step 4: Use Ticker Insights as a Starting Point</h2>
     <p>Click any row to open the Ticker Insight panel. This shows a plain-language summary of the model&#39;s reasoning for that company. Read it as a hypothesis, not a conclusion. Your job is to verify or refute it.</p>
     <p>The insight tells you: the main driver of the rating (is it cheap? high quality? resilient?), the sector context, and any notable limitations in the evidence.</p>
     <p>After reading the insight, your next step is always: check recent earnings, read the last annual report summary, and check broker availability in your region.</p>
 
     <h2>Step 5: Export and Track (Pro)</h2>
-    <p>Pro members can download the full ranked list as a CSV. Useful workflows:</p>
+    <p>Pro members can use the <strong>Export CSV</strong> button above the ranked table to download the full filtered list. Useful workflows:</p>
     <ul>
       <li>Drop the CSV into a spreadsheet and add your own notes column.</li>
       <li>Track rating changes over time &#8212; a company moving from WATCH to BUY is often more interesting than one that has been BUY for six months.</li>
@@ -199,7 +264,7 @@
       <li><strong>Don&#39;t act on a BUY rating alone.</strong> It&#39;s a shortlist tool, not a buy signal.</li>
       <li><strong>Don&#39;t ignore WATCH candidates.</strong> Many move to BUY when entry conditions improve &#8212; building a watchlist from WATCH is good process.</li>
       <li><strong>Don&#39;t filter out unfamiliar geographies automatically.</strong> Some of the best value opportunities are in markets most investors ignore.</li>
-      <li><strong>Don&#39;t confuse low price with cheap.</strong> The value score measures discount to intrinsic value, not absolute price level.</li>
+      <li><strong>Don&#39;t confuse low price with cheap.</strong> The Value Score measures discount to intrinsic value, not absolute price level.</li>
     </ul>
 
     <p>Related: <a href="methodology.html">Full Methodology</a> &#183; <a href="demo.html">View the Demo</a> &#183; <a href="value-investing-glossary.html">Glossary</a> &#183; <a href="research-trust-disclosures.html">Trust and Disclosures</a></p>
@@ -212,7 +277,7 @@
         <div class="footer-left">
           <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
                     <p class="footer-tagline">
-            Independent stock research for long-term investors. General information only, not personal financial advice.
+            Independent stock research for long-term investors. General information only, not personal financial advice. Past results do not guarantee future performance. Always do your own research before investing.
           </p>
         </div>
         <nav class="footer-links">
@@ -233,5 +298,3 @@
   <script src="js/public-auth-nav.js?v=20260317"></script>
 </body>
 </html>
-
-
