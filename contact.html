@@ -75,6 +75,14 @@
   }
   </script>
   <style>
+    .form-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) {
+      .form-two-col { grid-template-columns: 1fr !important; }
+      .contact-card { padding: 24px 20px !important; }
+    }
+    @media (max-width: 480px) {
+      .contact-card { padding: 20px 16px !important; }
+    }
 </style>
     <meta name="geo.region" content="AU">
     <meta name="geo.placename" content="Australia">
@@ -112,7 +120,7 @@
   <main id="main">
     <div class="container">
       <div style="max-width:600px; margin:60px auto;">
-        <div class="card" style="padding:40px;">
+        <div class="card contact-card" style="padding:40px;">
           <h1 style="text-align:center; margin-bottom:8px;">Contact Us</h1>
           <p style="text-align:center; color:var(--text-secondary); margin-bottom:32px;">
             Have questions or feedback? We aim to reply within one business day for Pro and within three business days for free.
@@ -121,7 +129,7 @@
           <div id="statusMessage" style="display:none; padding:16px; border-radius:10px; margin-bottom:20px;" role="status" aria-live="polite"></div>
 
           <form id="contactForm">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+            <div class="form-two-col">
               <div class="form-group">
                 <label for="name">Name *</label>
                 <input type="text" id="name" name="name" autocomplete="name" required placeholder="Your full name">
