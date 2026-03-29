@@ -1,5 +1,5 @@
 {
-  "version": "2026-02-21",
+  "version": "2026-03-29",
   "metrics": {
     "free_cash_flow": {
       "label": "Free Cash Flow",
@@ -19,37 +19,37 @@
     "value_score": {
       "label": "Value Score",
       "slug": "value-score",
-      "definition": "Model score for valuation attractiveness relative to internal fair value rules."
+      "definition": "Composite valuation score. Rewards stocks trading at a discount to sector-median P/E (earnings yield), P/B (price-to-book), EV/EBITDA, and to model-estimated fair value. Also scores FCF yield and PEG ratio. Higher = more undervalued relative to fundamentals."
     },
     "quality_score": {
       "label": "Quality Score",
       "slug": "quality-score",
-      "definition": "Model score for business quality, including profitability consistency and operating strength."
+      "definition": "Business quality score based on ROE, ROA, gross margin, operating margin, and net profit margin. Negative returns and margins are penalized, not neutralised. Higher = stronger and more consistent profitability."
     },
     "risk_score": {
       "label": "Risk Score",
       "slug": "risk-score",
-      "definition": "Model score for financial resilience and downside risk exposure."
+      "definition": "Model score for financial resilience. Higher score = stronger balance sheet, lower financial risk. Lower score = elevated risk. A score below 52 signals moderate financial stress; below 40 signals high risk."
     },
     "dip_score": {
       "label": "Dip Score",
       "slug": "dip-score",
-      "definition": "Model score for current price context versus recent ranges and drawdown behavior."
+      "definition": "Price context score based on position within the 52-week range. Higher score = price is closer to its 52-week low (more depressed entry point). Lower score = price is near its 52-week high."
     },
     "confidence": {
       "label": "Confidence",
       "slug": "confidence-score",
-      "definition": "Data-quality confidence score based on completeness and consistency of source fundamentals."
+      "definition": "Data-quality confidence based on completeness of source fundamentals and analyst coverage depth. Higher = scores are more reliable. Lower = treat scores with additional caution."
     },
     "fair_value": {
       "label": "Fair Value",
       "slug": "fair-value",
-      "definition": "Model-derived conservative intrinsic value estimate used for valuation comparison."
+      "definition": "Model-estimated intrinsic value. Uses analyst price target if available and plausible, otherwise forward-earnings multiple, otherwise book-value multiple. Used as the benchmark for the Discount calculation."
     },
     "discount_pct": {
       "label": "Discount",
       "slug": "discount-to-fair-value",
-      "definition": "Percent gap between current market price and estimated fair value."
+      "definition": "How far the stock trades below its estimated fair value. Positive = undervalued (stock is below fair value, potential upside). Negative = stock is trading above estimated fair value."
     },
     "market_cap": {
       "label": "Market Capitalization",
@@ -165,6 +165,11 @@
       "label": "Beneish M Score",
       "slug": "beneish-m-score",
       "definition": "Forensic accounting indicator that flags potential earnings manipulation risk."
+    },
+    "swarm_score": {
+      "label": "Pick Score",
+      "slug": "pick-score",
+      "definition": "Composite conviction score from the StedrokGPT Pick pipeline. Combines multi-scenario AI validation, news sentiment, momentum drift, and analyst signals. Higher score = stronger cross-scenario conviction."
     }
   }
 }
