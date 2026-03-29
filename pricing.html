@@ -67,7 +67,7 @@
         },
         "category": "subscription",
         "url": "https://stedrok.org/pricing.html",
-        "description": "Full access to Stedrok ranked stock dashboard including Core, AI Hybrid, and StedrokGPT Pick views. Updated twice daily.",
+        "description": "Full access to Stedrok ranked stock dashboard including Core, AI Hybrid, and StedrokGPT Pick views. Updated 3x daily.",
         "availability": "https://schema.org/InStock",
         "hasMerchantReturnPolicy": {
           "@type": "MerchantReturnPolicy",
@@ -145,7 +145,7 @@
         "name": "What if data or the service is unavailable?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Stedrok updates data twice each trading day when market data feeds are available. No formal SLA is offered. In the event of extended downtime we will notify affected Pro subscribers by email and, where appropriate, extend subscription periods."
+          "text": "Stedrok updates data 3x daily when market data feeds are available. No formal SLA is offered. In the event of extended downtime we will notify affected Pro subscribers by email and, where appropriate, extend subscription periods."
         }
       },
       {
@@ -347,6 +347,10 @@
         <div class="trust-strip security">
           <strong>Secure Billing:</strong> All payments processed by PayPal. Stedrok never sees or stores your card details.
         </div>
+        <div style="margin-top: 28px;">
+          <a href="#pricing-plans" class="btn-primary btn-large" onclick="document.querySelector('.pricing-grid').scrollIntoView({behavior:'smooth'});return false;">See Plans &amp; Pricing</a>
+          <a href="demo.html" class="btn-secondary btn-large" style="margin-left: 12px;">View Demo First</a>
+        </div>
       </div>
     </section>
 
@@ -367,7 +371,7 @@
               <div style="font-size:12px;color:var(--text-muted);">per year</div>
             </div>
             <div style="text-align:center;padding:16px;background:rgba(255,255,255,0.03);border-radius:10px;border:1px solid var(--border-color);">
-              <div style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">Refinitiv Eikon</div>
+              <div style="font-size:13px;color:var(--text-muted);margin-bottom:6px;">LSEG Workspace</div>
               <div style="font-size:28px;font-weight:800;color:var(--accent-red);">$22,000</div>
               <div style="font-size:12px;color:var(--text-muted);">per year</div>
             </div>
@@ -377,7 +381,7 @@
               <div style="font-size:12px;color:var(--text-muted);">per year ($5/month)</div>
             </div>
           </div>
-          <p style="margin-top:16px;font-size:14px;color:var(--text-muted);text-align:center;">Stedrok focuses on what individual investors actually need: a rigorous, transparent fundamental screener updated twice daily. No newsfeeds, no FX desks, no features you'll never use.</p>
+          <p style="margin-top:16px;font-size:14px;color:var(--text-muted);text-align:center;">Stedrok focuses on what individual investors actually need: a rigorous, transparent fundamental screener updated 3x daily. No newsfeeds, no FX desks, no features you'll never use. Institutional pricing figures are approximate and based on publicly available information.</p>
         </div>
       </div>
     </section>
@@ -412,7 +416,7 @@
             <ul class="benefits">
               <li><strong>Full ranked daily list</strong> — typically 50–70 BUY-rated stocks from a universe of 5,900+</li>
               <li>Core, AI Hybrid, and StedrokGPT Pick dashboard views included</li>
-              <li>Twice-daily updates with fresh market data</li>
+              <li>3x-daily updates with fresh market data</li>
               <li>Detailed scores across all four fundamental pillars for every stock</li>
               <li>Export full list to CSV</li>
               <li>Priority email support (within 1 business day)</li>
@@ -442,7 +446,7 @@
             <tr>
               <th scope="col">Feature</th>
               <th scope="col" style="text-align:center;">Free</th>
-              <th scope="col" style="text-align:center;">Pro ($5/mo)</th>
+              <th scope="col" style="text-align:center;">Pro ($5/month)</th>
             </tr>
           </thead>
           <tbody>
@@ -506,7 +510,7 @@
           <div class="use-case-card">
             <h3>Run a Disciplined Dollar-Cost Averaging Plan</h3>
             <p>
-              Use the ranked list to pick one or two names each week, then place small recurring orders through your chosen broker. Stedrok is research only and does not execute trades or hold client money. The engine refreshes twice each trading day so your next decision is always based on current data.
+              Use the ranked list to pick one or two names each week, then place small recurring orders through your chosen broker. Stedrok is research only and does not execute trades or hold client money. The engine refreshes 3x daily so your next decision is always based on current data.
             </p>
           </div>
 
@@ -559,7 +563,7 @@
             <p><strong id="checkout-state-title"></strong></p>
             <p id="checkout-state-detail" style="margin-top:8px;"></p>
             <div id="checkout-state-links" style="margin-top:14px; display:none; gap:8px; flex-wrap:wrap;"></div>
-            <a id="checkout-state-action" href="login.html" class="btn-secondary" style="margin-top:10px; display:none;">Go to Login</a>
+            <a id="checkout-state-action" href="register.html" class="btn-secondary" style="margin-top:10px; display:none;">Create Free Account</a>
           </div>
 
 <div id="paypal-button-container"></div>
@@ -649,7 +653,7 @@
           <div class="faq-item">
             <h3>What If Data or the Service Is Unavailable?</h3>
             <p>
-              Stedrok updates data twice each trading day when market data feeds are available. We do not offer a formal service-level agreement (SLA) or guarantee of uninterrupted availability. In the event of extended downtime or a significant data delay we will notify affected Pro subscribers by email and, where appropriate, extend subscription periods. Individual gaps for a single stock do not constitute a service failure. Contact <a href="mailto:contact@stedrok.org" style="color:var(--accent-green);">contact@stedrok.org</a> if you experience persistent issues.
+              Stedrok updates data 3x daily when market data feeds are available. We do not offer a formal service-level agreement (SLA) or guarantee of uninterrupted availability. In the event of extended downtime or a significant data delay we will notify affected Pro subscribers by email and, where appropriate, extend subscription periods. Individual gaps for a single stock do not constitute a service failure. Contact <a href="mailto:contact@stedrok.org" style="color:var(--accent-green);">contact@stedrok.org</a> if you experience persistent issues.
             </p>
           </div>
 
@@ -731,7 +735,12 @@
       };
 
       if (!session) {
-        showState('error', 'Log in required before upgrading.', '', true);
+        showState('error', 'Sign in or create an account to upgrade to Pro.', 'New to Stedrok? Create a free account first — no card required. Already registered? Log in to continue.', true);
+        const linksDiv = document.getElementById('checkout-state-links');
+        if (linksDiv) {
+          linksDiv.style.display = 'flex';
+          linksDiv.innerHTML = '<a href="login.html" class="btn-secondary" style="display:inline-block;">Log In →</a>';
+        }
         return;
       }
 

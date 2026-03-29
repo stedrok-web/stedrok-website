@@ -161,7 +161,7 @@ const DASHBOARD_LANE_LABELS = {
 
 const DASHBOARD_LANE_DESCRIPTIONS = {
   core: 'Core: Deterministic, rule-based picks from the production fundamental value and quality engine.',
-  hybrid: 'AI Hybrid (beta): Separate research lane that cross-checks shortlisted companies against live data and current context before publication. Core ratings remain unchanged.',
+  hybrid: 'AI Hybrid (beta): Cross-checks shortlisted companies against live data and current context before publication. Core ratings remain unchanged.',
   blended: 'StedrokGPT Pick: Multi-scenario conviction analysis: internet evidence checks, valuation context, and cross-scenario filters on top of the broader Stedrok stack.'
 };
 

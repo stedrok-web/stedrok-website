@@ -358,7 +358,7 @@
       <div class="container">
         <h1>Value Stock Screener<br>Built on Institutional Metrics.<br><span class="gradient-text">Now accessible to everyone.</span></h1>
         <p class="lead">
-          Every trading day, <strong>5,900+ companies</strong> across <strong>30+ global exchanges</strong> are scored on four pillars: intrinsic value discount, business quality, balance sheet resilience, and price context. The output: a focused ranked list of the strongest fundamental candidates — updated twice daily, with a research note on every name.
+          Every trading day, <strong>5,900+ companies</strong> across <strong>30+ global exchanges</strong> are scored on four pillars: intrinsic value discount, business quality, balance sheet resilience, and price context. The output: a focused ranked list of the strongest fundamental candidates — updated 3x daily, with a research note on every name.
         </p>
         <div class="stat-bar" style="display:flex;flex-wrap:wrap;gap:10px 24px;margin:0 0 28px;padding:18px 24px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;">
           <div class="stat-item" style="display:flex;flex-direction:column;gap:2px;">
@@ -421,7 +421,7 @@
           <div class="problem-card">
             <h3>Institutional Tools at Institutional Prices</h3>
             <p>
-              Bloomberg Terminal: $24,000/year. FactSet: $12,000+/year. Refinitiv Eikon: $22,000/year. The data infrastructure to run institutional fundamental analysis has been locked behind price points designed to exclude individual investors. Until now.
+              Bloomberg Terminal: ~$24,000/year. FactSet: ~$12,000+/year. LSEG Workspace: ~$22,000/year. The data infrastructure to run institutional fundamental analysis has been locked behind price points designed to exclude individual investors. Until now.
             </p>
           </div>
         </div>
@@ -456,7 +456,7 @@
             <div class="feature-icon" aria-hidden="true">&#128202;</div>
             <h3>Ranked List Every Market Day</h3>
             <p>
-              5,900+ companies across 30+ global exchanges scored twice each trading day. The engine measures intrinsic value discount, ROIC trends, balance sheet strength, and price pullback — then distills the results into a focused ranked list of the strongest fundamental candidates.
+              5,900+ companies across 30+ global exchanges scored 3x daily. The engine measures intrinsic value discount, ROIC trends, balance sheet strength, and price pullback — then distills the results into a focused ranked list of the strongest fundamental candidates.
             </p>
           </div>
 
@@ -605,7 +605,7 @@
             <div class="step-number" style="font-size:16px;font-weight:700;">Screen</div>
             <h3>Let the Model Narrow the Field</h3>
             <p>
-              Our engine analyzes 5,900+ stocks twice per day and scores them on value, business strength, resilience and price context.
+              Our engine analyzes 5,900+ stocks 3x daily and scores them on value, business strength, resilience and price context.
               The dashboard shows a ranked list with clear Buy (green), Watch (amber), or Avoid (red) tags and a written summary for each company.
             </p>
           </div>
@@ -765,6 +765,57 @@
       </div>
     </section>
 
+
+    <!-- Sector Pages Hub -->
+    <section class="section section--border" id="sectors">
+      <div class="container">
+        <h2>Browse Stocks by Sector</h2>
+        <p class="section-lead">AI-screened value picks across 8 major market sectors. Each sector page shows the top-ranked companies by fundamental score.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:8px;">
+          <a href="sector-basic-materials.html" style="display:block;padding:20px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--accent-green)'" onmouseout="this.style.borderColor='var(--border-color)'">
+            <div style="font-size:22px;margin-bottom:8px;">⛏️</div>
+            <div style="font-weight:700;color:var(--text-primary);font-size:15px;">Basic Materials</div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Mining, chemicals, commodities</div>
+          </a>
+          <a href="sector-communication-services.html" style="display:block;padding:20px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--accent-green)'" onmouseout="this.style.borderColor='var(--border-color)'">
+            <div style="font-size:22px;margin-bottom:8px;">📡</div>
+            <div style="font-weight:700;color:var(--text-primary);font-size:15px;">Communication Services</div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Telecom, media, digital advertising</div>
+          </a>
+          <a href="sector-consumer-cyclical.html" style="display:block;padding:20px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--accent-green)'" onmouseout="this.style.borderColor='var(--border-color)'">
+            <div style="font-size:22px;margin-bottom:8px;">🛍️</div>
+            <div style="font-weight:700;color:var(--text-primary);font-size:15px;">Consumer Cyclical</div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Retail, auto, leisure spending</div>
+          </a>
+          <a href="sector-consumer-defensive.html" style="display:block;padding:20px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--accent-green)'" onmouseout="this.style.borderColor='var(--border-color)'">
+            <div style="font-size:22px;margin-bottom:8px;">🛒</div>
+            <div style="font-weight:700;color:var(--text-primary);font-size:15px;">Consumer Defensive</div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Staples, FMCG, recession-resistant</div>
+          </a>
+          <a href="sector-financial-services.html" style="display:block;padding:20px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--accent-green)'" onmouseout="this.style.borderColor='var(--border-color)'">
+            <div style="font-size:22px;margin-bottom:8px;">🏦</div>
+            <div style="font-weight:700;color:var(--text-primary);font-size:15px;">Financial Services</div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Banks, insurance, asset management</div>
+          </a>
+          <a href="sector-healthcare.html" style="display:block;padding:20px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--accent-green)'" onmouseout="this.style.borderColor='var(--border-color)'">
+            <div style="font-size:22px;margin-bottom:8px;">🏥</div>
+            <div style="font-weight:700;color:var(--text-primary);font-size:15px;">Healthcare</div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Pharma, biotech, medical devices</div>
+          </a>
+          <a href="sector-industrials.html" style="display:block;padding:20px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--accent-green)'" onmouseout="this.style.borderColor='var(--border-color)'">
+            <div style="font-size:22px;margin-bottom:8px;">🏭</div>
+            <div style="font-weight:700;color:var(--text-primary);font-size:15px;">Industrials</div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Manufacturing, aerospace, logistics</div>
+          </a>
+          <a href="sector-technology.html" style="display:block;padding:20px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;text-decoration:none;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--accent-green)'" onmouseout="this.style.borderColor='var(--border-color)'">
+            <div style="font-size:22px;margin-bottom:8px;">💻</div>
+            <div style="font-weight:700;color:var(--text-primary);font-size:15px;">Technology</div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">Software, semiconductors, cloud</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- FAQ -->
     <section class="section">
       <div class="container">
@@ -806,7 +857,7 @@
           <div class="faq-item">
             <h3>How Often Is Data Updated?</h3>
             <p>
-              Market prices and scores are refreshed twice each trading day. Financial statement data is updated
+              Market prices and scores are refreshed 3x daily. Financial statement data is updated
               shortly after companies report earnings. This is built for long-term investors, not day traders.
             </p>
           </div>

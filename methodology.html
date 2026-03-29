@@ -195,16 +195,18 @@
   <header>
     <div class="container">
       <nav class="navbar">
-        <a href="index.html" class="logo" aria-label="Stedrok home">STEDROK</a>
+        <a href="index.html" class="logo" aria-label="Stedrok home"><img src="img/logo-icon.svg?v=20260319asset9" alt="" class="logo-icon" aria-hidden="true"/><span class="logo-text">STEDROK</span></a>
         <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
           <span></span>
           <span></span>
           <span></span>
         </button>
         <ul class="nav-links" id="navLinks">
+          <li><a href="demo.html">Demo</a></li>
           <li><a href="philosophy.html">Philosophy</a></li>
           <li><a href="methodology.html" class="active">Methodology</a></li>
           <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="learn.html">Learn</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
         <div class="auth-buttons" id="authButtons">
@@ -223,7 +225,7 @@
           <h1>How the Stedrok Value Framework Works</h1>
         <p class="author-byline" style="margin-top:10px; color:var(--text-secondary); font-size:14px;">By <a href="authors.html" style="color:var(--accent-green); text-decoration:underline;">Stedrok Research Team</a></p>
           <p class="hero-tagline">
-            Stedrok scans 5,900+ listed companies across 40+ global exchanges twice each trading day, cleans the data, and applies a rules-based value lens. The goal is simple — surface sound businesses at sensible prices and avoid fragile balance sheets. The system is clear enough to follow and strict enough to repeat. Alongside this Core process, AI Hybrid adds a separate layer of internet validation and integrity checks before results are published.
+            Stedrok scans 5,900+ listed companies across 40+ global exchanges 3x daily, cleans the data, and applies a rules-based value lens. The goal is simple — surface sound businesses at sensible prices and avoid fragile balance sheets. The system is clear enough to follow and strict enough to repeat. Alongside this Core process, AI Hybrid adds a separate layer of internet validation and integrity checks before results are published.
           </p>
           <p class="hero-subtext">
             Stedrok does not provide personal financial advice. The scores are
@@ -238,7 +240,7 @@
       <div class="container">
         <h2>Investment Philosophy</h2>
         <p>
-          Stedrok is built for patient, conservative investors who care more about downside risk and fundamentals than momentum or stories. We scan a universe of 5,900+ listed companies across 40+ global exchanges twice each day. We clean noisy fields, then apply a research-backed set of rules that point to value and resilience. The output is a simple ranked view and a clear label that guides your work. The model is open enough to understand, yet strict enough to stay consistent.
+          Stedrok is built for patient, conservative investors who care more about downside risk and fundamentals than momentum or stories. We scan a universe of 5,900+ listed companies across 40+ global exchanges 3x daily. We clean noisy fields, then apply a research-backed set of rules that point to value and resilience. The output is a simple ranked view and a clear label that guides your work. The model is open enough to understand, yet strict enough to stay consistent.
         </p>
         <p>
           Rather than chasing themes or short-term noise, we concentrate on the
@@ -261,7 +263,7 @@
           Prices and fundamentals are pulled into our data tables then standardised so the same rules apply across regions, sectors and sizes.
         </p>
         <p>
-          The scoring scripts run twice each trading day.
+          The scoring scripts run 3x daily.
           Fresh data flows through the value, quality, resilience and price context layers, and the rankings update on the dashboard.
           This approach keeps the list current without encouraging constant trading or overreaction to intraday noise.
         </p>
@@ -280,10 +282,10 @@
           Stedrok Core is the primary rules-based process. It applies the same valuation, quality, resilience, and price context logic consistently across the tracked universe. Every rating produced by Core follows a deterministic, auditable set of gates — no discretion, no overrides.
         </p>
         <p>
-          AI Hybrid runs as a separate AI-assisted process on top of Core output. It adds live internet validation, multi-source news integrity checks, independent evidence verification, and a confidence-ranking layer before candidates are published. Groq powers the real-time RSS and news integrity layer; Gemini provides grounded evidence verification with source citations. Both must clear a strict integrity gate before a result is promoted.
+          AI Hybrid runs as a separate AI-assisted process on top of Core output. It adds live internet validation, multi-source news integrity checks, independent evidence verification, and a confidence-ranking layer before candidates are published. An LLM inference layer powers the real-time RSS and news integrity layer; Gemini provides grounded evidence verification with source citations. Both must clear a strict integrity gate before a result is promoted.
         </p>
         <p>
-          <strong>StedrokGPT Pick</strong> is the final conviction validation step within AI Hybrid. It applies multi-scenario analysis, news integrity cross-checks, and evidence verification across independent sources before a candidate is confirmed. StedrokGPT Pick does not use a swarm voting model — it is a single-path, evidence-first validation with a high rejection threshold. The Blended view then combines top candidates from both Core and AI Hybrid so investors can compare agreement and divergence in one table.
+          <strong>StedrokGPT Pick</strong> is the final conviction validation step within AI Hybrid. It applies multi-scenario analysis, news integrity cross-checks, and evidence verification across independent sources before a candidate is confirmed. StedrokGPT Pick does not use a distributed voting model — it is a single-path, evidence-first validation with a high rejection threshold. The Blended view then combines top candidates from both Core and AI Hybrid so investors can compare agreement and divergence in one table.
         </p>
       </div>
     </section>
@@ -484,7 +486,7 @@
           <div>
             <h3>Data and Refresh</h3>
             <p>
-              Stedrok draws on public market data via yfinance and other established public providers. Price and fundamental data covers equities across 40+ global exchanges. Company financials are normalised to a common currency and scale so the same scoring rules apply consistently worldwide.
+              Stedrok draws on public market data via Yahoo Finance and other established public providers. Price and fundamental data covers equities across 40+ global exchanges. Company financials are normalised to a common currency and scale so the same scoring rules apply consistently worldwide.
             </p>
             <p>
               While every effort is made to keep information current and
