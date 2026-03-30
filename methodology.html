@@ -178,13 +178,21 @@
 
     .text-muted { color: var(--text-secondary); font-style: italic; }
 
-    /* Footer */
-/* Responsive */
+    /* Responsive */
     @media (max-width: 768px) {
       .pillars-grid { grid-template-columns: 1fr; }
       .usage-grid { grid-template-columns: 1fr; }
       .two-column { grid-template-columns: 1fr; }
       .hero h1 { font-size: 32px; }
+    }
+    @media (min-width: 769px) and (max-width: 900px) {
+      .usage-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .hero { padding: 36px 0 24px; }
+      .hero h1 { font-size: 26px; }
+      .hero-tagline { font-size: 16px; }
+      .section h2 { font-size: 24px; }
     }
   </style>
     <meta name="geo.region" content="AU">
@@ -536,7 +544,7 @@
       </div>
     </section>
 
-  <section style="background:linear-gradient(135deg,rgba(34,197,94,.08) 0%,rgba(59,130,246,.08) 100%);padding:64px 0;text-align:center;border-top:1px solid var(--border-color);">
+  <section class="cta-section" style="background:linear-gradient(135deg,rgba(34,197,94,.08) 0%,rgba(59,130,246,.08) 100%);">
     <div class="container">
       <h2 style="font-size:36px;margin-bottom:16px;">Ready to start screening?</h2>
       <p style="font-size:18px;color:var(--text-secondary);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;">5,900+ stocks scored daily. Free tier &#8212; no card required. Cancel anytime.</p>

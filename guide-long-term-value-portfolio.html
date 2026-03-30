@@ -106,7 +106,20 @@
     .section--narrow h2 { font-size: 28px; margin-top: 40px; margin-bottom: 16px; color: var(--text-primary); }
     .section--narrow p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 20px; font-size: 17px; }
     .lead { font-size: 20px; color: var(--text-secondary); margin-bottom: 40px; line-height: 1.7; }
-</style>
+    @media (max-width: 768px) {
+      .page-main { padding: 36px 0; }
+      .section--narrow h1 { font-size: 28px; }
+      .section--narrow h2 { font-size: 22px; margin-top: 28px; }
+      .lead { font-size: 17px; }
+    }
+    @media (max-width: 480px) {
+      .page-main { padding: 24px 0; }
+      .section--narrow h1 { font-size: 22px; }
+      .section--narrow h2 { font-size: 19px; }
+      .lead { font-size: 15px; }
+      img { max-width: 100%; height: auto; }
+    }
+  </style>
     <meta name="geo.region" content="AU">
     <meta name="geo.placename" content="Australia">
     <meta name="geo.position" content="-25.2744;133.7751">
@@ -234,7 +247,7 @@
       </div>
     </article>
 
-  <section style="background:linear-gradient(135deg,rgba(34,197,94,.08) 0%,rgba(59,130,246,.08) 100%);padding:64px 0;text-align:center;border-top:1px solid var(--border-color);">
+  <section class="cta-section" style="background:linear-gradient(135deg,rgba(34,197,94,.08) 0%,rgba(59,130,246,.08) 100%);">
     <div class="container">
       <h2 style="font-size:36px;margin-bottom:16px;">Ready to start screening?</h2>
       <p style="font-size:18px;color:var(--text-secondary);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;">5,900+ stocks scored daily. Free tier &#8212; no card required. Cancel anytime.</p>
