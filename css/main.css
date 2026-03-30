@@ -239,8 +239,11 @@ header {
 
 /* Buttons */
 .btn-primary, .btn-secondary, .btn-danger {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px 20px;
+  min-height: 44px;
   border-radius: 8px;
   font-weight: 600;
   font-size: 14px;
@@ -283,6 +286,7 @@ header {
 }
 
 .btn-block {
+  display: flex;
   width: 100%;
   text-align: center;
 }
@@ -1428,6 +1432,11 @@ footer {
 @media (max-width: 480px) {
   .auth-branding .logo { font-size: 22px; gap: 10px; }
   .auth-branding .logo-icon { height: 36px; }
+  .auth-card { padding: 24px 16px; }
+  .auth-full-screen { padding: 12px; }
+  .auth-card h1 { font-size: 22px; }
+  .auth-card .subtitle { font-size: 14px; }
+  .form-group small { font-size: 13px; }
 }
 
 .auth-branding .tagline {

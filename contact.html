@@ -82,6 +82,11 @@
     }
     @media (max-width: 480px) {
       .contact-card { padding: 20px 16px !important; }
+      #contact-inner { margin-top: 24px !important; margin-bottom: 24px !important; }
+    }
+    @media (max-width: 600px) {
+      #contact-inner { margin-top: 32px !important; margin-bottom: 32px !important; }
+      .contact-card h1 { font-size: 24px; }
     }
 </style>
     <meta name="geo.region" content="AU">
@@ -119,7 +124,7 @@
 
   <main id="main">
     <div class="container">
-      <div style="max-width:600px; margin:60px auto;">
+      <div id="contact-inner" style="max-width:600px; margin:60px auto;">
         <div class="card contact-card" style="padding:40px;">
           <h1 style="text-align:center; margin-bottom:8px;">Contact Us</h1>
           <p style="text-align:center; color:var(--text-secondary); margin-bottom:32px;">
@@ -201,22 +206,24 @@
     <div class="container">
       <div class="footer-main">
         <div class="footer-left">
+          <a href="index.html" class="logo footer-logo" aria-label="Stedrok home"><img src="img/logo-icon.svg?v=20260319asset9" alt="" class="logo-icon" aria-hidden="true"/><span class="logo-text">STEDROK</span></a>
           <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
-                    <p class="footer-tagline">
+          <p class="footer-tagline">
             Independent stock research for long-term investors. General information only, not personal financial advice. Past results do not guarantee future performance. Always do your own research before investing.
           </p>
         </div>
         <nav class="footer-links">
-                    <a href="pricing.html">Pricing</a>
+          <a href="dashboard.html">Dashboard</a>
+          <a href="pricing.html">Pricing</a>
           <a href="methodology.html">Methodology</a>
-          <a href="learn.html">Learn</a>
-          <a href="contact.html">Contact</a>
-          <a href="site-map.html">Sitemap</a>
-          <a href="terms.html">Terms</a>
-          <a href="privacy.html">Privacy</a>
           <a href="faq.html">FAQ</a>
+          <a href="learn.html">Learn</a>
           <a href="features.html">Features</a>
           <a href="how-it-works.html">How It Works</a>
+          <a href="contact.html">Contact</a>
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="site-map.html">Sitemap</a>
         </nav>
       </div>
     </div>
