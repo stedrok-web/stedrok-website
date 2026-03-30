@@ -1,5 +1,6 @@
 /* Stedrok Complete Stylesheet */
 * { box-sizing: border-box; margin: 0; padding: 0; }
+img, video { max-width: 100%; height: auto; }
 
 :root {
   color-scheme: light dark;
@@ -1430,6 +1431,10 @@ footer {
 }
 
 @media (max-width: 480px) {
+  .hero h1 { font-size: 28px !important; }
+  .cta-buttons { flex-direction: column; }
+  .cta-buttons .btn-primary,
+  .cta-buttons .btn-secondary { width: 100%; text-align: center; justify-content: center; }
   .auth-branding .logo { font-size: 22px; gap: 10px; }
   .auth-branding .logo-icon { height: 36px; }
   .auth-card { padding: 24px 16px; }
@@ -1555,6 +1560,8 @@ footer {
   
   .hero h1 { font-size: 32px; }
   .cta-buttons { flex-direction: column; }
+  .cta-buttons .btn-primary,
+  .cta-buttons .btn-secondary { width: 100%; text-align: center; justify-content: center; }
   .feature-grid { grid-template-columns: 1fr; }
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
 
