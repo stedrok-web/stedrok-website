@@ -1966,10 +1966,20 @@ function renderTable(stocks) {
 
   if (stocks.length === 0) {
     renderPaginationControls(0);
+    const hasActiveFilters = Boolean(
+      document.getElementById('searchInput')?.value?.trim() ||
+      document.getElementById('countryFilter')?.value?.trim() ||
+      document.getElementById('sectorFilter')?.value?.trim() ||
+      document.getElementById('minScoreFilter')?.value?.trim() ||
+      document.getElementById('decisionFilter')?.value
+    );
+    const emptyMessage = (allStocks.length > 0 && hasActiveFilters)
+      ? 'No stocks match the current filter settings. Try adjusting your search, country, sector, or rating filter.'
+      : 'No research rows are available in the current batch. Please check the next scheduled refresh.';
     tbody.innerHTML = `
       <tr>
-        <td colspan="15" style="text-align:center; padding:40px; color:#999;">
-          No research rows are available in the current batch. Please check the next refresh.
+        <td colspan="15" style="text-align:center; padding:40px; color:var(--text-secondary);">
+          ${emptyMessage}
         </td>
       </tr>
     `;
