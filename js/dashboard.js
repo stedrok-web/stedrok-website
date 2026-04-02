@@ -1445,6 +1445,16 @@ function stripPrimaryNewsLine(text) {
     .trim();
 }
 
+function truncateInsightSummary(text, maxWords = 45) {
+  const firstParagraph = String(text || '').split(/\n\s*\n+/)[0]?.trim() || String(text || '').trim();
+  if (!firstParagraph) return '';
+  const words = firstParagraph.split(/\s+/).filter(Boolean);
+  if (words.length <= maxWords) {
+    return firstParagraph;
+  }
+  return `${words.slice(0, maxWords).join(' ')}...`;
+}
+
 function cleanupInsightSummary(rawText, headlineText) {
   const stripped = stripPrimaryNewsLine(rawText);
   if (!stripped) return '';
@@ -1822,10 +1832,9 @@ function renderTickerInsight(summary, stock) {
     headlineEl.style.display = headlineEl.textContent ? 'block' : 'none';
   }
 
-  const summaryTextRaw = String(summary?.ticker_summary || summary?.dashboard_story || summary?.summary_short || summary?.summary_300w || '').trim();
+  const summaryTextRaw = String(summary?.summary_short || summary?.ticker_summary || summary?.dashboard_story || summary?.summary_300w || '').trim();
   const summaryTextFull = cleanupInsightSummary(summaryTextRaw, headlineEl?.textContent || '');
-  // Truncate to first paragraph only on the card
-  const summaryText = summaryTextFull.split(/\n\s*\n+/)[0] || summaryTextFull;
+  const summaryText = truncateInsightSummary(summaryTextFull, 45);
   if (summaryEl) {
     summaryEl.textContent = summaryText;
     summaryEl.style.display = summaryEl.textContent ? 'block' : 'none';
