@@ -1776,8 +1776,8 @@ function renderTickerInsight(summary, stock) {
   const decision = decisionLabel.toUpperCase();
   const isPreview = Boolean(summary?.__preview);
 
-  if (titleEl) titleEl.textContent = symbol;
-  if (subheadEl) subheadEl.textContent = company || 'Ticker detail';
+  if (titleEl) titleEl.textContent = company || symbol;
+  if (subheadEl) subheadEl.textContent = company ? symbol : 'Ticker detail';
 
   if (decisionEl) {
     decisionEl.textContent = decisionLabel;
@@ -1805,13 +1805,26 @@ function renderTickerInsight(summary, stock) {
     relevanceEl.textContent = `Relevance: ${value}`;
   }
 
+  const mcapEl = document.getElementById('tickerInsightMarketCap');
+  if (mcapEl) {
+    const mcapValue = Number(stock?.market_cap_usd ?? stock?.market_cap ?? 0);
+    if (Number.isFinite(mcapValue) && mcapValue > 0) {
+      mcapEl.textContent = 'Mkt Cap: ' + formatMarketCap(mcapValue, stock);
+      mcapEl.style.display = '';
+    } else {
+      mcapEl.style.display = 'none';
+    }
+  }
+
   if (headlineEl) {
     headlineEl.textContent = String(summary?.headline || '').trim();
     headlineEl.style.display = headlineEl.textContent ? 'block' : 'none';
   }
 
   const summaryTextRaw = String(summary?.ticker_summary || summary?.dashboard_story || summary?.summary_short || summary?.summary_300w || '').trim();
-  const summaryText = cleanupInsightSummary(summaryTextRaw, headlineEl?.textContent || '');
+  const summaryTextFull = cleanupInsightSummary(summaryTextRaw, headlineEl?.textContent || '');
+  // Truncate to first paragraph only on the card
+  const summaryText = summaryTextFull.split(/\n\s*\n+/)[0] || summaryTextFull;
   if (summaryEl) {
     summaryEl.textContent = summaryText;
     summaryEl.style.display = summaryEl.textContent ? 'block' : 'none';
