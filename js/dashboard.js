@@ -2766,11 +2766,14 @@ function applyFilters() {
 
   // Apply sorting
   filtered.sort((a, b) => {
-    // Keep market-region prioritization only for Core. Hybrid and StedrokGPT Pick should show raw ranked output.
-    if (normalizeDashboardLane(currentLaneMode) === 'core') {
-      const regionDelta = marketRegionRank(a) - marketRegionRank(b);
-      if (regionDelta !== 0) return regionDelta;
-    }
+    // Region prioritization: USA -> UK -> Europe -> Australia for ALL lanes
+    const regionDelta = marketRegionRank(a) - marketRegionRank(b);
+    if (regionDelta !== 0) return regionDelta;
+
+    // Within same region: sort by market cap descending
+    const mcA = Number(a?.market_cap_usd ?? a?.market_cap ?? 0) || 0;
+    const mcB = Number(b?.market_cap_usd ?? b?.market_cap ?? 0) || 0;
+    if (mcA !== mcB && mcA > 0 && mcB > 0) return mcB - mcA;
 
     const decisionDelta = decisionPriorityScore(a?.decision) - decisionPriorityScore(b?.decision);
     if (decisionDelta !== 0) {
