@@ -814,13 +814,13 @@ function isBuyDecision(decision) {
 function normalizePickRowShape(stock) {
   const row = stock || {};
   const ticker = String(row.ticker || row.symbol || '').trim().toUpperCase();
-  const decision = String(row.decision || '').trim().toUpperCase();
+  const decision = String(row.decision || row.dominant_verdict || row.dominantVerdict || '').trim().toUpperCase();
 
   return {
     ...row,
     ticker,
     company_name: row.company_name || row.companyName || '',
-    market_cap: toNumberOrNull(row.market_cap ?? row.marketCap),
+    market_cap: toNumberOrNull(row.market_cap ?? row.marketCap ?? row.market_cap_usd),
     current_price: toNumberOrNull(row.current_price ?? row.price),
     fair_value: toNumberOrNull(row.fair_value ?? row.estimatedValue),
     discount_pct: (() => { const _d = toNumberOrNull(row.discount_pct ?? row.discountPct); if (_d == null) return _d; const _lane = String(row.selection_lane || "").toLowerCase(); const _isSwarm = _lane === "swarm"; if (_isSwarm) return _d; return Math.abs(_d) <= 3.5 ? _d * 100 : _d; })(),
@@ -1810,7 +1810,7 @@ function renderTickerInsight(summary, stock) {
     headlineEl.style.display = headlineEl.textContent ? 'block' : 'none';
   }
 
-  const summaryTextRaw = String(summary?.dashboard_story || summary?.summary_short || summary?.summary_300w || '').trim();
+  const summaryTextRaw = String(summary?.ticker_summary || summary?.dashboard_story || summary?.summary_short || summary?.summary_300w || '').trim();
   const summaryText = cleanupInsightSummary(summaryTextRaw, headlineEl?.textContent || '');
   if (summaryEl) {
     summaryEl.textContent = summaryText;
