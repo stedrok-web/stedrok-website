@@ -512,7 +512,7 @@ header {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  min-width: 1180px;
+  min-width: 860px;
   background: transparent;
 }
 
@@ -605,37 +605,51 @@ header {
   background: rgba(34, 197, 94, 0.2);
 }
 
+/* Column widths: 8-column layout */
 .stock-table thead th:nth-child(1),
 .stock-table tbody td:nth-child(1) {
-  min-width: 156px;
+  min-width: 130px; max-width: 160px;
 }
 
 .stock-table thead th:nth-child(2),
 .stock-table tbody td:nth-child(2) {
-  min-width: 210px;
+  min-width: 150px; max-width: 200px;
 }
 
 .stock-table thead th:nth-child(3),
 .stock-table tbody td:nth-child(3) {
-  min-width: 132px;
+  min-width: 90px; max-width: 120px;
 }
 
 .stock-table thead th:nth-child(4),
 .stock-table tbody td:nth-child(4) {
-  min-width: 160px;
+  min-width: 110px; max-width: 150px;
 }
 
 .stock-table thead th:nth-child(5),
 .stock-table tbody td:nth-child(5) {
   text-align: center;
-  min-width: 110px;
+  min-width: 80px;
 }
 
-.stock-table thead th:nth-child(n+6),
-.stock-table tbody td:nth-child(n+6) {
+.stock-table thead th:nth-child(6),
+.stock-table tbody td:nth-child(6) {
   text-align: right;
   font-variant-numeric: tabular-nums;
-  min-width: 108px;
+  min-width: 100px;
+}
+
+.stock-table thead th:nth-child(7),
+.stock-table tbody td:nth-child(7) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  min-width: 90px;
+}
+
+.stock-table thead th:nth-child(8),
+.stock-table tbody td:nth-child(8) {
+  text-align: center;
+  min-width: 80px;
 }
 
 .stock-table td.positive {
@@ -1693,4 +1707,17 @@ footer {
   .cta-section h2 { font-size: 22px !important; }
 }
 
-
+/* Lane label above the stocks table */
+.table-lane-label {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(34,197,94,0.12);
+  border: 1px solid rgba(34,197,94,0.3);
+  color: var(--accent-green, #4ade80);
+  margin-bottom: 6px;
+}

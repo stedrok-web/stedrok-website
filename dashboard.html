@@ -209,6 +209,7 @@
       </div>
 
       <div id="tableStatus" role="status" aria-live="polite" aria-atomic="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;"></div>
+      <div id="tableLaneLabel" class="table-lane-label" style="display:none;"></div>
       <div class="table-container" style="overflow-x:auto;-webkit-overflow-scrolling:touch;" role="region" aria-label="Scrollable stock rankings table" tabindex="0">
         <table class="stock-table" id="stocksTable">
           <caption style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">Current ranked stock coverage table with sortable columns for symbol, company, country, sector, rating, scores, and price context.</caption>
@@ -218,21 +219,14 @@
               <th scope="col" data-sort="company_name">Company</th>
               <th scope="col" data-sort="country">Country</th>
               <th scope="col" data-sort="sector">Sector</th>
-              <th scope="col" data-sort="decision">Rating</th>
-              <th scope="col" data-sort="market_cap">Mkt Cap</th>
-              <th scope="col" data-sort="confidence">Confidence</th>
-              <th scope="col" data-sort="value_score">Value</th>
               <th scope="col" data-sort="quality_score">Quality</th>
-              <th scope="col" data-sort="risk_score">Risk</th>
-              <th scope="col" data-sort="dip_score">Dip</th>
-              <th scope="col" data-sort="current_price">Price</th>
               <th scope="col" data-sort="fair_value">Fair Value</th>
-              <th scope="col" data-sort="discount_pct">Discount</th>
-              <th id="thSwarmScore" scope="col" data-sort="swarm_score" style="display:none;">Pick Score</th>
+              <th scope="col" data-sort="discount_pct">Discount %</th>
+              <th scope="col" data-sort="decision">Rating</th>
             </tr>
           </thead>
           <tbody id="stocksTableBody">
-            <tr><td colspan="15" style="text-align:center;padding:30px;color:var(--text-secondary);">Loading current batch...</td></tr>
+            <tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text-secondary);">Loading current batch...</td></tr>
           </tbody>
         </table>
       </div>

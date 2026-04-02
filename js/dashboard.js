@@ -70,6 +70,7 @@ const DEVELOPED_REGION_COUNTRIES = new Set([
 // ============================================================
 // Score cell helper - color graduation + mini bar
 // ============================================================
+function truncate(s,n){if(!s||s.length<=n)return s;return s.slice(0,n-1)+"…";}
 function scoreCell(val) {
   if (val == null || val === '' || val === undefined) return '<td class="score-val">—</td>';
   const n = Math.round(parseFloat(val));
@@ -1975,6 +1976,13 @@ async function showTickerInsight(ticker, triggerEl = null) {
 // ============================================================
 function renderTable(stocks) {
   _pagedStocks = stocks;
+  // Update lane label above table
+  const _llEl = document.getElementById('tableLaneLabel');
+  if (_llEl) {
+    const _laneNames = { core: 'Core Picks', hybrid: 'Hybrid Pool', blended: 'Solid Buy Pool' };
+    _llEl.textContent = _laneNames[normalizeDashboardLane(currentLaneMode)] || 'Core Picks';
+    _llEl.style.display = '';
+  }
   const totalPages = Math.max(1, Math.ceil(stocks.length / PAGE_SIZE));
   if (currentPage >= totalPages) currentPage = totalPages - 1;
   const pageStart = currentPage * PAGE_SIZE;
@@ -2013,7 +2021,9 @@ function renderTable(stocks) {
     const tr = document.createElement('tr');
     const decisionClass = decisionClassFromValue(stock.decision);
     const tickerDisplay = getTickerDisplayParts(stock);
-    const newBadgeHtml = stock.is_new ? '<span class="badge badge-new ticker-new-badge">NEW</span>' : '';
+    const _ams = stock.added_at ? new Date(stock.added_at).getTime() : 0;
+    const _rec = _ams > 0 ? (Date.now() - _ams < 86400000) : true;
+    const newBadgeHtml = (stock.is_new && isBuyDecision(stock.decision) && _rec) ? '<span class="badge badge-new ticker-new-badge">NEW</span>' : '';
     const geminiBadgeHtml = stock.gemini_selected ? '<span class="badge badge-ai-pick ticker-ai-badge" title="Selected by Gemini AI as a top high-conviction pick">★</span>' : '';
 
     if (isFreeUser) {
@@ -2030,30 +2040,21 @@ function renderTable(stocks) {
         <td>${_escHtml(stock.company_name || '-')}</td>
         <td>${_escHtml(stock.country || '-')}</td>
         <td>${_escHtml(stock.sector || '-')}</td>
-        <td colspan="${currentLaneMode === 'blended' ? 15 : 14}" style="text-align:center; color:var(--text-secondary);">
+        <td colspan="4" style="text-align:center; color:var(--text-secondary);">
           <a href="pricing.html" style="color:var(--accent-green); font-weight:bold;">
             Upgrade to Pro for full metrics &rarr;
           </a>
         </td>
       `;
     } else {
-      // Paid user: Show all columns matching header order
-      // 1. Symbol, 2. Company, 3. Country, 4. Sector, 5. Rating, 6. Mkt Cap, 7. Confidence,
-      // 8. Value, 9. Quality, 10. Risk, 11. Dip, 12. Price, 13. Fair Value, 14. Discount
-      const marketCapRaw = formatNumericDataValue(stock.market_cap);
-      const confidenceRaw = formatNumericDataValue(stock.confidence);
-      const valueRaw = formatNumericDataValue(stock.value_score);
-      const qualityRaw = formatNumericDataValue(stock.quality_score);
-      const riskRaw = formatNumericDataValue(stock.risk_score);
-      const dipRaw = formatNumericDataValue(stock.dip_score);
-      const currentPriceRaw = formatNumericDataValue(stock.current_price);
-      const fairValueRaw = formatNumericDataValue(stock.fair_value);
-      const discountRaw = formatNumericDataValue(stock.discount_pct);
+      // Paid user: 8-column layout: Symbol | Company | Country | Sector | Quality | Fair Value | Discount | Rating
+      const qualityRaw    = formatNumericDataValue(stock.quality_score);
+      const fairValueRaw  = formatNumericDataValue(stock.fair_value);
+      const discountRaw   = formatNumericDataValue(stock.discount_pct);
       const discountValue = Number(stock.discount_pct);
       const discountClassName = !Number.isFinite(discountValue) ? '' :
         discountValue >= 15 ? 'discount-high' :
         discountValue >= 5  ? 'discount-mid'  : 'discount-low';
-
       tr.innerHTML = `
         <td>
           <div class="ticker-cell">
@@ -2063,24 +2064,13 @@ function renderTable(stocks) {
             ${geminiBadgeHtml}${newBadgeHtml}
           </div>
         </td>
-        <td>${_escHtml(stock.company_name || '-')}</td>
-        <td>${_escHtml(stock.country || '-')}</td>
-        <td>${_escHtml(stock.sector || '-')}</td>
-        <td><span class="badge ${decisionClass}">${_escHtml(stock.decision || '-')}</span></td>
-        <td data-value="${marketCapRaw}">${formatMarketCap(stock.market_cap, stock)}</td>
-        <td data-value="${confidenceRaw}">${stock.confidence != null ? stock.confidence.toFixed(1) + '%' : '-'}</td>
-        ${scoreCell(stock.value_score)}
+        <td class="company-cell" title="${_escHtml(stock.company_name||'')}"><span class="cell-truncate">${_escHtml(truncate(stock.company_name||'-',22))}</span></td>
+        <td>${_escHtml(stock.country||'-')}</td>
+        <td class="sector-cell" title="${_escHtml(stock.sector||'')}"><span class="cell-truncate">${_escHtml(truncate(stock.sector||'-',16))}</span></td>
         ${scoreCell(stock.quality_score)}
-        ${scoreCell(stock.risk_score)}
-        ${scoreCell(stock.dip_score)}
-        <td data-value="${currentPriceRaw}">${formatPrice(stock.current_price, stock)}</td>
-        <td data-value="${fairValueRaw}">${formatPrice(stock.fair_value, stock)}</td>
-        <td class="${discountClassName}" data-value="${discountRaw}">
-          ${stock.discount_pct != null ? stock.discount_pct.toFixed(1) + '%' : '-'}
-        </td>
-        <td data-col="swarm_score" data-value="${formatNumericDataValue(stock.swarm_score)}" style="display:none;">
-          ${stock.swarm_score != null ? stock.swarm_score.toFixed(1) : '&#8212;'}
-        </td>
+        <td data-value="${fairValueRaw}">${formatPrice(stock.fair_value,stock)}</td>
+        <td class="${discountClassName}" data-value="${discountRaw}">${stock.discount_pct!=null?stock.discount_pct.toFixed(1)+'%':'-'}</td>
+        <td style="text-align:center;"><span class="badge ${decisionClass}">${_escHtml(stock.decision||'-')}</span></td>
       `;
     }
 
@@ -2246,27 +2236,6 @@ function getTickerDisplayParts(stock) {
   const suffix = extractTickerSuffix(rawTicker);
   if (!suffix) {
     return { main: rawTicker, secondary: '', plain: rawTicker };
-  }
-
-  const country = normalizeCountryName(stock?.country).toUpperCase();
-  const exchange = normalizeExchangeLabel(deriveExchangeLabel(stock)).toUpperCase();
-  const isUsCountry = country === 'UNITED STATES' || country === 'USA' || country === 'US';
-  const isUsExchange =
-    exchange.includes('NYSE') ||
-    exchange.includes('NASDAQ') ||
-    exchange.includes('AMEX') ||
-    exchange.includes('USA');
-
-  if (isUsCountry && !isUsExchange) {
-    const primary = rawTicker.split('.')[0];
-    if (primary && primary !== rawTicker) {
-      const secondary = `US: ${primary}`;
-      return {
-        main: rawTicker,
-        secondary,
-        plain: `${rawTicker} (${secondary})`
-      };
-    }
   }
 
   return { main: rawTicker, secondary: '', plain: rawTicker };
