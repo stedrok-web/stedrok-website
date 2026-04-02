@@ -823,7 +823,7 @@ function normalizePickRowShape(stock) {
     market_cap: toNumberOrNull(row.market_cap ?? row.marketCap ?? row.market_cap_usd),
     current_price: toNumberOrNull(row.current_price ?? row.price),
     fair_value: toNumberOrNull(row.fair_value ?? row.estimatedValue),
-    discount_pct: (() => { const _d = toNumberOrNull(row.discount_pct ?? row.discountPct); if (_d == null) return _d; const _lane = String(row.selection_lane || "").toLowerCase(); const _isSwarm = _lane === "swarm"; if (_isSwarm) return _d; return Math.abs(_d) <= 3.5 ? _d * 100 : _d; })(),
+    discount_pct: (() => { const _d = toNumberOrNull(row.discount_pct ?? row.discountPct); if (_d == null) return _d; const _lane = String(row.selection_lane || "").toLowerCase(); const _isSwarm = _lane === "swarm"; if (_isSwarm) return _d; return Math.abs(_d) < 1 ? _d * 100 : _d; })(),
     value_score: toNumberOrNull(row.value_score ?? row.valueScore),
     quality_score: toNumberOrNull(row.quality_score ?? row.qualityScore),
     risk_score: toNumberOrNull(row.risk_score ?? row.riskScore),
@@ -1634,10 +1634,10 @@ function buildFallbackSummary(stock) {
     ? `${stock.discount_pct.toFixed(1)}%`
     : 'not available';
   const scoreText = [
-    `Value ${stock.value_score != null ? stock.value_score.toFixed(1) + '%' : 'not available'}`,
-    `Quality ${stock.quality_score != null ? stock.quality_score.toFixed(1) + '%' : 'not available'}`,
-    `Risk ${stock.risk_score != null ? stock.risk_score.toFixed(1) + '%' : 'not available'}`,
-    `Dip ${stock.dip_score != null ? stock.dip_score.toFixed(1) + '%' : 'not available'}`
+    `Value ${stock.value_score != null ? stock.value_score.toFixed(0) : 'n/a'}`,
+    `Quality ${stock.quality_score != null ? stock.quality_score.toFixed(0) : 'n/a'}`,
+    `Risk ${stock.risk_score != null ? stock.risk_score.toFixed(0) : 'n/a'}`,
+    `Dip ${stock.dip_score != null ? stock.dip_score.toFixed(0) : 'n/a'}`
   ].join(' | ');
 
   const valuationLine = stock.discount_pct != null && stock.discount_pct > 0
@@ -2011,8 +2011,7 @@ function renderTable(stocks) {
 
   pageStocks.forEach(stock => {
     const tr = document.createElement('tr');
-    const decisionClass = stock.decision === 'BUY' ? 'badge-buy' :
-                         stock.decision === 'WATCH' ? 'badge-watch' : 'badge-avoid';
+    const decisionClass = decisionClassFromValue(stock.decision);
     const tickerDisplay = getTickerDisplayParts(stock);
     const newBadgeHtml = stock.is_new ? '<span class="badge badge-new ticker-new-badge">NEW</span>' : '';
     const geminiBadgeHtml = stock.gemini_selected ? '<span class="badge badge-ai-pick ticker-ai-badge" title="Selected by Gemini AI as a top high-conviction pick">★</span>' : '';
@@ -2051,7 +2050,9 @@ function renderTable(stocks) {
       const fairValueRaw = formatNumericDataValue(stock.fair_value);
       const discountRaw = formatNumericDataValue(stock.discount_pct);
       const discountValue = Number(stock.discount_pct);
-      const discountClassName = Number.isFinite(discountValue) && discountValue > 0 ? 'positive' : 'negative';
+      const discountClassName = !Number.isFinite(discountValue) ? '' :
+        discountValue >= 15 ? 'discount-high' :
+        discountValue >= 5  ? 'discount-mid'  : 'discount-low';
 
       tr.innerHTML = `
         <td>
