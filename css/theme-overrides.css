@@ -911,23 +911,6 @@ textarea:disabled {
   text-decoration: none;
   transform: translateY(-0.55em);
 }
-/* Investor safety: risk warning badge for low risk_score picks */
-.ticker-risk-badge {
-  display: inline-block;
-  padding: 0.02rem 0.28rem;
-  font-size: 0.54rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  line-height: 1;
-  cursor: help;
-  opacity: 0.95;
-  transform: translateY(-0.55em);
-  color: var(--avoid);
-  border: 1px solid rgba(var(--accent-red-rgb), 0.65);
-  background: rgba(var(--accent-red-rgb), 0.12);
-  border-radius: 999px;
-  text-transform: uppercase;
-}
 
 .stock-table .ticker-cell {
   gap: 0.22rem;

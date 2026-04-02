@@ -1996,13 +1996,6 @@ function renderTable(stocks) {
     const tickerDisplay = getTickerDisplayParts(stock);
     const newBadgeHtml = stock.is_new ? '<span class="badge badge-new ticker-new-badge">NEW</span>' : '';
     const geminiBadgeHtml = stock.gemini_selected ? '<span class="badge badge-ai-pick ticker-ai-badge" title="Selected by Gemini AI as a top high-conviction pick">★</span>' : '';
-    // INVESTOR SAFETY: Show risk warning badge when risk_score is low
-    const riskScore = typeof stock.risk_score === 'number' ? stock.risk_score : null;
-    const riskBadgeHtml = riskScore !== null && riskScore < 40
-      ? `<span class="badge badge-avoid ticker-risk-badge" title="High Risk: Risk Score ${riskScore.toFixed(0)}/100 — verify fundamentals before investing">⚠ RISK</span>`
-      : riskScore !== null && riskScore < 52
-      ? `<span class="badge badge-watch ticker-risk-badge" title="Moderate Risk: Risk Score ${riskScore.toFixed(0)}/100 — review risk factors before investing">⚠</span>`
-      : '';
 
     if (isFreeUser) {
       // Free user: Show only ticker, company, country, sector, then upgrade prompt
@@ -2012,7 +2005,7 @@ function renderTable(stocks) {
             <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View preview for ${_escHtml(tickerDisplay.plain)}">
               <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${_escHtml(tickerDisplay.secondary)})</span>` : ''}
             </button>
-            ${geminiBadgeHtml}${newBadgeHtml}${riskBadgeHtml}
+            ${geminiBadgeHtml}${newBadgeHtml}
           </div>
         </td>
         <td>${_escHtml(stock.company_name || '-')}</td>
@@ -2046,7 +2039,7 @@ function renderTable(stocks) {
             <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View insight for ${_escHtml(tickerDisplay.plain)}">
               <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${_escHtml(tickerDisplay.secondary)})</span>` : ''}
             </button>
-            ${geminiBadgeHtml}${newBadgeHtml}${riskBadgeHtml}
+            ${geminiBadgeHtml}${newBadgeHtml}
           </div>
         </td>
         <td>${_escHtml(stock.company_name || '-')}</td>
