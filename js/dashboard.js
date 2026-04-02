@@ -1824,15 +1824,14 @@ function renderTickerInsight(summary, stock) {
 
   const summaryTextRaw = String(summary?.dashboard_story || summary?.summary_short || summary?.summary_300w || '').trim();
   const summaryTextFull = cleanupInsightSummary(summaryTextRaw, headlineEl?.textContent || '');
-  const summaryText = summaryTextFull.split(/\n\s*\n+/)[0] || summaryTextFull;
   if (summaryEl) {
-    summaryEl.textContent = summaryText;
+    summaryEl.textContent = summaryTextFull;
     summaryEl.style.display = summaryEl.textContent ? 'block' : 'none';
   }
 
   if (guidanceEl) {
     const guidanceText = stripPrimaryNewsLine(String(summary?.news_guidance || '').trim());
-    const summaryComparable = normalizeForComparison(summaryText);
+    const summaryComparable = normalizeForComparison(summaryTextFull);
     const guidanceComparable = normalizeForComparison(guidanceText);
     const shouldShowGuidance = Boolean(guidanceText) &&
       (!guidanceComparable || !summaryComparable.includes(guidanceComparable));
