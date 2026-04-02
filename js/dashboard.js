@@ -2006,7 +2006,7 @@ function renderTable(stocks) {
       : 'No research rows are available in the current batch. Please check the next scheduled refresh.';
     tbody.innerHTML = `
       <tr>
-        <td colspan="15" style="text-align:center; padding:40px; color:var(--text-secondary);">
+        <td colspan="8" style="text-align:center; padding:40px; color:var(--text-secondary);">
           ${emptyMessage}
         </td>
       </tr>
