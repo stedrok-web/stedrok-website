@@ -2016,7 +2016,7 @@ function renderTable(stocks) {
         <td>
           <div class="ticker-cell">
             <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View preview for ${_escHtml(tickerDisplay.plain)}">
-              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${_escHtml(tickerDisplay.secondary)})</span>` : ''}
+              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${stock.ticker.length <= 2 && stock.company_name ? `<span class="ticker-company-hint">· ${_escHtml(stock.company_name)}</span>` : ''}
             </button>
             ${geminiBadgeHtml}${newBadgeHtml}
           </div>
@@ -2050,7 +2050,7 @@ function renderTable(stocks) {
         <td>
           <div class="ticker-cell">
             <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View insight for ${_escHtml(tickerDisplay.plain)}">
-              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${_escHtml(tickerDisplay.secondary)})</span>` : ''}
+              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${stock.ticker.length <= 2 && stock.company_name ? `<span class="ticker-company-hint">· ${_escHtml(stock.company_name)}</span>` : ''}
             </button>
             ${geminiBadgeHtml}${newBadgeHtml}
           </div>
