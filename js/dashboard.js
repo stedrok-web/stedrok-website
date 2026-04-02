@@ -1874,7 +1874,7 @@ function renderTickerInsight(summary, stock) {
 
   if (hasSwarm) {
     if (swarmScoreEl) {
-      const scoreValue = stock.swarm_score ?? stock.internet_evidence_score;
+      const scoreValue = stock.swarm_score ?? (stock.internet_evidence_score != null ? stock.internet_evidence_score : null) ?? stock.quality_score;
       swarmScoreEl.textContent = Number.isFinite(Number(scoreValue)) ? Number(scoreValue).toFixed(1) : '—';
     }
     const sb = stock.scenario_breakdown || {};
@@ -1894,9 +1894,16 @@ function renderTickerInsight(summary, stock) {
     } else {
       if (swarmBase) swarmBase.textContent = 'Verdict: ' + (stock.internet_verdict || '—');
       if (swarmBull) swarmBull.textContent = 'Catalyst: ' + (stock.internet_catalyst_strength || '—');
-      if (swarmBear) swarmBear.textContent = 'Value: ' + (stock.internet_valuation_context || '—');
+      if (swarmBear) {
+        let valCtx = stock.internet_valuation_context || '';
+        if (!valCtx && stock.discount_pct != null) {
+          const dp = Number(stock.discount_pct);
+          valCtx = dp >= 20 ? 'deep_value' : dp >= 10 ? 'moderate_discount' : dp >= 5 ? 'fair_value' : 'at_value';
+        }
+        swarmBear.textContent = 'Value: ' + (valCtx || '—');
+      }
       if (swarmCrisis) {
-        const evidence = Number.isFinite(Number(stock.internet_evidence_score)) ? Number(stock.internet_evidence_score).toFixed(1) : '—';
+        const evidence = stock.internet_evidence_score != null && Number.isFinite(Number(stock.internet_evidence_score)) ? Number(stock.internet_evidence_score).toFixed(1) : '—';
         swarmCrisis.textContent = 'Evidence: ' + evidence;
       }
     }
@@ -2016,7 +2023,7 @@ function renderTable(stocks) {
         <td>
           <div class="ticker-cell">
             <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View preview for ${_escHtml(tickerDisplay.plain)}">
-              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${stock.ticker.length <= 2 && stock.company_name ? `<span class="ticker-company-hint">· ${_escHtml(stock.company_name)}</span>` : ''}
+              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${stock.ticker.length <= 2 && stock.company_name ? `<span class="ticker-company-hint">&middot;&nbsp;${_escHtml(stock.company_name)}</span>` : ''}
             </button>
             ${geminiBadgeHtml}${newBadgeHtml}
           </div>
@@ -2050,7 +2057,7 @@ function renderTable(stocks) {
         <td>
           <div class="ticker-cell">
             <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View insight for ${_escHtml(tickerDisplay.plain)}">
-              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${stock.ticker.length <= 2 && stock.company_name ? `<span class="ticker-company-hint">· ${_escHtml(stock.company_name)}</span>` : ''}
+              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${stock.ticker.length <= 2 && stock.company_name ? `<span class="ticker-company-hint">&middot;&nbsp;${_escHtml(stock.company_name)}</span>` : ''}
             </button>
             ${geminiBadgeHtml}${newBadgeHtml}
           </div>
