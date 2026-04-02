@@ -2006,7 +2006,7 @@ function renderTable(stocks) {
       : 'No research rows are available in the current batch. Please check the next scheduled refresh.';
     tbody.innerHTML = `
       <tr>
-        <td colspan="8" style="text-align:center; padding:40px; color:var(--text-secondary);">
+        <td colspan="15" style="text-align:center; padding:40px; color:var(--text-secondary);">
           ${emptyMessage}
         </td>
       </tr>
@@ -2025,6 +2025,12 @@ function renderTable(stocks) {
     const _rec = _ams > 0 ? (Date.now() - _ams < 86400000) : true;
     const newBadgeHtml = (stock.is_new && isBuyDecision(stock.decision) && _rec) ? '<span class="badge badge-new ticker-new-badge">NEW</span>' : '';
     const geminiBadgeHtml = stock.gemini_selected ? '<span class="badge badge-ai-pick ticker-ai-badge" title="Selected by Gemini AI as a top high-conviction pick">★</span>' : '';
+    const riskScore = typeof stock.risk_score === 'number' ? stock.risk_score : null;
+    const riskBadgeHtml = riskScore !== null && riskScore < 40
+      ? `<span class="badge badge-avoid ticker-risk-badge" title="High Risk: Risk Score ${riskScore.toFixed(0)}/100 — verify fundamentals before investing">⚠ RISK</span>`
+      : riskScore !== null && riskScore < 52
+      ? `<span class="badge badge-watch ticker-risk-badge" title="Moderate Risk: Risk Score ${riskScore.toFixed(0)}/100 — review risk factors before investing">⚠</span>`
+      : '';
 
     if (isFreeUser) {
       // Free user: Show only ticker, company, country, sector, then upgrade prompt
@@ -2032,45 +2038,57 @@ function renderTable(stocks) {
         <td>
           <div class="ticker-cell">
             <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View preview for ${_escHtml(tickerDisplay.plain)}">
-              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>
+              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${_escHtml(tickerDisplay.secondary)})</span>` : ''}
             </button>
-            ${geminiBadgeHtml}${newBadgeHtml}
+            ${geminiBadgeHtml}${newBadgeHtml}${riskBadgeHtml}
           </div>
         </td>
         <td>${_escHtml(stock.company_name || '-')}</td>
         <td>${_escHtml(stock.country || '-')}</td>
         <td>${_escHtml(stock.sector || '-')}</td>
-        <td colspan="4" style="text-align:center; color:var(--text-secondary);">
+        <td colspan="11" style="text-align:center; color:var(--text-secondary);">
           <a href="pricing.html" style="color:var(--accent-green); font-weight:bold;">
             Upgrade to Pro for full metrics &rarr;
           </a>
         </td>
       `;
     } else {
-      // Paid user: 8-column layout: Symbol | Company | Country | Sector | Quality | Fair Value | Discount | Rating
-      const qualityRaw    = formatNumericDataValue(stock.quality_score);
-      const fairValueRaw  = formatNumericDataValue(stock.fair_value);
-      const discountRaw   = formatNumericDataValue(stock.discount_pct);
+      const marketCapRaw = formatNumericDataValue(stock.market_cap);
+      const confidenceRaw = formatNumericDataValue(stock.confidence);
+      const valueRaw = formatNumericDataValue(stock.value_score);
+      const qualityRaw = formatNumericDataValue(stock.quality_score);
+      const riskRaw = formatNumericDataValue(stock.risk_score);
+      const dipRaw = formatNumericDataValue(stock.dip_score);
+      const currentPriceRaw = formatNumericDataValue(stock.current_price);
+      const fairValueRaw = formatNumericDataValue(stock.fair_value);
+      const discountRaw = formatNumericDataValue(stock.discount_pct);
       const discountValue = Number(stock.discount_pct);
-      const discountClassName = !Number.isFinite(discountValue) ? '' :
-        discountValue >= 15 ? 'discount-high' :
-        discountValue >= 5  ? 'discount-mid'  : 'discount-low';
+      const discountClassName = Number.isFinite(discountValue) && discountValue > 0 ? 'positive' : 'negative';
       tr.innerHTML = `
         <td>
           <div class="ticker-cell">
             <button type="button" class="ticker-insight-trigger" data-ticker="${_escHtml(stock.ticker)}" aria-label="View insight for ${_escHtml(tickerDisplay.plain)}">
-              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>
+              <span class="ticker-label-main">${_escHtml(tickerDisplay.main)}</span>${tickerDisplay.secondary ? `<span class="ticker-label-secondary">(${_escHtml(tickerDisplay.secondary)})</span>` : ''}
             </button>
-            ${geminiBadgeHtml}${newBadgeHtml}
+            ${geminiBadgeHtml}${newBadgeHtml}${riskBadgeHtml}
           </div>
         </td>
         <td class="company-cell" title="${_escHtml(stock.company_name||'')}"><span class="cell-truncate">${_escHtml(truncate(stock.company_name||'-',22))}</span></td>
         <td>${_escHtml(stock.country||'-')}</td>
         <td class="sector-cell" title="${_escHtml(stock.sector||'')}"><span class="cell-truncate">${_escHtml(truncate(stock.sector||'-',16))}</span></td>
+        <td style="text-align:center;"><span class="badge ${decisionClass}">${_escHtml(stock.decision||'-')}</span></td>
+        <td data-value="${marketCapRaw}">${formatMarketCap(stock.market_cap, stock)}</td>
+        <td data-value="${confidenceRaw}">${stock.confidence != null ? stock.confidence.toFixed(1) + '%' : '-'}</td>
+        ${scoreCell(stock.value_score)}
         ${scoreCell(stock.quality_score)}
+        ${scoreCell(stock.risk_score)}
+        ${scoreCell(stock.dip_score)}
+        <td data-value="${currentPriceRaw}">${formatPrice(stock.current_price,stock)}</td>
         <td data-value="${fairValueRaw}">${formatPrice(stock.fair_value,stock)}</td>
         <td class="${discountClassName}" data-value="${discountRaw}">${stock.discount_pct!=null?stock.discount_pct.toFixed(1)+'%':'-'}</td>
-        <td style="text-align:center;"><span class="badge ${decisionClass}">${_escHtml(stock.decision||'-')}</span></td>
+        <td data-col="swarm_score" data-value="${formatNumericDataValue(stock.swarm_score)}" style="display:none;">
+          ${stock.swarm_score != null ? stock.swarm_score.toFixed(1) : '&#8212;'}
+        </td>
       `;
     }
 
