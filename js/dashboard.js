@@ -813,7 +813,7 @@ function isBuyDecision(decision) {
 
 function normalizePickRowShape(stock) {
   const row = stock || {};
-  const ticker = String(row.ticker || row.symbol || '').trim().toUpperCase();
+  const ticker = String(row.ticker || row.symbol || '').trim().replace(/\s*\([^)]+\)\s*$/, '').trim().toUpperCase();
   const decision = String(row.decision || row.dominant_verdict || row.dominantVerdict || '').trim().toUpperCase();
 
   return {
