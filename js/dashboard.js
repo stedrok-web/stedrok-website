@@ -107,10 +107,10 @@ function updateStatBar(stocks) {
     (watch ? '<span class="dash-stat watch">◉ ' + watch + ' WATCH</span>' : '') +
     (avoid ? '<span class="dash-stat avoid">▽ ' + avoid + ' AVOID</span>' : '');
   if ((typeof currentLaneMode !== 'undefined' ? currentLaneMode : 'core') === 'blended') {
-    const swarmScores = stocks.map(s => s.swarm_score).filter(v => v != null && !isNaN(Number(v)));
-    if (swarmScores.length > 0) {
-      const avgSwarm = (swarmScores.reduce((a, b) => a + Number(b), 0) / swarmScores.length).toFixed(1);
-      html += '<span class="dash-stat swarm">⚡ Avg Pick Score: ' + avgSwarm + '</span>';
+    const pickScores = stocks.map(s => s.swarm_score).filter(v => v != null && !isNaN(Number(v)));
+    if (pickScores.length > 0) {
+      const avgPickScore = (pickScores.reduce((a, b) => a + Number(b), 0) / pickScores.length).toFixed(1);
+      html += '<span class="dash-stat swarm">⚡ Avg Pick Score: ' + avgPickScore + '</span>';
     }
   }
   bar.innerHTML = html;
@@ -736,7 +736,7 @@ function currencySymbolForStock(stock) {
 function normalizeDashboardLane(value) {
   const mode = String(value || '').trim().toLowerCase();
   if (mode === 'hybrid' || mode === 'blended') return mode;
-  if (mode === 'stedrokgpt_pick' || mode === 'stedrokgpt-pick' || mode === 'swarm') return 'blended';
+  if (mode === 'stedrokgpt_pick' || mode === 'stedrokgpt-pick') return 'blended';
   return 'core';
 }
 function updateColumnHeadersForLane(mode) {
@@ -772,10 +772,7 @@ function laneEndpoint(mode) {
 
 function laneEndpointFallbacks(mode) {
   if (mode === 'blended') {
-    return [
-      `${API_URL}/api/stedrokgpt-picks`,
-      `${API_URL}/api/swarm-picks`
-    ];
+    return [`${API_URL}/api/stedrokgpt-picks`];
   }
   return [laneEndpoint(mode)];
 }
@@ -927,14 +924,14 @@ function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
 function setDashboardLaneToggle(mode) {
   const normalized = normalizeDashboardLane(mode);
   // Show the third-lane score column only in StedrokGPT Pick (blended) mode
-  const swarmHeader = document.getElementById('thSwarmScore');
-  const swarmCells = document.querySelectorAll('[data-col="swarm_score"]');
-  const isSwarm = normalized === 'blended';
-  if (swarmHeader) swarmHeader.style.display = isSwarm ? '' : 'none';
-  swarmCells.forEach(function(td) { td.style.display = isSwarm ? '' : 'none'; });
+  const pickHeader = document.getElementById('thPickScore');
+  const pickCells = document.querySelectorAll('[data-col="swarm_score"]');
+  const isStedrokLane = normalized === 'blended';
+  if (pickHeader) pickHeader.style.display = isStedrokLane ? '' : 'none';
+  pickCells.forEach(function(td) { td.style.display = isStedrokLane ? '' : 'none'; });
   // Update free-user upgrade prompt colspan
   document.querySelectorAll('[data-free-colspan]').forEach(function(td) {
-    td.setAttribute('colspan', isSwarm ? '15' : '14');
+    td.setAttribute('colspan', isStedrokLane ? '15' : '14');
   });
 
   document.querySelectorAll('[data-dashboard-lane]').forEach(btn => {
@@ -1068,8 +1065,7 @@ async function fetchLanePayload(userToken, mode, signal) {
 
   async function fetchStedrokGptLocalFallback() {
     const fallbackPaths = [
-      './data/stocks_stedrokgpt_pick.json',
-      './data/stocks_swarm.json'
+      './data/stocks_stedrokgpt_pick.json'
     ];
 
     for (const path of fallbackPaths) {
@@ -1103,37 +1099,37 @@ async function fetchLanePayload(userToken, mode, signal) {
   const normalized = normalizeDashboardLane(mode);
   if (normalized === 'blended') {
     try {
-      let swarmResponse = null;
+      let stedrokResponse = null;
       let lastStatus = null;
       for (const endpoint of laneEndpointFallbacks('blended')) {
         const response = await fetch(endpoint, { method: 'GET', headers, signal });
         if (response.ok) {
-          swarmResponse = response;
+          stedrokResponse = response;
           break;
         }
         lastStatus = response.status;
         if (response.status !== 404) {
-          swarmResponse = response;
+          stedrokResponse = response;
           break;
         }
       }
-      if (!swarmResponse || !swarmResponse.ok) {
-        throw new Error(`StedrokGPT Pick API returned ${lastStatus || swarmResponse?.status || 'unknown'}`);
+      if (!stedrokResponse || !stedrokResponse.ok) {
+        throw new Error(`StedrokGPT Pick API returned ${lastStatus || stedrokResponse?.status || 'unknown'}`);
       }
-      const swarmData = await swarmResponse.json();
-      const picks = (swarmData.picks || []).map(r => normalizePickRowShape({ ...r, selection_lane: 'stedrokgpt_pick' }));
+      const stedrokData = await stedrokResponse.json();
+      const picks = (stedrokData.picks || []).map(r => normalizePickRowShape({ ...r, selection_lane: 'stedrokgpt_pick' }));
       if (picks.length === 0) {
         return await fetchStedrokGptLocalFallback();
       }
       return {
         picks,
-        user: swarmData.user || {},
+        user: stedrokData.user || {},
         meta: {
           lane: 'blended',
           count: picks.length,
-          limit: swarmData.meta?.limit || 50,
-          last_updated: swarmData.meta?.last_updated || new Date().toISOString(),
-          stedrokgpt_pick: { total_picks: swarmData.meta?.total_available || picks.length }
+          limit: stedrokData.meta?.limit || 50,
+          last_updated: stedrokData.meta?.last_updated || new Date().toISOString(),
+          stedrokgpt_pick: { total_picks: stedrokData.meta?.total_available || picks.length }
         }
       };
     } catch (error) {
@@ -1498,6 +1494,80 @@ function cleanupInsightSummary(rawText, headlineText) {
   return cleaned.join('\n\n');
 }
 
+function isThirdLaneInsight(summary) {
+  const lane = String(summary?.__source_lane || summary?.__requested_mode || '').trim().toLowerCase();
+  return lane === 'blended' || lane === 'stedrokgpt_pick' || lane === 'swarm';
+}
+
+function selectInsightSummaryText(summary) {
+  if (!summary) return '';
+  if (isThirdLaneInsight(summary)) {
+    return String(summary?.summary_short || summary?.dashboard_story || summary?.summary_300w || '').trim();
+  }
+  return String(summary?.dashboard_story || summary?.summary_short || summary?.summary_300w || '').trim();
+}
+
+function formatInsightSummaryText(summary, rawText) {
+  const text = String(rawText || '').trim();
+  if (!text) return '';
+  if (isThirdLaneInsight(summary)) {
+    return text
+      .replace(/\s*Latest supporting headline:\s*[^.?!]+[.?!]?/gi, '')
+      .replace(/\s*Latest headline:\s*[^.?!]+[.?!]?/gi, '')
+      .replace(/\s*Primary news line:\s*[^.?!]+[.?!]?/gi, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  }
+  if (/\n\s*\n/.test(text)) return text;
+
+  return text
+    .replace(/\.\s+(Blind-buy score is\s+)/g, '.\n\n$1')
+    .replace(/\.\s+(Core support comes from\s+)/g, '.\n\n$1')
+    .replace(/\.\s+(Positive signals include\s+)/g, '.\n\n$1')
+    .replace(/\.\s+(Key caution points include\s+)/g, '.\n\n$1')
+    .replace(/\.\s+(Latest supporting headline:\s+)/g, '.\n\n$1')
+    .replace(/\.\s+(Latest headline:\s+)/g, '.\n\n$1')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+function formatInsightHeadline(summary, headlineText, company, symbol) {
+  const headline = String(headlineText || '').trim();
+  if (!headline || !isThirdLaneInsight(summary)) return headline;
+
+  const prefixes = [company, symbol]
+    .map(value => String(value || '').trim())
+    .filter(Boolean)
+    .sort((a, b) => b.length - a.length);
+
+  for (const prefix of prefixes) {
+    const escaped = prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`^${escaped}\s*:\s*`, 'i');
+    if (regex.test(headline)) {
+      const stripped = headline.replace(regex, '').trim();
+      if (stripped) {
+        return stripped.charAt(0).toUpperCase() + stripped.slice(1);
+      }
+    }
+  }
+
+  return headline.replace(/:\s+/g, ' ').trim();
+}
+
+function shouldHideInsightGuidance(summary, summaryText, guidanceText) {
+  const cleanedGuidance = String(guidanceText || '').trim();
+  if (!cleanedGuidance) return true;
+  if (isThirdLaneInsight(summary)) return true;
+
+  const summaryComparable = normalizeForComparison(summaryText);
+  const guidanceComparable = normalizeForComparison(cleanedGuidance);
+  if (guidanceComparable && summaryComparable.includes(guidanceComparable)) {
+    return true;
+  }
+
+  return false;
+}
+
 function setTickerInsightAvailability(isPaidUser) {
   const hint = document.getElementById('tickerInsightHint');
   if (hint) {
@@ -1649,8 +1719,8 @@ function buildFallbackSummary(stock) {
     symbol: stock.ticker || '',
     company_name: stock.company_name || '',
     decision,
-    headline: `${stock.company_name || stock.ticker} is currently rated ${decision} by the model.`,
-    summary_short: `${valuationLine} Pillar scores: ${scoreText}.`,
+    headline: `${stock.company_name || stock.ticker} — current research status: ${decision}`,
+    summary_short: `${valuationLine}`,
     news_guidance: '',
     news_theme: '',
     news_tone: '',
@@ -1661,7 +1731,7 @@ function buildFallbackSummary(stock) {
 
 function normalizeTickerSummaryMode(value) {
   const mode = String(value || '').trim().toLowerCase();
-  if (mode === 'hybrid' || mode === 'blended' || mode === 'swarm') return mode;
+  if (mode === 'hybrid' || mode === 'blended') return mode;
   if (mode === 'stedrokgpt_pick' || mode === 'stedrokgpt-pick') return 'blended';
   return 'core';
 }
@@ -1675,10 +1745,9 @@ function resolveTickerSummaryMode(stock) {
 
   // Blended mode: ask for hybrid-first summaries when the row came from hybrid lane.
   if (selectedLane === 'hybrid' || selectedLane === 'blended') return 'hybrid';
-  if (selectedLane === 'swarm' || selectedLane === 'stedrokgpt_pick') return 'blended';
+  if (selectedLane === 'stedrokgpt_pick') return 'blended';
   if (String(stock?.selection_lane || '').toLowerCase() === 'blended_shared') return 'blended';
-  // Default for blended/swarm mode: use blended table plan (swarm→hybrid→core)
-  // Swarm picks lack selection_lane; this ensures they still hit ticker_summaries_swarm
+  // Default for blended mode: use the StedrokGPT summary plan first, then hybrid/core.
   if (activeLane === 'blended') return 'blended';
   return 'core';
 }
@@ -1787,22 +1856,22 @@ function renderTickerInsight(summary, stock) {
   }
 
   if (themeEl) {
-    const value = normalizeInsightChipValue(summary?.news_theme_display || summary?.news_theme, 'model-driven');
+    const value = normalizeInsightChipValue(summary?.news_theme_display || summary?.news_theme || stock?.sector, 'Sector analysis');
     themeEl.textContent = `Theme: ${value}`;
   }
 
   if (toneEl) {
-    const value = normalizeInsightChipValue(summary?.news_tone_display || summary?.news_tone, 'neutral');
+    const value = normalizeInsightChipValue(summary?.news_tone_display || summary?.news_tone, 'data-driven');
     toneEl.textContent = `Tone: ${value}`;
   }
 
   if (freshnessEl) {
-    const value = normalizeInsightChipValue(summary?.news_freshness_display || summary?.news_freshness, 'model-estimated');
+    const value = normalizeInsightChipValue(summary?.news_freshness_display || summary?.news_freshness || stock?.data_date, 'recent');
     freshnessEl.textContent = `Freshness: ${value}`;
   }
 
   if (relevanceEl) {
-    const value = normalizeInsightChipValue(summary?.news_relevance_display || summary?.news_relevance, 'model-estimated');
+    const value = normalizeInsightChipValue(summary?.news_relevance_display || summary?.news_relevance, 'fundamental');
     relevanceEl.textContent = `Relevance: ${value}`;
   }
 
@@ -1818,11 +1887,11 @@ function renderTickerInsight(summary, stock) {
   }
 
   if (headlineEl) {
-    headlineEl.textContent = String(summary?.headline || '').trim();
+    headlineEl.textContent = formatInsightHeadline(summary, summary?.headline, company, symbol);
     headlineEl.style.display = headlineEl.textContent ? 'block' : 'none';
   }
 
-  const summaryTextRaw = String(summary?.dashboard_story || summary?.summary_short || summary?.summary_300w || '').trim();
+  const summaryTextRaw = formatInsightSummaryText(summary, selectInsightSummaryText(summary));
   const summaryTextFull = cleanupInsightSummary(summaryTextRaw, headlineEl?.textContent || '');
   if (summaryEl) {
     summaryEl.textContent = summaryTextFull;
@@ -1831,10 +1900,7 @@ function renderTickerInsight(summary, stock) {
 
   if (guidanceEl) {
     const guidanceText = stripPrimaryNewsLine(String(summary?.news_guidance || '').trim());
-    const summaryComparable = normalizeForComparison(summaryTextFull);
-    const guidanceComparable = normalizeForComparison(guidanceText);
-    const shouldShowGuidance = Boolean(guidanceText) &&
-      (!guidanceComparable || !summaryComparable.includes(guidanceComparable));
+    const shouldShowGuidance = !shouldHideInsightGuidance(summary, summaryTextFull, guidanceText);
 
     const guidanceParts = [];
     if (shouldShowGuidance) {
@@ -1859,22 +1925,22 @@ function renderTickerInsight(summary, stock) {
     updatedEl.style.display = formatted ? 'block' : 'none';
   }
 
-  // StedrokGPT Pick / compatibility third-lane section
-  const swarmSection = document.getElementById('swarmInsightSection');
-  const swarmScoreEl = document.getElementById('swarmScoreValue');
-  const swarmBase = document.getElementById('swarmChipBase');
-  const swarmBull = document.getElementById('swarmChipBull');
-  const swarmBear = document.getElementById('swarmChipBear');
-  const swarmCrisis = document.getElementById('swarmChipCrisis');
-  const swarmReasonEl = document.getElementById('swarmSelectionReason');
+  // StedrokGPT Pick insight section
+  const stedrokSection = document.getElementById('stedrokInsightSection');
+  const stedrokScoreEl = document.getElementById('stedrokScoreValue');
+  const stedrokVerdictChip = document.getElementById('stedrokChipVerdict');
+  const stedrokCatalystChip = document.getElementById('stedrokChipCatalyst');
+  const stedrokValueChip = document.getElementById('stedrokChipValue');
+  const stedrokEvidenceChip = document.getElementById('stedrokChipEvidence');
+  const stedrokReasonEl = document.getElementById('stedrokSelectionReason');
 
-  const hasSwarm = stock && (stock.swarm_score != null || stock.internet_verdict);
-  if (swarmSection) swarmSection.style.display = hasSwarm ? 'block' : 'none';
+  const hasStedrokSignals = stock && (stock.swarm_score != null || stock.internet_verdict);
+  if (stedrokSection) stedrokSection.style.display = hasStedrokSignals ? 'block' : 'none';
 
-  if (hasSwarm) {
-    if (swarmScoreEl) {
+  if (hasStedrokSignals) {
+    if (stedrokScoreEl) {
       const scoreValue = stock.swarm_score ?? (stock.internet_evidence_score != null ? stock.internet_evidence_score : null) ?? stock.quality_score;
-      swarmScoreEl.textContent = Number.isFinite(Number(scoreValue)) ? Number(scoreValue).toFixed(1) : '—';
+      stedrokScoreEl.textContent = Number.isFinite(Number(scoreValue)) ? Number(scoreValue).toFixed(1) : '—';
     }
     const sb = stock.scenario_breakdown || {};
     function scenarioChip(el, label, scenario) {
@@ -1886,29 +1952,29 @@ function renderTickerInsight(summary, stock) {
       el.style.color = s.verdict === 'NET_BULL' ? 'var(--accent-green)' : s.verdict === 'NET_BEAR' ? '#f87171' : '';
     }
     if (Object.keys(sb).length > 0) {
-      scenarioChip(swarmBase, 'BASE', 'BASE');
-      scenarioChip(swarmBull, 'BULL', 'BULL');
-      scenarioChip(swarmBear, 'BEAR', 'BEAR');
-      scenarioChip(swarmCrisis, 'CRISIS', 'CRISIS');
+      scenarioChip(stedrokVerdictChip, 'BASE', 'BASE');
+      scenarioChip(stedrokCatalystChip, 'BULL', 'BULL');
+      scenarioChip(stedrokValueChip, 'BEAR', 'BEAR');
+      scenarioChip(stedrokEvidenceChip, 'CRISIS', 'CRISIS');
     } else {
-      if (swarmBase) swarmBase.textContent = 'Verdict: ' + (stock.internet_verdict || '—');
-      if (swarmBull) swarmBull.textContent = 'Catalyst: ' + (stock.internet_catalyst_strength || '—');
-      if (swarmBear) {
+      if (stedrokVerdictChip) stedrokVerdictChip.textContent = 'Verdict: ' + (stock.internet_verdict || '—');
+      if (stedrokCatalystChip) stedrokCatalystChip.textContent = 'Catalyst: ' + (stock.internet_catalyst_strength || '—');
+      if (stedrokValueChip) {
         let valCtx = stock.internet_valuation_context || '';
         if (!valCtx && stock.discount_pct != null) {
           const dp = Number(stock.discount_pct);
           valCtx = dp >= 20 ? 'deep_value' : dp >= 10 ? 'moderate_discount' : dp >= 5 ? 'fair_value' : 'at_value';
         }
-        swarmBear.textContent = 'Value: ' + (valCtx || '—');
+        stedrokValueChip.textContent = 'Value: ' + (valCtx || '—');
       }
-      if (swarmCrisis) {
+      if (stedrokEvidenceChip) {
         const evidence = stock.internet_evidence_score != null && Number.isFinite(Number(stock.internet_evidence_score)) ? Number(stock.internet_evidence_score).toFixed(1) : '—';
-        swarmCrisis.textContent = 'Evidence: ' + evidence;
+        stedrokEvidenceChip.textContent = 'Evidence: ' + evidence;
       }
     }
-    if (swarmReasonEl) {
-      const reason = stock.selection_reason || stock.selectionReason || '';
-      swarmReasonEl.textContent = reason ? 'Signal: ' + reason : '';
+    if (stedrokReasonEl) {
+      stedrokReasonEl.textContent = '';
+      stedrokReasonEl.style.display = 'none';
     }
   }
 }
@@ -2779,7 +2845,10 @@ function applyFilters() {
     // Within same region: sort by market cap descending
     const mcA = Number(a?.market_cap_usd ?? a?.market_cap ?? 0) || 0;
     const mcB = Number(b?.market_cap_usd ?? b?.market_cap ?? 0) || 0;
-    if (mcA !== mcB && mcA > 0 && mcB > 0) return mcB - mcA;
+    const hasMcA = mcA > 0;
+    const hasMcB = mcB > 0;
+    if (hasMcA !== hasMcB) return hasMcA ? -1 : 1;
+    if (hasMcA && hasMcB && mcA !== mcB) return mcB - mcA;
 
     const decisionDelta = decisionPriorityScore(a?.decision) - decisionPriorityScore(b?.decision);
     if (decisionDelta !== 0) {
