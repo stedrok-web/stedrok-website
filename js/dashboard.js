@@ -1875,7 +1875,27 @@ function renderTickerInsight(summary, stock) {
   }
 
   if (guidanceEl) {
-    const guidanceText = stripPrimaryNewsLine(String(summary?.news_guidance || '').trim());
+    let guidanceText = stripPrimaryNewsLine(String(summary?.news_guidance || '').trim());
+    // Strip template guidance phrases that leak through from core summaries
+    const _templatePhrases = [
+      /Supplementary context[^.]*\./gi,
+      /Latest company headline is [^.]*\./gi,
+      /Analyst positioning is [^.]*\./gi,
+      /Institutional sponsorship is [^.]*\./gi,
+      /Headline freshness is [^.]*\./gi,
+      /This update can support near-term context[^.]*\./gi,
+      /Treat this as secondary context[^.]*\./gi,
+      /Signal quality is supported[^.]*\./gi,
+      /The leading[^.]*headline[^.]*\./gi,
+      /News guidance keeps[^.]*\./gi,
+      /News context is[^.]*\./gi,
+      /News signal is limited[^.]*\./gi,
+      /Fundamental support remains[^.]*\./gi,
+    ];
+    for (const _tp of _templatePhrases) {
+      guidanceText = guidanceText.replace(_tp, '').trim();
+    }
+    guidanceText = guidanceText.replace(/\s{2,}/g, ' ').trim();
     const summaryComparable = normalizeForComparison(summaryTextFull);
     const guidanceComparable = normalizeForComparison(guidanceText);
     const shouldShowGuidance = Boolean(guidanceText) &&
@@ -1888,7 +1908,8 @@ function renderTickerInsight(summary, stock) {
     if (isPreview) {
       guidanceParts.push('This access tier includes an abbreviated company note. Pro includes the full research note.');
     }
-    guidanceEl.textContent = guidanceParts.filter(Boolean).join(' ');
+    const _guidanceJoined = guidanceParts.filter(Boolean).join(' ');
+    guidanceEl.textContent = _guidanceJoined ? ('Outlook: ' + _guidanceJoined) : '';
     guidanceEl.style.display = guidanceEl.textContent ? 'block' : 'none';
   }
 
