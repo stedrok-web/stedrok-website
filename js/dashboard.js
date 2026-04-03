@@ -1477,6 +1477,25 @@ function cleanupInsightSummary(rawText, headlineText) {
       continue;
     }
 
+    // Trim leading sentence from summary when it substantially overlaps with headline
+    // (common in StedrokGPT summaries where headline and summary start identically).
+    if (i === 0 && headlineLooseNorm) {
+      const headWords = headlineLooseNorm.split(/\s+/).slice(0, 6);
+      const paraWords = looseNorm.split(/\s+/).slice(0, 6);
+      const matchCount = headWords.filter((w, idx) => paraWords[idx] === w).length;
+      if (matchCount >= 4) {
+        const sentenceBreak = paragraph.indexOf('. ');
+        if (sentenceBreak > 0 && sentenceBreak < paragraph.length - 10) {
+          const remaining = paragraph.slice(sentenceBreak + 2).trim();
+          if (remaining) {
+            cleaned.push(remaining);
+            continue;
+          }
+        }
+        continue;
+      }
+    }
+
     // Remove stale headline-style tail lines that leak into body text.
     if (/^evaluating\s+/i.test(paragraph) || /headline is older and should be treated as background context/i.test(paragraph)) {
       continue;
@@ -1641,19 +1660,45 @@ function buildFallbackSummary(stock) {
     `Dip ${stock.dip_score != null ? stock.dip_score.toFixed(0) : 'n/a'}`
   ].join(' | ');
 
-  const valuationLine = stock.discount_pct != null && stock.discount_pct > 0
-    ? `Current discount to estimated fair value is ${discountText}.`
-    : `Current discount to estimated fair value is ${discountText}. Valuation is less favorable than other top picks.`;
+  const _fConf = stock.confidence != null ? Number(stock.confidence) : null;
+  const _fConfPct = _fConf != null ? (_fConf < 1 ? (_fConf * 100).toFixed(0) : _fConf.toFixed(0)) : null;
+  const _fDiscount = stock.discount_pct != null ? Number(stock.discount_pct) : null;
+  const _fRisk = stock.risk_score != null ? Number(stock.risk_score).toFixed(0) : null;
+  const _fSector = stock.sector || '';
+  const _fName = stock.company_name || stock.ticker || 'This company';
+
+  const parts = [];
+  if (_fConfPct) {
+    parts.push(`${_fName} carries a ${_fConfPct}% confidence rating in the current screening cycle.`);
+  }
+  if (_fDiscount != null && _fDiscount > 0) {
+    parts.push(`The stock is trading approximately ${_fDiscount.toFixed(0)}% below its estimated fair value, suggesting a meaningful margin of safety.`);
+  } else if (_fDiscount != null) {
+    parts.push(`The stock is trading near its estimated fair value.`);
+  }
+  if (_fSector) {
+    parts.push(`${_fName} operates in the ${_fSector} sector.`);
+  }
+  if (_fRisk) {
+    parts.push(`Risk assessment scores ${_fRisk} out of 100.`);
+  }
+  if (stock.selection_reason) {
+    parts.push(String(stock.selection_reason).trim());
+  }
+
+  const fallbackSummaryText = parts.length > 0
+    ? parts.join(' ')
+    : `Detailed analysis for ${_fName} is temporarily loading. Score columns and pillar bars above reflect the latest data.`;
 
   return {
     symbol: stock.ticker || '',
     company_name: stock.company_name || '',
     decision,
-    headline: `${stock.company_name || stock.ticker} — current research status: ${decision}`,
-    summary_short: `${valuationLine}`,
+    headline: `${_fName} — current research status: ${decision}`,
+    summary_short: fallbackSummaryText,
     news_guidance: '',
-    news_theme: '',
-    news_tone: '',
+    news_theme: _fSector ? _fSector : '',
+    news_tone: _fConfPct ? (_fConfPct >= 80 ? 'High Conviction' : 'Moderate') : '',
     primary_news_headline: '',
     updated_at_utc: stock.data_date || ''
   };
@@ -1891,24 +1936,40 @@ function renderTickerInsight(summary, stock) {
       scenarioChip(swarmBear, 'BEAR', 'BEAR');
       scenarioChip(swarmCrisis, 'CRISIS', 'CRISIS');
     } else {
-      if (swarmBase) swarmBase.textContent = 'Verdict: ' + (stock.internet_verdict || '—');
-      if (swarmBull) swarmBull.textContent = 'Catalyst: ' + (stock.internet_catalyst_strength || '—');
+      // StedrokGPT Pick: show meaningful fields instead of raw internet_* values
+      const _conf = stock.confidence != null ? Number(stock.confidence) : null;
+      const _confPct = _conf != null ? (_conf < 1 ? (_conf * 100).toFixed(0) : _conf.toFixed(0)) : null;
+      const _agree = stock.convergence_score != null ? Number(stock.convergence_score) : (stock.scenario_agreement != null ? Number(stock.scenario_agreement) : null);
+      const _dp = stock.discount_pct != null ? Number(stock.discount_pct) : null;
+      const _risk = stock.risk_score != null ? Number(stock.risk_score) : null;
+
+      if (swarmBase) {
+        swarmBase.textContent = _confPct ? ('Confidence: ' + _confPct + '%') : ('Verdict: ' + (stock.dominant_verdict || stock.internet_verdict || '—'));
+      }
+      if (swarmBull) {
+        swarmBull.textContent = _agree != null ? ('Agreement: ' + _agree.toFixed(0) + '%') : ('Catalyst: ' + (stock.internet_catalyst_strength || '—'));
+      }
       if (swarmBear) {
-        let valCtx = stock.internet_valuation_context || '';
-        if (!valCtx && stock.discount_pct != null) {
-          const dp = Number(stock.discount_pct);
-          valCtx = dp >= 20 ? 'deep_value' : dp >= 10 ? 'moderate_discount' : dp >= 5 ? 'fair_value' : 'at_value';
+        if (_dp != null && _dp > 0) {
+          swarmBear.textContent = 'Discount: ' + _dp.toFixed(0) + '% below FV';
+        } else if (_dp != null) {
+          swarmBear.textContent = 'Discount: at fair value';
+        } else {
+          swarmBear.textContent = 'Value: ' + (stock.internet_valuation_context || '—');
         }
-        swarmBear.textContent = 'Value: ' + (valCtx || '—');
       }
       if (swarmCrisis) {
-        const evidence = stock.internet_evidence_score != null && Number.isFinite(Number(stock.internet_evidence_score)) ? Number(stock.internet_evidence_score).toFixed(1) : '—';
-        swarmCrisis.textContent = 'Evidence: ' + evidence;
+        swarmCrisis.textContent = _risk != null ? ('Risk: ' + _risk.toFixed(0) + '/100') : ('Evidence: ' + (stock.internet_evidence_score != null && Number.isFinite(Number(stock.internet_evidence_score)) ? Number(stock.internet_evidence_score).toFixed(1) : '—'));
       }
     }
     if (swarmReasonEl) {
       const reason = stock.selection_reason || stock.selectionReason || '';
-      swarmReasonEl.textContent = reason ? 'Signal: ' + reason : '';
+      // Avoid duplicating content already shown in the guidance section
+      const guidanceShown = document.getElementById('tickerInsightNewsGuidance')?.textContent || '';
+      const reasonNorm = reason.toLowerCase().trim().slice(0, 60);
+      const guidanceNorm = guidanceShown.toLowerCase().trim().slice(0, 60);
+      const isDuplicateOfGuidance = reasonNorm && guidanceNorm && reasonNorm === guidanceNorm;
+      swarmReasonEl.textContent = (reason && !isDuplicateOfGuidance) ? 'Signal: ' + reason : '';
     }
   }
 }
