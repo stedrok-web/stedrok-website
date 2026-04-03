@@ -5,7 +5,7 @@
 let currentUser = null;
 let userProfile = null;
 let allStocks = [];
-let currentSortColumn = 'value_score';
+let currentSortColumn = 'market_cap';
 let currentSortDirection = 'desc';
 let selectedExchange = '';
 const PAGE_SIZE = 50;
@@ -275,6 +275,7 @@ const EXCHANGE_FROM_SUFFIX = {
   AX: 'Australia (ASX)',
   L: 'London (UK)',
   HK: 'Hong Kong',
+  TW: 'Taiwan (TWSE)',
   SS: 'Shanghai (China)',
   SZ: 'Shenzhen (China)',
   OL: 'Oslo (Norway)',
@@ -307,6 +308,45 @@ const EXCHANGE_FROM_SUFFIX = {
   TA: 'Tel Aviv (Israel)',
   JO: 'Johannesburg (South Africa)',
   NZ: 'New Zealand (NZX)'
+};
+
+const COUNTRY_FROM_SUFFIX = {
+  AX: 'Australia',
+  L: 'United Kingdom',
+  HK: 'Hong Kong',
+  TW: 'Taiwan',
+  SS: 'China',
+  SZ: 'China',
+  OL: 'Norway',
+  DE: 'Germany',
+  PA: 'France',
+  MI: 'Italy',
+  ST: 'Sweden',
+  MC: 'Spain',
+  AE: 'United Arab Emirates',
+  BR: 'Belgium',
+  HE: 'Finland',
+  CO: 'Denmark',
+  AS: 'Netherlands',
+  SW: 'Switzerland',
+  LS: 'Portugal',
+  VI: 'Austria',
+  WA: 'Poland',
+  AT: 'Greece',
+  TO: 'Canada',
+  V: 'Canada',
+  T: 'Japan',
+  PR: 'Czech Republic',
+  NS: 'India',
+  BO: 'India',
+  KS: 'South Korea',
+  KQ: 'South Korea',
+  SI: 'Singapore',
+  SA: 'Brazil',
+  MX: 'Mexico',
+  TA: 'Israel',
+  JO: 'South Africa',
+  NZ: 'New Zealand'
 };
 
 const EXCHANGE_DEFAULT_BY_COUNTRY = {
@@ -816,12 +856,17 @@ function normalizePickRowShape(stock) {
   const row = stock || {};
   const ticker = String(row.ticker || row.symbol || '').trim().replace(/\s*\([^)]+\)\s*$/, '').trim().toUpperCase();
   const decision = String(row.decision || row.dominant_verdict || row.dominantVerdict || '').trim().toUpperCase();
+  const resolvedCountry = resolveStockCountry({ ...row, ticker });
+  const resolvedExchange = deriveExchangeLabel({ ...row, ticker, country: resolvedCountry });
 
   return {
     ...row,
     ticker,
+    country: resolvedCountry,
+    exchange: resolvedExchange,
     company_name: row.company_name || row.companyName || '',
     market_cap: toNumberOrNull(row.market_cap ?? row.marketCap ?? row.market_cap_usd),
+    market_cap_usd: toNumberOrNull(row.market_cap_usd ?? row.marketCapUsd ?? row.marketCapUSD ?? row.csv_market_cap_usd),
     current_price: toNumberOrNull(row.current_price ?? row.price),
     fair_value: toNumberOrNull(row.fair_value ?? row.estimatedValue),
     discount_pct: (() => { const _d = toNumberOrNull(row.discount_pct ?? row.discountPct); if (_d == null) return _d; const _lane = String(row.selection_lane || "").toLowerCase(); const _isSwarm = _lane === "swarm"; if (_isSwarm) return _d; return Math.abs(_d) < 1 ? _d * 100 : _d; })(),
@@ -1712,18 +1757,18 @@ function normalizeTickerSummaryMode(value) {
 }
 
 function resolveTickerSummaryMode(stock) {
-  const selectedLane = normalizeTickerSummaryMode(stock?.selection_lane);
+  const rawLane = String(stock?.selection_lane || '').trim().toLowerCase();
   const activeLane = normalizeDashboardLane(currentLaneMode);
 
   if (activeLane === 'hybrid') return 'hybrid';
   if (activeLane === 'core') return 'core';
 
-  // Blended mode: ask for hybrid-first summaries when the row came from hybrid lane.
-  if (selectedLane === 'hybrid' || selectedLane === 'blended') return 'hybrid';
-  if (selectedLane === 'swarm' || selectedLane === 'stedrokgpt_pick') return 'blended';
-  if (String(stock?.selection_lane || '').toLowerCase() === 'blended_shared') return 'blended';
-  // Default for blended/swarm mode: use blended table plan (swarm→hybrid→core)
-  // Swarm picks lack selection_lane; this ensures they still hit ticker_summaries_swarm
+  // StedrokGPT picks must use blended mode (checks stedrokgpt_pick table first)
+  if (rawLane === 'stedrokgpt_pick' || rawLane === 'stedrokgpt-pick' || rawLane === 'swarm') return 'blended';
+  // Hybrid-origin rows use hybrid mode
+  if (rawLane === 'hybrid') return 'hybrid';
+  if (rawLane === 'blended_shared' || rawLane === 'blended') return 'blended';
+  // Default for blended/swarm mode: use blended table plan
   if (activeLane === 'blended') return 'blended';
   return 'core';
 }
@@ -2301,6 +2346,60 @@ function normalizeCountryName(country) {
     .trim();
 }
 
+function isUsCountryName(country) {
+  const normalized = normalizeCountryName(country).toUpperCase();
+  return normalized === 'UNITED STATES' || normalized === 'USA' || normalized === 'US';
+}
+
+function inferCountryFromExchangeLabel(exchange) {
+  const ex = normalizeExchangeLabel(exchange).toUpperCase();
+  if (!ex) return '';
+  if (ex.includes('TAIWAN') || ex.includes('TWSE') || ex.includes('TPEX')) return 'Taiwan';
+  if (ex.includes('AUSTRALIA') || ex.includes('ASX')) return 'Australia';
+  if (ex.includes('LONDON') || ex.includes('LSE') || ex.includes('(UK)')) return 'United Kingdom';
+  if (ex.includes('TORONTO') || ex.includes('TSX') || ex.includes('CANADA')) return 'Canada';
+  if (ex.includes('FRANKFURT') || ex.includes('XETRA') || ex.includes('GERMANY')) return 'Germany';
+  if (ex.includes('PARIS') || ex.includes('FRANCE')) return 'France';
+  if (ex.includes('MILAN') || ex.includes('ITALY')) return 'Italy';
+  if (ex.includes('MADRID') || ex.includes('SPAIN')) return 'Spain';
+  if (ex.includes('AMSTERDAM') || ex.includes('NETHERLANDS')) return 'Netherlands';
+  if (ex.includes('STOCKHOLM') || ex.includes('SWEDEN')) return 'Sweden';
+  if (ex.includes('HELSINKI') || ex.includes('FINLAND')) return 'Finland';
+  if (ex.includes('COPENHAGEN') || ex.includes('DENMARK')) return 'Denmark';
+  if (ex.includes('OSLO') || ex.includes('NORWAY')) return 'Norway';
+  if (ex.includes('SIX') || ex.includes('SWITZERLAND') || ex.includes('ZURICH')) return 'Switzerland';
+  if (ex.includes('TOKYO') || ex.includes('JPX') || ex.includes('JAPAN')) return 'Japan';
+  if (ex.includes('HONG KONG')) return 'Hong Kong';
+  if (ex.includes('SINGAPORE')) return 'Singapore';
+  if (ex.includes('SOUTH KOREA')) return 'South Korea';
+  if (ex.includes('TEL AVIV') || ex.includes('ISRAEL')) return 'Israel';
+  if (ex.includes('ABU DHABI') || ex.includes('UAE')) return 'United Arab Emirates';
+  if (ex.includes('BRAZIL') || ex.includes('B3')) return 'Brazil';
+  if (ex.includes('MEXICO')) return 'Mexico';
+  if (ex.includes('USA') || ex.includes('NYSE') || ex.includes('NASDAQ') || ex.includes('AMEX')) return 'United States';
+  return '';
+}
+
+function resolveStockCountry(stock) {
+  const rawCountry = canonicalCountryName(stock?.country);
+  const suffix = extractTickerSuffix(stock?.ticker || stock?.symbol);
+  const suffixCountry = suffix ? (COUNTRY_FROM_SUFFIX[suffix] || '') : '';
+  const exchangeCountry = inferCountryFromExchangeLabel(stock?.exchange);
+
+  if (suffixCountry) {
+    if (!rawCountry) return suffixCountry;
+    if (isUsCountryName(rawCountry) && suffixCountry !== 'United States') return suffixCountry;
+    if (exchangeCountry && suffixCountry === exchangeCountry && rawCountry !== suffixCountry) return suffixCountry;
+  }
+
+  if (exchangeCountry) {
+    if (!rawCountry) return exchangeCountry;
+    if (isUsCountryName(rawCountry) && exchangeCountry !== 'United States') return exchangeCountry;
+  }
+
+  return rawCountry || suffixCountry || exchangeCountry || '';
+}
+
 function extractTickerSuffix(symbol) {
   const value = String(symbol || '').trim().toUpperCase();
   if (!value.includes('.')) return '';
@@ -2309,12 +2408,26 @@ function extractTickerSuffix(symbol) {
 }
 
 function deriveExchangeLabel(stock) {
+  const suffix = extractTickerSuffix(stock.ticker || stock.symbol);
+  const suffixExchange = suffix && EXCHANGE_FROM_SUFFIX[suffix] ? EXCHANGE_FROM_SUFFIX[suffix] : '';
   const explicitExchange = normalizeExchangeLabel(stock.exchange);
+  const explicitUpper = explicitExchange.toUpperCase();
+
+  if (suffixExchange) {
+    const suffixUpper = suffixExchange.toUpperCase();
+    const explicitLooksUs = /USA|NYSE|NASDAQ|AMEX/.test(explicitUpper);
+    const suffixLooksNonUs = !/USA|NYSE|NASDAQ|AMEX/.test(suffixUpper);
+    const countryLooksUs = isUsCountryName(stock?.country);
+    if (!explicitExchange) return suffixExchange;
+    if (explicitUpper !== suffixUpper && (suffixLooksNonUs || (explicitLooksUs && !countryLooksUs))) {
+      return suffixExchange;
+    }
+  }
+
   if (explicitExchange) return explicitExchange;
 
-  const suffix = extractTickerSuffix(stock.ticker || stock.symbol);
-  if (suffix && EXCHANGE_FROM_SUFFIX[suffix]) {
-    return EXCHANGE_FROM_SUFFIX[suffix];
+  if (suffixExchange) {
+    return suffixExchange;
   }
 
   const countryKey = canonicalCountryLookupKey(stock.country);
