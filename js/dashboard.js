@@ -1954,8 +1954,21 @@ function renderTickerInsight(summary, stock) {
       guidanceParts.push('This access tier includes an abbreviated company note. Pro includes the full research note.');
     }
     const _guidanceJoined = guidanceParts.filter(Boolean).join(' ');
-    guidanceEl.textContent = _guidanceJoined ? ('Outlook: ' + _guidanceJoined) : '';
+    // Clean ALL-CAPS words that look jarring (CLEAR, PASS, FAIL etc.)
+    let _guidanceFinal = _guidanceJoined
+      .replace(/\bCLEAR\b/g, 'clear')
+      .replace(/\bPASS\b/g, 'pass')
+      .replace(/\bFAIL\b/g, 'fail')
+      .replace(/\bFLAGGED\b/g, 'flagged')
+      .replace(/\bWARNING\b/g, 'warning')
+      .replace(/ - No disqualifying red flags found\.?/gi, '.')
+      .replace(/\.\./g, '.')
+      .trim();
+    guidanceEl.textContent = _guidanceFinal ? ('Outlook: ' + _guidanceFinal) : '';
     guidanceEl.style.display = guidanceEl.textContent ? 'block' : 'none';
+    guidanceEl.style.marginTop = guidanceEl.textContent ? '14px' : '0';
+    guidanceEl.style.paddingTop = guidanceEl.textContent ? '10px' : '0';
+    guidanceEl.style.borderTop = guidanceEl.textContent ? '1px solid rgba(255,255,255,0.08)' : 'none';
   }
 
   if (newsHeadlineEl) {
