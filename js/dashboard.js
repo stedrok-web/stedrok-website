@@ -2164,11 +2164,7 @@ function renderTable(stocks) {
     const newBadgeHtml = (stock.is_new && isBuyDecision(stock.decision) && _rec) ? '<span class="badge badge-new ticker-new-badge">NEW</span>' : '';
     const geminiBadgeHtml = stock.gemini_selected ? '<span class="badge badge-ai-pick ticker-ai-badge" title="Selected by Gemini AI as a top high-conviction pick">★</span>' : '';
     const riskScore = typeof stock.risk_score === 'number' ? stock.risk_score : null;
-    const riskBadgeHtml = riskScore !== null && riskScore < 40
-      ? `<span class="badge badge-avoid ticker-risk-badge" title="High Risk: Risk Score ${riskScore.toFixed(0)}/100 — verify fundamentals before investing">⚠ RISK</span>`
-      : riskScore !== null && riskScore < 52
-      ? `<span class="badge badge-watch ticker-risk-badge" title="Moderate Risk: Risk Score ${riskScore.toFixed(0)}/100 — review risk factors before investing">⚠</span>`
-      : '';
+    const riskBadgeHtml = '';
 
     if (isFreeUser) {
       // Free user: Show only ticker, company, country, sector, then upgrade prompt
