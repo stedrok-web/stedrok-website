@@ -686,7 +686,6 @@ header {
 /* Lane and status badges */
 .badge-new    { border-color: #f97316; color: #f97316; background: rgba(249,115,22,0.12); }
 .badge-hybrid { border-color: #a78bfa; color: #a78bfa; background: rgba(167,139,250,0.12); }
-.badge-swarm  { border-color: var(--accent-orange,#e07000); color: var(--accent-orange,#e07000); background: rgba(224,112,0,0.12); }
 
 
 @media (max-width: 900px) {

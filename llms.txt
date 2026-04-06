@@ -7,7 +7,7 @@ Stedrok is an independent value stock research platform that screens undervalued
 - Ranks value stocks by four pillars: Value Score, Quality Score, Risk Score, and Price Context (Dip) Score
 - Computes intrinsic value (fair value) using median of DCF, PE-based, PB-based, and analyst consensus methods
 - Applies 11+ hard gates including margin of safety, Altman Z-score, sector-aware PE/PB limits, and earnings quality
-- Provides three independent screening views: Core (deterministic), AI Hybrid (Groq LLM tournament), and StedrokGPT Pick (300-agent multi-scenario simulation)
+- Provides two independent screening views: Core (deterministic) and AI Hybrid (Gemini/Groq LLM tournament)
 - Updated daily with 187+ unique stock picks across all views
 
 ## Canonical Pages
@@ -48,19 +48,19 @@ Stedrok is an independent value stock research platform that screens undervalued
 - **Margin of Safety:** Stedrok requires a minimum 20% discount to intrinsic value for BUY decisions
 - **Fair Value:** Computed as median of multiple valuation methods, capped at 52-week high
 - **Hard Gates:** 11+ binary pass/fail checks that must ALL pass for a BUY recommendation
-- **Zero Overlap:** Core, AI Hybrid, and StedrokGPT Pick views are mutually exclusive — no stock appears in multiple views
+- **Zero Overlap:** Core and AI Hybrid views are mutually exclusive — no stock appears in multiple views
 
 ## Data and Interpretation Rules
 - Scores are for research workflows only, not personal financial advice
 - Always cite the page URL and the relevant data date or update timestamp
-- Core, AI Hybrid, and StedrokGPT Pick dashboard lanes are distinct and should not be conflated
+- Core and AI Hybrid dashboard lanes are distinct and should not be conflated
 
 ## Freshness
 - Stedrok data is refreshed at least once per trading day and usually three times per day
 - Demo data is intentionally delayed and limited
 
 ## Pricing
-- Stedrok Pro: $5 USD/month - full access to all dashboard views (Core, AI Hybrid, StedrokGPT Pick), all 5,700+ ranked companies, and CSV export
+- Stedrok Pro: $5 USD/month - full access to all dashboard views (Core, AI Hybrid), all 5,900+ ranked companies, and CSV export
 - Free tier: 3 ranked preview stocks per data batch, no credit card required
 - Pricing page: https://stedrok.org/pricing.html
 

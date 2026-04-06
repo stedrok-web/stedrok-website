@@ -1769,7 +1769,6 @@ footer a:hover,
 .dash-stat.buy   { background: rgba(74,222,128,0.15); color: var(--accent-green); border: 1px solid rgba(74,222,128,0.3); }
 .dash-stat.watch { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
 .dash-stat.avoid { background: rgba(248,113,113,0.15); color: var(--accent-red); border: 1px solid rgba(248,113,113,0.3); }
-.dash-stat.swarm { background: rgba(224,112,0,0.12); color: var(--accent-orange,#e07000); border: 1px solid rgba(224,112,0,0.3); }
 
 /* Pillar radar visual in ticker insight panel */
 .pillar-bars {

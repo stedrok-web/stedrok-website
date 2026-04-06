@@ -165,11 +165,6 @@
       "label": "Beneish M Score",
       "slug": "beneish-m-score",
       "definition": "Forensic accounting indicator that flags potential earnings manipulation risk."
-    },
-    "swarm_score": {
-      "label": "Pick Score",
-      "slug": "pick-score",
-      "definition": "Composite conviction score from the StedrokGPT Pick pipeline. Combines multi-scenario AI validation, news sentiment, momentum drift, and analyst signals. Higher score = stronger cross-scenario conviction."
     }
   }
 }

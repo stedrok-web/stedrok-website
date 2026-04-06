@@ -8,7 +8,6 @@
     dip_score: { metricKey: 'dip_score' },
     fair_value: { metricKey: 'fair_value' },
     discount_pct: { metricKey: 'discount_pct', glossaryKey: 'margin_of_safety' },
-    swarm_score: { metricKey: 'swarm_score' }
   };
   let hydrated = false;
 
