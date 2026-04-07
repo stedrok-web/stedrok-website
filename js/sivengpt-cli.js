@@ -370,7 +370,6 @@
   function normalizeListSpacing(text) {
     let normalized = String(text || '').replace(/\r/g, '');
     normalized = normalized.replace(/([^\n])\s+(?=#{1,3}\s+)/g, '$1\n');
-    normalized = normalized.replace(/([^\n])\s+(?=[A-Z][A-Z\s&()\/-]{8,}\s*$)/gm, '$1\n');
 
     normalized = normalized.replace(/:\s+(?=\d+\.\s+)/g, ':\n');
     normalized = normalized.replace(/:\s+(?=-\s+)/g, ':\n');
