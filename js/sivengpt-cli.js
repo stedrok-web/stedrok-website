@@ -197,6 +197,15 @@
     return /^(OVERVALUED|WATCH|BUY|STRONG BUY|AVOID|STRONG AVOID|HOLD)$/.test(normalized);
   }
 
+  function isLikelyUppercaseHeading(line) {
+    const trimmed = String(line || '').trim();
+    if (!trimmed || isStandaloneVerdictLabel(trimmed)) return false;
+    if (trimmed.includes('|')) return false;
+    if (!/^[A-Z][A-Z0-9\s&()\/+\-—:]{6,}$/.test(trimmed)) return false;
+    const words = trimmed.split(/\s+/).filter(Boolean);
+    return words.length >= 2 && words.length <= 14;
+  }
+
   function normalizeHardStopReason(line) {
     let out = String(line || '').trim();
     out = out.replace(/^\s*(?:[!#=_*\-]{2,}\s*)+/, '').trim();
@@ -334,11 +343,30 @@
 
       if (/^#{1,6}\s*/.test(trimmed)) {
         pushCurrent();
-        currentTitle = cleanHeadingText(trimmed);
+        const headingText = cleanHeadingText(trimmed);
+        let inlineBody = '';
+
+        const upperInline = headingText.match(/^([A-Z0-9+&()\/\-—:\s]{4,}?)(\s+)([A-Z][a-z][^\n]*\s+[a-z].*)$/);
+        if (upperInline) {
+          currentTitle = String(upperInline[1] || '').trim();
+          inlineBody = String(upperInline[3] || '').trim();
+        } else {
+          const subsectionInline = headingText.match(/^(\([a-z]\)\s+[A-Za-z][A-Za-z\s]{2,60})(\s+)([A-Z][a-z][^\n]*\s+[a-z].*)$/i);
+          if (subsectionInline) {
+            currentTitle = String(subsectionInline[1] || '').trim();
+            inlineBody = String(subsectionInline[3] || '').trim();
+          } else {
+            currentTitle = headingText;
+          }
+        }
+
+        if (inlineBody) {
+          bucket.push(inlineBody);
+        }
         continue;
       }
 
-      if (!currentTitle && /^[A-Z][A-Z\s&()\/-]{8,}$/.test(trimmed) && !isStandaloneVerdictLabel(trimmed)) {
+      if (isLikelyUppercaseHeading(trimmed)) {
         pushCurrent();
         currentTitle = trimmed;
         continue;
@@ -370,6 +398,7 @@
   function normalizeListSpacing(text) {
     let normalized = String(text || '').replace(/\r/g, '');
     normalized = normalized.replace(/([^\n])\s+(?=#{1,3}\s+)/g, '$1\n');
+    normalized = normalized.replace(/^(##\s+[A-Z0-9+&()\/\-—:\s]{4,}?)(\s+)(?=[A-Z][a-z])/gm, '$1\n');
 
     normalized = normalized.replace(/:\s+(?=\d+\.\s+)/g, ':\n');
     normalized = normalized.replace(/:\s+(?=-\s+)/g, ':\n');
@@ -378,7 +407,7 @@
     normalized = normalized.replace(/(\d+\.\s+[^\n]+?)(?=\s+\d+\.\s+)/g, '$1\n');
     normalized = normalized.replace(/(-\s+[^\n]+?)(?=\s+-\s+)/g, '$1\n');
 
-    normalized = normalized.replace(/(###\s+\([a-z]\)\s+[A-Za-z][A-Za-z\s]{2,45})(\s+)(?=[A-Z][a-z])/gi, '$1\n');
+    normalized = normalized.replace(/(###\s+\([a-z]\)\s+[A-Za-z][A-Za-z\s]{2,45})(\s+)(?=[A-Z][a-z][^\n]*\s+[a-z])/gi, '$1\n');
     normalized = normalized.replace(/(\*\*[^*]{2,80}\*\*:)\s+(?=[^\n])/g, '$1\n');
     normalized = normalized.replace(/^\s*[!#=_*\u2500\u2550]{6,}\s*$/gm, '');
     normalized = normalized.replace(/^\s*!+\s*/gm, '');
@@ -452,10 +481,7 @@
         continue;
       }
 
-      if (/^[A-Z][A-Z\s&()\/-]{8,}$/.test(line)) {
-        if (isStandaloneVerdictLabel(line)) {
-          continue;
-        }
+      if (isLikelyUppercaseHeading(line)) {
         flushParagraph();
         flushList();
         html.push(`<h4>${formatInlineMarkup(line)}</h4>`);
