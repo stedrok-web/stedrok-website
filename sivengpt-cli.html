@@ -41,12 +41,25 @@
       padding: 30px 0 72px;
     }
     .report-panel {
-      background: var(--bg-card);
+      background:
+        linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.88));
       border: 1px solid var(--border-color);
       border-radius: 16px;
       box-shadow: 0 22px 48px rgba(2, 6, 23, 0.42);
       padding: 22px;
       margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .panel-title {
+      margin-bottom: 8px;
+      font-size: clamp(1.2rem, 1.1rem + 0.45vw, 1.5rem);
+      letter-spacing: -0.01em;
+    }
+    .panel-subtitle {
+      margin: 0 0 14px;
+      color: #b8c4d8;
+      font-size: 0.96rem;
+      line-height: 1.56;
     }
 
     .symbol-form {
@@ -151,9 +164,10 @@
     .metric-value {
       display: block;
       color: #f8fafc;
-      font-size: 1.16rem;
+      font-size: clamp(1.05rem, 0.96rem + 0.32vw, 1.22rem);
       font-weight: 800;
       line-height: 1.35;
+      overflow-wrap: anywhere;
     }
 
     .report-shell {
@@ -264,11 +278,11 @@
     }
     .decision-metric .value {
       display: block;
-      font-size: 1rem;
+      font-size: clamp(0.96rem, 0.9rem + 0.2vw, 1.08rem);
       font-weight: 750;
       color: #f8fafc;
       line-height: 1.45;
-      word-break: break-word;
+      overflow-wrap: anywhere;
     }
     .confidence-wrap {
       border: 1px dashed rgba(148, 163, 184, 0.34);
@@ -299,6 +313,8 @@
       font-size: 0.81rem;
       font-weight: 700;
       padding: 6px 10px;
+      flex-wrap: wrap;
+      overflow-wrap: anywhere;
     }
     .confidence-chip.level-high {
       border-color: rgba(34, 197, 94, 0.38);
@@ -321,7 +337,7 @@
       background: rgba(2, 6, 23, 0.56);
       border: 1px solid rgba(148, 163, 184, 0.24);
       border-radius: 12px;
-      padding: 14px;
+      padding: 16px;
     }
     .section-card h3 {
       margin-bottom: 8px;
@@ -331,8 +347,8 @@
     .section-card p,
     .section-card li {
       color: var(--text-secondary);
-      line-height: 1.72;
-      font-size: 0.97rem;
+      line-height: 1.76;
+      font-size: clamp(0.99rem, 0.95rem + 0.2vw, 1.08rem);
     }
     .section-card h4 {
       margin: 12px 0 8px;
@@ -352,6 +368,30 @@
       color: #f8fafc;
       font-weight: 700;
     }
+    .section-card code {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.92em;
+      padding: 1px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: rgba(15, 23, 42, 0.62);
+      color: #dbeafe;
+    }
+    .inline-tag {
+      display: inline-block;
+      margin-left: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      background: rgba(30, 64, 175, 0.22);
+      color: #bae6fd;
+      font-size: 0.72em;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 1px 7px;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
     .decision-raw-line {
       font-family: "JetBrains Mono", monospace;
       font-size: 0.86rem;
@@ -365,25 +405,42 @@
     }
 
     .raw-wrap {
-      margin-top: 12px;
+      margin-top: 16px;
       border: 1px solid rgba(148, 163, 184, 0.24);
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
+      background: rgba(2, 6, 23, 0.8);
     }
     .raw-wrap summary {
       cursor: pointer;
       list-style: none;
-      background: rgba(10, 14, 28, 0.88);
-      padding: 12px 14px;
-      font-weight: 700;
+      background: rgba(10, 14, 28, 0.94);
+      padding: 13px 14px;
+      font-weight: 750;
+      letter-spacing: 0.02em;
       color: #dbeafe;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
     }
     .raw-wrap summary::-webkit-details-marker {
       display: none;
     }
+    .raw-wrap summary::after {
+      content: "▸";
+      color: #8da2c0;
+      transition: transform 0.18s ease;
+      font-size: 0.95rem;
+    }
+    .raw-wrap[open] summary::after {
+      transform: rotate(90deg);
+    }
     .raw-cli-shell {
       border-top: 1px solid rgba(148, 163, 184, 0.22);
-      background: #0b1020;
+      background:
+        radial-gradient(circle at 50% -100%, rgba(56, 189, 248, 0.16), transparent 55%),
+        #0b1020;
     }
     .raw-cli-top {
       display: flex;
@@ -410,10 +467,26 @@
     .raw-cli-title {
       margin: 0;
       font-family: "JetBrains Mono", monospace;
-      font-size: 0.74rem;
+      font-size: 0.76rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: #94a3b8;
+    }
+    .raw-cli-right {
+      margin: 0;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: #6b7f9d;
+      text-transform: lowercase;
+    }
+    .raw-command-line {
+      margin: 0;
+      padding: 10px 14px 0;
+      color: #86efac;
+      font-family: "JetBrains Mono", monospace;
+      font-size: clamp(0.9rem, 0.84rem + 0.22vw, 1rem);
+      letter-spacing: 0.02em;
     }
     .raw-pre {
       margin: 0;
@@ -423,15 +496,42 @@
       background: #0b1020;
       color: #d1e7ff;
       font-family: "JetBrains Mono", monospace;
-      font-size: 0.88rem;
-      line-height: 1.52;
+      font-size: clamp(1rem, 0.88rem + 0.54vw, 1.32rem);
+      line-height: 1.64;
       white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      -webkit-overflow-scrolling: touch;
+    }
+    .raw-pre::-webkit-scrollbar {
+      height: 10px;
+      width: 10px;
+    }
+    .raw-pre::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background: rgba(125, 211, 252, 0.25);
+    }
+
+    @media (max-width: 1240px) {
+      .snapshot-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 1050px) {
       .snapshot-grid,
       .decision-metric-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 900px) {
+      .report-main {
+        padding: 22px 0 56px;
+      }
+      .report-panel {
+        padding: 18px;
+      }
+      .panel-subtitle {
+        font-size: 0.92rem;
       }
     }
     @media (max-width: 768px) {
@@ -461,6 +561,27 @@
       }
       .confidence-chip {
         justify-content: space-between;
+      }
+      .raw-pre {
+        max-height: 52vh;
+      }
+      .raw-cli-right {
+        display: none;
+      }
+    }
+    @media (max-width: 520px) {
+      .report-hero h1 {
+        font-size: 28px;
+      }
+      .stage-chip {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .panel-title {
+        font-size: 1.12rem;
+      }
+      .raw-command-line {
+        font-size: 0.88rem;
       }
     }
   </style>
@@ -513,13 +634,15 @@
         </section>
 
         <section class="report-panel" aria-label="snapshot panel">
-          <h2 style="margin-bottom:8px;">Market Snapshot</h2>
+          <h2 class="panel-title">Market Snapshot</h2>
+          <p class="panel-subtitle">Instant quote and baseline valuation context before deep analysis runs.</p>
           <p id="snapshotMeta" class="ui-status">Awaiting ticker input.</p>
           <div id="snapshotCards" class="snapshot-grid"></div>
         </section>
 
         <section id="reportShell" class="report-panel report-shell" aria-label="deep analysis panel">
-          <h2 style="margin-bottom:8px;">Deep Analysis</h2>
+          <h2 class="panel-title">Deep Analysis</h2>
+          <p class="panel-subtitle">Decision-first report rendering with structured thesis sections and validated verdict metrics.</p>
           <div id="reportSummary" class="report-summary"></div>
           <div id="reportSections" class="report-sections"></div>
           <details class="raw-wrap">
@@ -532,8 +655,9 @@
                   <span class="raw-cli-dot green"></span>
                 </div>
                 <p class="raw-cli-title">stedrok-analysis-terminal</p>
-                <div style="width:36px;" aria-hidden="true"></div>
+                <p class="raw-cli-right">zsh · utf-8</p>
               </div>
+              <p id="rawCommand" class="raw-command-line">$ /stock --</p>
               <pre id="rawOutput" class="raw-pre"></pre>
             </div>
           </details>
@@ -573,6 +697,6 @@
   <script src="js/config.js"></script>
   <script src="js/mobile-menu.js?v=20260317"></script>
   <script src="js/public-auth-nav.js?v=20260317"></script>
-  <script src="js/sivengpt-cli.js?v=20260407c"></script>
+  <script src="js/sivengpt-cli.js?v=20260407d"></script>
 </body>
 </html>

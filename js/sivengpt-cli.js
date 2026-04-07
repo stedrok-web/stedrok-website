@@ -11,8 +11,9 @@
   const reportSummary = document.getElementById('reportSummary');
   const reportSections = document.getElementById('reportSections');
   const rawOutput = document.getElementById('rawOutput');
+  const rawCommand = document.getElementById('rawCommand');
 
-  if (!form || !tickerInput || !analyzeButton || !uiStatus || !stageFast || !stageDeep || !snapshotMeta || !snapshotCards || !reportShell || !reportSummary || !reportSections || !rawOutput) {
+  if (!form || !tickerInput || !analyzeButton || !uiStatus || !stageFast || !stageDeep || !snapshotMeta || !snapshotCards || !reportShell || !reportSummary || !reportSections || !rawOutput || !rawCommand) {
     return;
   }
 
@@ -39,6 +40,7 @@
     reportSummary.innerHTML = '';
     reportSections.innerHTML = '';
     rawOutput.textContent = '';
+    rawCommand.textContent = '$ /stock --';
   }
 
   function escapeHtml(value) {
@@ -243,24 +245,37 @@
     }
 
     for (let i = 0; i < lines.length; i += 1) {
-      const line = lines[i];
-      if (/^##\s+/.test(line)) {
-        pushCurrent();
-        currentTitle = line.replace(/^##\s+/, '').trim();
+      const line = String(lines[i] || '');
+      const trimmed = line.trim();
+
+      if (!trimmed || /^[-=]{5,}$/.test(trimmed)) {
+        if (currentTitle) {
+          bucket.push('');
+        }
         continue;
       }
-      if (!currentTitle && /^[A-Z][A-Z\s&()\/-]{8,}$/.test(String(line || '').trim())) {
+
+      if (/^#{1,3}\s+/.test(trimmed)) {
         pushCurrent();
-        currentTitle = String(line || '').trim();
+        currentTitle = trimmed.replace(/^#{1,3}\s+/, '').trim();
         continue;
       }
+
+      if (!currentTitle && /^[A-Z][A-Z\s&()\/-]{8,}$/.test(trimmed)) {
+        pushCurrent();
+        currentTitle = trimmed;
+        continue;
+      }
+
       if (!currentTitle) {
         continue;
       }
-      if (/^VERDICT=/.test(line)) {
+
+      if (/^VERDICT=/.test(trimmed)) {
         continue;
       }
-      bucket.push(line);
+
+      bucket.push(trimmed);
     }
 
     pushCurrent();
@@ -271,16 +286,27 @@
     let html = escapeHtml(text);
     html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    html = html.replace(/\[(LIVE|CALC|DATA|EST|RISK)\]/g, '<span class="inline-tag">$1</span>');
     return html;
   }
 
   function normalizeListSpacing(text) {
-    let normalized = String(text || '');
-    normalized = normalized.replace(/:\s+(?=1\.\s+)/g, ':\n');
+    let normalized = String(text || '').replace(/\r/g, '');
+    normalized = normalized.replace(/([^\n])\s+(?=#{1,3}\s+)/g, '$1\n');
+    normalized = normalized.replace(/([^\n])\s+(?=[A-Z][A-Z\s&()\/-]{8,}\s*$)/gm, '$1\n');
+
+    normalized = normalized.replace(/:\s+(?=\d+\.\s+)/g, ':\n');
     normalized = normalized.replace(/:\s+(?=-\s+)/g, ':\n');
+    normalized = normalized.replace(/([.?!])\s+(?=-\s+\*\*|-\s+[A-Za-z0-9]|\d+\.\s+)/g, '$1\n');
+
     normalized = normalized.replace(/(\d+\.\s+[^\n]+?)(?=\s+\d+\.\s+)/g, '$1\n');
     normalized = normalized.replace(/(-\s+[^\n]+?)(?=\s+-\s+)/g, '$1\n');
-    return normalized;
+
+    normalized = normalized.replace(/(###\s+\([a-z]\)\s+[A-Za-z][A-Za-z\s]{2,45})(\s+)(?=[A-Z][a-z])/gi, '$1\n');
+    normalized = normalized.replace(/(\*\*[^*]{2,80}\*\*:)\s+(?=[^\n])/g, '$1\n');
+
+    normalized = normalized.replace(/\n{3,}/g, '\n\n');
+    return normalized.trim();
   }
 
   function renderBodyRich(body) {
@@ -321,10 +347,16 @@
         continue;
       }
 
-      if (/^###\s+/.test(line)) {
+      if (/^[-=]{5,}$/.test(line) || /^[\u2500\u2550]{5,}$/.test(line)) {
         flushParagraph();
         flushList();
-        html.push(`<h4>${formatInlineMarkup(line.replace(/^###\s+/, ''))}</h4>`);
+        continue;
+      }
+
+      if (/^#{1,3}\s+/.test(line)) {
+        flushParagraph();
+        flushList();
+        html.push(`<h4>${formatInlineMarkup(line.replace(/^#{1,3}\s+/, ''))}</h4>`);
         continue;
       }
 
@@ -359,10 +391,12 @@
 
   function renderAnalysis(text, meta) {
     const verdict = parseVerdictSummary(text);
-    const sections = splitSections(text);
+    const normalizedText = normalizeListSpacing(text);
+    const sections = splitSections(normalizedText);
 
     reportShell.classList.add('visible');
     rawOutput.textContent = text;
+    rawCommand.textContent = `$ /stock ${String(meta.symbol || '--').toUpperCase()}`;
 
     if (verdict) {
       const tone = getVerdictTone(verdict.verdict);
