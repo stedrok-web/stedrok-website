@@ -163,23 +163,154 @@
       display: block;
     }
     .report-summary {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
       margin-bottom: 14px;
     }
-    .summary-card {
-      background: rgba(15, 23, 42, 0.58);
-      border: 1px solid rgba(148, 163, 184, 0.24);
-      border-radius: 12px;
-      padding: 12px;
+    .decision-hub {
+      border: 1px solid rgba(148, 163, 184, 0.26);
+      border-radius: 14px;
+      padding: 14px;
+      background: linear-gradient(160deg, rgba(15, 23, 42, 0.8), rgba(2, 6, 23, 0.74));
+      display: grid;
+      gap: 12px;
     }
-    .summary-card .value {
-      display: block;
-      font-size: 1.13rem;
+    .decision-hub.tone-buy {
+      border-color: rgba(16, 185, 129, 0.48);
+      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2) inset;
+    }
+    .decision-hub.tone-overvalued {
+      border-color: rgba(245, 158, 11, 0.5);
+      box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.18) inset;
+    }
+    .decision-hub.tone-avoid {
+      border-color: rgba(244, 63, 94, 0.55);
+      box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.22) inset;
+    }
+    .decision-hub.tone-hold {
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.18) inset;
+    }
+    .decision-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .decision-top .decision-kicker {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-muted);
+      margin: 0 0 4px;
+    }
+    .decision-top .decision-symbol {
+      margin: 0;
+      font-size: 1.45rem;
+      letter-spacing: -0.01em;
+    }
+    .verdict-pill {
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.83rem;
       font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .verdict-pill.verdict-buy {
+      background: rgba(16, 185, 129, 0.15);
+      color: #6ee7b7;
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+    .verdict-pill.verdict-overvalued {
+      background: rgba(245, 158, 11, 0.16);
+      color: #fcd34d;
+      border-color: rgba(245, 158, 11, 0.45);
+    }
+    .verdict-pill.verdict-avoid {
+      background: rgba(244, 63, 94, 0.16);
+      color: #fda4af;
+      border-color: rgba(244, 63, 94, 0.45);
+    }
+    .verdict-pill.verdict-hold {
+      background: rgba(56, 189, 248, 0.16);
+      color: #7dd3fc;
+      border-color: rgba(56, 189, 248, 0.45);
+    }
+    .verdict-pill.verdict-neutral {
+      background: rgba(148, 163, 184, 0.2);
+      color: #cbd5e1;
+      border-color: rgba(148, 163, 184, 0.4);
+    }
+    .decision-metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .decision-metric {
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 10px;
+      background: rgba(2, 6, 23, 0.52);
+      padding: 10px;
+    }
+    .decision-metric .label {
+      display: block;
+      font-size: 0.71rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .decision-metric .value {
+      display: block;
+      font-size: 1rem;
+      font-weight: 750;
       color: #f8fafc;
-      margin-top: 5px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+    .confidence-wrap {
+      border: 1px dashed rgba(148, 163, 184, 0.34);
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.44);
+      padding: 10px;
+    }
+    .confidence-wrap .title {
+      margin: 0 0 8px;
+      color: var(--text-muted);
+      font-size: 0.73rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+    }
+    .confidence-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .confidence-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: rgba(2, 6, 23, 0.55);
+      color: #dbeafe;
+      font-size: 0.81rem;
+      font-weight: 700;
+      padding: 6px 10px;
+    }
+    .confidence-chip.level-high {
+      border-color: rgba(34, 197, 94, 0.38);
+      color: #86efac;
+    }
+    .confidence-chip.level-medium {
+      border-color: rgba(251, 191, 36, 0.38);
+      color: #fde68a;
+    }
+    .confidence-chip.level-low {
+      border-color: rgba(248, 113, 113, 0.4);
+      color: #fca5a5;
     }
 
     .report-sections {
@@ -221,40 +352,85 @@
       color: #f8fafc;
       font-weight: 700;
     }
+    .decision-raw-line {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.86rem;
+      background: rgba(2, 6, 23, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 8px;
+      padding: 10px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      color: #dbeafe;
+    }
 
     .raw-wrap {
       margin-top: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.28);
+      border: 1px solid rgba(148, 163, 184, 0.24);
       border-radius: 12px;
       overflow: hidden;
     }
     .raw-wrap summary {
       cursor: pointer;
       list-style: none;
-      background: rgba(15, 23, 42, 0.55);
+      background: rgba(10, 14, 28, 0.88);
       padding: 12px 14px;
       font-weight: 700;
-      color: #cbd5e1;
+      color: #dbeafe;
     }
     .raw-wrap summary::-webkit-details-marker {
       display: none;
+    }
+    .raw-cli-shell {
+      border-top: 1px solid rgba(148, 163, 184, 0.22);
+      background: #0b1020;
+    }
+    .raw-cli-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: rgba(7, 10, 18, 0.9);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    .raw-cli-dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .raw-cli-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .raw-cli-dot.red { background: #ff5f57; }
+    .raw-cli-dot.yellow { background: #febc2e; }
+    .raw-cli-dot.green { background: #28c840; }
+    .raw-cli-title {
+      margin: 0;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.74rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #94a3b8;
     }
     .raw-pre {
       margin: 0;
       padding: 14px;
       max-height: 420px;
       overflow: auto;
-      background: rgba(2, 6, 23, 0.92);
-      color: #e2e8f0;
+      background: #0b1020;
+      color: #d1e7ff;
       font-family: "JetBrains Mono", monospace;
-      font-size: 0.93rem;
+      font-size: 0.88rem;
       line-height: 1.52;
       white-space: pre-wrap;
     }
 
     @media (max-width: 1050px) {
       .snapshot-grid,
-      .report-summary {
+      .decision-metric-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
@@ -276,8 +452,15 @@
         min-height: 48px;
       }
       .snapshot-grid,
-      .report-summary {
+      .decision-metric-grid {
         grid-template-columns: 1fr;
+      }
+      .confidence-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .confidence-chip {
+        justify-content: space-between;
       }
     }
   </style>
@@ -341,7 +524,18 @@
           <div id="reportSections" class="report-sections"></div>
           <details class="raw-wrap">
             <summary>Show Raw Analysis Text</summary>
-            <pre id="rawOutput" class="raw-pre"></pre>
+            <div class="raw-cli-shell">
+              <div class="raw-cli-top">
+                <div class="raw-cli-dots" aria-hidden="true">
+                  <span class="raw-cli-dot red"></span>
+                  <span class="raw-cli-dot yellow"></span>
+                  <span class="raw-cli-dot green"></span>
+                </div>
+                <p class="raw-cli-title">stedrok-analysis-terminal</p>
+                <div style="width:36px;" aria-hidden="true"></div>
+              </div>
+              <pre id="rawOutput" class="raw-pre"></pre>
+            </div>
           </details>
         </section>
       </div>
@@ -379,6 +573,6 @@
   <script src="js/config.js"></script>
   <script src="js/mobile-menu.js?v=20260317"></script>
   <script src="js/public-auth-nav.js?v=20260317"></script>
-  <script src="js/sivengpt-cli.js?v=20260407b"></script>
+  <script src="js/sivengpt-cli.js?v=20260407c"></script>
 </body>
 </html>

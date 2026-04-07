@@ -184,6 +184,50 @@
     };
   }
 
+  function titleCaseLabel(token) {
+    const map = {
+      DATA: 'Data',
+      VALUATION: 'Valuation',
+      FORENSIC: 'Forensic',
+      ACTION: 'Action'
+    };
+    const key = String(token || '').trim().toUpperCase();
+    if (map[key]) return map[key];
+    return key ? key.charAt(0) + key.slice(1).toLowerCase() : 'Metric';
+  }
+
+  function getVerdictTone(verdict) {
+    const v = String(verdict || '').trim().toUpperCase();
+    if (v.includes('AVOID')) return 'avoid';
+    if (v.includes('BUY')) return 'buy';
+    if (v.includes('OVERVALUED')) return 'overvalued';
+    if (v.includes('HOLD') || v.includes('WATCH')) return 'hold';
+    return 'neutral';
+  }
+
+  function parseConfidenceChips(confidenceText) {
+    const chips = [];
+    const source = String(confidenceText || '').trim();
+    if (!source) return chips;
+
+    source.split('/').forEach(function eachSegment(segment) {
+      const part = String(segment || '').trim();
+      if (!part) return;
+      const idx = part.indexOf(':');
+      if (idx <= 0) return;
+      const rawLabel = part.slice(0, idx).trim();
+      const rawValue = part.slice(idx + 1).trim();
+      const level = rawValue.toUpperCase();
+      chips.push({
+        label: titleCaseLabel(rawLabel),
+        value: rawValue,
+        tone: level === 'HIGH' ? 'high' : (level === 'MEDIUM' ? 'medium' : (level === 'LOW' ? 'low' : 'neutral'))
+      });
+    });
+
+    return chips;
+  }
+
   function splitSections(text) {
     const sections = [];
     const lines = String(text || '').split(/\r?\n/);
@@ -320,29 +364,46 @@
     reportShell.classList.add('visible');
     rawOutput.textContent = text;
 
-    const summaryCards = [];
-    summaryCards.push({ label: 'Symbol', value: meta.symbol || 'N/A' });
     if (verdict) {
-      summaryCards.push({ label: 'Verdict', value: verdict.verdict });
-      summaryCards.push({ label: 'Buy Below', value: verdict.buyBelow });
-      summaryCards.push({ label: 'Fair Value (B/Bu)', value: verdict.fairValue });
-      summaryCards.push({ label: verdict.premiumOrMosLabel, value: verdict.premiumOrMosValue });
-      summaryCards.push({ label: 'Confidence', value: verdict.confidence });
-      summaryCards.push({ label: 'Report Date', value: verdict.date });
-    }
-    summaryCards.push({ label: 'Runtime', value: `${meta.durationMs} ms` });
-    summaryCards.push({ label: 'Source', value: meta.cached ? 'Cached' : 'Fresh' });
+      const tone = getVerdictTone(verdict.verdict);
+      const confidenceChips = parseConfidenceChips(verdict.confidence);
+      const confidenceHtml = confidenceChips.length
+        ? confidenceChips.map(function renderChip(chip) {
+          return `<span class="confidence-chip level-${escapeHtml(chip.tone)}"><span>${escapeHtml(chip.label)}</span><strong>${escapeHtml(chip.value)}</strong></span>`;
+        }).join('')
+        : `<span class="confidence-chip">${escapeHtml(verdict.confidence)}</span>`;
 
-    reportSummary.innerHTML = summaryCards.map(function card(item) {
-      return `<article class="summary-card"><span class="metric-label">${escapeHtml(item.label)}</span><span class="value">${escapeHtml(item.value)}</span></article>`;
-    }).join('');
+      reportSummary.innerHTML = `
+        <article class="decision-hub tone-${escapeHtml(tone)}">
+          <div class="decision-top">
+            <div>
+              <p class="decision-kicker">Investment Verdict</p>
+              <h3 class="decision-symbol">${escapeHtml(meta.symbol || 'N/A')}</h3>
+            </div>
+            <span class="verdict-pill verdict-${escapeHtml(tone)}">${escapeHtml(verdict.verdict)}</span>
+          </div>
+          <div class="decision-metric-grid">
+            <article class="decision-metric"><span class="label">Buy Below</span><span class="value">${escapeHtml(verdict.buyBelow)}</span></article>
+            <article class="decision-metric"><span class="label">Fair Value (Bear/Base/Bull)</span><span class="value">${escapeHtml(verdict.fairValue)}</span></article>
+            <article class="decision-metric"><span class="label">${escapeHtml(verdict.premiumOrMosLabel)}</span><span class="value">${escapeHtml(verdict.premiumOrMosValue)}</span></article>
+            <article class="decision-metric"><span class="label">Report Date</span><span class="value">${escapeHtml(verdict.date)}</span></article>
+          </div>
+          <div class="confidence-wrap">
+            <p class="title">Confidence Breakdown</p>
+            <div class="confidence-grid">${confidenceHtml}</div>
+          </div>
+        </article>
+      `;
+    } else {
+      reportSummary.innerHTML = `<article class="decision-hub tone-neutral"><div class="decision-top"><div><p class="decision-kicker">Investment Verdict</p><h3 class="decision-symbol">${escapeHtml(meta.symbol || 'N/A')}</h3></div><span class="verdict-pill verdict-neutral">Unavailable</span></div></article>`;
+    }
 
     const renderedSections = sections.map(function section(entry) {
       return `<article class="section-card"><h3>${escapeHtml(entry.title)}</h3>${renderBodyRich(entry.body)}</article>`;
     }).join('');
 
     const decisionSection = verdict
-      ? `<article class="section-card"><h3>Decision Snapshot</h3><p>${escapeHtml(verdict.rawLine)}</p></article>`
+      ? `<article class="section-card"><h3>Decision Snapshot</h3><p class="decision-raw-line">${escapeHtml(verdict.rawLine)}</p></article>`
       : '';
 
     reportSections.innerHTML = `${decisionSection}${renderedSections}`;
@@ -426,13 +487,12 @@
 
       renderAnalysis(output, {
         symbol,
-        durationMs: Number(deep.duration_ms || 0),
         cached: Boolean(deep.cached)
       });
 
       setStage(stageDeep, 'done');
       const cacheNote = deep.cached ? ' (cached)' : '';
-      setStatus(`Complete for ${symbol} in ${Number(deep.duration_ms || 0)} ms${cacheNote}.`, 'info');
+      setStatus(`Deep analysis ready for ${symbol}${cacheNote}.`, 'info');
     } catch (error) {
       setStage(stageDeep, 'error');
       if (!stageFast.classList.contains('done')) {
