@@ -205,6 +205,11 @@
         currentTitle = line.replace(/^##\s+/, '').trim();
         continue;
       }
+      if (!currentTitle && /^[A-Z][A-Z\s&()\/-]{8,}$/.test(String(line || '').trim())) {
+        pushCurrent();
+        currentTitle = String(line || '').trim();
+        continue;
+      }
       if (!currentTitle) {
         continue;
       }
@@ -218,26 +223,94 @@
     return sections;
   }
 
+  function formatInlineMarkup(text) {
+    let html = escapeHtml(text);
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    return html;
+  }
+
+  function normalizeListSpacing(text) {
+    let normalized = String(text || '');
+    normalized = normalized.replace(/:\s+(?=1\.\s+)/g, ':\n');
+    normalized = normalized.replace(/:\s+(?=-\s+)/g, ':\n');
+    normalized = normalized.replace(/(\d+\.\s+[^\n]+?)(?=\s+\d+\.\s+)/g, '$1\n');
+    normalized = normalized.replace(/(-\s+[^\n]+?)(?=\s+-\s+)/g, '$1\n');
+    return normalized;
+  }
+
   function renderBodyRich(body) {
-    const blocks = body.split(/\n{2,}/).map(function tidy(block) {
-      return block.trim();
-    }).filter(Boolean);
+    const lines = normalizeListSpacing(body).split(/\r?\n/);
+    const html = [];
+    let paragraphLines = [];
+    let listType = '';
+    let listItems = [];
 
-    return blocks.map(function renderBlock(block) {
-      const lines = block.split(/\n/).map(function clean(line) { return line.trim(); }).filter(Boolean);
-      if (lines.length > 1 && lines.every(function everyOrdered(line) { return /^\d+\.\s+/.test(line); })) {
-        return `<ol>${lines.map(function listItem(line) {
-          return `<li>${escapeHtml(line.replace(/^\d+\.\s+/, ''))}</li>`;
-        }).join('')}</ol>`;
-      }
-      if (lines.length > 1 && lines.every(function everyBulleted(line) { return /^[-*]\s+/.test(line); })) {
-        return `<ul>${lines.map(function bulletItem(line) {
-          return `<li>${escapeHtml(line.replace(/^[-*]\s+/, ''))}</li>`;
-        }).join('')}</ul>`;
+    function flushParagraph() {
+      if (!paragraphLines.length) return;
+      const merged = paragraphLines.join(' ');
+      html.push(`<p>${formatInlineMarkup(merged)}</p>`);
+      paragraphLines = [];
+    }
+
+    function flushList() {
+      if (!listItems.length || !listType) return;
+      const tag = listType;
+      html.push(`<${tag}>${listItems.map(function item(line) {
+        return `<li>${formatInlineMarkup(line)}</li>`;
+      }).join('')}</${tag}>`);
+      listItems = [];
+      listType = '';
+    }
+
+    function openList(type) {
+      if (listType === type) return;
+      flushList();
+      listType = type;
+    }
+
+    for (let i = 0; i < lines.length; i += 1) {
+      const line = String(lines[i] || '').trim();
+      if (!line) {
+        flushParagraph();
+        flushList();
+        continue;
       }
 
-      return `<p>${escapeHtml(lines.join(' '))}</p>`;
-    }).join('');
+      if (/^###\s+/.test(line)) {
+        flushParagraph();
+        flushList();
+        html.push(`<h4>${formatInlineMarkup(line.replace(/^###\s+/, ''))}</h4>`);
+        continue;
+      }
+
+      if (/^\d+\.\s+/.test(line)) {
+        flushParagraph();
+        openList('ol');
+        listItems.push(line.replace(/^\d+\.\s+/, '').trim());
+        continue;
+      }
+
+      if (/^[-*]\s+/.test(line)) {
+        flushParagraph();
+        openList('ul');
+        listItems.push(line.replace(/^[-*]\s+/, '').trim());
+        continue;
+      }
+
+      if (/^[A-Z][A-Z\s&()\/-]{8,}$/.test(line)) {
+        flushParagraph();
+        flushList();
+        html.push(`<h4>${formatInlineMarkup(line)}</h4>`);
+        continue;
+      }
+
+      paragraphLines.push(line);
+    }
+
+    flushParagraph();
+    flushList();
+    return html.join('');
   }
 
   function renderAnalysis(text, meta) {
