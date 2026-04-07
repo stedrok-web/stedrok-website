@@ -178,7 +178,7 @@
       verdict: kv.VERDICT || 'N/A',
       buyBelow: kv.BUY_BELOW || 'N/A',
       fairValue: kv.FAIR_VALUE_BEAR_BASE_BULL || 'N/A',
-      premiumOrMosLabel: kv.PREM_TO_FV ? 'Premium to FV' : (kv.MOS ? 'MOS' : 'Premium/MOS'),
+      premiumOrMosLabel: kv.PREM_TO_FV ? 'Premium to FV' : (kv.MOS ? 'MOS (Margin of Safety)' : 'Premium/MOS'),
       premiumOrMosValue: kv.PREM_TO_FV || kv.MOS || 'N/A',
       confidence: kv.CONFIDENCE || 'N/A',
       date: kv.DATE || 'N/A',
@@ -203,8 +203,15 @@
     if (v.includes('AVOID')) return 'avoid';
     if (v.includes('BUY')) return 'buy';
     if (v.includes('OVERVALUED')) return 'overvalued';
-    if (v.includes('HOLD') || v.includes('WATCH')) return 'hold';
+    if (v.includes('WATCH')) return 'watch';
+    if (v.includes('HOLD')) return 'hold';
     return 'neutral';
+  }
+
+  function cleanHeadingText(text) {
+    return String(text || '')
+      .replace(/^#{1,6}\s*/, '')
+      .trim();
   }
 
   function parseConfidenceChips(confidenceText) {
@@ -255,9 +262,9 @@
         continue;
       }
 
-      if (/^#{1,3}\s+/.test(trimmed)) {
+      if (/^#{1,6}\s*/.test(trimmed)) {
         pushCurrent();
-        currentTitle = trimmed.replace(/^#{1,3}\s+/, '').trim();
+        currentTitle = cleanHeadingText(trimmed);
         continue;
       }
 
@@ -353,10 +360,10 @@
         continue;
       }
 
-      if (/^#{1,3}\s+/.test(line)) {
+      if (/^#{1,6}\s*/.test(line)) {
         flushParagraph();
         flushList();
-        html.push(`<h4>${formatInlineMarkup(line.replace(/^#{1,3}\s+/, ''))}</h4>`);
+        html.push(`<h4>${formatInlineMarkup(cleanHeadingText(line))}</h4>`);
         continue;
       }
 
@@ -381,7 +388,7 @@
         continue;
       }
 
-      paragraphLines.push(line);
+      paragraphLines.push(line.replace(/^#{1,6}\s*/, '').trim());
     }
 
     flushParagraph();
@@ -433,7 +440,7 @@
     }
 
     const renderedSections = sections.map(function section(entry) {
-      return `<article class="section-card"><h3>${escapeHtml(entry.title)}</h3>${renderBodyRich(entry.body)}</article>`;
+      return `<article class="section-card"><h3>${escapeHtml(cleanHeadingText(entry.title))}</h3>${renderBodyRich(entry.body)}</article>`;
     }).join('');
 
     const decisionSection = verdict
