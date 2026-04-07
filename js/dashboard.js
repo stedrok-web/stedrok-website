@@ -852,7 +852,7 @@ function normalizePickRowShape(stock) {
     market_cap_usd: toNumberOrNull(row.market_cap_usd ?? row.marketCapUsd ?? row.marketCapUSD ?? row.csv_market_cap_usd),
     current_price: toNumberOrNull(row.current_price ?? row.price),
     fair_value: toNumberOrNull(row.fair_value ?? row.estimatedValue),
-    discount_pct: (() => { const _d = toNumberOrNull(row.discount_pct ?? row.discountPct); if (_d == null) return _d; const _lane = String(row.selection_lane || "").toLowerCase(); const _isSwarm = _lane === "swarm"; if (_isSwarm) return _d; return Math.abs(_d) < 1 ? _d * 100 : _d; })(),
+    discount_pct: (() => { const _d = toNumberOrNull(row.discount_pct ?? row.discountPct); if (_d == null) return _d; const _lane = String(row.selection_lane || "").toLowerCase(); return Math.abs(_d) < 1 ? _d * 100 : _d; })(),
     value_score: toNumberOrNull(row.value_score ?? row.valueScore),
     quality_score: toNumberOrNull(row.quality_score ?? row.qualityScore),
     risk_score: toNumberOrNull(row.risk_score ?? row.riskScore),
@@ -861,7 +861,6 @@ function normalizePickRowShape(stock) {
     confidence: (() => { const _c = toNumberOrNull(row.confidence); return (_c != null && _c <= 1.5) ? _c * 100 : _c; })(),
     decision: decision || (row.decision || ''),
     is_new: normalizeBooleanFlag(row.is_new),
-    swarm_score: toNumberOrNull(row.swarm_score ?? row.swarmScore),
     internet_verdict: String(row.internet_verdict || row.internetVerdict || ''),
     internet_catalyst_strength: String(row.internet_catalyst_strength || row.internetCatalystStrength || ''),
     internet_valuation_context: String(row.internet_valuation_context || row.internetValuationContext || ''),
@@ -955,11 +954,7 @@ function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
 function setDashboardLaneToggle(mode) {
   const normalized = normalizeDashboardLane(mode);
   // Show extra score column only in blended mode (currently inactive)
-  const swarmHeader = document.getElementById('thSwarmScore');
-  const swarmCells = document.querySelectorAll('[data-col="swarm_score"]');
-  const isSwarm = normalized === 'blended';
-  if (swarmHeader) swarmHeader.style.display = isSwarm ? '' : 'none';
-  swarmCells.forEach(function(td) { td.style.display = isSwarm ? '' : 'none'; });
+  const isSwarm = false; // blended lane removed
   // Update free-user upgrade prompt colspan
   document.querySelectorAll('[data-free-colspan]').forEach(function(td) {
     td.setAttribute('colspan', isSwarm ? '15' : '14');
@@ -2053,9 +2048,7 @@ function renderTable(stocks) {
         <td data-value="${currentPriceRaw}">${formatPrice(stock.current_price,stock)}</td>
         <td data-value="${fairValueRaw}">${formatPrice(stock.fair_value,stock)}</td>
         <td class="${discountClassName}" data-value="${discountRaw}">${stock.discount_pct!=null?stock.discount_pct.toFixed(1)+'%':'-'}</td>
-        <td data-col="swarm_score" data-value="${formatNumericDataValue(stock.swarm_score)}" style="display:none;">
-          ${stock.swarm_score != null ? stock.swarm_score.toFixed(1) : '&#8212;'}
-        </td>
+
       `;
     }
 
@@ -2064,7 +2057,6 @@ function renderTable(stocks) {
 
   renderPaginationControls(_pagedStocks.length);
   syncActiveInsightRow();
-  // Refresh swarm score column visibility after rows render
   setDashboardLaneToggle(typeof currentLaneMode !== "undefined" ? currentLaneMode : "core");
 }
 
@@ -2677,10 +2669,7 @@ function getScoreValuesForFiltering(stock, laneMode = currentLaneMode) {
   ].filter(Number.isFinite);
 
   if (normalizedLane === 'blended') {
-    const swarmScore = Number(stock?.swarm_score);
-    if (Number.isFinite(swarmScore)) {
-      scores.push(swarmScore);
-    }
+
   }
 
   return scores;
