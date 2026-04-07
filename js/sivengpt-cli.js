@@ -186,14 +186,74 @@
     };
   }
 
-  function formatDecisionLine(rawLine) {
-    const parts = String(rawLine || '')
-      .split('|')
-      .map(function mapPart(part) {
-        return String(part || '').trim();
-      })
-      .filter(Boolean);
-    return escapeHtml(parts.join('\n'));
+  function isNoiseSeparator(line) {
+    const trimmed = String(line || '').trim();
+    if (!trimmed) return false;
+    return /^[-=]{5,}$/.test(trimmed) || /^[!#=_*\u2500\u2550]{6,}$/.test(trimmed);
+  }
+
+  function isStandaloneVerdictLabel(line) {
+    const normalized = String(line || '').trim().toUpperCase();
+    return /^(OVERVALUED|WATCH|BUY|STRONG BUY|AVOID|STRONG AVOID|HOLD)$/.test(normalized);
+  }
+
+  function normalizeHardStopReason(line) {
+    let out = String(line || '').trim();
+    out = out.replace(/^\s*(?:[!#=_*\-]{2,}\s*)+/, '').trim();
+    out = out.replace(/^\s*⚠\s*/, '⚠ ').trim();
+    out = out.replace(/^\s*Δ\s*/, 'Δ ').trim();
+    return out;
+  }
+
+  function stripAnsi(text) {
+    return String(text || '').replace(/\x1b\[[0-9;]*m/g, '');
+  }
+
+  function normalizeStructuralText(text) {
+    let cleaned = stripAnsi(text).replace(/\r/g, '');
+
+    cleaned = cleaned.replace(/^\s*[!#=_*\-]{8,}\s*$/gm, '');
+    cleaned = cleaned.replace(/^\s*[!\-=_*]{3,}\s*/gm, '');
+    cleaned = cleaned.replace(/^\s*([!#=_*]{3,})\s*(.+?)\s*\1\s*$/gm, '$2');
+    cleaned = cleaned.replace(/^\s*!+\s*/gm, '');
+    cleaned = cleaned.replace(/^\s*(?:[!#=_*\-]{2,}\s*)+([A-Za-z].*)$/gm, '$1');
+    cleaned = cleaned.replace(/^\s*VERDICT:\s*[A-Z ]+\s*$/gim, '');
+
+    cleaned = cleaned.replace(
+      /^\s*(?:!+\s*)?ANALYSIS ABORTED\s*[—-]\s*STRUCTURAL HARD STOP TRIGGERED\s*$/gim,
+      '### Structural Hard Stop Triggered'
+    );
+    cleaned = cleaned.replace(
+      /(Forward projections SUPPRESSED\s*[—-]\s*structural halt)/gi,
+      '### $1'
+    );
+
+    cleaned = cleaned.replace(
+      /^\s*Hard Stops:\s*(.+)$/gim,
+      function hardStopsToList(_m, reasons) {
+        const items = String(reasons || '')
+          .split(/\s*;\s*/)
+          .map(function each(part) {
+            return part.trim();
+          })
+          .filter(Boolean)
+          .map(function asBullet(part) {
+            return `- ${normalizeHardStopReason(part)}`;
+          });
+        return items.length ? `Hard Stops:\n${items.join('\n')}` : 'Hard Stops:';
+      }
+    );
+
+    cleaned = cleaned.replace(
+      /^\s*⚠\s+([^\n]+)$/gim,
+      function warningBullet(_m, body) {
+        return `- ⚠ ${normalizeHardStopReason(body)}`;
+      }
+    );
+    cleaned = cleaned.replace(/^\s*⚠\s+/gm, '- ⚠ ');
+    cleaned = cleaned.replace(/^\s*Δ\s+/gm, '- Δ ');
+    cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+    return cleaned.trim();
   }
 
   function titleCaseLabel(token) {
@@ -265,7 +325,7 @@
       const line = String(lines[i] || '');
       const trimmed = line.trim();
 
-      if (!trimmed || /^[-=]{5,}$/.test(trimmed)) {
+      if (!trimmed || isNoiseSeparator(trimmed)) {
         if (currentTitle) {
           bucket.push('');
         }
@@ -278,7 +338,7 @@
         continue;
       }
 
-      if (!currentTitle && /^[A-Z][A-Z\s&()\/-]{8,}$/.test(trimmed)) {
+      if (!currentTitle && /^[A-Z][A-Z\s&()\/-]{8,}$/.test(trimmed) && !isStandaloneVerdictLabel(trimmed)) {
         pushCurrent();
         currentTitle = trimmed;
         continue;
@@ -288,7 +348,7 @@
         continue;
       }
 
-      if (/^VERDICT=/.test(trimmed)) {
+      if (/^VERDICT=/.test(trimmed) || /^VERDICT:/i.test(trimmed)) {
         continue;
       }
 
@@ -321,6 +381,8 @@
 
     normalized = normalized.replace(/(###\s+\([a-z]\)\s+[A-Za-z][A-Za-z\s]{2,45})(\s+)(?=[A-Z][a-z])/gi, '$1\n');
     normalized = normalized.replace(/(\*\*[^*]{2,80}\*\*:)\s+(?=[^\n])/g, '$1\n');
+    normalized = normalized.replace(/^\s*[!#=_*\u2500\u2550]{6,}\s*$/gm, '');
+    normalized = normalized.replace(/^\s*!+\s*/gm, '');
 
     normalized = normalized.replace(/\n{3,}/g, '\n\n');
     return normalized.trim();
@@ -364,7 +426,7 @@
         continue;
       }
 
-      if (/^[-=]{5,}$/.test(line) || /^[\u2500\u2550]{5,}$/.test(line)) {
+      if (isNoiseSeparator(line)) {
         flushParagraph();
         flushList();
         continue;
@@ -392,9 +454,23 @@
       }
 
       if (/^[A-Z][A-Z\s&()\/-]{8,}$/.test(line)) {
+        if (isStandaloneVerdictLabel(line)) {
+          continue;
+        }
         flushParagraph();
         flushList();
         html.push(`<h4>${formatInlineMarkup(line)}</h4>`);
+        continue;
+      }
+
+      if (/hard stop|analysis aborted|suppressed/i.test(line)) {
+        flushParagraph();
+        flushList();
+        html.push(`<h4>${formatInlineMarkup(line)}</h4>`);
+        continue;
+      }
+
+      if (/^VERDICT:/i.test(line)) {
         continue;
       }
 
@@ -406,13 +482,29 @@
     return html.join('');
   }
 
+  function renderDecisionSnapshotCard(verdict) {
+    const rows = [
+      { key: 'VERDICT', value: verdict.verdict || 'N/A' },
+      { key: 'BUY BELOW', value: verdict.buyBelow || 'N/A' },
+      { key: 'FAIR VALUE (BEAR/BASE/BULL)', value: verdict.fairValue || 'N/A' },
+      { key: verdict.premiumOrMosLabel || 'PREMIUM/MOS', value: verdict.premiumOrMosValue || 'N/A' },
+      { key: 'CONFIDENCE', value: verdict.confidence || 'N/A' },
+      { key: 'DATE', value: verdict.date || 'N/A' }
+    ];
+
+    return `<article class="section-card decision-snapshot-card"><h3>Verdict Snapshot</h3><div class="snapshot-kv-grid">${rows.map(function mapRow(row) {
+      return `<div class="snapshot-kv"><span class="snapshot-k">${escapeHtml(row.key)}</span><span class="snapshot-v">${escapeHtml(row.value)}</span></div>`;
+    }).join('')}</div></article>`;
+  }
+
   function renderAnalysis(text, meta) {
-    const verdict = parseVerdictSummary(text);
-    const normalizedText = normalizeListSpacing(text);
+    const plainText = stripAnsi(text);
+    const verdict = parseVerdictSummary(plainText);
+    const normalizedText = normalizeListSpacing(normalizeStructuralText(plainText));
     const sections = splitSections(normalizedText);
 
     reportShell.classList.add('visible');
-    rawOutput.textContent = text;
+    rawOutput.textContent = plainText;
     rawCommand.textContent = `$ /stock ${String(meta.symbol || '--').toUpperCase()}`;
 
     if (verdict) {
@@ -450,12 +542,13 @@
     }
 
     const renderedSections = sections.map(function section(entry) {
-      return `<article class="section-card"><h3>${escapeHtml(cleanHeadingText(entry.title))}</h3>${renderBodyRich(entry.body)}</article>`;
+      const combined = `${entry.title}\n${entry.body}`.toLowerCase();
+      const isHardStop = /hard stop|analysis aborted|structural halt/.test(combined);
+      const cardClass = isHardStop ? 'section-card hard-stop' : 'section-card';
+      return `<article class="${cardClass}"><h3>${escapeHtml(cleanHeadingText(entry.title))}</h3>${renderBodyRich(entry.body)}</article>`;
     }).join('');
 
-    const decisionSection = verdict
-      ? `<article class="section-card"><h3>Decision Snapshot</h3><pre class="decision-raw-line">${formatDecisionLine(verdict.rawLine)}</pre></article>`
-      : '';
+    const decisionSection = verdict ? renderDecisionSnapshotCard(verdict) : '';
 
     reportSections.innerHTML = `${decisionSection}${renderedSections}`;
 
