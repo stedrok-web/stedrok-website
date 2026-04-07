@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg?v=20260319fav3">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SivenGPT CLI Lab | Stedrok</title>
+  <meta name="description" content="SivenGPT CLI lab page for testing /stock command execution with real Stedrok full analysis output.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="author" content="Stedrok">
+  <link rel="canonical" href="https://stedrok.org/sivengpt-cli.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="css/main.css?v=20260329fix">
+  <link rel="stylesheet" href="css/tokens.css?v=20260316b">
+  <link rel="stylesheet" href="css/theme-overrides.css?v=20260329fix">
+  <style>
+    .cli-hero {
+      padding: 72px 0 34px;
+      text-align: center;
+      background: linear-gradient(140deg, rgba(13, 148, 136, 0.16) 0%, rgba(37, 99, 235, 0.16) 100%);
+    }
+    .cli-hero h1 {
+      font-size: 46px;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+    .cli-hero p {
+      margin: 0 auto;
+      max-width: 860px;
+      color: var(--text-secondary);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+    .cli-panel-wrap {
+      padding: 34px 0 72px;
+    }
+    .cli-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 22px;
+      align-items: start;
+    }
+    .terminal-shell {
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      border-radius: 16px;
+      background: radial-gradient(circle at 0% 0%, rgba(15, 23, 42, 0.96), rgba(2, 6, 23, 0.98));
+      box-shadow: 0 30px 68px rgba(2, 6, 23, 0.62);
+      overflow: hidden;
+    }
+    .terminal-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+      background: rgba(2, 6, 23, 0.78);
+    }
+    .terminal-controls {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2f; }
+    .dot-green { background: #27c93f; }
+    .terminal-title {
+      margin: 0;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .terminal-body {
+      padding: 18px;
+    }
+    .cli-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .cli-input {
+      width: 100%;
+      min-height: 52px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.9);
+      color: #f1f5f9;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.2rem;
+      padding: 0 14px;
+      outline: none;
+    }
+    .cli-input:focus {
+      border-color: rgba(56, 189, 248, 0.72);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+    .cli-submit {
+      min-width: 124px;
+      border-radius: 10px;
+      border: 1px solid rgba(56, 189, 248, 0.55);
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: #f8fafc;
+      font-weight: 700;
+      font-size: 0.98rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .cli-submit:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+    .cli-submit:disabled {
+      cursor: wait;
+      opacity: 0.72;
+      transform: none;
+    }
+    .cli-status {
+      margin: 0 0 10px;
+      min-height: 20px;
+      color: #cbd5e1;
+      font-size: 0.94rem;
+    }
+    .cli-status.error {
+      color: #fda4af;
+    }
+    .terminal-output {
+      margin: 0;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.26);
+      background: rgba(2, 6, 23, 0.95);
+      color: #e2e8f0;
+      min-height: 440px;
+      max-height: 720px;
+      overflow: auto;
+      white-space: pre-wrap;
+      line-height: 1.62;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.32rem;
+      padding: 18px;
+    }
+    .cli-side {
+      display: grid;
+      gap: 14px;
+    }
+    .cli-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .cli-card h2 {
+      margin-bottom: 8px;
+      font-size: 1.04rem;
+    }
+    .cli-card p,
+    .cli-card li {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+    .mono-inline {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.88em;
+      background: rgba(148, 163, 184, 0.16);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      border-radius: 5px;
+      padding: 2px 5px;
+    }
+    .cli-card ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+    @media (max-width: 1050px) {
+      .cli-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 768px) {
+      .cli-hero {
+        padding: 52px 0 24px;
+      }
+      .cli-hero h1 {
+        font-size: 32px;
+      }
+      .cli-hero p {
+        font-size: 16px;
+      }
+      .cli-form {
+        grid-template-columns: 1fr;
+      }
+      .cli-submit {
+        min-height: 46px;
+      }
+      .terminal-output {
+        min-height: 350px;
+        max-height: 65vh;
+        font-size: 1.15rem;
+      }
+      .cli-input {
+        font-size: 1.05rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo" aria-label="Stedrok home"><img src="img/logo-icon.svg?v=20260319asset9" alt="" class="logo-icon" aria-hidden="true"/><span class="logo-text">STEDROK</span></a>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="demo.html">Demo</a></li>
+          <li><a href="philosophy.html">Philosophy</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="learn.html">Learn</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+          <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="cli-hero">
+      <div class="container">
+        <h1>SivenGPT CLI Lab</h1>
+        <p>
+          Experimental terminal workflow for testing real stock analysis output.
+          Input format is strict and currently limited to one command.
+        </p>
+      </div>
+    </section>
+
+    <section class="cli-panel-wrap">
+      <div class="container">
+        <div class="cli-grid">
+          <section class="terminal-shell" aria-label="SivenGPT terminal">
+            <div class="terminal-topbar">
+              <div class="terminal-controls" aria-hidden="true">
+                <span class="terminal-dot dot-red"></span>
+                <span class="terminal-dot dot-yellow"></span>
+                <span class="terminal-dot dot-green"></span>
+              </div>
+              <p class="terminal-title">sivengpt-terminal</p>
+              <div style="width:44px;" aria-hidden="true"></div>
+            </div>
+            <div class="terminal-body">
+              <form id="cliForm" class="cli-form" autocomplete="off">
+                <input
+                  id="cliInput"
+                  class="cli-input"
+                  type="text"
+                  spellcheck="false"
+                  placeholder="/stock NVDA"
+                  aria-label="Enter command"
+                >
+                <button id="runButton" class="cli-submit" type="submit">Run</button>
+              </form>
+              <p id="cliStatus" class="cli-status" role="status" aria-live="polite"></p>
+              <pre id="cliOutput" class="terminal-output">$ Ready.
+$ Allowed format: /stock &lt;SYMBOL&gt;
+$ Example: /stock AAPL</pre>
+            </div>
+          </section>
+
+          <aside class="cli-side">
+            <article class="cli-card">
+              <h2>Command Rules</h2>
+              <ul>
+                <li>Accepted: <span class="mono-inline">/stock &lt;SYMBOL&gt;</span></li>
+                <li>Rejected: any extra words, options, or other commands</li>
+                <li>Ticker format supports letters, numbers, dot, dash</li>
+              </ul>
+            </article>
+            <article class="cli-card">
+              <h2>Output Mode</h2>
+              <p>
+                The analysis runs in deep-report mode on the backend automatically.
+                This page does not expose mode flags in user input.
+              </p>
+            </article>
+            <article class="cli-card">
+              <h2>Testing Scope</h2>
+              <p>
+                This is a hidden test page. It is not linked from primary navigation.
+                Authentication restrictions can be enabled in the next phase.
+              </p>
+            </article>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-left">
+          <a href="index.html" class="logo footer-logo" aria-label="Stedrok home"><img src="img/logo-icon.svg?v=20260319asset9" alt="" class="logo-icon" aria-hidden="true"/><span class="logo-text">STEDROK</span></a>
+          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
+          <p class="footer-tagline">
+            Independent stock research for long-term investors. General information only, not personal financial advice. Past results do not guarantee future performance. Always do your own research before investing.
+          </p>
+        </div>
+        <nav class="footer-links">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="methodology.html">Methodology</a>
+          <a href="faq.html">FAQ</a>
+          <a href="learn.html">Learn</a>
+          <a href="features.html">Features</a>
+          <a href="how-it-works.html">How It Works</a>
+          <a href="contact.html">Contact</a>
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="site-map.html">Sitemap</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/mobile-menu.js?v=20260317"></script>
+  <script src="js/public-auth-nav.js?v=20260317"></script>
+  <script src="js/sivengpt-cli.js?v=20260407a"></script>
+</body>
+</html>
