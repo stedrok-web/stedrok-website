@@ -4,8 +4,8 @@
   <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg?v=20260319fav3">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SivenGPT CLI Lab | Stedrok</title>
-  <meta name="description" content="SivenGPT CLI lab page for testing /stock command execution with real Stedrok full analysis output.">
+  <title>SivenGPT Equity Report Lab | Stedrok</title>
+  <meta name="description" content="Hidden Stedrok test page for staged equity report generation: fast market snapshot followed by deep analysis.">
   <meta name="robots" content="noindex, nofollow">
   <meta name="author" content="Stedrok">
   <link rel="canonical" href="https://stedrok.org/sivengpt-cli.html">
@@ -16,198 +16,255 @@
   <link rel="stylesheet" href="css/tokens.css?v=20260316b">
   <link rel="stylesheet" href="css/theme-overrides.css?v=20260329fix">
   <style>
-    .cli-hero {
-      padding: 72px 0 34px;
+    .report-hero {
+      padding: 66px 0 28px;
       text-align: center;
-      background: linear-gradient(140deg, rgba(13, 148, 136, 0.16) 0%, rgba(37, 99, 235, 0.16) 100%);
+      background:
+        radial-gradient(circle at 8% -10%, rgba(14, 165, 233, 0.2), transparent 42%),
+        radial-gradient(circle at 95% 0%, rgba(16, 185, 129, 0.18), transparent 34%),
+        linear-gradient(160deg, rgba(2, 6, 23, 0.9), rgba(15, 23, 42, 0.92));
     }
-    .cli-hero h1 {
-      font-size: 46px;
-      margin-bottom: 14px;
+    .report-hero h1 {
+      margin-bottom: 12px;
+      font-size: 44px;
       letter-spacing: -0.02em;
     }
-    .cli-hero p {
+    .report-hero p {
+      max-width: 850px;
       margin: 0 auto;
-      max-width: 860px;
       color: var(--text-secondary);
       font-size: 18px;
-      line-height: 1.7;
+      line-height: 1.72;
     }
-    .cli-panel-wrap {
-      padding: 34px 0 72px;
+
+    .report-main {
+      padding: 30px 0 72px;
     }
-    .cli-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 320px;
-      gap: 22px;
-      align-items: start;
-    }
-    .terminal-shell {
-      border: 1px solid rgba(148, 163, 184, 0.28);
+    .report-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
       border-radius: 16px;
-      background: radial-gradient(circle at 0% 0%, rgba(15, 23, 42, 0.96), rgba(2, 6, 23, 0.98));
-      box-shadow: 0 30px 68px rgba(2, 6, 23, 0.62);
-      overflow: hidden;
+      box-shadow: 0 22px 48px rgba(2, 6, 23, 0.42);
+      padding: 22px;
+      margin-bottom: 20px;
     }
-    .terminal-topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.22);
-      background: rgba(2, 6, 23, 0.78);
-    }
-    .terminal-controls {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .terminal-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      display: inline-block;
-    }
-    .dot-red { background: #ff5f56; }
-    .dot-yellow { background: #ffbd2f; }
-    .dot-green { background: #27c93f; }
-    .terminal-title {
-      margin: 0;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 12px;
-      letter-spacing: 0.06em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-    .terminal-body {
-      padding: 18px;
-    }
-    .cli-form {
+
+    .symbol-form {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
       margin-bottom: 14px;
     }
-    .cli-input {
+    .symbol-input {
+      min-height: 56px;
       width: 100%;
-      min-height: 52px;
       border-radius: 10px;
       border: 1px solid rgba(148, 163, 184, 0.35);
-      background: rgba(15, 23, 42, 0.9);
-      color: #f1f5f9;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 1.2rem;
+      background: rgba(2, 6, 23, 0.42);
+      color: #f8fafc;
+      font-size: 1.12rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
       padding: 0 14px;
       outline: none;
     }
-    .cli-input:focus {
-      border-color: rgba(56, 189, 248, 0.72);
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    .symbol-input:focus {
+      border-color: rgba(34, 211, 238, 0.72);
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18);
     }
-    .cli-submit {
-      min-width: 124px;
+    .analyze-btn {
+      min-width: 150px;
+      min-height: 56px;
       border-radius: 10px;
-      border: 1px solid rgba(56, 189, 248, 0.55);
-      background: linear-gradient(135deg, #0ea5e9, #0284c7);
-      color: #f8fafc;
-      font-weight: 700;
-      font-size: 0.98rem;
+      border: 1px solid rgba(16, 185, 129, 0.54);
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ecfdf5;
+      font-weight: 800;
+      font-size: 1rem;
       cursor: pointer;
-      transition: transform 0.15s ease, filter 0.15s ease;
     }
-    .cli-submit:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.05);
-    }
-    .cli-submit:disabled {
+    .analyze-btn:disabled {
+      opacity: 0.75;
       cursor: wait;
-      opacity: 0.72;
-      transform: none;
     }
-    .cli-status {
-      margin: 0 0 10px;
-      min-height: 20px;
-      color: #cbd5e1;
-      font-size: 0.94rem;
+
+    .ui-status {
+      min-height: 22px;
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
     }
-    .cli-status.error {
+    .ui-status.error {
       color: #fda4af;
     }
-    .terminal-output {
-      margin: 0;
-      border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.26);
-      background: rgba(2, 6, 23, 0.95);
-      color: #e2e8f0;
-      min-height: 440px;
-      max-height: 720px;
-      overflow: auto;
-      white-space: pre-wrap;
-      line-height: 1.62;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 1.32rem;
-      padding: 18px;
+
+    .stage-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
     }
-    .cli-side {
+    .stage-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.55);
+      color: #cbd5e1;
+      padding: 7px 12px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .stage-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #64748b;
+    }
+    .stage-chip.loading .stage-dot { background: #f59e0b; }
+    .stage-chip.done .stage-dot { background: #10b981; }
+    .stage-chip.error .stage-dot { background: #f43f5e; }
+
+    .snapshot-grid {
       display: grid;
-      gap: 14px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
     }
-    .cli-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
+    .metric-card {
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.24);
       border-radius: 12px;
-      padding: 16px;
+      padding: 12px;
     }
-    .cli-card h2 {
+    .metric-label {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .metric-value {
+      display: block;
+      color: #f8fafc;
+      font-size: 1.16rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .report-shell {
+      display: none;
+    }
+    .report-shell.visible {
+      display: block;
+    }
+    .report-summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .summary-card {
+      background: rgba(15, 23, 42, 0.58);
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .summary-card .value {
+      display: block;
+      font-size: 1.13rem;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-top: 5px;
+    }
+
+    .report-sections {
+      display: grid;
+      gap: 12px;
+    }
+    .section-card {
+      background: rgba(2, 6, 23, 0.56);
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .section-card h3 {
       margin-bottom: 8px;
-      font-size: 1.04rem;
+      font-size: 1.1rem;
+      letter-spacing: -0.01em;
     }
-    .cli-card p,
-    .cli-card li {
+    .section-card p,
+    .section-card li {
       color: var(--text-secondary);
-      font-size: 0.92rem;
-      line-height: 1.7;
+      line-height: 1.72;
+      font-size: 0.97rem;
     }
-    .mono-inline {
-      font-family: "JetBrains Mono", monospace;
-      font-size: 0.88em;
-      background: rgba(148, 163, 184, 0.16);
+    .section-card ol,
+    .section-card ul {
+      margin: 8px 0 0;
+      padding-left: 20px;
+    }
+
+    .raw-wrap {
+      margin-top: 12px;
       border: 1px solid rgba(148, 163, 184, 0.28);
-      border-radius: 5px;
-      padding: 2px 5px;
+      border-radius: 12px;
+      overflow: hidden;
     }
-    .cli-card ul {
+    .raw-wrap summary {
+      cursor: pointer;
+      list-style: none;
+      background: rgba(15, 23, 42, 0.55);
+      padding: 12px 14px;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+    .raw-wrap summary::-webkit-details-marker {
+      display: none;
+    }
+    .raw-pre {
       margin: 0;
-      padding-left: 18px;
+      padding: 14px;
+      max-height: 420px;
+      overflow: auto;
+      background: rgba(2, 6, 23, 0.92);
+      color: #e2e8f0;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.93rem;
+      line-height: 1.52;
+      white-space: pre-wrap;
     }
+
     @media (max-width: 1050px) {
-      .cli-grid {
-        grid-template-columns: 1fr;
+      .snapshot-grid,
+      .report-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
     @media (max-width: 768px) {
-      .cli-hero {
-        padding: 52px 0 24px;
+      .report-hero {
+        padding: 48px 0 20px;
       }
-      .cli-hero h1 {
-        font-size: 32px;
+      .report-hero h1 {
+        font-size: 31px;
       }
-      .cli-hero p {
-        font-size: 16px;
+      .report-hero p {
+        font-size: 15px;
       }
-      .cli-form {
+      .symbol-form {
         grid-template-columns: 1fr;
       }
-      .cli-submit {
-        min-height: 46px;
+      .analyze-btn,
+      .symbol-input {
+        min-height: 48px;
       }
-      .terminal-output {
-        min-height: 350px;
-        max-height: 65vh;
-        font-size: 1.15rem;
-      }
-      .cli-input {
-        font-size: 1.05rem;
+      .snapshot-grid,
+      .report-summary {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -238,73 +295,42 @@
   </header>
 
   <main id="main">
-    <section class="cli-hero">
+    <section class="report-hero">
       <div class="container">
-        <h1>SivenGPT CLI Lab</h1>
-        <p>
-          Experimental terminal workflow for testing real stock analysis output.
-          Input format is strict and currently limited to one command.
-        </p>
+        <h1>SivenGPT Equity Report Lab</h1>
+        <p>Fast market snapshot first, then deeper valuation and thesis analysis. Hidden test page, not linked from public navigation.</p>
       </div>
     </section>
 
-    <section class="cli-panel-wrap">
+    <section class="report-main">
       <div class="container">
-        <div class="cli-grid">
-          <section class="terminal-shell" aria-label="SivenGPT terminal">
-            <div class="terminal-topbar">
-              <div class="terminal-controls" aria-hidden="true">
-                <span class="terminal-dot dot-red"></span>
-                <span class="terminal-dot dot-yellow"></span>
-                <span class="terminal-dot dot-green"></span>
-              </div>
-              <p class="terminal-title">sivengpt-terminal</p>
-              <div style="width:44px;" aria-hidden="true"></div>
-            </div>
-            <div class="terminal-body">
-              <form id="cliForm" class="cli-form" autocomplete="off">
-                <input
-                  id="cliInput"
-                  class="cli-input"
-                  type="text"
-                  spellcheck="false"
-                  placeholder="/stock NVDA"
-                  aria-label="Enter command"
-                >
-                <button id="runButton" class="cli-submit" type="submit">Run</button>
-              </form>
-              <p id="cliStatus" class="cli-status" role="status" aria-live="polite"></p>
-              <pre id="cliOutput" class="terminal-output">$ Ready.
-$ Allowed format: /stock &lt;SYMBOL&gt;
-$ Example: /stock AAPL</pre>
-            </div>
-          </section>
+        <section class="report-panel" aria-label="ticker entry panel">
+          <form id="tickerForm" class="symbol-form" autocomplete="off">
+            <input id="tickerInput" class="symbol-input" type="text" placeholder="Enter ticker (e.g., AAPL)" aria-label="Ticker symbol" spellcheck="false">
+            <button id="analyzeButton" class="analyze-btn" type="submit">Analyze</button>
+          </form>
+          <p id="uiStatus" class="ui-status" role="status" aria-live="polite"></p>
+          <div class="stage-row">
+            <span id="stageFast" class="stage-chip"><span class="stage-dot" aria-hidden="true"></span>Stage 1: Live Snapshot</span>
+            <span id="stageDeep" class="stage-chip"><span class="stage-dot" aria-hidden="true"></span>Stage 2: Deep Analysis</span>
+          </div>
+        </section>
 
-          <aside class="cli-side">
-            <article class="cli-card">
-              <h2>Command Rules</h2>
-              <ul>
-                <li>Accepted: <span class="mono-inline">/stock &lt;SYMBOL&gt;</span></li>
-                <li>Rejected: any extra words, options, or other commands</li>
-                <li>Ticker format supports letters, numbers, dot, dash</li>
-              </ul>
-            </article>
-            <article class="cli-card">
-              <h2>Output Mode</h2>
-              <p>
-                The analysis runs in deep-report mode on the backend automatically.
-                This page does not expose mode flags in user input.
-              </p>
-            </article>
-            <article class="cli-card">
-              <h2>Testing Scope</h2>
-              <p>
-                This is a hidden test page. It is not linked from primary navigation.
-                Authentication restrictions can be enabled in the next phase.
-              </p>
-            </article>
-          </aside>
-        </div>
+        <section class="report-panel" aria-label="snapshot panel">
+          <h2 style="margin-bottom:8px;">Market Snapshot</h2>
+          <p id="snapshotMeta" class="ui-status">Awaiting ticker input.</p>
+          <div id="snapshotCards" class="snapshot-grid"></div>
+        </section>
+
+        <section id="reportShell" class="report-panel report-shell" aria-label="deep analysis panel">
+          <h2 style="margin-bottom:8px;">Deep Analysis</h2>
+          <div id="reportSummary" class="report-summary"></div>
+          <div id="reportSections" class="report-sections"></div>
+          <details class="raw-wrap">
+            <summary>Show Raw Analysis Text</summary>
+            <pre id="rawOutput" class="raw-pre"></pre>
+          </details>
+        </section>
       </div>
     </section>
   </main>
@@ -340,6 +366,6 @@ $ Example: /stock AAPL</pre>
   <script src="js/config.js"></script>
   <script src="js/mobile-menu.js?v=20260317"></script>
   <script src="js/public-auth-nav.js?v=20260317"></script>
-  <script src="js/sivengpt-cli.js?v=20260407a"></script>
+  <script src="js/sivengpt-cli.js?v=20260407b"></script>
 </body>
 </html>
