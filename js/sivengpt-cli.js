@@ -145,17 +145,42 @@
   }
 
   function parseVerdictSummary(text) {
-    const verdictLine = text.match(/VERDICT=([^|\n]+)\|\s*BUY_BELOW=([^|\n]+)\|\s*FAIR_VALUE_BEAR_BASE_BULL=([^|\n]+)\|\s*PREM_TO_FV=([^|\n]+).*?DATE=([0-9\-]+)/);
+    const lines = String(text || '').split(/\r?\n/);
+    const verdictLine = lines.filter(function pick(line) {
+      return line.indexOf('VERDICT=') !== -1;
+    }).pop();
+
     if (!verdictLine) {
       return null;
     }
 
+    const kv = {};
+    verdictLine.split('|').forEach(function eachPart(part) {
+      const chunk = String(part || '').trim();
+      const eq = chunk.indexOf('=');
+      if (eq <= 0) {
+        return;
+      }
+      const key = chunk.slice(0, eq).trim().toUpperCase();
+      const value = chunk.slice(eq + 1).trim();
+      if (key) {
+        kv[key] = value;
+      }
+    });
+
+    if (!kv.VERDICT) {
+      return null;
+    }
+
     return {
-      verdict: verdictLine[1].trim(),
-      buyBelow: verdictLine[2].trim(),
-      fairValue: verdictLine[3].trim(),
-      premium: verdictLine[4].trim(),
-      date: verdictLine[5].trim()
+      verdict: kv.VERDICT || 'N/A',
+      buyBelow: kv.BUY_BELOW || 'N/A',
+      fairValue: kv.FAIR_VALUE_BEAR_BASE_BULL || 'N/A',
+      premiumOrMosLabel: kv.PREM_TO_FV ? 'Premium to FV' : (kv.MOS ? 'MOS' : 'Premium/MOS'),
+      premiumOrMosValue: kv.PREM_TO_FV || kv.MOS || 'N/A',
+      confidence: kv.CONFIDENCE || 'N/A',
+      date: kv.DATE || 'N/A',
+      rawLine: verdictLine.trim()
     };
   }
 
@@ -228,7 +253,8 @@
       summaryCards.push({ label: 'Verdict', value: verdict.verdict });
       summaryCards.push({ label: 'Buy Below', value: verdict.buyBelow });
       summaryCards.push({ label: 'Fair Value (B/Bu)', value: verdict.fairValue });
-      summaryCards.push({ label: 'Premium to FV', value: verdict.premium });
+      summaryCards.push({ label: verdict.premiumOrMosLabel, value: verdict.premiumOrMosValue });
+      summaryCards.push({ label: 'Confidence', value: verdict.confidence });
       summaryCards.push({ label: 'Report Date', value: verdict.date });
     }
     summaryCards.push({ label: 'Runtime', value: `${meta.durationMs} ms` });
@@ -238,12 +264,18 @@
       return `<article class="summary-card"><span class="metric-label">${escapeHtml(item.label)}</span><span class="value">${escapeHtml(item.value)}</span></article>`;
     }).join('');
 
-    reportSections.innerHTML = sections.map(function section(entry) {
+    const renderedSections = sections.map(function section(entry) {
       return `<article class="section-card"><h3>${escapeHtml(entry.title)}</h3>${renderBodyRich(entry.body)}</article>`;
     }).join('');
 
+    const decisionSection = verdict
+      ? `<article class="section-card"><h3>Decision Snapshot</h3><p>${escapeHtml(verdict.rawLine)}</p></article>`
+      : '';
+
+    reportSections.innerHTML = `${decisionSection}${renderedSections}`;
+
     if (!sections.length) {
-      reportSections.innerHTML = '<article class="section-card"><h3>Analysis</h3><p>Structured sections were not detected. Use raw output for full details.</p></article>';
+      reportSections.innerHTML = `${decisionSection}<article class="section-card"><h3>Analysis</h3><p>Structured sections were not detected. Use raw output for full details.</p></article>`;
     }
   }
 
