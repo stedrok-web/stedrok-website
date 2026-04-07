@@ -16,6 +16,11 @@
   <link rel="stylesheet" href="css/tokens.css?v=20260316b">
   <link rel="stylesheet" href="css/theme-overrides.css?v=20260329fix">
   <style>
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
     .report-hero {
       padding: 66px 0 28px;
       text-align: center;
@@ -49,6 +54,7 @@
       padding: 22px;
       margin-bottom: 20px;
       overflow: hidden;
+      min-width: 0;
     }
     .panel-title {
       margin-bottom: 8px;
@@ -178,6 +184,7 @@
     }
     .report-summary {
       margin-bottom: 14px;
+      min-width: 0;
     }
     .decision-hub {
       border: 1px solid rgba(148, 163, 184, 0.26);
@@ -186,6 +193,7 @@
       background: linear-gradient(160deg, rgba(15, 23, 42, 0.8), rgba(2, 6, 23, 0.74));
       display: grid;
       gap: 12px;
+      min-width: 0;
     }
     .decision-hub.tone-buy {
       border-color: rgba(16, 185, 129, 0.48);
@@ -234,7 +242,9 @@
       letter-spacing: 0.06em;
       text-transform: uppercase;
       border: 1px solid transparent;
-      white-space: nowrap;
+      white-space: normal;
+      max-width: 100%;
+      text-align: center;
     }
     .verdict-pill.verdict-buy {
       background: rgba(16, 185, 129, 0.15);
@@ -276,6 +286,7 @@
       border-radius: 10px;
       background: rgba(2, 6, 23, 0.52);
       padding: 10px;
+      min-width: 0;
     }
     .decision-metric .label {
       display: block;
@@ -341,12 +352,17 @@
     .report-sections {
       display: grid;
       gap: 12px;
+      min-width: 0;
+    }
+    .report-sections > * {
+      min-width: 0;
     }
     .section-card {
       background: rgba(2, 6, 23, 0.56);
       border: 1px solid rgba(148, 163, 184, 0.24);
       border-radius: 12px;
       padding: 16px;
+      min-width: 0;
     }
     .section-card h3 {
       margin-bottom: 8px;
@@ -358,6 +374,8 @@
       color: var(--text-secondary);
       line-height: 1.76;
       font-size: clamp(0.99rem, 0.95rem + 0.2vw, 1.08rem);
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
     .section-card h4 {
       margin: 12px 0 8px;
@@ -403,7 +421,7 @@
     }
     .decision-raw-line {
       font-family: "JetBrains Mono", monospace;
-      font-size: 0.86rem;
+      font-size: 0.83rem;
       background: rgba(2, 6, 23, 0.65);
       border: 1px solid rgba(148, 163, 184, 0.24);
       border-radius: 8px;
@@ -411,6 +429,8 @@
       white-space: pre-wrap;
       line-height: 1.5;
       color: #dbeafe;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .raw-wrap {
@@ -537,7 +557,7 @@
         padding: 22px 0 56px;
       }
       .report-panel {
-        padding: 18px;
+        padding: 16px;
       }
       .panel-subtitle {
         font-size: 0.92rem;
@@ -564,6 +584,12 @@
       .decision-metric-grid {
         grid-template-columns: 1fr;
       }
+      .report-panel {
+        padding: 14px;
+      }
+      .section-card {
+        padding: 13px;
+      }
       .confidence-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -576,6 +602,20 @@
       }
       .raw-cli-right {
         display: none;
+      }
+    }
+    @media (max-width: 640px) {
+      .confidence-grid {
+        grid-template-columns: 1fr;
+      }
+      .decision-top .decision-symbol {
+        font-size: 1.24rem;
+      }
+      .decision-metric .value {
+        font-size: 0.97rem;
+      }
+      .decision-raw-line {
+        font-size: 0.78rem;
       }
     }
     @media (max-width: 520px) {
@@ -706,6 +746,6 @@
   <script src="js/config.js"></script>
   <script src="js/mobile-menu.js?v=20260317"></script>
   <script src="js/public-auth-nav.js?v=20260317"></script>
-  <script src="js/sivengpt-cli.js?v=20260407e"></script>
+  <script src="js/sivengpt-cli.js?v=20260407f"></script>
 </body>
 </html>

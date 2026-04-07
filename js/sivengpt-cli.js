@@ -186,6 +186,16 @@
     };
   }
 
+  function formatDecisionLine(rawLine) {
+    const parts = String(rawLine || '')
+      .split('|')
+      .map(function mapPart(part) {
+        return String(part || '').trim();
+      })
+      .filter(Boolean);
+    return escapeHtml(parts.join('\n'));
+  }
+
   function titleCaseLabel(token) {
     const map = {
       DATA: 'Data',
@@ -444,7 +454,7 @@
     }).join('');
 
     const decisionSection = verdict
-      ? `<article class="section-card"><h3>Decision Snapshot</h3><p class="decision-raw-line">${escapeHtml(verdict.rawLine)}</p></article>`
+      ? `<article class="section-card"><h3>Decision Snapshot</h3><pre class="decision-raw-line">${formatDecisionLine(verdict.rawLine)}</pre></article>`
       : '';
 
     reportSections.innerHTML = `${decisionSection}${renderedSections}`;
