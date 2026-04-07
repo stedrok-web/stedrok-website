@@ -954,7 +954,7 @@ function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
 
 function setDashboardLaneToggle(mode) {
   const normalized = normalizeDashboardLane(mode);
-  // Show the third-lane score column only in StedrokGPT Pick (blended) mode
+  // Show extra score column only in blended mode (currently inactive)
   const swarmHeader = document.getElementById('thSwarmScore');
   const swarmCells = document.querySelectorAll('[data-col="swarm_score"]');
   const isSwarm = normalized === 'blended';
@@ -1431,7 +1431,7 @@ function cleanupInsightSummary(rawText, headlineText) {
     }
 
     // Trim leading sentence from summary when it substantially overlaps with headline
-    // (common in StedrokGPT summaries where headline and summary start identically).
+    // (common when headline and summary start identically).
     if (i === 0 && headlineLooseNorm) {
       const headWords = headlineLooseNorm.split(/\s+/).slice(0, 6);
       const paraWords = looseNorm.split(/\s+/).slice(0, 6);
