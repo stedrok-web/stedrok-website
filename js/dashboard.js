@@ -1094,82 +1094,7 @@ async function fetchLanePayload(userToken, mode, signal) {
     'Content-Type': 'application/json'
   };
 
-  async function fetchStedrokGptLocalFallback() {
-    const fallbackPaths = [
-      './data/stocks_stedrokgpt_pick.json',
-      './data/stocks_swarm.json'
-    ];
-
-    for (const path of fallbackPaths) {
-      try {
-        const response = await fetch(path, { method: 'GET', signal, cache: 'no-store' });
-        if (!response.ok) continue;
-        const payload = await response.json();
-        const picks = Array.isArray(payload?.picks)
-          ? payload.picks.map(r => normalizePickRowShape({ ...r, selection_lane: 'stedrokgpt_pick' }))
-          : [];
-        if (picks.length === 0) continue;
-        return {
-          picks,
-          user: { subscription_status: 'free', fallback_local: true },
-          meta: {
-            lane: 'blended',
-            count: picks.length,
-            limit: picks.length,
-            last_updated: payload.generated_at_utc || payload.data_date || new Date().toISOString(),
-            stedrokgpt_pick: { total_picks: payload.pickCount || picks.length },
-            source: 'local_fallback'
-          }
-        };
-      } catch (error) {
-        console.warn('StedrokGPT Pick local fallback failed for', path, error);
-      }
-    }
-    throw new Error('StedrokGPT Pick fallback unavailable');
-  }
-
   const normalized = normalizeDashboardLane(mode);
-  if (normalized === 'blended') {
-    try {
-      let swarmResponse = null;
-      let lastStatus = null;
-      for (const endpoint of laneEndpointFallbacks('blended')) {
-        const response = await fetch(endpoint, { method: 'GET', headers, signal });
-        if (response.ok) {
-          swarmResponse = response;
-          break;
-        }
-        lastStatus = response.status;
-        if (response.status !== 404) {
-          swarmResponse = response;
-          break;
-        }
-      }
-      if (!swarmResponse || !swarmResponse.ok) {
-        throw new Error(`StedrokGPT Pick API returned ${lastStatus || swarmResponse?.status || 'unknown'}`);
-      }
-      const swarmData = await swarmResponse.json();
-      const picks = (swarmData.picks || []).map(r => normalizePickRowShape({ ...r, selection_lane: 'stedrokgpt_pick' }));
-      if (picks.length === 0) {
-        return await fetchStedrokGptLocalFallback();
-      }
-      return {
-        picks,
-        user: swarmData.user || {},
-        meta: {
-          lane: 'blended',
-          count: picks.length,
-          limit: swarmData.meta?.limit || 50,
-          last_updated: swarmData.meta?.last_updated || new Date().toISOString(),
-          stedrokgpt_pick: { total_picks: swarmData.meta?.total_available || picks.length }
-        }
-      };
-    } catch (error) {
-      console.warn('StedrokGPT Pick API fetch failed, using local fallback:', error);
-      return await fetchStedrokGptLocalFallback();
-    }
-  }
-
   const response = await fetch(laneEndpoint(normalized), {
     method: 'GET',
     headers,
@@ -1734,8 +1659,7 @@ function buildFallbackSummary(stock) {
 
 function normalizeTickerSummaryMode(value) {
   const mode = String(value || '').trim().toLowerCase();
-  if (mode === 'hybrid' || mode === 'blended' || mode === 'swarm') return mode;
-  if (mode === 'stedrokgpt_pick' || mode === 'stedrokgpt-pick') return 'blended';
+  if (mode === 'hybrid') return 'hybrid';
   return 'core';
 }
 
@@ -1746,13 +1670,8 @@ function resolveTickerSummaryMode(stock) {
   if (activeLane === 'hybrid') return 'hybrid';
   if (activeLane === 'core') return 'core';
 
-  // StedrokGPT picks must use blended mode (checks stedrokgpt_pick table first)
-  if (rawLane === 'stedrokgpt_pick' || rawLane === 'stedrokgpt-pick' || rawLane === 'swarm') return 'blended';
   // Hybrid-origin rows use hybrid mode
   if (rawLane === 'hybrid') return 'hybrid';
-  if (rawLane === 'blended_shared' || rawLane === 'blended') return 'blended';
-  // Default for blended/swarm mode: use blended table plan
-  if (activeLane === 'blended') return 'blended';
   return 'core';
 }
 
@@ -1964,75 +1883,6 @@ function renderTickerInsight(summary, stock) {
     const formatted = formatDateTime(updatedValue);
     updatedEl.textContent = formatted ? `Updated: ${formatted}` : '';
     updatedEl.style.display = formatted ? 'block' : 'none';
-  }
-
-  // StedrokGPT Pick / compatibility third-lane section
-  const swarmSection = document.getElementById('swarmInsightSection');
-  const swarmScoreEl = document.getElementById('swarmScoreValue');
-  const swarmBase = document.getElementById('swarmChipBase');
-  const swarmBull = document.getElementById('swarmChipBull');
-  const swarmBear = document.getElementById('swarmChipBear');
-  const swarmCrisis = document.getElementById('swarmChipCrisis');
-  const swarmReasonEl = document.getElementById('swarmSelectionReason');
-
-  const hasSwarm = stock && (stock.swarm_score != null || stock.internet_verdict);
-  if (swarmSection) swarmSection.style.display = hasSwarm ? 'block' : 'none';
-
-  if (hasSwarm) {
-    if (swarmScoreEl) {
-      const scoreValue = stock.swarm_score ?? (stock.internet_evidence_score != null ? stock.internet_evidence_score : null) ?? stock.quality_score;
-      swarmScoreEl.textContent = Number.isFinite(Number(scoreValue)) ? Number(scoreValue).toFixed(1) : '—';
-    }
-    const sb = stock.scenario_breakdown || {};
-    function scenarioChip(el, label, scenario) {
-      if (!el) return;
-      const s = sb[scenario];
-      if (!s) { el.textContent = label + ' —'; return; }
-      const verdict = s.verdict === 'NET_BULL' ? '↑ Bull' : s.verdict === 'NET_BEAR' ? '↓ Bear' : '→ Neutral';
-      el.textContent = label + ': ' + verdict;
-      el.style.color = s.verdict === 'NET_BULL' ? 'var(--accent-green)' : s.verdict === 'NET_BEAR' ? '#f87171' : '';
-    }
-    if (Object.keys(sb).length > 0) {
-      scenarioChip(swarmBase, 'BASE', 'BASE');
-      scenarioChip(swarmBull, 'BULL', 'BULL');
-      scenarioChip(swarmBear, 'BEAR', 'BEAR');
-      scenarioChip(swarmCrisis, 'CRISIS', 'CRISIS');
-    } else {
-      // StedrokGPT Pick: show meaningful fields instead of raw internet_* values
-      const _conf = stock.confidence != null ? Number(stock.confidence) : null;
-      const _confPct = _conf != null ? (_conf < 1 ? (_conf * 100).toFixed(0) : _conf.toFixed(0)) : null;
-      const _agree = stock.convergence_score != null ? Number(stock.convergence_score) : (stock.scenario_agreement != null ? Number(stock.scenario_agreement) : null);
-      const _dp = stock.discount_pct != null ? Number(stock.discount_pct) : null;
-      const _risk = stock.risk_score != null ? Number(stock.risk_score) : null;
-
-      if (swarmBase) {
-        swarmBase.textContent = _confPct ? ('Confidence: ' + _confPct + '%') : ('Verdict: ' + (stock.dominant_verdict || stock.internet_verdict || '—'));
-      }
-      if (swarmBull) {
-        swarmBull.textContent = _agree != null ? ('Agreement: ' + _agree.toFixed(0) + '%') : ('Catalyst: ' + (stock.internet_catalyst_strength || '—'));
-      }
-      if (swarmBear) {
-        if (_dp != null && _dp > 0) {
-          swarmBear.textContent = 'Discount: ' + _dp.toFixed(0) + '% below FV';
-        } else if (_dp != null) {
-          swarmBear.textContent = 'Discount: at fair value';
-        } else {
-          swarmBear.textContent = 'Value: ' + (stock.internet_valuation_context || '—');
-        }
-      }
-      if (swarmCrisis) {
-        swarmCrisis.textContent = _risk != null ? ('Risk: ' + _risk.toFixed(0) + '/100') : ('Evidence: ' + (stock.internet_evidence_score != null && Number.isFinite(Number(stock.internet_evidence_score)) ? Number(stock.internet_evidence_score).toFixed(1) : '—'));
-      }
-    }
-    if (swarmReasonEl) {
-      const reason = stock.selection_reason || stock.selectionReason || '';
-      // Avoid duplicating content already shown in the guidance section
-      const guidanceShown = document.getElementById('tickerInsightNewsGuidance')?.textContent || '';
-      const reasonNorm = reason.toLowerCase().trim().slice(0, 60);
-      const guidanceNorm = guidanceShown.toLowerCase().trim().slice(0, 60);
-      const isDuplicateOfGuidance = reasonNorm && guidanceNorm && reasonNorm === guidanceNorm;
-      swarmReasonEl.textContent = (reason && !isDuplicateOfGuidance) ? 'Signal: ' + reason : '';
-    }
   }
 }
 
