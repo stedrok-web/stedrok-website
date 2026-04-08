@@ -777,19 +777,11 @@ function updateColumnHeadersForLane(mode) {
     confidence: document.querySelector('#stocksTable th[data-sort="confidence"]'),
   };
   if (!thMap.value_score) return;
-  if (mode === 'blended') {
-    if (thMap.value_score) thMap.value_score.textContent = 'Value';
-    if (thMap.quality_score) thMap.quality_score.textContent = 'Quality';
-    if (thMap.risk_score) thMap.risk_score.textContent = 'Risk';
-    if (thMap.dip_score) thMap.dip_score.textContent = 'Dip';
-    if (thMap.confidence) thMap.confidence.textContent = 'Conf.';
-  } else {
-    if (thMap.value_score) thMap.value_score.textContent = 'Value';
-    if (thMap.quality_score) thMap.quality_score.textContent = 'Quality';
-    if (thMap.risk_score) thMap.risk_score.textContent = 'Risk';
-    if (thMap.dip_score) thMap.dip_score.textContent = 'Dip';
-    if (thMap.confidence) thMap.confidence.textContent = 'Conf.';
-  }
+  if (thMap.value_score) thMap.value_score.textContent = 'Value';
+  if (thMap.quality_score) thMap.quality_score.textContent = 'Quality';
+  if (thMap.risk_score) thMap.risk_score.textContent = 'Risk';
+  if (thMap.dip_score) thMap.dip_score.textContent = 'Dip';
+  if (thMap.confidence) thMap.confidence.textContent = 'Conf.';
 }
 
 
@@ -880,84 +872,11 @@ function normalizePickRowShape(stock) {
   };
 }
 
-function blendedRankScore(row) {
-  const source = row || {};
-  const totalScore = Number(source.total_score);
-  if (Number.isFinite(totalScore)) return totalScore;
-
-  const components = [
-    Number(source.value_score),
-    Number(source.quality_score),
-    Number(source.risk_score),
-    Number(source.dip_score)
-  ].filter(Number.isFinite);
-
-  if (components.length === 0) return -Infinity;
-  return components.reduce((acc, value) => acc + value, 0) / components.length;
-}
-
-function mergeBlendedPicks(coreRows, hybridRows, isFreeUser) {
-  const byTicker = new Map();
-
-  const addRow = (row, lane) => {
-    const normalized = normalizePickRowShape({ ...row, selection_lane: lane });
-    const ticker = normalized.ticker;
-    if (!ticker) return;
-    if (!isBuyDecision(normalized.decision)) return;
-
-    const existing = byTicker.get(ticker);
-    if (!existing) {
-      byTicker.set(ticker, normalized);
-      return;
-    }
-
-    const existingScore = blendedRankScore(existing);
-    const nextScore = blendedRankScore(normalized);
-    const chooseNext = Number.isFinite(nextScore) && (!Number.isFinite(existingScore) || nextScore > existingScore);
-
-    const merged = chooseNext ? { ...existing, ...normalized } : { ...normalized, ...existing };
-    merged.is_new = Boolean(existing?.is_new || normalized?.is_new);
-    merged.selection_lane = 'blended_shared';
-    byTicker.set(ticker, merged);
-  };
-
-  (Array.isArray(coreRows) ? coreRows : []).forEach(row => addRow(row, 'core'));
-  (Array.isArray(hybridRows) ? hybridRows : []).forEach(row => addRow(row, 'hybrid'));
-
-  let merged = Array.from(byTicker.values());
-  merged.sort((a, b) => {
-    const geminiDelta = Number(Boolean(b?.gemini_selected)) - Number(Boolean(a?.gemini_selected));
-    if (geminiDelta !== 0) return geminiDelta;
-    const geminiRankDelta = (a?.gemini_rank ?? 999) - (b?.gemini_rank ?? 999);
-    if (a?.gemini_selected && b?.gemini_selected && geminiRankDelta !== 0) return geminiRankDelta;
-    const newDelta = Number(Boolean(b?.is_new)) - Number(Boolean(a?.is_new));
-    if (newDelta !== 0) {
-      return newDelta;
-    }
-
-    const scoreA = blendedRankScore(a);
-    const scoreB = blendedRankScore(b);
-    if (Number.isFinite(scoreA) && Number.isFinite(scoreB) && scoreA !== scoreB) {
-      return scoreB - scoreA;
-    }
-    return String(a.ticker || '').localeCompare(String(b.ticker || ''));
-  });
-
-  if (isFreeUser) {
-    merged = merged.slice(0, 3);
-  } else {
-    merged = merged.slice(0, 100);
-  }
-  return merged;
-}
-
 function setDashboardLaneToggle(mode) {
   const normalized = normalizeDashboardLane(mode);
-  // Show extra score column only in blended mode (currently inactive)
-  const isSwarm = false; // blended lane removed
   // Update free-user upgrade prompt colspan
   document.querySelectorAll('[data-free-colspan]').forEach(function(td) {
-    td.setAttribute('colspan', isSwarm ? '15' : '14');
+    td.setAttribute('colspan', '14');
   });
 
   document.querySelectorAll('[data-dashboard-lane]').forEach(btn => {
@@ -1945,7 +1864,7 @@ function renderTable(stocks) {
   // Update lane label above table
   const _llEl = document.getElementById('tableLaneLabel');
   if (_llEl) {
-    const _laneNames = { core: 'Core Picks', hybrid: 'Hybrid Pool', blended: 'Solid Buy Pool' };
+    const _laneNames = { core: 'Core Picks', hybrid: 'Hybrid Pool' };
     _llEl.textContent = _laneNames[normalizeDashboardLane(currentLaneMode)] || 'Core Picks';
     _llEl.style.display = '';
   }
@@ -2660,18 +2579,12 @@ function setupSorting() {
 }
 
 function getScoreValuesForFiltering(stock, laneMode = currentLaneMode) {
-  const normalizedLane = normalizeDashboardLane(laneMode);
   const scores = [
     Number(stock?.value_score),
     Number(stock?.quality_score),
     Number(stock?.risk_score),
     Number(stock?.dip_score)
   ].filter(Number.isFinite);
-
-  if (normalizedLane === 'blended') {
-
-  }
-
   return scores;
 }
 
@@ -2684,13 +2597,13 @@ function passesMinScoreThreshold(stock, threshold, laneMode = currentLaneMode) {
 
 function defaultMinScoreThresholdForLane(laneMode = currentLaneMode) {
   const normalizedLane = normalizeDashboardLane(laneMode);
-  if (normalizedLane === 'core' || normalizedLane === 'hybrid' || normalizedLane === 'blended') return Number.NaN;
+  if (normalizedLane === 'core' || normalizedLane === 'hybrid') return Number.NaN;
   return DEFAULT_MIN_SCORE_THRESHOLD_BY_LANE[normalizedLane] ?? Number.NaN;
 }
 
 function passesLaneGuardrails(stock, laneMode = currentLaneMode) {
   const normalizedLane = normalizeDashboardLane(laneMode);
-  if (normalizedLane === 'core' || normalizedLane === 'hybrid' || normalizedLane === 'blended') return true;
+  if (normalizedLane === 'core' || normalizedLane === 'hybrid') return true;
   const laneGuardrails = DEFAULT_LANE_GUARDRAILS[normalizedLane];
   if (!laneGuardrails) return true;
 
