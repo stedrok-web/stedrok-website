@@ -6,7 +6,7 @@ html {
 }
 
 body {
-  font-family: "Inter", "Segoe UI", sans-serif;
+  font-family: var(--font-body);
   background:
     radial-gradient(circle at top left, rgba(var(--accent-purple-rgb), 0.16), transparent 26%),
     radial-gradient(circle at top right, rgba(var(--accent-teal-rgb), 0.14), transparent 24%),
@@ -146,7 +146,7 @@ h6,
 .pricing-hero h1,
 .demo-hero h1,
 .page-hero h1 {
-  font-family: "Exo 2", "Sora", "Inter", sans-serif;
+  font-family: var(--font-display);
   color: var(--text-primary);
   letter-spacing: -0.03em;
 }
@@ -216,7 +216,7 @@ header {
 .logo-text {
   display: block;
   white-space: nowrap;
-  font-family: "Exo 2", "Sora", "Inter", sans-serif;
+  font-family: var(--font-display);
   font-size: 2.6565rem;
   letter-spacing: 0.075em;
   font-weight: 700;
@@ -779,7 +779,7 @@ textarea:disabled {
 .rating-table th {
   background: var(--table-head-bg);
   color: var(--table-head-text);
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -795,7 +795,7 @@ textarea:disabled {
 .rating-table tbody th {
   background: transparent;
   color: var(--text-primary);
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: normal;
@@ -810,7 +810,7 @@ textarea:disabled {
 
 .comparison-table th,
 .comparison-table td {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-body);
 }
 
 .comparison-table tbody tr:nth-child(even) td,
@@ -850,7 +850,7 @@ textarea:disabled {
   padding: 0.32rem 0.75rem;
   border: 1px solid currentColor;
   background: transparent;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -1715,7 +1715,7 @@ footer a:hover,
 
   .check-yes,
   .check-no {
-    font-family: "Inter", sans-serif !important;
+    font-family: var(--font-body) !important;
   }
 
   footer,
