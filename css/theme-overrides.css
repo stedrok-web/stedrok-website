@@ -1115,9 +1115,15 @@ details {
 }
 
 .ticker-insight-panel {
-  background: rgba(2, 6, 23, 0.62) !important;
+  background: rgba(15, 23, 42, 0.44) !important;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+}
+
+@media (prefers-color-scheme: dark) {
+  .ticker-insight-panel {
+    background: rgba(2, 6, 23, 0.62) !important;
+  }
 }
 
 .ticker-insight-card {
@@ -1590,6 +1596,8 @@ footer a:hover,
     width: 42px;
     height: 42px;
     margin-left: auto;
+    position: relative;
+    z-index: 1202;
     background: rgba(255, 255, 255, 0.92);
     border-color: rgba(46, 64, 128, 0.16);
   }
@@ -1608,7 +1616,7 @@ footer a:hover,
     border-radius: 20px;
     box-shadow: var(--shadow-card);
     overflow: auto;
-    z-index: 3;
+    z-index: 1201;
   }
 
   .nav-links.active {
@@ -2307,4 +2315,19 @@ section,
     align-items: flex-start;
     padding-top: 32px !important;
   }
+}
+
+/* Dashboard metrics legend (theme-safe in light and dark modes) */
+.metrics-legend-panel {
+  border: 1px solid rgba(var(--border-subtle-rgb), 0.72) !important;
+  background: rgba(var(--bg-elevated-rgb), 0.96) !important;
+  box-shadow: 0 12px 28px rgba(2, 6, 23, 0.08);
+}
+
+.metrics-legend-summary {
+  color: var(--text-primary) !important;
+}
+
+.metrics-legend-footnote {
+  border-top: 1px solid rgba(var(--border-subtle-rgb), 0.58) !important;
 }

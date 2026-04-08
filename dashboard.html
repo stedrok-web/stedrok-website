@@ -6,20 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, follow">
   <title>Stedrok Dashboard | Ranked Value Stock Screener Output</title>
-    <meta name="description" content="Browse Stedrok ranked stock output with value, quality, resilience, and price context scores, updated 3x daily for disciplined long-term research.">
+    <meta name="description" content="Browse Stedrok ranked stock output with value, quality, resilience, and price context scores, updated 2x daily for disciplined long-term research.">
   <link rel="canonical" href="https://stedrok.org/dashboard.html">
   <link rel="alternate" hreflang="en" href="https://stedrok.org/dashboard.html">
   <link rel="alternate" hreflang="x-default" href="https://stedrok.org/dashboard.html">
 
   <meta name="stedrok:data-source" content="Authenticated Stedrok API endpoints: /api/picks, /api/hybrid-picks, and /api/ticker-summary.">
-  <meta name="stedrok:data-refresh-cadence" content="At least once per trading day; usually 3x daily.">
+  <meta name="stedrok:data-refresh-cadence" content="At least once per trading day; usually 2x daily.">
   <meta name="stedrok:data-point-in-time" content="Scores reflect the latest completed batch and are for research workflows only.">
   <meta name="stedrok:data-last-updated-utc" id="dashboardDataLastUpdatedMeta" content="">
   <meta name="stedrok:data-lane" id="dashboardLaneMeta" content="core">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Stedrok Dashboard | Ranked Value Stock Screener Output">
-  <meta property="og:description" content="Browse Stedrok ranked stock output with value, quality, resilience, and price context scores, updated 3x daily for disciplined long-term research.">
+  <meta property="og:description" content="Browse Stedrok ranked stock output with value, quality, resilience, and price context scores, updated 2x daily for disciplined long-term research.">
   <meta property="og:url" content="https://stedrok.org/dashboard.html">
   <meta property="og:site_name" content="Stedrok">
   <meta property="og:locale" content="en_US">
@@ -29,7 +29,7 @@
   <meta property="og:image:alt" content="Stedrok value stock screener dashboard preview">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Stedrok Dashboard | Ranked Value Stock Screener Output">
-  <meta name="twitter:description" content="Browse Stedrok ranked stock output with value, quality, resilience, and price context scores, updated 3x daily for disciplined long-term research.">
+  <meta name="twitter:description" content="Browse Stedrok ranked stock output with value, quality, resilience, and price context scores, updated 2x daily for disciplined long-term research.">
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -39,9 +39,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="css/main.css?v=20260329fix">
+  <link rel="stylesheet" href="css/main.css?v=20260409c">
   <link rel="stylesheet" href="css/tokens.css?v=20260317b">
-  <link rel="stylesheet" href="css/theme-overrides.css?v=20260329fix">
+  <link rel="stylesheet" href="css/theme-overrides.css?v=20260409c">
   
   <script type="application/ld+json">
   {
@@ -177,7 +177,7 @@
         <p class="last-updated">Last updated: <span id="lastUpdated">Pending refresh</span></p>
         <div id="dashStatBar" class="dash-stat-bar" style="display:none;"></div>
         <p style="color: var(--text-secondary); margin-top: 12px; font-size: 15px; line-height: 1.7;">
-          This table is the current ranked output of the Stedrok engine. Behind it are 5,900+ companies scanned 3x daily - cleaned, scored across four pillars and filtered down to the names with the strongest combined profiles.
+          This table is the current ranked output of the Stedrok engine. Behind it are 5,900+ companies scanned 2x daily - cleaned, scored across four pillars and filtered down to the names with the strongest combined profiles.
         </p>
         <p style="color: var(--text-secondary); margin-top: 10px; font-size: 14px;">
           Newly identified names are marked <span class="badge badge-new">NEW</span> and pinned to the top of the table.
@@ -328,8 +328,8 @@
       </div>
 
       <!-- Metrics Legend -->
-      <details open style="margin: 32px 0 24px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 16px; background: rgba(255,255,255,0.03);">
-        <summary style="cursor: pointer; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; user-select: none;">Understanding the Metrics</summary>
+      <details open class="metrics-legend-panel" style="margin: 32px 0 24px; border-radius: 8px; padding: 16px;">
+        <summary class="metrics-legend-summary" style="cursor: pointer; font-weight: 600; margin-bottom: 12px; user-select: none;">Understanding the Metrics</summary>
         <div style="font-size: 14px; line-height: 1.8; color: var(--text-secondary); margin-top: 12px;">
           <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Value:</strong> Quantifies undervaluation relative to intrinsic worth. Higher scores reflect deeper discounts to fair value.</p>
           <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Quality:</strong> Measures financial health, competitive positioning, and operational efficiency.</p>
@@ -338,7 +338,7 @@
           <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Confidence:</strong> Indicates the strength of the data behind the score on a 0 to 100 scale. Higher values reflect more complete and consistent financial data.</p>
           <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Discount:</strong> Current price versus estimated fair value. Positive percentages indicate undervaluation.</p>
           <p style="margin-bottom: 10px;"><strong style="color: var(--accent-green);">Research Status:</strong> BUY highlights the strongest current combination of valuation, business quality, resilience, and price context. WATCH warrants further review. AVOID sits outside the preferred range under current conditions.</p>
-          <p style="margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 14px;">
+          <p class="metrics-legend-footnote" style="margin-top: 16px; padding-top: 12px; font-size: 14px;">
             Scores are model outputs for research purposes only, not advice. 
             <a href="methodology.html" style="color: var(--accent-green); text-decoration: underline;">How the model works</a> &middot; 
             <a href="value-investing-glossary.html" style="color: var(--accent-green); text-decoration: underline;">Glossary of terms</a>
@@ -347,7 +347,7 @@
       </details>
       
       <p style="margin-top: 24px; text-align: center; color: var(--text-secondary); font-size: 14px;">
-        Data is refreshed at least once per trading day. The engine usually runs 3x daily. Scores may change as new market data arrives.
+        Data is refreshed at least once per trading day. The engine usually runs 2x daily. Scores may change as new market data arrives.
         <a href="methodology.html" style="color:var(--accent-green);text-decoration:underline;">How the model works</a> &middot; 
         <a href="dashboard-guide.html" style="color:var(--accent-green);text-decoration:underline;">How to use this page</a>
       </p>
@@ -387,6 +387,6 @@
   <script src="js/metric-definitions.js?v=20260317b"></script>
   <script src="js/metric-tooltips.js?v=20260317b"></script>
   <script src="js/dashboard.js?v=20260402fix5"></script>
-  <script src="js/mobile-menu.js?v=20260317b"></script>
+  <script src="js/mobile-menu.js?v=20260409c"></script>
 </body>
 </html>
