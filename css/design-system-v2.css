@@ -144,7 +144,7 @@ code,
 header {
   position: sticky;
   top: 0;
-  z-index: 2200;
+  z-index: 1100;
   width: 100%;
   min-height: 60px;
   background: color-mix(in srgb, var(--bg-nav) 92%, transparent);
@@ -154,18 +154,13 @@ header {
 
 .navbar {
   position: relative;
-  z-index: 2201;
+  z-index: 1101;
   min-height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--sp-4);
   padding: var(--sp-2) 0;
-}
-
-header,
-.navbar {
-  overflow: visible;
 }
 
 .logo {
@@ -182,7 +177,7 @@ header,
 }
 
 .logo-text {
-  font-size: calc(var(--text-lg) * 1.6) !important;
+  font-size: calc(var(--text-lg) * 1.6);
   font-weight: var(--weight-bold);
   letter-spacing: -0.02em;
   color: var(--text-primary);
@@ -218,7 +213,7 @@ header,
 
 .mobile-menu-toggle {
   position: relative;
-  z-index: 2300;
+  z-index: 1300;
 }
 
 .btn,
@@ -402,16 +397,7 @@ body.auth-page .navbar::after {
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
-  color: inherit;
-  opacity: 1;
-  visibility: visible;
-  min-width: 1em;
-  min-height: 1em;
   flex-shrink: 0;
-}
-
-.icon-svg * {
-  vector-effect: non-scaling-stroke;
 }
 
 .icon-badge {
@@ -427,7 +413,7 @@ body.auth-page .navbar::after {
   height: 56px;
   margin-bottom: 16px;
   background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-  color: var(--text-inverse) !important;
+  color: var(--text-inverse);
 }
 
 .feature-icon.icon-badge .icon-svg {
@@ -440,7 +426,7 @@ body.auth-page .navbar::after {
   height: 52px;
   margin-bottom: 14px;
   background: color-mix(in srgb, var(--accent-subtle) 82%, transparent);
-  color: var(--accent-strong) !important;
+  color: var(--accent-strong);
 }
 
 .sp-icon.icon-badge .icon-svg {
@@ -455,7 +441,7 @@ body.auth-page .navbar::after {
   border-radius: var(--r-md);
   border: 1px solid color-mix(in srgb, var(--accent) 32%, var(--border));
   background: color-mix(in srgb, var(--accent-subtle) 88%, transparent);
-  color: var(--accent-strong) !important;
+  color: var(--accent-strong);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -478,7 +464,7 @@ body.auth-page .navbar::after {
   border-radius: 6px;
   border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
   background: color-mix(in srgb, var(--accent-subtle) 84%, transparent);
-  color: var(--accent-strong) !important;
+  color: var(--accent-strong);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -500,7 +486,6 @@ body.auth-page .navbar::after {
 .unlock-cta .icon-svg {
   width: 16px;
   height: 16px;
-  stroke: currentColor !important;
   stroke-width: 2.1;
 }
 
@@ -704,8 +689,7 @@ footer {
     gap: var(--sp-2);
     overflow-y: auto;
     pointer-events: none;
-    box-shadow: 0 20px 48px rgba(2, 6, 23, 0.25);
-    z-index: 2250 !important;
+    z-index: 1200 !important;
   }
 
   .nav-links.active {
@@ -727,7 +711,7 @@ footer {
   }
 
   .logo-text {
-    font-size: calc(var(--text-base) * 1.6) !important;
+    font-size: calc(var(--text-base) * 1.6);
   }
 
   h1,
