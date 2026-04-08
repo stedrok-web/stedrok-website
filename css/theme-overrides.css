@@ -861,9 +861,9 @@ textarea:disabled {
 .badge-watch::before { content: "\2192"; }
 .badge-avoid::before { content: "\25BC"; }
 .badge-new {
-  color: #7dd3fc;
-  border-color: rgba(125, 211, 252, 0.72);
-  background: rgba(14, 165, 233, 0.12);
+  color: var(--accent-teal);
+  border-color: rgba(var(--accent-teal-rgb), 0.72);
+  background: rgba(var(--accent-teal-rgb), 0.14);
   min-width: 0;
   padding: 0.18rem 0.42rem;
   letter-spacing: 0.07em;
@@ -883,9 +883,9 @@ textarea:disabled {
 
 /* Gemini AI Pick badge */
 .badge-ai-pick {
-  color: #a78bfa;
-  border-color: rgba(167, 139, 250, 0.65);
-  background: rgba(139, 92, 246, 0.12);
+  color: var(--accent-purple);
+  border-color: rgba(var(--accent-purple-rgb), 0.65);
+  background: rgba(var(--accent-purple-rgb), 0.14);
   min-width: 0;
   padding: 0.18rem 0.42rem;
   letter-spacing: 0.06em;
@@ -938,9 +938,9 @@ textarea:disabled {
 .stock-table 
 /* Gemini AI Pick badge */
 .badge-ai-pick {
-  color: #a78bfa;
-  border-color: rgba(167, 139, 250, 0.65);
-  background: rgba(139, 92, 246, 0.12);
+  color: var(--accent-purple);
+  border-color: rgba(var(--accent-purple-rgb), 0.65);
+  background: rgba(var(--accent-purple-rgb), 0.14);
   min-width: 0;
   padding: 0.18rem 0.42rem;
   letter-spacing: 0.06em;
@@ -1306,6 +1306,41 @@ footer a:hover,
   .check-no {
     color: #991b1b !important;
     opacity: 1 !important;
+  }
+
+  .badge-buy {
+    color: var(--buy) !important;
+    border-color: rgba(var(--accent-green-rgb), 0.45) !important;
+    background: rgba(var(--accent-green-rgb), 0.14) !important;
+  }
+
+  .badge-watch {
+    color: var(--watch) !important;
+    border-color: rgba(var(--accent-amber-rgb), 0.45) !important;
+    background: rgba(var(--accent-amber-rgb), 0.14) !important;
+  }
+
+  .badge-avoid {
+    color: var(--avoid) !important;
+    border-color: rgba(var(--accent-red-rgb), 0.45) !important;
+    background: rgba(var(--accent-red-rgb), 0.14) !important;
+  }
+
+  .badge-new {
+    color: var(--accent-teal) !important;
+    border-color: rgba(var(--accent-teal-rgb), 0.5) !important;
+    background: rgba(var(--accent-teal-rgb), 0.14) !important;
+  }
+
+  .badge-ai-pick,
+  .ticker-ai-badge {
+    color: var(--accent-purple) !important;
+    border-color: rgba(var(--accent-purple-rgb), 0.55) !important;
+    background: rgba(var(--accent-purple-rgb), 0.14) !important;
+  }
+
+  .sample-note strong {
+    color: var(--watch) !important;
   }
 
   .faq-item p {
@@ -1734,7 +1769,7 @@ footer a:hover,
 
 /* Score cell color graduation */
 .score-high { color: var(--accent-green) !important; font-weight: 600; }
-.score-mid  { color: #f59e0b !important; font-weight: 600; }
+.score-mid  { color: var(--watch) !important; font-weight: 600; }
 .score-low  { color: var(--accent-red) !important; font-weight: 600; }
 
 /* Mini score bar inside score cells */
@@ -1759,7 +1794,7 @@ footer a:hover,
   transition: width 0.4s ease;
 }
 .score-bar-fill.high { background: var(--accent-green); }
-.score-bar-fill.mid  { background: #f59e0b; }
+.score-bar-fill.mid  { background: var(--watch); }
 .score-bar-fill.low  { background: var(--accent-red); }
 
 /* Loading skeleton shimmer */
@@ -1793,9 +1828,9 @@ footer a:hover,
   font-weight: 700;
   letter-spacing: 0.03em;
 }
-.dash-stat.buy   { background: rgba(74,222,128,0.15); color: var(--accent-green); border: 1px solid rgba(74,222,128,0.3); }
-.dash-stat.watch { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
-.dash-stat.avoid { background: rgba(248,113,113,0.15); color: var(--accent-red); border: 1px solid rgba(248,113,113,0.3); }
+.dash-stat.buy   { background: rgba(var(--accent-green-rgb),0.15); color: var(--accent-green); border: 1px solid rgba(var(--accent-green-rgb),0.3); }
+.dash-stat.watch { background: rgba(var(--accent-amber-rgb),0.15); color: var(--watch); border: 1px solid rgba(var(--accent-amber-rgb),0.3); }
+.dash-stat.avoid { background: rgba(var(--accent-red-rgb),0.15); color: var(--accent-red); border: 1px solid rgba(var(--accent-red-rgb),0.3); }
 
 /* Pillar radar visual in ticker insight panel */
 .pillar-bars {
