@@ -1370,6 +1370,33 @@ footer a:hover,
     color: #ffffff !important;
     border-color: rgba(21, 128, 61, 0.24) !important;
   }
+
+  .problem-card p,
+  .solution-box p,
+  .feature-card p,
+  .sample-output-body p,
+  .step-card p,
+  .audience-card p,
+  .comparison-table td,
+  .cta-section p,
+  .sp-card p,
+  .section-lead,
+  .solution-advanced-list li {
+    color: var(--text-secondary) !important;
+  }
+
+  .solution-advanced-list strong {
+    color: var(--text-primary) !important;
+  }
+
+  .hero-price-line {
+    color: var(--accent-green-dark) !important;
+  }
+
+  .hero-price-line strong,
+  .hero-price-line strong.amt {
+    color: var(--text-primary) !important;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

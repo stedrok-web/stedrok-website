@@ -4,7 +4,7 @@
   <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg?v=20260319fav3">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SterokGPT Equity Research Lab | Stedrok</title>
+  <title>StedrokGPT Equity Research Lab | Stedrok</title>
   <meta name="description" content="Hidden Stedrok test page for staged equity report generation: fast market snapshot followed by deep analysis.">
   <meta name="robots" content="noindex, nofollow">
   <meta name="author" content="Stedrok">
@@ -30,9 +30,9 @@
       padding: 66px 0 28px;
       text-align: center;
       background:
-        radial-gradient(circle at 8% -10%, rgba(14, 165, 233, 0.2), transparent 42%),
-        radial-gradient(circle at 95% 0%, rgba(16, 185, 129, 0.18), transparent 34%),
-        linear-gradient(160deg, rgba(2, 6, 23, 0.9), rgba(15, 23, 42, 0.92));
+        radial-gradient(circle at 8% -10%, rgba(var(--accent-teal-rgb), 0.2), transparent 42%),
+        radial-gradient(circle at 95% 0%, rgba(var(--accent-green-rgb), 0.18), transparent 34%),
+        linear-gradient(160deg, rgba(var(--bg-base-rgb), 0.9), rgba(var(--bg-surface-rgb), 0.92));
     }
     .report-hero h1 {
       margin-bottom: 12px;
@@ -52,10 +52,10 @@
     }
     .report-panel {
       background:
-        linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.88));
+        linear-gradient(180deg, var(--lab-surface-1), var(--lab-surface-2));
       border: 1px solid var(--border-color);
       border-radius: 16px;
-      box-shadow: 0 22px 48px rgba(2, 6, 23, 0.42);
+      box-shadow: 0 22px 48px rgba(var(--bg-base-rgb), 0.74);
       padding: 22px;
       margin-bottom: 20px;
       overflow: hidden;
@@ -69,7 +69,7 @@
     }
     .panel-subtitle {
       margin: 0 0 14px;
-      color: #b8c4d8;
+      color: var(--text-secondary);
       font-size: 0.96rem;
       line-height: 1.56;
     }
@@ -85,8 +85,8 @@
       width: 100%;
       border-radius: 10px;
       border: 1px solid rgba(148, 163, 184, 0.35);
-      background: rgba(2, 6, 23, 0.42);
-      color: #f8fafc;
+      background: rgba(var(--bg-base-rgb), 0.74);
+      color: var(--text-primary);
       font-size: 1.12rem;
       font-weight: 600;
       letter-spacing: 0.04em;
@@ -103,8 +103,8 @@
       min-height: 56px;
       border-radius: 10px;
       border: 1px solid rgba(16, 185, 129, 0.54);
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: #ecfdf5;
+      background: linear-gradient(135deg, var(--buy), var(--accent-green-dark));
+      color: var(--text-inverse);
       font-weight: 800;
       font-size: 1rem;
       cursor: pointer;
@@ -121,7 +121,7 @@
       font-size: 0.95rem;
     }
     .ui-status.error {
-      color: #fda4af;
+      color: var(--avoid);
     }
 
     .stage-row {
@@ -136,8 +136,8 @@
       gap: 8px;
       border: 1px solid rgba(148, 163, 184, 0.3);
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.55);
-      color: #cbd5e1;
+      background: var(--lab-surface-2);
+      color: var(--text-secondary);
       padding: 7px 12px;
       font-size: 0.86rem;
       font-weight: 700;
@@ -147,11 +147,11 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #64748b;
+      background: var(--text-muted);
     }
-    .stage-chip.loading .stage-dot { background: #f59e0b; }
-    .stage-chip.done .stage-dot { background: #10b981; }
-    .stage-chip.error .stage-dot { background: #f43f5e; }
+    .stage-chip.loading .stage-dot { background: var(--watch); }
+    .stage-chip.done .stage-dot { background: var(--buy); }
+    .stage-chip.error .stage-dot { background: var(--avoid); }
 
     .snapshot-grid {
       display: grid;
@@ -160,7 +160,7 @@
       margin-top: 12px;
     }
     .metric-card {
-      background: rgba(15, 23, 42, 0.55);
+      background: var(--lab-surface-2);
       border: 1px solid rgba(148, 163, 184, 0.24);
       border-radius: 12px;
       padding: 12px;
@@ -175,7 +175,7 @@
     }
     .metric-value {
       display: block;
-      color: #f8fafc;
+      color: var(--text-primary);
       font-size: clamp(1.05rem, 0.96rem + 0.32vw, 1.22rem);
       font-weight: 800;
       line-height: 1.35;
@@ -196,7 +196,7 @@
       border: 1px solid rgba(148, 163, 184, 0.26);
       border-radius: 14px;
       padding: 14px;
-      background: linear-gradient(160deg, rgba(15, 23, 42, 0.8), rgba(2, 6, 23, 0.74));
+      background: linear-gradient(160deg, var(--lab-surface-2), var(--lab-surface-3));
       display: grid;
       gap: 12px;
       min-width: 0;
@@ -255,32 +255,32 @@
     }
     .verdict-pill.verdict-buy {
       background: rgba(16, 185, 129, 0.15);
-      color: #6ee7b7;
+      color: var(--buy);
       border-color: rgba(16, 185, 129, 0.4);
     }
     .verdict-pill.verdict-overvalued {
       background: rgba(245, 158, 11, 0.16);
-      color: #fcd34d;
+      color: var(--watch);
       border-color: rgba(245, 158, 11, 0.45);
     }
     .verdict-pill.verdict-avoid {
       background: rgba(244, 63, 94, 0.16);
-      color: #fda4af;
+      color: var(--avoid);
       border-color: rgba(244, 63, 94, 0.45);
     }
     .verdict-pill.verdict-hold {
       background: rgba(56, 189, 248, 0.16);
-      color: #7dd3fc;
+      color: var(--accent-teal);
       border-color: rgba(56, 189, 248, 0.45);
     }
     .verdict-pill.verdict-watch {
       background: rgba(245, 158, 11, 0.2);
-      color: #fcd34d;
+      color: var(--watch);
       border-color: rgba(245, 158, 11, 0.5);
     }
     .verdict-pill.verdict-neutral {
       background: rgba(148, 163, 184, 0.2);
-      color: #cbd5e1;
+      color: var(--text-secondary);
       border-color: rgba(148, 163, 184, 0.4);
     }
     .decision-metric-grid {
@@ -291,7 +291,7 @@
     .decision-metric {
       border: 1px solid rgba(148, 163, 184, 0.24);
       border-radius: 10px;
-      background: rgba(2, 6, 23, 0.52);
+      background: var(--lab-surface-3);
       padding: 10px;
       min-width: 0;
     }
@@ -307,14 +307,14 @@
       display: block;
       font-size: clamp(0.96rem, 0.9rem + 0.2vw, 1.08rem);
       font-weight: 750;
-      color: #f8fafc;
+      color: var(--text-primary);
       line-height: 1.45;
       overflow-wrap: anywhere;
     }
     .confidence-wrap {
       border: 1px dashed rgba(148, 163, 184, 0.34);
       border-radius: 10px;
-      background: rgba(15, 23, 42, 0.44);
+      background: var(--lab-surface-3);
       padding: 10px;
     }
     .confidence-wrap .title {
@@ -335,8 +335,8 @@
       gap: 6px;
       border-radius: 999px;
       border: 1px solid rgba(148, 163, 184, 0.28);
-      background: rgba(2, 6, 23, 0.55);
-      color: #dbeafe;
+      background: var(--lab-surface-3);
+      color: var(--text-secondary);
       font-size: 0.81rem;
       font-weight: 700;
       padding: 6px 10px;
@@ -345,15 +345,15 @@
     }
     .confidence-chip.level-high {
       border-color: rgba(34, 197, 94, 0.38);
-      color: #86efac;
+      color: var(--buy);
     }
     .confidence-chip.level-medium {
       border-color: rgba(251, 191, 36, 0.38);
-      color: #fde68a;
+      color: var(--watch);
     }
     .confidence-chip.level-low {
       border-color: rgba(248, 113, 113, 0.4);
-      color: #fca5a5;
+      color: var(--avoid);
     }
 
     .report-sections {
@@ -365,7 +365,7 @@
       min-width: 0;
     }
     .section-card {
-      background: rgba(2, 6, 23, 0.56);
+      background: var(--lab-surface-3);
       border: 1px solid rgba(148, 163, 184, 0.24);
       border-radius: 12px;
       padding: 16px;
@@ -374,12 +374,12 @@
     }
     .section-card.hard-stop {
       border-color: rgba(244, 63, 94, 0.48);
-      background: linear-gradient(180deg, rgba(69, 10, 10, 0.3), rgba(2, 6, 23, 0.7));
+      background: linear-gradient(180deg, rgba(var(--accent-red-rgb), 0.14), var(--lab-surface-3));
       box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.16) inset;
     }
     .section-card.hard-stop h3,
     .section-card.hard-stop h4 {
-      color: #fecdd3;
+      color: var(--text-primary);
     }
     .section-card h3 {
       margin-bottom: 8px;
@@ -399,7 +399,7 @@
       margin: 12px 0 8px;
       font-size: 0.98rem;
       letter-spacing: 0.01em;
-      color: #f1f5f9;
+      color: var(--text-primary);
       overflow-wrap: anywhere;
     }
     .section-card ol,
@@ -411,7 +411,7 @@
       margin-top: 6px;
     }
     .section-card strong {
-      color: #f8fafc;
+      color: var(--text-primary);
       font-weight: 700;
     }
     .section-card code {
@@ -420,8 +420,8 @@
       padding: 1px 6px;
       border-radius: 6px;
       border: 1px solid rgba(148, 163, 184, 0.28);
-      background: rgba(15, 23, 42, 0.62);
-      color: #dbeafe;
+      background: rgba(var(--bg-base-rgb), 0.58);
+      color: var(--text-secondary);
     }
     .inline-tag {
       display: inline-block;
@@ -429,7 +429,7 @@
       border-radius: 999px;
       border: 1px solid rgba(56, 189, 248, 0.45);
       background: rgba(30, 64, 175, 0.22);
-      color: #bae6fd;
+      color: var(--accent-teal);
       font-size: 0.72em;
       font-weight: 700;
       letter-spacing: 0.06em;
@@ -439,7 +439,7 @@
       white-space: nowrap;
     }
     .decision-snapshot-card {
-      background: linear-gradient(180deg, rgba(8, 47, 73, 0.35), rgba(2, 6, 23, 0.72));
+      background: linear-gradient(180deg, rgba(var(--accent-teal-rgb), 0.12), var(--lab-surface-3));
       border-color: rgba(56, 189, 248, 0.38);
       box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.14) inset;
     }
@@ -451,7 +451,7 @@
     .snapshot-kv {
       border: 1px solid rgba(148, 163, 184, 0.26);
       border-radius: 8px;
-      background: rgba(2, 6, 23, 0.62);
+      background: rgba(var(--bg-base-rgb), 0.58);
       padding: 9px 10px;
       display: grid;
       gap: 5px;
@@ -460,13 +460,13 @@
       font-size: 0.68rem;
       letter-spacing: 0.09em;
       text-transform: uppercase;
-      color: #93c5fd;
+      color: var(--text-muted);
       font-weight: 700;
     }
     .snapshot-v {
       font-size: 0.92rem;
       line-height: 1.45;
-      color: #e2e8f0;
+      color: var(--text-secondary);
       font-weight: 650;
       overflow-wrap: anywhere;
       word-break: break-word;
@@ -477,7 +477,7 @@
       border: 1px solid rgba(148, 163, 184, 0.24);
       border-radius: 14px;
       overflow: hidden;
-      background: rgba(2, 6, 23, 0.8);
+      background: var(--lab-surface-2);
       max-width: 100%;
     }
     .raw-wrap summary {
@@ -487,7 +487,7 @@
       padding: 13px 14px;
       font-weight: 750;
       letter-spacing: 0.02em;
-      color: #dbeafe;
+      color: var(--text-secondary);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -498,7 +498,7 @@
     }
     .raw-wrap summary::after {
       content: "▸";
-      color: #8da2c0;
+      color: var(--text-muted);
       transition: transform 0.18s ease;
       font-size: 0.95rem;
     }
@@ -509,7 +509,7 @@
       border-top: 1px solid rgba(148, 163, 184, 0.22);
       background:
         radial-gradient(circle at 50% -100%, rgba(56, 189, 248, 0.16), transparent 55%),
-        #0b1020;
+        rgba(var(--bg-base-rgb), 0.98);
       max-width: 100%;
     }
     .raw-cli-top {
@@ -540,20 +540,20 @@
       font-size: 0.76rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: #94a3b8;
+      color: var(--text-muted);
     }
     .raw-cli-right {
       margin: 0;
       font-family: "JetBrains Mono", monospace;
       font-size: 0.72rem;
       letter-spacing: 0.04em;
-      color: #6b7f9d;
+      color: var(--text-muted);
       text-transform: lowercase;
     }
     .raw-command-line {
       margin: 0;
       padding: 10px 14px 0;
-      color: #86efac;
+      color: var(--buy);
       font-family: "JetBrains Mono", monospace;
       font-size: clamp(0.9rem, 0.84rem + 0.22vw, 1rem);
       letter-spacing: 0.02em;
@@ -563,8 +563,8 @@
       padding: 14px;
       max-height: 420px;
       overflow: auto;
-      background: #0b1020;
-      color: #d1e7ff;
+      background: rgba(var(--bg-base-rgb), 0.98);
+      color: var(--text-secondary);
       font-family: "JetBrains Mono", monospace;
       font-size: clamp(0.62rem, 0.56rem + 0.24vw, 0.8rem);
       line-height: 1.46;
@@ -580,6 +580,253 @@
     .raw-pre::-webkit-scrollbar-thumb {
       border-radius: 999px;
       background: rgba(125, 211, 252, 0.25);
+    }
+
+    .report-hero,
+    .report-main {
+      --lab-surface-1: rgba(var(--bg-elevated-rgb), 0.92);
+      --lab-surface-2: rgba(var(--bg-surface-rgb), 0.84);
+      --lab-surface-3: rgba(var(--bg-raised-rgb), 0.42);
+      --lab-border: rgba(var(--border-subtle-rgb), 0.72);
+      --lab-border-soft: rgba(var(--border-subtle-rgb), 0.5);
+    }
+
+    .report-hero {
+      padding: clamp(50px, 7vw, 74px) 0 clamp(20px, 4vw, 34px);
+      border-bottom: 1px solid var(--lab-border-soft);
+      background:
+        radial-gradient(circle at 10% -30%, rgba(var(--accent-teal-rgb), 0.22), transparent 45%),
+        radial-gradient(circle at 92% 0%, rgba(var(--accent-fill-rgb), 0.2), transparent 35%),
+        linear-gradient(160deg, rgba(var(--bg-surface-rgb), 0.42), rgba(var(--bg-base-rgb), 0.9));
+    }
+
+    .report-hero h1 {
+      font-size: clamp(2rem, 1.5rem + 2vw, 3.05rem);
+      line-height: 1.1;
+      color: var(--text-primary);
+    }
+
+    .report-hero p {
+      font-size: clamp(1rem, 0.95rem + 0.36vw, 1.18rem);
+      color: var(--text-secondary);
+    }
+
+    .report-panel {
+      background: linear-gradient(180deg, var(--lab-surface-1), var(--lab-surface-2));
+      border: 1px solid var(--lab-border);
+      border-radius: 18px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .panel-title,
+    .decision-top .decision-symbol,
+    .section-card h3,
+    .section-card h4 {
+      color: var(--text-primary);
+    }
+
+    .panel-subtitle,
+    .section-card p,
+    .section-card li,
+    .snapshot-v {
+      color: var(--text-secondary);
+    }
+
+    .metric-label,
+    .decision-top .decision-kicker,
+    .decision-metric .label,
+    .confidence-wrap .title,
+    .snapshot-k {
+      color: var(--text-muted);
+    }
+
+    .symbol-input {
+      border: 1px solid var(--lab-border-soft);
+      background: rgba(var(--bg-base-rgb), 0.74);
+      color: var(--text-primary);
+    }
+
+    .symbol-input:focus {
+      border-color: rgba(var(--border-active-rgb), 0.92);
+      box-shadow: 0 0 0 3px rgba(var(--border-active-rgb), 0.18);
+    }
+
+    .analyze-btn {
+      border: 1px solid rgba(var(--accent-fill-rgb), 0.74);
+      background: linear-gradient(135deg, var(--accent-fill), var(--accent-amber));
+      color: var(--text-inverse);
+    }
+
+    .ui-status.error {
+      color: var(--avoid);
+    }
+
+    .stage-chip {
+      border: 1px solid var(--lab-border-soft);
+      background: var(--lab-surface-2);
+      color: var(--text-secondary);
+    }
+
+    .stage-dot {
+      background: var(--text-muted);
+    }
+
+    .stage-chip.loading .stage-dot { background: var(--watch); }
+    .stage-chip.done .stage-dot { background: var(--buy); }
+    .stage-chip.error .stage-dot { background: var(--avoid); }
+
+    .metric-card,
+    .decision-hub,
+    .decision-metric,
+    .confidence-wrap,
+    .confidence-chip,
+    .section-card,
+    .snapshot-kv,
+    .raw-wrap {
+      border-color: var(--lab-border-soft);
+    }
+
+    .metric-card,
+    .decision-hub,
+    .raw-wrap {
+      background: var(--lab-surface-2);
+    }
+
+    .decision-metric,
+    .confidence-wrap,
+    .confidence-chip,
+    .section-card,
+    .snapshot-kv {
+      background: var(--lab-surface-3);
+    }
+
+    .metric-value,
+    .decision-metric .value,
+    .section-card strong,
+    .section-card.hard-stop h3,
+    .section-card.hard-stop h4 {
+      color: var(--text-primary);
+    }
+
+    .decision-hub.tone-buy {
+      border-color: rgba(var(--accent-green-rgb), 0.54);
+      box-shadow: 0 0 0 1px rgba(var(--accent-green-rgb), 0.22) inset;
+    }
+
+    .decision-hub.tone-overvalued,
+    .decision-hub.tone-watch {
+      border-color: rgba(var(--accent-amber-rgb), 0.56);
+      box-shadow: 0 0 0 1px rgba(var(--accent-amber-rgb), 0.2) inset;
+    }
+
+    .decision-hub.tone-avoid {
+      border-color: rgba(var(--accent-red-rgb), 0.58);
+      box-shadow: 0 0 0 1px rgba(var(--accent-red-rgb), 0.24) inset;
+    }
+
+    .decision-hub.tone-hold {
+      border-color: rgba(var(--accent-teal-rgb), 0.56);
+      box-shadow: 0 0 0 1px rgba(var(--accent-teal-rgb), 0.2) inset;
+    }
+
+    .verdict-pill.verdict-buy {
+      background: rgba(var(--accent-green-rgb), 0.15);
+      color: var(--buy);
+      border-color: rgba(var(--accent-green-rgb), 0.5);
+    }
+
+    .verdict-pill.verdict-overvalued,
+    .verdict-pill.verdict-watch {
+      background: rgba(var(--accent-amber-rgb), 0.16);
+      color: var(--watch);
+      border-color: rgba(var(--accent-amber-rgb), 0.5);
+    }
+
+    .verdict-pill.verdict-avoid {
+      background: rgba(var(--accent-red-rgb), 0.16);
+      color: var(--avoid);
+      border-color: rgba(var(--accent-red-rgb), 0.5);
+    }
+
+    .verdict-pill.verdict-hold {
+      background: rgba(var(--accent-teal-rgb), 0.16);
+      color: var(--accent-teal);
+      border-color: rgba(var(--accent-teal-rgb), 0.5);
+    }
+
+    .verdict-pill.verdict-neutral {
+      background: rgba(var(--border-subtle-rgb), 0.2);
+      color: var(--text-secondary);
+      border-color: rgba(var(--border-subtle-rgb), 0.45);
+    }
+
+    .confidence-chip.level-high {
+      border-color: rgba(var(--accent-green-rgb), 0.52);
+      color: var(--buy);
+    }
+
+    .confidence-chip.level-medium {
+      border-color: rgba(var(--accent-amber-rgb), 0.52);
+      color: var(--watch);
+    }
+
+    .confidence-chip.level-low {
+      border-color: rgba(var(--accent-red-rgb), 0.52);
+      color: var(--avoid);
+    }
+
+    .section-card.hard-stop {
+      border-color: rgba(var(--accent-red-rgb), 0.6);
+      background: linear-gradient(180deg, rgba(var(--accent-red-rgb), 0.14), var(--lab-surface-3));
+      box-shadow: 0 0 0 1px rgba(var(--accent-red-rgb), 0.22) inset;
+    }
+
+    .section-card code {
+      border: 1px solid var(--lab-border-soft);
+      background: rgba(var(--bg-base-rgb), 0.58);
+      color: var(--text-primary);
+    }
+
+    .inline-tag {
+      border: 1px solid rgba(var(--accent-teal-rgb), 0.55);
+      background: rgba(var(--accent-teal-rgb), 0.14);
+      color: var(--accent-teal);
+    }
+
+    .decision-snapshot-card {
+      background: linear-gradient(180deg, rgba(var(--accent-teal-rgb), 0.12), var(--lab-surface-3));
+      border-color: rgba(var(--accent-teal-rgb), 0.54);
+      box-shadow: 0 0 0 1px rgba(var(--accent-teal-rgb), 0.2) inset;
+    }
+
+    .raw-wrap summary,
+    .raw-cli-top {
+      background: rgba(var(--bg-base-rgb), 0.9);
+      border-bottom-color: var(--lab-border-soft);
+      color: var(--text-primary);
+    }
+
+    .raw-wrap summary::after,
+    .raw-cli-title,
+    .raw-cli-right {
+      color: var(--text-muted);
+    }
+
+    .raw-cli-shell,
+    .raw-pre {
+      background: rgba(var(--bg-base-rgb), 0.98);
+    }
+
+    .raw-command-line {
+      color: var(--buy);
+    }
+
+    .raw-pre {
+      color: var(--text-secondary);
+    }
+
+    .raw-pre::-webkit-scrollbar-thumb {
+      background: rgba(var(--accent-teal-rgb), 0.3);
     }
 
     @media (max-width: 1240px) {
@@ -706,7 +953,7 @@
   <main id="main">
     <section class="report-hero">
       <div class="container">
-        <h1>SterokGPT Equity Research Lab</h1>
+        <h1>StedrokGPT Equity Research Lab</h1>
         <p>Fast market snapshot first, then deeper valuation and thesis analysis. Hidden test page, not linked from public navigation.</p>
       </div>
     </section>
