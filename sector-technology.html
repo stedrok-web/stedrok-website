@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="css/main.css?v=20260329fix">
   <link rel="stylesheet" href="css/tokens.css?v=20260316b">
   <link rel="stylesheet" href="css/theme-overrides.css?v=20260329fix">
-  <link rel="stylesheet" href="css/design-system-v2.css?v=20260409a">
+  <link rel="stylesheet" href="css/design-system-v2.css?v=20260409b">
 
   <script type="application/ld+json">
   {
@@ -142,8 +142,8 @@
     .td-company { max-width: 220px; }
     .td-score, .td-disc { text-align: right; }
     .badge { display: inline-flex; align-items: center; justify-content: center; min-width: 64px; height: 24px; padding: 0 10px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1; vertical-align: middle; }
-    .badge-buy { background: rgba(0,200,100,.15); color: #00c864; }
-    .badge-watch { background: rgba(255,190,0,.12); color: #f0b400; }
+    .badge-buy { background: var(--buy-bg); color: var(--buy-text); border: 1px solid var(--buy-border); }
+    .badge-watch { background: var(--watch-bg); color: var(--watch-text); border: 1px solid var(--watch-border); }
     .blurred-val { filter: blur(4px); user-select: none; color: var(--text-secondary); cursor: pointer; }
     .score-val { font-weight: 600; }
     .disc-val { font-weight: 600; color: var(--accent-green); }
@@ -179,7 +179,7 @@
       max-width: 760px;
     }
     .sample-note strong {
-      color: #fbbf24;
+      color: var(--watch-text);
     }
 @media (max-width: 768px) {
       .sector-hero h1 { font-size: 28px; }
