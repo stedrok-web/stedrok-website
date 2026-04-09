@@ -707,21 +707,6 @@
     return html.join('');
   }
 
-  function renderDecisionSnapshotCard(verdict) {
-    const rows = [
-      { key: 'VERDICT', value: verdict.verdict || 'N/A' },
-      { key: 'BUY BELOW', value: verdict.buyBelow || 'N/A' },
-      { key: 'FAIR VALUE (BEAR/BASE/BULL)', value: verdict.fairValue || 'N/A' },
-      { key: verdict.premiumOrMosLabel || 'PREMIUM/MOS', value: verdict.premiumOrMosValue || 'N/A' },
-      { key: 'CONFIDENCE', value: verdict.confidence || 'N/A' },
-      { key: 'DATE', value: verdict.date || 'N/A' }
-    ];
-
-    return `<article class="section-card decision-snapshot-card"><h3>Verdict Snapshot</h3><div class="snapshot-kv-grid">${rows.map(function mapRow(row) {
-      return `<div class="snapshot-kv"><span class="snapshot-k">${escapeHtml(row.key)}</span><span class="snapshot-v">${escapeHtml(row.value)}</span></div>`;
-    }).join('')}</div></article>`;
-  }
-
   function renderAnalysis(text, meta) {
     const plainText = stripAnsi(text);
     const verdict = parseVerdictSummary(plainText);
@@ -773,12 +758,10 @@
       return `<article class="${cardClass}"><h3>${escapeHtml(cleanHeadingText(entry.title))}</h3>${renderBodyRich(entry.body)}</article>`;
     }).join('');
 
-    const decisionSection = verdict ? renderDecisionSnapshotCard(verdict) : '';
-
-    reportSections.innerHTML = `${decisionSection}${renderedSections}`;
+    reportSections.innerHTML = renderedSections;
 
     if (!sections.length) {
-      reportSections.innerHTML = `${decisionSection}<article class="section-card"><h3>Analysis</h3><p>Structured sections were not detected. Use raw output for full details.</p></article>`;
+      reportSections.innerHTML = '<article class="section-card"><h3>Analysis</h3><p>Structured sections were not detected. Use raw output for full details.</p></article>';
     }
   }
 
@@ -799,7 +782,7 @@
 
   async function loadDeepAnalysis(symbol) {
     const endpoint = buildApiUrl('/api/stedrokgpt-cli-stock');
-    const payload = { symbol };
+    const payload = { symbol, force_refresh: true };
 
     for (let attempt = 1; attempt <= 3; attempt += 1) {
       try {

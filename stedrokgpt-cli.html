@@ -39,27 +39,12 @@
       font-size: clamp(3.4rem, 2.55rem + 2.55vw, 4.3rem);
       line-height: 1.04;
       letter-spacing: -0.02em;
-      color: var(--text-primary);
-      text-align: center;
-      display: inline-flex;
-      align-items: baseline;
-      justify-content: center;
-      gap: clamp(0.2rem, 0.16rem + 0.3vw, 0.4rem);
-      flex-wrap: wrap;
-      text-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
-    }
-    .report-hero h1 .hero-main {
-      color: var(--text-primary);
-    }
-    .report-hero h1 .hero-lab {
-      font-size: 1.3em;
-      line-height: 1;
-      letter-spacing: -0.015em;
       background: linear-gradient(180deg, #ffe4a3 0%, #ffc94a 52%, var(--accent-amber) 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       color: transparent;
+      text-align: center;
       text-shadow: 0 10px 28px rgba(var(--accent-amber-rgb), 0.28);
     }
     .report-hero p {
@@ -681,14 +666,13 @@
       font-size: clamp(3.4rem, 2.55rem + 2.55vw, 4.3rem);
       line-height: 1.04;
       letter-spacing: -0.02em;
-      color: var(--text-primary);
+      background: linear-gradient(180deg, #ffe4a3 0%, #ffc94a 52%, var(--accent-amber) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
       text-align: center;
-      display: inline-flex;
-      align-items: baseline;
-      justify-content: center;
-      gap: clamp(0.2rem, 0.16rem + 0.3vw, 0.4rem);
-      flex-wrap: wrap;
-      text-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+      text-shadow: 0 10px 28px rgba(var(--accent-amber-rgb), 0.28);
     }
 
     .report-hero p {
@@ -1038,7 +1022,7 @@
   <main id="main">
     <section class="report-hero">
       <div class="container">
-        <h1><span class="hero-main">StedrokGPT Equity Research</span><span class="hero-lab">Lab</span></h1>
+        <h1>StedrokGPT Equity Research Lab</h1>
         <p>Fast market snapshot first, then deeper valuation and thesis analysis for long-term equity research.</p>
         <p class="hero-notice"><strong>Research mode disclaimer:</strong> This lab can be stricter than Core or AI Hybrid. It applies additional structural hard-stop checks and may suppress forward projections when source consistency, valuation integrity, or forensic quality checks do not pass.</p>
       </div>
@@ -1125,6 +1109,6 @@
   <script src="js/config.js"></script>
   <script src="js/mobile-menu.js?v=20260409c"></script>
   <script src="js/public-auth-nav.js?v=20260317"></script>
-  <script src="js/stedrokgpt-cli.js?v=20260409d"></script>
+  <script src="js/stedrokgpt-cli.js?v=20260409e"></script>
 </body>
 </html>
