@@ -36,8 +36,31 @@
     }
     .report-hero h1 {
       margin-bottom: 12px;
-      font-size: 44px;
+      font-size: clamp(3.4rem, 2.55rem + 2.55vw, 4.3rem);
+      line-height: 1.04;
       letter-spacing: -0.02em;
+      color: var(--text-primary);
+      text-align: center;
+      display: inline-flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: clamp(0.2rem, 0.16rem + 0.3vw, 0.4rem);
+      flex-wrap: wrap;
+      text-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+    }
+    .report-hero h1 .hero-main {
+      color: var(--text-primary);
+    }
+    .report-hero h1 .hero-lab {
+      font-size: 1.3em;
+      line-height: 1;
+      letter-spacing: -0.015em;
+      background: linear-gradient(180deg, #ffe4a3 0%, #ffc94a 52%, var(--accent-amber) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      text-shadow: 0 10px 28px rgba(var(--accent-amber-rgb), 0.28);
     }
     .report-hero p {
       max-width: 850px;
@@ -47,16 +70,17 @@
       line-height: 1.72;
     }
     .hero-notice {
-      max-width: 900px;
-      margin: 16px auto 0;
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid rgba(34, 197, 94, 0.36);
-      background: rgba(15, 23, 42, 0.42);
+      max-width: 780px;
+      margin: 18px auto 0;
+      padding: 15px 22px;
+      border-radius: 14px;
+      border: 1px solid rgba(var(--accent-amber-rgb), 0.42);
+      background: linear-gradient(180deg, rgba(var(--accent-amber-rgb), 0.14), rgba(var(--bg-base-rgb), 0.52));
       color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      text-align: left;
+      font-size: 0.94rem;
+      line-height: 1.64;
+      text-align: center;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
     }
     .hero-notice strong {
       color: var(--text-primary);
@@ -140,19 +164,26 @@
       color: var(--avoid);
     }
     .access-notice {
-      margin: 0 0 14px;
-      padding: 12px 14px;
-      border-radius: 10px;
+      max-width: 780px;
+      margin: 0 auto 18px;
+      padding: 14px 20px;
+      border-radius: 14px;
       border: 1px solid rgba(148, 163, 184, 0.3);
-      background: rgba(var(--bg-base-rgb), 0.62);
+      background: linear-gradient(180deg, rgba(var(--bg-elevated-rgb), 0.7), rgba(var(--bg-base-rgb), 0.64));
       color: var(--text-secondary);
-      font-size: 0.92rem;
-      line-height: 1.58;
+      font-size: 0.94rem;
+      line-height: 1.6;
+      text-align: center;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
     }
     .access-notice a {
       color: var(--accent-green);
       text-decoration: underline;
       text-underline-offset: 2px;
+    }
+    .access-notice strong {
+      color: var(--text-primary);
+      font-weight: 700;
     }
     .access-notice.success {
       border-color: rgba(16, 185, 129, 0.45);
@@ -647,9 +678,17 @@
     }
 
     .report-hero h1 {
-      font-size: clamp(2rem, 1.5rem + 2vw, 3.05rem);
-      line-height: 1.1;
+      font-size: clamp(3.4rem, 2.55rem + 2.55vw, 4.3rem);
+      line-height: 1.04;
+      letter-spacing: -0.02em;
       color: var(--text-primary);
+      text-align: center;
+      display: inline-flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: clamp(0.2rem, 0.16rem + 0.3vw, 0.4rem);
+      flex-wrap: wrap;
+      text-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
     }
 
     .report-hero p {
@@ -903,7 +942,7 @@
         padding: 48px 0 20px;
       }
       .report-hero h1 {
-        font-size: 31px;
+        font-size: 41px;
       }
       .report-hero p {
         font-size: 15px;
@@ -956,7 +995,7 @@
     }
     @media (max-width: 520px) {
       .report-hero h1 {
-        font-size: 28px;
+        font-size: 36px;
       }
       .stage-chip {
         width: 100%;
@@ -999,7 +1038,7 @@
   <main id="main">
     <section class="report-hero">
       <div class="container">
-        <h1>StedrokGPT Equity Research Lab</h1>
+        <h1><span class="hero-main">StedrokGPT Equity Research</span><span class="hero-lab">Lab</span></h1>
         <p>Fast market snapshot first, then deeper valuation and thesis analysis for long-term equity research.</p>
         <p class="hero-notice"><strong>Research mode disclaimer:</strong> This lab can be stricter than Core or AI Hybrid. It applies additional structural hard-stop checks and may suppress forward projections when source consistency, valuation integrity, or forensic quality checks do not pass.</p>
       </div>
@@ -1086,6 +1125,6 @@
   <script src="js/config.js"></script>
   <script src="js/mobile-menu.js?v=20260409c"></script>
   <script src="js/public-auth-nav.js?v=20260317"></script>
-  <script src="js/stedrokgpt-cli.js?v=20260409b"></script>
+  <script src="js/stedrokgpt-cli.js?v=20260409d"></script>
 </body>
 </html>
