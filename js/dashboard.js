@@ -1249,8 +1249,13 @@ function showPaidUserStatus(paidUntil, count) {
                   color: var(--text-primary); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
         <p style="margin:0 0 8px 0;"><strong>Pro Membership Active</strong> - Full research coverage (${count} stocks) | Subscription renews in ${daysLeft} days</p>
         <p style="margin:0 0 12px 0; color: var(--text-secondary); font-size: 14px;">StedrokGPT Research Lab is included with Pro. It can be stricter than Core/AI Hybrid because additional structural hard-stop checks are applied.</p>
-        <a href="stedrokgpt-cli.html" class="btn-secondary" style="display:inline-block; padding:10px 16px; border-radius:6px; text-decoration:none; margin-right:8px;">Open Research Lab</a>
-        <a href="account.html" class="btn-secondary" style="display:inline-block; padding:10px 16px; border-radius:6px; text-decoration:none;">Manage Account</a>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; align-items:center;">
+          <a href="stedrokgpt-cli.html" class="btn-secondary" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; min-width:230px; padding:10px 16px; border-radius:8px; text-decoration:none; font-weight:800; border:1px solid rgba(34,211,238,0.55); background:linear-gradient(135deg, rgba(8,145,178,0.95), rgba(5,150,105,0.95)); color:#fff; text-align:center;">
+            <span>Open Research Lab</span>
+            <span style="display:inline-flex; align-items:center; justify-content:center; min-width:42px; height:20px; padding:0 6px; border-radius:999px; background:rgba(15,23,42,0.82); border:1px solid rgba(255,255,255,0.35); font-size:11px; font-weight:800; letter-spacing:0.04em;">BETA</span>
+          </a>
+          <a href="account.html" class="btn-secondary" style="display:inline-flex; align-items:center; justify-content:center; min-width:170px; padding:10px 16px; border-radius:8px; text-decoration:none; text-align:center;">Manage Account</a>
+        </div>
       </div>
     `;
   }

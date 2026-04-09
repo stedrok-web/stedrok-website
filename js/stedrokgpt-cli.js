@@ -86,6 +86,29 @@
     return null;
   }
 
+  async function fetchProfileViaWorker(accessToken) {
+    if (!accessToken) return null;
+    const data = await fetchJson(buildApiUrl('/api/picks'), {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    }, 18000);
+
+    return data && data.user ? data.user : null;
+  }
+
+  async function fetchProfileDirect(client, userId) {
+    if (!client || !userId) return { profile: null, error: null };
+    const { data: profile, error } = await client
+      .from('profiles')
+      .select('subscription_status, paid_until, subscription_type, is_lifetime')
+      .eq('id', userId)
+      .single();
+    return { profile: profile || null, error: error || null };
+  }
+
   async function enforcePaidAccess() {
     hasPaidAccess = false;
     setFormEnabled(false);
@@ -107,15 +130,40 @@
     }
 
     activeAccessToken = String(session.access_token || '');
-    const { data: profile, error } = await client
-      .from('profiles')
-      .select('subscription_status, paid_until, subscription_type, is_lifetime')
-      .eq('id', session.user.id)
-      .single();
+    if (!activeAccessToken && client?.auth && typeof client.auth.getSession === 'function') {
+      try {
+        const latest = await client.auth.getSession();
+        const recoveredToken = latest?.data?.session?.access_token || latest?.session?.access_token || '';
+        activeAccessToken = String(recoveredToken || '');
+      } catch (_tokenError) {
+      }
+    }
 
-    if (error) {
+    let profile = null;
+    let checkError = null;
+
+    if (activeAccessToken) {
+      try {
+        profile = await fetchProfileViaWorker(activeAccessToken);
+      } catch (workerError) {
+        checkError = workerError;
+      }
+    }
+
+    if (!profile) {
+      const direct = await fetchProfileDirect(client, session.user.id);
+      profile = direct.profile;
+      if (direct.error) {
+        checkError = direct.error;
+      }
+    }
+
+    if (!profile) {
       setAccessNotice('We could not verify your subscription right now. Please refresh and try again.', 'error');
       setStatus('Subscription check failed.', 'error');
+      if (checkError) {
+        console.warn('[stedrokgpt access-check] subscription verification failed:', checkError);
+      }
       return false;
     }
 
@@ -225,22 +273,6 @@
       return data;
     } finally {
       clearTimeout(timeoutId);
-    }
-  }
-
-  function shouldFallbackLegacy(error) {
-    const status = Number(error && error.status);
-    return status === 404 || status === 405 || status === 501;
-  }
-
-  async function fetchJsonWithLegacyFallback(primaryUrl, legacyUrl, init, timeoutMs) {
-    try {
-      return await fetchJson(primaryUrl, init, timeoutMs);
-    } catch (error) {
-      if (!legacyUrl || !shouldFallbackLegacy(error)) {
-        throw error;
-      }
-      return fetchJson(legacyUrl, init, timeoutMs);
     }
   }
 
@@ -701,12 +733,11 @@
 
   async function loadSnapshot(symbol) {
     const url = `${buildApiUrl('/api/stedrokgpt-quote-snapshot')}?symbol=${encodeURIComponent(symbol)}`;
-    const legacyUrl = `${buildApiUrl('/api/sivengpt-quote-snapshot')}?symbol=${encodeURIComponent(symbol)}`;
     const headers = {};
     if (activeAccessToken) {
       headers.Authorization = `Bearer ${activeAccessToken}`;
     }
-    return fetchJsonWithLegacyFallback(url, legacyUrl, { method: 'GET', headers }, 15000);
+    return fetchJson(url, { method: 'GET', headers }, 15000);
   }
 
   function sleep(ms) {
@@ -717,7 +748,6 @@
 
   async function loadDeepAnalysis(symbol) {
     const endpoint = buildApiUrl('/api/stedrokgpt-cli-stock');
-    const legacyEndpoint = buildApiUrl('/api/sivengpt-cli-stock');
     const payload = { symbol };
 
     for (let attempt = 1; attempt <= 3; attempt += 1) {
@@ -726,7 +756,7 @@
         if (activeAccessToken) {
           headers.Authorization = `Bearer ${activeAccessToken}`;
         }
-        return await fetchJsonWithLegacyFallback(endpoint, legacyEndpoint, {
+        return await fetchJson(endpoint, {
           method: 'POST',
           headers,
           body: JSON.stringify(payload)
