@@ -114,15 +114,33 @@
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
   <style>
     .dashboard-header { padding: 20px 0 0; }
+    .dashboard-hero {
+      text-align: center;
+      padding: 34px 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 18px;
+    }
+    .dashboard-hero h1 {
+      margin: 0;
+      font-size: clamp(2rem, 1.62rem + 1.9vw, 2.75rem);
+      line-height: 1.12;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+    }
     .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
     .filters input, .filters select { min-width: 120px; flex: 1 1 auto; }
     @media (max-width: 768px) {
+      .dashboard-hero { padding: 22px 10px 14px; margin-bottom: 12px; }
+      .dashboard-hero h1 { font-size: 30px; }
+      .dashboard-header { padding-top: 8px; }
       .dashboard-header h1 { font-size: 22px; line-height: 1.3; }
       #dashboardLaneDescription { font-size: 13px !important; }
       .filters input, .filters select { width: 100%; flex: 1 1 100%; box-sizing: border-box; }
       .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; font-size: 13px; }
     }
     @media (max-width: 480px) {
+      .dashboard-hero { padding: 18px 8px 12px; margin-bottom: 10px; }
+      .dashboard-hero h1 { font-size: 26px; line-height: 1.16; }
       .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
       .container { padding-left: 12px !important; padding-right: 12px !important; }
       .filters input, .filters select { min-height: 44px; font-size: 16px; }
@@ -163,9 +181,9 @@
 
   <main id="main">
     <div class="container">
-      <div class="dashboard-hero" style="text-align:center; padding: 40px 20px 32px; border-bottom: 1px solid var(--border-color); margin-bottom: 24px;">
-      <h1 style="font-size: 42px; margin-bottom: 0;">STEDROK DASHBOARD</h1>
-    </div>
+      <div class="dashboard-hero">
+        <h1>STEDROK DASHBOARD</h1>
+      </div>
 
     <div class="dashboard-header">
         <h1 id="dashboardTitle">Current Ranked Stock Coverage</h1>
