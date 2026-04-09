@@ -1216,6 +1216,9 @@ function showFreeUserBanner(count) {
           This view reflects the latest completed batch and includes abbreviated company notes.
           Pro membership unlocks the full ranked research universe and full company research notes.
         </p>
+        <p style="margin: 0 0 15px 0; color: var(--text-secondary); font-size: 14px;">
+          Pro members also get access to <strong>StedrokGPT Equity Research Lab</strong>, which applies additional structural validation checks and can be stricter than Core or AI Hybrid.
+        </p>
         <a href="pricing.html" class="btn-primary" 
            style="display: inline-block; padding: 12px 24px; border-radius: 6px; text-decoration: none;">
           View Pricing
@@ -1244,8 +1247,10 @@ function showPaidUserStatus(paidUntil, count) {
     gate.innerHTML = `
       <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); 
                   color: var(--text-primary); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-        <strong>Pro Membership Active</strong> - Full research coverage (${count} stocks) |
-        Subscription renews in ${daysLeft} days
+        <p style="margin:0 0 8px 0;"><strong>Pro Membership Active</strong> - Full research coverage (${count} stocks) | Subscription renews in ${daysLeft} days</p>
+        <p style="margin:0 0 12px 0; color: var(--text-secondary); font-size: 14px;">StedrokGPT Research Lab is included with Pro. It can be stricter than Core/AI Hybrid because additional structural hard-stop checks are applied.</p>
+        <a href="stedrokgpt-cli.html" class="btn-secondary" style="display:inline-block; padding:10px 16px; border-radius:6px; text-decoration:none; margin-right:8px;">Open Research Lab</a>
+        <a href="account.html" class="btn-secondary" style="display:inline-block; padding:10px 16px; border-radius:6px; text-decoration:none;">Manage Account</a>
       </div>
     `;
   }

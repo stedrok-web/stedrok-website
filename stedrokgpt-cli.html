@@ -1,0 +1,1091 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg?v=20260319fav3">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StedrokGPT Equity Research Lab | Stedrok</title>
+  <meta name="description" content="StedrokGPT Equity Research Lab for Pro members: fast market snapshot followed by deeper valuation and thesis analysis with strict structural checks.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="author" content="Stedrok">
+  <link rel="canonical" href="https://stedrok.org/stedrokgpt-cli.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="css/main.css?v=20260409c">
+  <link rel="stylesheet" href="css/tokens.css?v=20260316b">
+  <link rel="stylesheet" href="css/theme-overrides.css?v=20260409c">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    .report-hero {
+      padding: 66px 0 28px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 8% -10%, rgba(var(--accent-teal-rgb), 0.2), transparent 42%),
+        radial-gradient(circle at 95% 0%, rgba(var(--accent-green-rgb), 0.18), transparent 34%),
+        linear-gradient(160deg, rgba(var(--bg-base-rgb), 0.9), rgba(var(--bg-surface-rgb), 0.92));
+    }
+    .report-hero h1 {
+      margin-bottom: 12px;
+      font-size: 44px;
+      letter-spacing: -0.02em;
+    }
+    .report-hero p {
+      max-width: 850px;
+      margin: 0 auto;
+      color: var(--text-secondary);
+      font-size: 18px;
+      line-height: 1.72;
+    }
+    .hero-notice {
+      max-width: 900px;
+      margin: 16px auto 0;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(34, 197, 94, 0.36);
+      background: rgba(15, 23, 42, 0.42);
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .hero-notice strong {
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .report-main {
+      padding: 30px 0 72px;
+    }
+    .report-panel {
+      background:
+        linear-gradient(180deg, var(--lab-surface-1), var(--lab-surface-2));
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 22px 48px rgba(var(--bg-base-rgb), 0.74);
+      padding: 22px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .panel-title {
+      margin-bottom: 8px;
+      font-size: clamp(1.2rem, 1.1rem + 0.45vw, 1.5rem);
+      letter-spacing: -0.01em;
+    }
+    .panel-subtitle {
+      margin: 0 0 14px;
+      color: var(--text-secondary);
+      font-size: 0.96rem;
+      line-height: 1.56;
+    }
+
+    .symbol-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .symbol-input {
+      min-height: 56px;
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(var(--bg-base-rgb), 0.74);
+      color: var(--text-primary);
+      font-size: 1.12rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0 14px;
+      outline: none;
+    }
+    .symbol-input:focus {
+      border-color: rgba(34, 211, 238, 0.72);
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18);
+    }
+    .analyze-btn {
+      min-width: 150px;
+      min-height: 56px;
+      border-radius: 10px;
+      border: 1px solid rgba(16, 185, 129, 0.54);
+      background: linear-gradient(135deg, var(--buy), var(--accent-green-dark));
+      color: var(--text-inverse);
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .analyze-btn:disabled {
+      opacity: 0.75;
+      cursor: wait;
+    }
+
+    .ui-status {
+      min-height: 22px;
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+    .ui-status.error {
+      color: var(--avoid);
+    }
+    .access-notice {
+      margin: 0 0 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(var(--bg-base-rgb), 0.62);
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.58;
+    }
+    .access-notice a {
+      color: var(--accent-green);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .access-notice.success {
+      border-color: rgba(16, 185, 129, 0.45);
+      background: rgba(16, 185, 129, 0.08);
+      color: var(--text-primary);
+    }
+    .access-notice.warn {
+      border-color: rgba(245, 158, 11, 0.45);
+      background: rgba(245, 158, 11, 0.08);
+      color: var(--text-primary);
+    }
+    .access-notice.error {
+      border-color: rgba(244, 63, 94, 0.48);
+      background: rgba(244, 63, 94, 0.09);
+      color: var(--text-primary);
+    }
+
+    .stage-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .stage-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      border-radius: 999px;
+      background: var(--lab-surface-2);
+      color: var(--text-secondary);
+      padding: 7px 12px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .stage-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+    .stage-chip.loading .stage-dot { background: var(--watch); }
+    .stage-chip.done .stage-dot { background: var(--buy); }
+    .stage-chip.error .stage-dot { background: var(--avoid); }
+
+    .snapshot-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .metric-card {
+      background: var(--lab-surface-2);
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .metric-label {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .metric-value {
+      display: block;
+      color: var(--text-primary);
+      font-size: clamp(1.05rem, 0.96rem + 0.32vw, 1.22rem);
+      font-weight: 800;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .report-shell {
+      display: none;
+    }
+    .report-shell.visible {
+      display: block;
+    }
+    .report-summary {
+      margin-bottom: 14px;
+      min-width: 0;
+    }
+    .decision-hub {
+      border: 1px solid rgba(148, 163, 184, 0.26);
+      border-radius: 14px;
+      padding: 14px;
+      background: linear-gradient(160deg, var(--lab-surface-2), var(--lab-surface-3));
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .decision-hub.tone-buy {
+      border-color: rgba(16, 185, 129, 0.48);
+      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2) inset;
+    }
+    .decision-hub.tone-overvalued {
+      border-color: rgba(245, 158, 11, 0.5);
+      box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.18) inset;
+    }
+    .decision-hub.tone-avoid {
+      border-color: rgba(244, 63, 94, 0.55);
+      box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.22) inset;
+    }
+    .decision-hub.tone-hold {
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.18) inset;
+    }
+    .decision-hub.tone-watch {
+      border-color: rgba(245, 158, 11, 0.52);
+      box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.22) inset;
+    }
+    .decision-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .decision-top .decision-kicker {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-muted);
+      margin: 0 0 4px;
+    }
+    .decision-top .decision-symbol {
+      margin: 0;
+      font-size: 1.45rem;
+      letter-spacing: -0.01em;
+    }
+    .verdict-pill {
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.83rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      white-space: normal;
+      max-width: 100%;
+      text-align: center;
+    }
+    .verdict-pill.verdict-buy {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--buy);
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+    .verdict-pill.verdict-overvalued {
+      background: rgba(245, 158, 11, 0.16);
+      color: var(--watch);
+      border-color: rgba(245, 158, 11, 0.45);
+    }
+    .verdict-pill.verdict-avoid {
+      background: rgba(244, 63, 94, 0.16);
+      color: var(--avoid);
+      border-color: rgba(244, 63, 94, 0.45);
+    }
+    .verdict-pill.verdict-hold {
+      background: rgba(56, 189, 248, 0.16);
+      color: var(--accent-teal);
+      border-color: rgba(56, 189, 248, 0.45);
+    }
+    .verdict-pill.verdict-watch {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--watch);
+      border-color: rgba(245, 158, 11, 0.5);
+    }
+    .verdict-pill.verdict-neutral {
+      background: rgba(148, 163, 184, 0.2);
+      color: var(--text-secondary);
+      border-color: rgba(148, 163, 184, 0.4);
+    }
+    .decision-metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .decision-metric {
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 10px;
+      background: var(--lab-surface-3);
+      padding: 10px;
+      min-width: 0;
+    }
+    .decision-metric .label {
+      display: block;
+      font-size: 0.71rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .decision-metric .value {
+      display: block;
+      font-size: clamp(0.96rem, 0.9rem + 0.2vw, 1.08rem);
+      font-weight: 750;
+      color: var(--text-primary);
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+    .confidence-wrap {
+      border: 1px dashed rgba(148, 163, 184, 0.34);
+      border-radius: 10px;
+      background: var(--lab-surface-3);
+      padding: 10px;
+    }
+    .confidence-wrap .title {
+      margin: 0 0 8px;
+      color: var(--text-muted);
+      font-size: 0.73rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+    }
+    .confidence-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .confidence-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: var(--lab-surface-3);
+      color: var(--text-secondary);
+      font-size: 0.81rem;
+      font-weight: 700;
+      padding: 6px 10px;
+      flex-wrap: wrap;
+      overflow-wrap: anywhere;
+    }
+    .confidence-chip.level-high {
+      border-color: rgba(34, 197, 94, 0.38);
+      color: var(--buy);
+    }
+    .confidence-chip.level-medium {
+      border-color: rgba(251, 191, 36, 0.38);
+      color: var(--watch);
+    }
+    .confidence-chip.level-low {
+      border-color: rgba(248, 113, 113, 0.4);
+      color: var(--avoid);
+    }
+
+    .report-sections {
+      display: grid;
+      gap: 12px;
+      min-width: 0;
+    }
+    .report-sections > * {
+      min-width: 0;
+    }
+    .section-card {
+      background: var(--lab-surface-3);
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 12px;
+      padding: 16px;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .section-card.hard-stop {
+      border-color: rgba(244, 63, 94, 0.48);
+      background: linear-gradient(180deg, rgba(var(--accent-red-rgb), 0.14), var(--lab-surface-3));
+      box-shadow: 0 0 0 1px rgba(244, 63, 94, 0.16) inset;
+    }
+    .section-card.hard-stop h3,
+    .section-card.hard-stop h4 {
+      color: var(--text-primary);
+    }
+    .section-card h3 {
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+      letter-spacing: -0.01em;
+      overflow-wrap: anywhere;
+    }
+    .section-card p,
+    .section-card li {
+      color: var(--text-secondary);
+      line-height: 1.76;
+      font-size: clamp(0.99rem, 0.95rem + 0.2vw, 1.08rem);
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .section-card h4 {
+      margin: 12px 0 8px;
+      font-size: 0.98rem;
+      letter-spacing: 0.01em;
+      color: var(--text-primary);
+      overflow-wrap: anywhere;
+    }
+    .section-card ol,
+    .section-card ul {
+      margin: 8px 0 12px;
+      padding-left: 20px;
+    }
+    .section-card li + li {
+      margin-top: 6px;
+    }
+    .section-card strong {
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    .section-card code {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.92em;
+      padding: 1px 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: rgba(var(--bg-base-rgb), 0.58);
+      color: var(--text-secondary);
+    }
+    .inline-tag {
+      display: inline-block;
+      margin-left: 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      background: rgba(30, 64, 175, 0.22);
+      color: var(--accent-teal);
+      font-size: 0.72em;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 1px 7px;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .decision-snapshot-card {
+      background: linear-gradient(180deg, rgba(var(--accent-teal-rgb), 0.12), var(--lab-surface-3));
+      border-color: rgba(56, 189, 248, 0.38);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.14) inset;
+    }
+    .snapshot-kv-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .snapshot-kv {
+      border: 1px solid rgba(148, 163, 184, 0.26);
+      border-radius: 8px;
+      background: rgba(var(--bg-base-rgb), 0.58);
+      padding: 9px 10px;
+      display: grid;
+      gap: 5px;
+    }
+    .snapshot-k {
+      font-size: 0.68rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+    .snapshot-v {
+      font-size: 0.92rem;
+      line-height: 1.45;
+      color: var(--text-secondary);
+      font-weight: 650;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .raw-wrap {
+      margin-top: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--lab-surface-2);
+      max-width: 100%;
+    }
+    .raw-wrap summary {
+      cursor: pointer;
+      list-style: none;
+      background: rgba(10, 14, 28, 0.94);
+      padding: 13px 14px;
+      font-weight: 750;
+      letter-spacing: 0.02em;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .raw-wrap summary::-webkit-details-marker {
+      display: none;
+    }
+    .raw-wrap summary::after {
+      content: "▸";
+      color: var(--text-muted);
+      transition: transform 0.18s ease;
+      font-size: 0.95rem;
+    }
+    .raw-wrap[open] summary::after {
+      transform: rotate(90deg);
+    }
+    .raw-cli-shell {
+      border-top: 1px solid rgba(148, 163, 184, 0.22);
+      background:
+        radial-gradient(circle at 50% -100%, rgba(56, 189, 248, 0.16), transparent 55%),
+        rgba(var(--bg-base-rgb), 0.98);
+      max-width: 100%;
+    }
+    .raw-cli-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: rgba(7, 10, 18, 0.9);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    .raw-cli-dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .raw-cli-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .raw-cli-dot.red { background: #ff5f57; }
+    .raw-cli-dot.yellow { background: #febc2e; }
+    .raw-cli-dot.green { background: #28c840; }
+    .raw-cli-title {
+      margin: 0;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.76rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .raw-cli-right {
+      margin: 0;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      text-transform: lowercase;
+    }
+    .raw-command-line {
+      margin: 0;
+      padding: 10px 14px 0;
+      color: var(--buy);
+      font-family: "JetBrains Mono", monospace;
+      font-size: clamp(0.9rem, 0.84rem + 0.22vw, 1rem);
+      letter-spacing: 0.02em;
+    }
+    .raw-pre {
+      margin: 0;
+      padding: 14px;
+      max-height: 420px;
+      overflow: auto;
+      background: rgba(var(--bg-base-rgb), 0.98);
+      color: var(--text-secondary);
+      font-family: "JetBrains Mono", monospace;
+      font-size: clamp(0.62rem, 0.56rem + 0.24vw, 0.8rem);
+      line-height: 1.46;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      -webkit-overflow-scrolling: touch;
+    }
+    .raw-pre::-webkit-scrollbar {
+      height: 10px;
+      width: 10px;
+    }
+    .raw-pre::-webkit-scrollbar-thumb {
+      border-radius: 999px;
+      background: rgba(125, 211, 252, 0.25);
+    }
+
+    .report-hero,
+    .report-main {
+      --lab-surface-1: rgba(var(--bg-elevated-rgb), 0.92);
+      --lab-surface-2: rgba(var(--bg-surface-rgb), 0.84);
+      --lab-surface-3: rgba(var(--bg-raised-rgb), 0.42);
+      --lab-border: rgba(var(--border-subtle-rgb), 0.72);
+      --lab-border-soft: rgba(var(--border-subtle-rgb), 0.5);
+    }
+
+    .report-hero {
+      padding: clamp(50px, 7vw, 74px) 0 clamp(20px, 4vw, 34px);
+      border-bottom: 1px solid var(--lab-border-soft);
+      background:
+        radial-gradient(circle at 10% -30%, rgba(var(--accent-teal-rgb), 0.22), transparent 45%),
+        radial-gradient(circle at 92% 0%, rgba(var(--accent-fill-rgb), 0.2), transparent 35%),
+        linear-gradient(160deg, rgba(var(--bg-surface-rgb), 0.42), rgba(var(--bg-base-rgb), 0.9));
+    }
+
+    .report-hero h1 {
+      font-size: clamp(2rem, 1.5rem + 2vw, 3.05rem);
+      line-height: 1.1;
+      color: var(--text-primary);
+    }
+
+    .report-hero p {
+      font-size: clamp(1rem, 0.95rem + 0.36vw, 1.18rem);
+      color: var(--text-secondary);
+    }
+
+    .report-panel {
+      background: linear-gradient(180deg, var(--lab-surface-1), var(--lab-surface-2));
+      border: 1px solid var(--lab-border);
+      border-radius: 18px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .panel-title,
+    .decision-top .decision-symbol,
+    .section-card h3,
+    .section-card h4 {
+      color: var(--text-primary);
+    }
+
+    .panel-subtitle,
+    .section-card p,
+    .section-card li,
+    .snapshot-v {
+      color: var(--text-secondary);
+    }
+
+    .metric-label,
+    .decision-top .decision-kicker,
+    .decision-metric .label,
+    .confidence-wrap .title,
+    .snapshot-k {
+      color: var(--text-muted);
+    }
+
+    .symbol-input {
+      border: 1px solid var(--lab-border-soft);
+      background: rgba(var(--bg-base-rgb), 0.74);
+      color: var(--text-primary);
+    }
+
+    .symbol-input:focus {
+      border-color: rgba(var(--border-active-rgb), 0.92);
+      box-shadow: 0 0 0 3px rgba(var(--border-active-rgb), 0.18);
+    }
+
+    .analyze-btn {
+      border: 1px solid rgba(var(--accent-fill-rgb), 0.74);
+      background: linear-gradient(135deg, var(--accent-fill), var(--accent-amber));
+      color: var(--text-inverse);
+    }
+
+    .ui-status.error {
+      color: var(--avoid);
+    }
+
+    .stage-chip {
+      border: 1px solid var(--lab-border-soft);
+      background: var(--lab-surface-2);
+      color: var(--text-secondary);
+    }
+
+    .stage-dot {
+      background: var(--text-muted);
+    }
+
+    .stage-chip.loading .stage-dot { background: var(--watch); }
+    .stage-chip.done .stage-dot { background: var(--buy); }
+    .stage-chip.error .stage-dot { background: var(--avoid); }
+
+    .metric-card,
+    .decision-hub,
+    .decision-metric,
+    .confidence-wrap,
+    .confidence-chip,
+    .section-card,
+    .snapshot-kv,
+    .raw-wrap {
+      border-color: var(--lab-border-soft);
+    }
+
+    .metric-card,
+    .decision-hub,
+    .raw-wrap {
+      background: var(--lab-surface-2);
+    }
+
+    .decision-metric,
+    .confidence-wrap,
+    .confidence-chip,
+    .section-card,
+    .snapshot-kv {
+      background: var(--lab-surface-3);
+    }
+
+    .metric-value,
+    .decision-metric .value,
+    .section-card strong,
+    .section-card.hard-stop h3,
+    .section-card.hard-stop h4 {
+      color: var(--text-primary);
+    }
+
+    .decision-hub.tone-buy {
+      border-color: rgba(var(--accent-green-rgb), 0.54);
+      box-shadow: 0 0 0 1px rgba(var(--accent-green-rgb), 0.22) inset;
+    }
+
+    .decision-hub.tone-overvalued,
+    .decision-hub.tone-watch {
+      border-color: rgba(var(--accent-amber-rgb), 0.56);
+      box-shadow: 0 0 0 1px rgba(var(--accent-amber-rgb), 0.2) inset;
+    }
+
+    .decision-hub.tone-avoid {
+      border-color: rgba(var(--accent-red-rgb), 0.58);
+      box-shadow: 0 0 0 1px rgba(var(--accent-red-rgb), 0.24) inset;
+    }
+
+    .decision-hub.tone-hold {
+      border-color: rgba(var(--accent-teal-rgb), 0.56);
+      box-shadow: 0 0 0 1px rgba(var(--accent-teal-rgb), 0.2) inset;
+    }
+
+    .verdict-pill.verdict-buy {
+      background: rgba(var(--accent-green-rgb), 0.15);
+      color: var(--buy);
+      border-color: rgba(var(--accent-green-rgb), 0.5);
+    }
+
+    .verdict-pill.verdict-overvalued,
+    .verdict-pill.verdict-watch {
+      background: rgba(var(--accent-amber-rgb), 0.16);
+      color: var(--watch);
+      border-color: rgba(var(--accent-amber-rgb), 0.5);
+    }
+
+    .verdict-pill.verdict-avoid {
+      background: rgba(var(--accent-red-rgb), 0.16);
+      color: var(--avoid);
+      border-color: rgba(var(--accent-red-rgb), 0.5);
+    }
+
+    .verdict-pill.verdict-hold {
+      background: rgba(var(--accent-teal-rgb), 0.16);
+      color: var(--accent-teal);
+      border-color: rgba(var(--accent-teal-rgb), 0.5);
+    }
+
+    .verdict-pill.verdict-neutral {
+      background: rgba(var(--border-subtle-rgb), 0.2);
+      color: var(--text-secondary);
+      border-color: rgba(var(--border-subtle-rgb), 0.45);
+    }
+
+    .confidence-chip.level-high {
+      border-color: rgba(var(--accent-green-rgb), 0.52);
+      color: var(--buy);
+    }
+
+    .confidence-chip.level-medium {
+      border-color: rgba(var(--accent-amber-rgb), 0.52);
+      color: var(--watch);
+    }
+
+    .confidence-chip.level-low {
+      border-color: rgba(var(--accent-red-rgb), 0.52);
+      color: var(--avoid);
+    }
+
+    .section-card.hard-stop {
+      border-color: rgba(var(--accent-red-rgb), 0.6);
+      background: linear-gradient(180deg, rgba(var(--accent-red-rgb), 0.14), var(--lab-surface-3));
+      box-shadow: 0 0 0 1px rgba(var(--accent-red-rgb), 0.22) inset;
+    }
+
+    .section-card code {
+      border: 1px solid var(--lab-border-soft);
+      background: rgba(var(--bg-base-rgb), 0.58);
+      color: var(--text-primary);
+    }
+
+    .inline-tag {
+      border: 1px solid rgba(var(--accent-teal-rgb), 0.55);
+      background: rgba(var(--accent-teal-rgb), 0.14);
+      color: var(--accent-teal);
+    }
+
+    .decision-snapshot-card {
+      background: linear-gradient(180deg, rgba(var(--accent-teal-rgb), 0.12), var(--lab-surface-3));
+      border-color: rgba(var(--accent-teal-rgb), 0.54);
+      box-shadow: 0 0 0 1px rgba(var(--accent-teal-rgb), 0.2) inset;
+    }
+
+    .raw-wrap summary,
+    .raw-cli-top {
+      background: rgba(var(--bg-base-rgb), 0.9);
+      border-bottom-color: var(--lab-border-soft);
+      color: var(--text-primary);
+    }
+
+    .raw-wrap summary::after,
+    .raw-cli-title,
+    .raw-cli-right {
+      color: var(--text-muted);
+    }
+
+    .raw-cli-shell,
+    .raw-pre {
+      background: rgba(var(--bg-base-rgb), 0.98);
+    }
+
+    .raw-command-line {
+      color: var(--buy);
+    }
+
+    .raw-pre {
+      color: var(--text-secondary);
+    }
+
+    .raw-pre::-webkit-scrollbar-thumb {
+      background: rgba(var(--accent-teal-rgb), 0.3);
+    }
+
+    @media (max-width: 1240px) {
+      .snapshot-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 1050px) {
+      .snapshot-grid,
+      .decision-metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 900px) {
+      .report-main {
+        padding: 22px 0 56px;
+      }
+      .report-panel {
+        padding: 16px;
+      }
+      .panel-subtitle {
+        font-size: 0.92rem;
+      }
+    }
+    @media (max-width: 768px) {
+      .report-hero {
+        padding: 48px 0 20px;
+      }
+      .report-hero h1 {
+        font-size: 31px;
+      }
+      .report-hero p {
+        font-size: 15px;
+      }
+      .symbol-form {
+        grid-template-columns: 1fr;
+      }
+      .analyze-btn,
+      .symbol-input {
+        min-height: 48px;
+      }
+      .snapshot-grid,
+      .decision-metric-grid {
+        grid-template-columns: 1fr;
+      }
+      .report-panel {
+        padding: 14px;
+      }
+      .section-card {
+        padding: 13px;
+      }
+      .confidence-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .snapshot-kv-grid {
+        grid-template-columns: 1fr;
+      }
+      .confidence-chip {
+        justify-content: space-between;
+      }
+      .raw-pre {
+        max-height: 52vh;
+      }
+      .raw-cli-right {
+        display: none;
+      }
+    }
+    @media (max-width: 640px) {
+      .confidence-grid {
+        grid-template-columns: 1fr;
+      }
+      .decision-top .decision-symbol {
+        font-size: 1.24rem;
+      }
+      .decision-metric .value {
+        font-size: 0.97rem;
+      }
+      .snapshot-v { font-size: 0.9rem; }
+    }
+    @media (max-width: 520px) {
+      .report-hero h1 {
+        font-size: 28px;
+      }
+      .stage-chip {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .panel-title {
+        font-size: 1.12rem;
+      }
+      .raw-command-line {
+        font-size: 0.88rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo" aria-label="Stedrok home"><img src="img/logo-icon.svg?v=20260319asset9" alt="" class="logo-icon" aria-hidden="true"/><span class="logo-text">STEDROK</span></a>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="demo.html">Demo</a></li>
+          <li><a href="philosophy.html">Philosophy</a></li>
+          <li><a href="methodology.html">Methodology</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="learn.html">Learn</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="btn-secondary" id="loginBtn">Log In</a>
+          <a href="register.html" class="btn-primary" id="registerBtn">Start Free</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="report-hero">
+      <div class="container">
+        <h1>StedrokGPT Equity Research Lab</h1>
+        <p>Fast market snapshot first, then deeper valuation and thesis analysis for long-term equity research.</p>
+        <p class="hero-notice"><strong>Research mode disclaimer:</strong> This lab can be stricter than Core or AI Hybrid. It applies additional structural hard-stop checks and may suppress forward projections when source consistency, valuation integrity, or forensic quality checks do not pass.</p>
+      </div>
+    </section>
+
+    <section class="report-main">
+      <div class="container">
+        <section class="report-panel" aria-label="ticker entry panel">
+          <div id="accessNotice" class="access-notice" role="status" aria-live="polite">
+            Checking Pro access...
+          </div>
+          <form id="tickerForm" class="symbol-form" autocomplete="off">
+            <input id="tickerInput" class="symbol-input" type="text" placeholder="Enter ticker (e.g., AAPL)" aria-label="Ticker symbol" spellcheck="false">
+            <button id="analyzeButton" class="analyze-btn" type="submit">Analyze</button>
+          </form>
+          <p id="uiStatus" class="ui-status" role="status" aria-live="polite"></p>
+          <div class="stage-row">
+            <span id="stageFast" class="stage-chip"><span class="stage-dot" aria-hidden="true"></span>Stage 1: Live Snapshot</span>
+            <span id="stageDeep" class="stage-chip"><span class="stage-dot" aria-hidden="true"></span>Stage 2: Deep Analysis</span>
+          </div>
+        </section>
+
+        <section class="report-panel" aria-label="snapshot panel">
+          <h2 class="panel-title">Market Snapshot</h2>
+          <p class="panel-subtitle">Instant quote and baseline valuation context before deep analysis runs.</p>
+          <p id="snapshotMeta" class="ui-status">Awaiting ticker input.</p>
+          <div id="snapshotCards" class="snapshot-grid"></div>
+        </section>
+
+        <section id="reportShell" class="report-panel report-shell" aria-label="deep analysis panel">
+          <h2 class="panel-title">Deep Analysis</h2>
+          <p class="panel-subtitle">Decision-first report rendering with structured thesis sections and validated verdict metrics.</p>
+          <div id="reportSummary" class="report-summary"></div>
+          <div id="reportSections" class="report-sections"></div>
+          <details class="raw-wrap">
+            <summary>Show Raw Analysis Text</summary>
+            <div class="raw-cli-shell">
+              <div class="raw-cli-top">
+                <div class="raw-cli-dots" aria-hidden="true">
+                  <span class="raw-cli-dot red"></span>
+                  <span class="raw-cli-dot yellow"></span>
+                  <span class="raw-cli-dot green"></span>
+                </div>
+                <p class="raw-cli-title">stedrok-analysis-terminal</p>
+                <p class="raw-cli-right">zsh · utf-8</p>
+              </div>
+              <p id="rawCommand" class="raw-command-line">$ /stock --</p>
+              <pre id="rawOutput" class="raw-pre"></pre>
+            </div>
+          </details>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-left">
+          <a href="index.html" class="logo footer-logo" aria-label="Stedrok home"><img src="img/logo-icon.svg?v=20260319asset9" alt="" class="logo-icon" aria-hidden="true"/><span class="logo-text">STEDROK</span></a>
+          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
+          <p class="footer-tagline">
+            Independent stock research for long-term investors. General information only, not personal financial advice. Past results do not guarantee future performance. Always do your own research before investing.
+          </p>
+        </div>
+        <nav class="footer-links">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="methodology.html">Methodology</a>
+          <a href="faq.html">FAQ</a>
+          <a href="learn.html">Learn</a>
+          <a href="features.html">Features</a>
+          <a href="how-it-works.html">How It Works</a>
+          <a href="contact.html">Contact</a>
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="site-map.html">Sitemap</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/mobile-menu.js?v=20260409c"></script>
+  <script src="js/public-auth-nav.js?v=20260317"></script>
+  <script src="js/stedrokgpt-cli.js?v=20260409b"></script>
+</body>
+</html>

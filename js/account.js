@@ -52,6 +52,12 @@ document.addEventListener('DOMContentLoaded', async () => {
            style="color:var(--accent-green);">PayPal &rarr; Automatic Payments</a> 
         and cancel your Stedrok subscription. Your access continues until the end of the current billing period.
       </p>
+      <p style="color: var(--text-secondary); margin-top:10px; font-size:13px;">
+        StedrokGPT Equity Research Lab is included with Pro. It can be stricter than Core or AI Hybrid because additional structural hard-stop checks are enforced before output is accepted.
+      </p>
+      <a href="stedrokgpt-cli.html" class="btn-secondary" style="margin-top:12px; display:inline-block;">
+        Open StedrokGPT Research Lab &rarr;
+      </a>
     `;
   } else if (profile && profile.subscription_status === 'suspended') {
     statusDiv.innerHTML = `
@@ -66,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } else {
     statusDiv.innerHTML = `
       <p style="color: var(--text-secondary); font-weight:600;">Free Plan</p>
-      <p style="color: var(--text-secondary); margin-top:6px; font-size:13px;">You&#39;re tracking up to 3 stocks. Upgrade to unlock unlimited stocks, full analytics, and priority support.</p>
+      <p style="color: var(--text-secondary); margin-top:6px; font-size:13px;">You&#39;re tracking up to 3 stocks. Upgrade to unlock unlimited stocks, full analytics, StedrokGPT Research Lab access, and priority support.</p>
       <a href="pricing.html" class="btn-primary" style="margin-top:12px; display:inline-block;">
         Upgrade to Pro &mdash; $5/month
       </a>
