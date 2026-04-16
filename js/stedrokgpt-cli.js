@@ -101,11 +101,22 @@
 
   async function fetchProfileDirect(client, userId) {
     if (!client || !userId) return { profile: null, error: null };
-    const { data: profile, error } = await client
+
+    let { data: profile, error } = await client
       .from('profiles')
       .select('subscription_status, paid_until, subscription_type, is_lifetime')
       .eq('id', userId)
       .single();
+
+    const errorText = `${String(error?.message || '')} ${String(error?.details || '')}`.toLowerCase();
+    if (error && (errorText.includes('subscription_type') || errorText.includes('is_lifetime'))) {
+      ({ data: profile, error } = await client
+        .from('profiles')
+        .select('subscription_status, paid_until')
+        .eq('id', userId)
+        .single());
+    }
+
     return { profile: profile || null, error: error || null };
   }
 
@@ -175,7 +186,7 @@
 
     hasPaidAccess = true;
     setFormEnabled(true);
-    setAccessNotice('Pro access active. This lab can be stricter than Core/AI Hybrid because additional structural hard-stop checks are enforced before output is accepted.', 'success');
+    setAccessNotice('<strong>Pro access active.</strong> This lab can be stricter than Core/AI Hybrid because additional structural hard-stop checks are enforced before output is accepted.', 'success');
     setStatus('Ready. Enter a ticker to start analysis.', 'info');
     return true;
   }
@@ -245,6 +256,21 @@
     const base = parseApiBase();
     if (base) return `${base}${path}`;
     return path;
+  }
+
+  function normalizeApiErrorMessage(error) {
+    const status = Number(error && error.status);
+    const raw = String((error && error.message) || '').trim();
+    if (status === 401) return 'Session expired. Please log in again and retry.';
+    if (status === 403) return 'Pro plan required for StedrokGPT Research Lab.';
+    if (status === 409 && /account setup incomplete|log out and sign in/i.test(raw)) {
+      return 'Account setup is still syncing. Please log out and sign in once, then retry.';
+    }
+    if (status === 404 && /account not found/i.test(raw)) {
+      return 'Profile lookup failed for this account. Please log out/in once. If it persists, contact support.';
+    }
+    if (status === 404) return 'Resource not found. Please refresh and try again.';
+    return raw || 'Analysis failed.';
   }
 
   async function fetchJson(url, init, timeoutMs) {
@@ -596,9 +622,22 @@
     }
 
     for (let i = 0; i < lines.length; i += 1) {
-      const line = String(lines[i] || '').trim();
+      const rawLine = String(lines[i] || '');
+      const line = rawLine.trim();
       if (!line) {
         flushParagraph();
+        if (listType) {
+          let j = i + 1;
+          while (j < lines.length && !String(lines[j] || '').trim()) {
+            j += 1;
+          }
+          const nextLine = j < lines.length ? String(lines[j] || '').trim() : '';
+          const continuesOrdered = listType === 'ol' && /^\d+\.\s+/.test(nextLine);
+          const continuesUnordered = listType === 'ul' && /^[-*]\s+/.test(nextLine);
+          if (continuesOrdered || continuesUnordered) {
+            continue;
+          }
+        }
         flushList();
         continue;
       }
@@ -630,6 +669,15 @@
         continue;
       }
 
+      if (listType && listItems.length) {
+        const isIndentedContinuation = /^\s{2,}\S/.test(rawLine);
+        if (isIndentedContinuation) {
+          const last = listItems.length - 1;
+          listItems[last] = `${listItems[last]} ${line}`.trim();
+          continue;
+        }
+      }
+
       if (isLikelyUppercaseHeading(line)) {
         flushParagraph();
         flushList();
@@ -648,27 +696,15 @@
         continue;
       }
 
+      if (listType) {
+        flushList();
+      }
       paragraphLines.push(line.replace(/^#{1,6}\s*/, '').trim());
     }
 
     flushParagraph();
     flushList();
     return html.join('');
-  }
-
-  function renderDecisionSnapshotCard(verdict) {
-    const rows = [
-      { key: 'VERDICT', value: verdict.verdict || 'N/A' },
-      { key: 'BUY BELOW', value: verdict.buyBelow || 'N/A' },
-      { key: 'FAIR VALUE (BEAR/BASE/BULL)', value: verdict.fairValue || 'N/A' },
-      { key: verdict.premiumOrMosLabel || 'PREMIUM/MOS', value: verdict.premiumOrMosValue || 'N/A' },
-      { key: 'CONFIDENCE', value: verdict.confidence || 'N/A' },
-      { key: 'DATE', value: verdict.date || 'N/A' }
-    ];
-
-    return `<article class="section-card decision-snapshot-card"><h3>Verdict Snapshot</h3><div class="snapshot-kv-grid">${rows.map(function mapRow(row) {
-      return `<div class="snapshot-kv"><span class="snapshot-k">${escapeHtml(row.key)}</span><span class="snapshot-v">${escapeHtml(row.value)}</span></div>`;
-    }).join('')}</div></article>`;
   }
 
   function renderAnalysis(text, meta) {
@@ -722,12 +758,10 @@
       return `<article class="${cardClass}"><h3>${escapeHtml(cleanHeadingText(entry.title))}</h3>${renderBodyRich(entry.body)}</article>`;
     }).join('');
 
-    const decisionSection = verdict ? renderDecisionSnapshotCard(verdict) : '';
-
-    reportSections.innerHTML = `${decisionSection}${renderedSections}`;
+    reportSections.innerHTML = renderedSections;
 
     if (!sections.length) {
-      reportSections.innerHTML = `${decisionSection}<article class="section-card"><h3>Analysis</h3><p>Structured sections were not detected. Use raw output for full details.</p></article>`;
+      reportSections.innerHTML = '<article class="section-card"><h3>Analysis</h3><p>Structured sections were not detected. Use raw output for full details.</p></article>';
     }
   }
 
@@ -748,9 +782,9 @@
 
   async function loadDeepAnalysis(symbol) {
     const endpoint = buildApiUrl('/api/stedrokgpt-cli-stock');
-    const payload = { symbol };
+    const payload = { symbol, force_refresh: false };
 
-    for (let attempt = 1; attempt <= 3; attempt += 1) {
+    for (let attempt = 1; attempt <= 6; attempt += 1) {
       try {
         const headers = { 'Content-Type': 'application/json' };
         if (activeAccessToken) {
@@ -762,9 +796,11 @@
           body: JSON.stringify(payload)
         }, 220000);
       } catch (error) {
-        if (error && error.status === 429 && attempt < 3) {
-          setStatus('Analysis engine is busy. Retrying...', 'info');
-          await sleep(1600 * attempt);
+        if (error && error.status === 429 && attempt < 6) {
+          const retryAfterMs = Number(error?.payload?.retry_after_ms || 0);
+          const waitMs = Math.max(retryAfterMs, 2500 * attempt);
+          setStatus('Another analysis is already running. Waiting for the engine to free up...', 'info');
+          await sleep(waitMs);
           continue;
         }
         throw error;
@@ -828,7 +864,7 @@
       if (!stageFast.classList.contains('done')) {
         setStage(stageFast, 'error');
       }
-      setStatus(error.message || 'Analysis failed.', 'error');
+      setStatus(normalizeApiErrorMessage(error), 'error');
     } finally {
       analyzeButton.disabled = !hasPaidAccess;
       analyzeButton.textContent = 'Analyze';
