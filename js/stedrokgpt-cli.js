@@ -782,9 +782,9 @@
 
   async function loadDeepAnalysis(symbol) {
     const endpoint = buildApiUrl('/api/stedrokgpt-cli-stock');
-    const payload = { symbol, force_refresh: true };
+    const payload = { symbol, force_refresh: false };
 
-    for (let attempt = 1; attempt <= 3; attempt += 1) {
+    for (let attempt = 1; attempt <= 6; attempt += 1) {
       try {
         const headers = { 'Content-Type': 'application/json' };
         if (activeAccessToken) {
@@ -796,9 +796,11 @@
           body: JSON.stringify(payload)
         }, 220000);
       } catch (error) {
-        if (error && error.status === 429 && attempt < 3) {
-          setStatus('Analysis engine is busy. Retrying...', 'info');
-          await sleep(1600 * attempt);
+        if (error && error.status === 429 && attempt < 6) {
+          const retryAfterMs = Number(error?.payload?.retry_after_ms || 0);
+          const waitMs = Math.max(retryAfterMs, 2500 * attempt);
+          setStatus('Another analysis is already running. Waiting for the engine to free up...', 'info');
+          await sleep(waitMs);
           continue;
         }
         throw error;
