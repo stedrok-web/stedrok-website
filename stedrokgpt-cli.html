@@ -403,7 +403,7 @@
     .decision-map-zone {
       max-width: 140px;
       line-height: 1.35;
-      z-index: 1;
+      z-index: 4;
       text-shadow: 0 1px 3px var(--bg-base), 0 0 10px var(--bg-base), 0 0 24px var(--bg-base);
     }
     .decision-map-zone.zone-top-left {
@@ -1185,6 +1185,10 @@
         font-size: 0.97rem;
       }
       .snapshot-v { font-size: 0.9rem; }
+      .decision-map-point-wrap {
+        width: min(var(--point-size), 72px);
+        height: min(var(--point-size), 72px);
+      }
     }
     @media (max-width: 520px) {
       .report-hero h1 {
@@ -1200,6 +1204,13 @@
       .decision-map-zone {
         font-size: 0.6rem;
         max-width: 88px;
+      }
+      .decision-map-point-wrap {
+        width: min(var(--point-size), 52px);
+        height: min(var(--point-size), 52px);
+      }
+      .decision-map-point-symbol {
+        font-size: 0.7rem;
       }
       .stage-chip {
         width: 100%;

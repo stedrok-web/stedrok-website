@@ -629,8 +629,8 @@
       dataIncomplete,
       summaryLine: `${rewardDescriptor} with ${convictionDescriptor}`,
       ariaLabel: `Decision Map for ${String(verdict?.verdict || 'this stock')}. Reward ${rewardScore} out of 100, conviction ${convictionScore} out of 100, uncertainty ${uncertaintyScore} out of 100, action readiness ${actionScore} out of 100, zone ${zoneLabel}.`,
-      xPosition: `${clamp(rewardScore, 10, 92)}%`,
-      yPosition: `${clamp(convictionScore, 14, 94)}%`
+      xPosition: `${clamp(rewardScore, 20, 80)}%`,
+      yPosition: `${clamp(convictionScore, 20, 80)}%`
     };
   }
 
