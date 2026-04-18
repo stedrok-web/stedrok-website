@@ -896,30 +896,44 @@
 
       if (decisionMapArea) {
         const incompleteClass = decisionMap.dataIncomplete ? ' data-incomplete' : '';
+        const sym = escapeHtml(meta.symbol || 'N/A');
         decisionMapArea.innerHTML = `
           <p class="decision-map-heading">Decision Map</p>
           <figure class="decision-map action-${escapeHtml(decisionMap.actionTone)}${incompleteClass}" role="img" aria-label="${escapeHtml(decisionMap.ariaLabel)}">
             <div class="decision-map-surface">
-              <span class="decision-map-zone zone-top-left${decisionMap.zonePosition === 'zone-top-left' ? ' zone-active' : ''}">Quality, Price Rich</span>
+              <span class="decision-map-zone zone-top-left${decisionMap.zonePosition === 'zone-top-left' ? ' zone-active' : ''}">Quality,<br>Price Rich</span>
               <span class="decision-map-zone zone-top-right${decisionMap.zonePosition === 'zone-top-right' ? ' zone-active' : ''}">Buy Zone</span>
               <span class="decision-map-zone zone-bottom-left${decisionMap.zonePosition === 'zone-bottom-left' ? ' zone-active' : ''}">Stand Aside</span>
-              <span class="decision-map-zone zone-bottom-right${decisionMap.zonePosition === 'zone-bottom-right' ? ' zone-active' : ''}">Interesting, Needs Proof</span>
-              <span class="decision-map-axis axis-left">Lower Reward</span>
-              <span class="decision-map-axis axis-right">Higher Reward</span>
-              <span class="decision-map-axis axis-bottom">Lower Conviction</span>
-              <span class="decision-map-axis axis-top">Higher Conviction</span>
-              <div class="decision-map-point-wrap" style="--map-x:${escapeHtml(decisionMap.xPosition)}; --map-y:${escapeHtml(decisionMap.yPosition)}; --point-size:${escapeHtml(`${decisionMap.bubbleSize}px`)};">
+              <span class="decision-map-zone zone-bottom-right${decisionMap.zonePosition === 'zone-bottom-right' ? ' zone-active' : ''}">Interesting,<br>Needs Proof</span>
+              <div class="decision-map-point-wrap" tabindex="0" role="button" aria-expanded="false" aria-controls="dmScores-${sym}" aria-label="Tap to see ${sym} scores" style="--map-x:${escapeHtml(decisionMap.xPosition)}; --map-y:${escapeHtml(decisionMap.yPosition)}; --point-size:${escapeHtml(`${decisionMap.bubbleSize}px`)};">
                 <span class="decision-map-pulse" aria-hidden="true"></span>
                 <span class="decision-map-point" aria-hidden="true">
-                  <span class="decision-map-point-symbol">${escapeHtml(meta.symbol || 'N/A')}</span>
+                  <span class="decision-map-point-symbol">${sym}</span>
                 </span>
               </div>
             </div>
-            <figcaption class="decision-map-caption">
-              Bubble size reflects uncertainty; color reflects action readiness. Not investment advice.
-            </figcaption>
+            <div class="dm-scores" id="dmScores-${sym}" role="region" aria-label="Score breakdown" hidden>
+              <span class="dm-score-item"><span class="dm-label">Reward</span><strong>${escapeHtml(String(decisionMap.rewardScore))}</strong></span>
+              <span class="dm-score-item"><span class="dm-label">Conviction</span><strong>${escapeHtml(String(decisionMap.convictionScore))}</strong></span>
+              <span class="dm-score-item"><span class="dm-label">Uncertainty</span><strong>${escapeHtml(String(decisionMap.uncertaintyScore))}%</strong></span>
+            </div>
+            <figcaption class="decision-map-caption">🔴→🟢 Action readiness &nbsp;·&nbsp; ◯→⬤ Uncertainty &nbsp;·&nbsp; Not financial advice.</figcaption>
           </figure>
         `;
+        const pointWrap = decisionMapArea.querySelector('.decision-map-point-wrap');
+        const dmScoresEl = decisionMapArea.querySelector('.dm-scores');
+        if (pointWrap && dmScoresEl) {
+          function toggleDmScores() {
+            const open = pointWrap.getAttribute('aria-expanded') === 'true';
+            pointWrap.setAttribute('aria-expanded', String(!open));
+            if (open) { dmScoresEl.setAttribute('hidden', ''); }
+            else { dmScoresEl.removeAttribute('hidden'); }
+          }
+          pointWrap.addEventListener('click', toggleDmScores);
+          pointWrap.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleDmScores(); }
+          });
+        }
       }
     } else {
       reportSummary.innerHTML = `<article class="decision-hub tone-neutral"><div class="decision-top"><div><p class="decision-kicker">Investment Verdict</p><h3 class="decision-symbol">${escapeHtml(meta.symbol || 'N/A')}</h3></div><span class="verdict-pill verdict-neutral">Unavailable</span></div></article>`;

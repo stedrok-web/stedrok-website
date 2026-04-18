@@ -51,6 +51,22 @@ class FakeElement {
     this.listeners = new Map();
   }
 
+  setAttribute(name, value) {
+    this[`_attr_${name}`] = value;
+  }
+
+  getAttribute(name) {
+    return this[`_attr_${name}`] !== undefined ? this[`_attr_${name}`] : null;
+  }
+
+  removeAttribute(name) {
+    delete this[`_attr_${name}`];
+  }
+
+  querySelector() {
+    return null;
+  }
+
   addEventListener(type, handler) {
     this.listeners.set(type, handler);
   }
@@ -162,7 +178,8 @@ function createHarness() {
     document: {
       getElementById(id) {
         return elements.get(id) || null;
-      }
+      },
+      addEventListener() {}
     },
     CONFIG: { API_BASE_URL: '' },
     fetch: fakeFetch,
@@ -225,7 +242,9 @@ test('renders a decision map summary while preserving raw analysis output', asyn
   assert.match(reportSummary, /2026-04-18/);
   assert.match(decisionMapArea, /decision-map/i);
   assert.match(decisionMapArea, /Decision Map/i);
-  assert.match(decisionMapArea, /Not investment advice/i);
+  assert.match(decisionMapArea, /Not financial advice/i);
+  assert.match(decisionMapArea, /dm-scores/i);
+  assert.match(decisionMapArea, /Action readiness/i);
 });
 
 test('AVOID verdict maps to Stand Aside zone with capped conviction', async () => {
