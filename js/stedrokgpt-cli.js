@@ -874,12 +874,6 @@
             <span class="verdict-pill verdict-${escapeHtml(tone)}">${escapeHtml(verdict.verdict)}</span>
           </div>
           <p class="decision-lede"><strong>${escapeHtml(meta.symbol || 'Stock')}</strong> shows ${escapeHtml(decisionMap.summaryLine)}.</p>
-          <div class="decision-metric-grid">
-            <article class="decision-metric"><span class="label">Reward</span><span class="value">${escapeHtml(String(decisionMap.rewardScore))} <small>/ 100</small></span><span class="score-bar"><span style="width:${decisionMap.rewardScore}%"></span></span></article>
-            <article class="decision-metric"><span class="label">Conviction</span><span class="value">${escapeHtml(String(decisionMap.convictionScore))} <small>/ 100</small></span><span class="score-bar"><span style="width:${decisionMap.convictionScore}%"></span></span></article>
-            <article class="decision-metric"><span class="label">Uncertainty</span><span class="value">${escapeHtml(String(decisionMap.uncertaintyScore))} <small>/ 100</small></span><span class="score-bar"><span style="width:${decisionMap.uncertaintyScore}%"></span></span></article>
-            <article class="decision-metric"><span class="label">Action Readiness</span><span class="value">${escapeHtml(String(decisionMap.actionScore))} <small>/ 100</small></span><span class="score-bar"><span style="width:${decisionMap.actionScore}%"></span></span></article>
-          </div>
           <div class="decision-metric-grid decision-detail-grid">
             <article class="decision-metric"><span class="label">Buy Below</span><span class="value">${escapeHtml(verdict.buyBelow)}</span></article>
             <article class="decision-metric"><span class="label">Fair Value (Bear/Base/Bull)</span><span class="value">${escapeHtml(verdict.fairValue)}</span></article>
