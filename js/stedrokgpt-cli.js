@@ -593,6 +593,13 @@
     const actionTone = scoreToActionTone(actionScore);
     const bubbleSize = clamp(Math.round(74 + (uncertaintyScore * 0.62)), 82, 128);
     const zoneLabel = getDecisionZoneLabel(rewardScore, convictionScore, tone);
+    const zonePositionMap = {
+      'Buy Zone': 'zone-top-right',
+      'Quality, Price Rich': 'zone-top-left',
+      'Interesting, Needs Proof': 'zone-bottom-right',
+      'Stand Aside': 'zone-bottom-left'
+    };
+    const zonePosition = zonePositionMap[zoneLabel] || 'zone-bottom-left';
     const dataIncomplete = !hasAnyChip;
     const rewardDescriptor = scoreToDescriptor(rewardScore, {
       high: 'meaningful valuation support',
@@ -618,8 +625,9 @@
       actionTone,
       bubbleSize,
       zoneLabel,
+      zonePosition,
       dataIncomplete,
-      summaryLine: `${rewardDescriptor}, ${convictionDescriptor}, ${actionDescriptor}.`,
+      summaryLine: `${rewardDescriptor} with ${convictionDescriptor}`,
       ariaLabel: `Decision Map for ${String(verdict?.verdict || 'this stock')}. Reward ${rewardScore} out of 100, conviction ${convictionScore} out of 100, uncertainty ${uncertaintyScore} out of 100, action readiness ${actionScore} out of 100, zone ${zoneLabel}.`,
       xPosition: `${clamp(rewardScore, 10, 92)}%`,
       yPosition: `${clamp(convictionScore, 14, 94)}%`
@@ -871,12 +879,12 @@
             </div>
             <span class="verdict-pill verdict-${escapeHtml(tone)}">${escapeHtml(verdict.verdict)}</span>
           </div>
-          <p class="decision-lede">${escapeHtml(decisionMap.summaryLine)}</p>
+          <p class="decision-lede"><strong>${escapeHtml(meta.symbol || 'Stock')}</strong> shows ${escapeHtml(decisionMap.summaryLine)}.</p>
           <div class="decision-metric-grid">
-            <article class="decision-metric"><span class="label">Reward</span><span class="value">${escapeHtml(String(decisionMap.rewardScore))}</span></article>
-            <article class="decision-metric"><span class="label">Conviction</span><span class="value">${escapeHtml(String(decisionMap.convictionScore))}</span></article>
-            <article class="decision-metric"><span class="label">Uncertainty</span><span class="value">${escapeHtml(String(decisionMap.uncertaintyScore))}</span></article>
-            <article class="decision-metric"><span class="label">Action Readiness</span><span class="value">${escapeHtml(String(decisionMap.actionScore))}</span></article>
+            <article class="decision-metric"><span class="label">Reward</span><span class="value">${escapeHtml(String(decisionMap.rewardScore))} <small>/ 100</small></span><span class="score-bar"><span style="width:${decisionMap.rewardScore}%"></span></span></article>
+            <article class="decision-metric"><span class="label">Conviction</span><span class="value">${escapeHtml(String(decisionMap.convictionScore))} <small>/ 100</small></span><span class="score-bar"><span style="width:${decisionMap.convictionScore}%"></span></span></article>
+            <article class="decision-metric"><span class="label">Uncertainty</span><span class="value">${escapeHtml(String(decisionMap.uncertaintyScore))} <small>/ 100</small></span><span class="score-bar"><span style="width:${decisionMap.uncertaintyScore}%"></span></span></article>
+            <article class="decision-metric"><span class="label">Action Readiness</span><span class="value">${escapeHtml(String(decisionMap.actionScore))} <small>/ 100</small></span><span class="score-bar"><span style="width:${decisionMap.actionScore}%"></span></span></article>
           </div>
           <div class="decision-metric-grid decision-detail-grid">
             <article class="decision-metric"><span class="label">Buy Below</span><span class="value">${escapeHtml(verdict.buyBelow)}</span></article>
@@ -895,12 +903,13 @@
       if (decisionMapArea) {
         const incompleteClass = decisionMap.dataIncomplete ? ' data-incomplete' : '';
         decisionMapArea.innerHTML = `
+          <p class="decision-map-heading">Decision Map</p>
           <figure class="decision-map action-${escapeHtml(decisionMap.actionTone)}${incompleteClass}" role="img" aria-label="${escapeHtml(decisionMap.ariaLabel)}">
             <div class="decision-map-surface">
-              <span class="decision-map-zone zone-top-left">Quality, Price Rich</span>
-              <span class="decision-map-zone zone-top-right">Buy Zone</span>
-              <span class="decision-map-zone zone-bottom-left">Stand Aside</span>
-              <span class="decision-map-zone zone-bottom-right">Interesting, Needs Proof</span>
+              <span class="decision-map-zone zone-top-left${decisionMap.zonePosition === 'zone-top-left' ? ' zone-active' : ''}">Quality, Price Rich</span>
+              <span class="decision-map-zone zone-top-right${decisionMap.zonePosition === 'zone-top-right' ? ' zone-active' : ''}">Buy Zone</span>
+              <span class="decision-map-zone zone-bottom-left${decisionMap.zonePosition === 'zone-bottom-left' ? ' zone-active' : ''}">Stand Aside</span>
+              <span class="decision-map-zone zone-bottom-right${decisionMap.zonePosition === 'zone-bottom-right' ? ' zone-active' : ''}">Interesting, Needs Proof</span>
               <span class="decision-map-axis axis-left">Lower Reward</span>
               <span class="decision-map-axis axis-right">Higher Reward</span>
               <span class="decision-map-axis axis-bottom">Lower Conviction</span>
@@ -913,7 +922,7 @@
               </div>
             </div>
             <figcaption class="decision-map-caption">
-              Decision Map derived from valuation gap and the report confidence mix. Larger bubble means more uncertainty; color reflects action readiness. Zone labels reflect model scoring thresholds, not investment recommendations. Not investment advice.
+              Bubble size reflects uncertainty; color reflects action readiness. Not investment advice.
             </figcaption>
           </figure>
         `;

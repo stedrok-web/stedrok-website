@@ -348,11 +348,25 @@
       line-height: 1.68;
     }
     .decision-map-area:empty { display: none; }
+    .decision-map-heading {
+      margin: 0 0 8px;
+      padding: 0;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    @keyframes mapFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     .decision-map {
       margin: 0;
       display: grid;
-      gap: 10px;
+      gap: 12px;
       --decision-map-rgb: var(--accent-teal-rgb);
+      animation: mapFadeIn 0.4s ease-out both;
     }
     .decision-map.action-high {
       --decision-map-rgb: var(--accent-green-rgb);
@@ -366,16 +380,15 @@
     .decision-map-surface {
       position: relative;
       min-height: 320px;
+      aspect-ratio: 5 / 4;
       border-radius: 16px;
-      border: 1px solid rgba(var(--decision-map-rgb), 0.38);
+      border: 1px solid rgba(var(--decision-map-rgb), 0.42);
       overflow: hidden;
       background:
-        linear-gradient(90deg, transparent 49.4%, rgba(148, 163, 184, 0.32) 49.7%, rgba(148, 163, 184, 0.32) 50.3%, transparent 50.6%),
-        linear-gradient(0deg, transparent 49.4%, rgba(148, 163, 184, 0.32) 49.7%, rgba(148, 163, 184, 0.32) 50.3%, transparent 50.6%),
-        radial-gradient(circle at 82% 16%, rgba(var(--decision-map-rgb), 0.22), transparent 28%),
-        radial-gradient(circle at 16% 84%, rgba(var(--accent-teal-rgb), 0.14), transparent 30%),
-        linear-gradient(160deg, rgba(var(--bg-base-rgb), 0.32), rgba(var(--bg-raised-rgb), 0.56));
-      box-shadow: inset 0 0 0 1px rgba(var(--decision-map-rgb), 0.12);
+        linear-gradient(90deg, transparent 49%, rgba(148, 163, 184, 0.22) 49.6%, rgba(148, 163, 184, 0.22) 50.4%, transparent 51%),
+        linear-gradient(0deg, transparent 49%, rgba(148, 163, 184, 0.22) 49.6%, rgba(148, 163, 184, 0.22) 50.4%, transparent 51%),
+        linear-gradient(160deg, rgba(var(--bg-base-rgb), 0.52), rgba(var(--bg-raised-rgb), 0.42));
+      box-shadow: inset 0 0 0 1px rgba(var(--decision-map-rgb), 0.14);
     }
     .decision-map-zone,
     .decision-map-axis {
@@ -383,7 +396,7 @@
       font-size: 0.72rem;
       font-weight: 700;
       letter-spacing: 0.04em;
-      color: var(--text-muted);
+      color: var(--text-secondary);
       pointer-events: none;
       user-select: none;
     }
@@ -391,7 +404,7 @@
       max-width: 140px;
       line-height: 1.35;
       z-index: 1;
-      text-shadow: 0 0 6px var(--bg-base), 0 0 12px var(--bg-base);
+      text-shadow: 0 1px 3px var(--bg-base), 0 0 10px var(--bg-base), 0 0 24px var(--bg-base);
     }
     .decision-map-zone.zone-top-left {
       top: 14px;
@@ -410,6 +423,13 @@
       right: 14px;
       bottom: 14px;
       text-align: right;
+    }
+    .decision-map-zone.zone-active {
+      color: var(--text-primary);
+      font-weight: 800;
+      background: rgba(var(--decision-map-rgb), 0.16);
+      padding: 4px 8px;
+      border-radius: 6px;
     }
     .decision-map-axis.axis-left,
     .decision-map-axis.axis-right {
@@ -461,9 +481,9 @@
       display: grid;
       place-items: center;
       padding: 10px;
-      background: linear-gradient(180deg, rgba(var(--decision-map-rgb), 0.78), rgba(var(--decision-map-rgb), 0.34));
-      border: 1px solid rgba(var(--decision-map-rgb), 0.68);
-      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(var(--decision-map-rgb), 0.92), rgba(var(--decision-map-rgb), 0.58));
+      border: 2px solid rgba(var(--decision-map-rgb), 0.82);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(255, 255, 255, 0.12);
       color: var(--text-primary);
       text-align: center;
     }
@@ -476,11 +496,11 @@
       display: none;
     }
     .decision-map-point-symbol {
-      font-size: clamp(0.9rem, 0.84rem + 0.2vw, 1.02rem);
+      font-size: clamp(0.82rem, 0.76rem + 0.2vw, 0.96rem);
       font-weight: 800;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.42), 0 0 6px rgba(0, 0, 0, 0.18);
     }
     .decision-map-caption {
       margin: 0;
@@ -491,13 +511,13 @@
     .decision-metric-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
+      gap: 12px;
     }
     .decision-metric {
       border: 1px solid rgba(148, 163, 184, 0.24);
       border-radius: 10px;
       background: var(--lab-surface-3);
-      padding: 10px;
+      padding: 12px 14px;
       min-width: 0;
     }
     .decision-metric .label {
@@ -516,11 +536,31 @@
       line-height: 1.45;
       overflow-wrap: anywhere;
     }
+    .decision-metric .value small {
+      font-size: 0.72em;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0;
+    }
+    .score-bar {
+      display: block;
+      height: 3px;
+      border-radius: 2px;
+      background: rgba(148, 163, 184, 0.18);
+      margin-top: 6px;
+      overflow: hidden;
+    }
+    .score-bar > span {
+      display: block;
+      height: 100%;
+      border-radius: 2px;
+      background: rgba(var(--decision-map-rgb), 0.72);
+    }
     .confidence-wrap {
       border: 1px dashed rgba(148, 163, 184, 0.34);
       border-radius: 10px;
       background: var(--lab-surface-3);
-      padding: 10px;
+      padding: 12px 14px;
     }
     .confidence-wrap .title {
       margin: 0 0 8px;
@@ -562,6 +602,11 @@
     }
     .decision-detail-grid .decision-metric .value {
       font-size: clamp(0.93rem, 0.88rem + 0.18vw, 1.02rem);
+    }
+    .decision-detail-grid {
+      margin-top: 2px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.2);
     }
     .decision-disclaimer {
       margin: 0;
@@ -1092,9 +1137,11 @@
       .symbol-input {
         min-height: 48px;
       }
-      .snapshot-grid,
-      .decision-metric-grid {
+      .snapshot-grid {
         grid-template-columns: 1fr;
+      }
+      .decision-metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
       .report-panel {
         padding: 14px;
@@ -1103,11 +1150,12 @@
         padding: 13px;
       }
       .decision-map-surface {
-        min-height: 280px;
+        min-height: 260px;
+        aspect-ratio: 4 / 3;
       }
       .decision-map-zone {
-        max-width: 112px;
-        font-size: 0.68rem;
+        max-width: 100px;
+        font-size: clamp(0.62rem, 0.56rem + 0.3vw, 0.7rem);
       }
       .confidence-grid {
         display: grid;
@@ -1143,13 +1191,15 @@
         font-size: 36px;
       }
       .decision-map-surface {
-        min-height: 248px;
+        min-height: 220px;
+        aspect-ratio: 1;
       }
       .decision-map-axis {
-        font-size: 0.66rem;
+        font-size: 0.64rem;
       }
       .decision-map-zone {
-        font-size: 0.63rem;
+        font-size: 0.6rem;
+        max-width: 88px;
       }
       .stage-chip {
         width: 100%;
@@ -1160,6 +1210,14 @@
       }
       .raw-command-line {
         font-size: 0.88rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .decision-metric-grid {
+        grid-template-columns: 1fr;
+      }
+      .decision-metric .value {
+        font-size: 0.94rem;
       }
     }
   </style>

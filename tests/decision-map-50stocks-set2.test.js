@@ -120,10 +120,17 @@ function buildDecisionMapModel(verdict, confidenceChips) {
   const actionTone = scoreToActionTone(actionScore);
   const bubbleSize = clamp(Math.round(74 + (uncertaintyScore * 0.62)), 82, 128);
   const zoneLabel = getDecisionZoneLabel(rewardScore, convictionScore, tone);
+  const zonePositionMap = {
+    'Buy Zone': 'zone-top-right',
+    'Quality, Price Rich': 'zone-top-left',
+    'Interesting, Needs Proof': 'zone-bottom-right',
+    'Stand Aside': 'zone-bottom-left'
+  };
+  const zonePosition = zonePositionMap[zoneLabel] || 'zone-bottom-left';
 
   return {
     rewardScore, convictionScore, uncertaintyScore, actionScore,
-    actionTone, bubbleSize, zoneLabel, dataIncomplete,
+    actionTone, bubbleSize, zoneLabel, zonePosition, dataIncomplete,
     xPosition: `${clamp(rewardScore, 10, 92)}%`,
     yPosition: `${clamp(convictionScore, 14, 94)}%`
   };
@@ -790,6 +797,22 @@ describe('Cross-cutting invariants across all 50 stocks (set 2)', () => {
     for (const { ticker, model } of models) {
       assert.strictEqual(typeof model.dataIncomplete, 'boolean',
         `[${ticker}] dataIncomplete should be boolean, got ${typeof model.dataIncomplete}`);
+    }
+  });
+
+  test('zonePosition maps to valid CSS class for every stock', () => {
+    const valid = ['zone-top-left', 'zone-top-right', 'zone-bottom-left', 'zone-bottom-right'];
+    for (const { ticker, model } of models) {
+      assert.ok(valid.includes(model.zonePosition),
+        `[${ticker}] zonePosition=${model.zonePosition} not in valid set`);
+    }
+  });
+
+  test('AVOID stocks always have zonePosition = zone-bottom-left (Stand Aside)', () => {
+    const avoids = models.filter((m) => getVerdictTone(m.verdict) === 'avoid');
+    for (const { ticker, model } of avoids) {
+      assert.strictEqual(model.zonePosition, 'zone-bottom-left',
+        `[${ticker}] AVOID should be zone-bottom-left, got ${model.zonePosition}`);
     }
   });
 
