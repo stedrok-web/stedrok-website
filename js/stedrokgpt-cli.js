@@ -625,8 +625,8 @@
       dataIncomplete,
       summaryLine: `${rewardDescriptor} with ${convictionDescriptor}`,
       ariaLabel: `Decision Map for ${String(verdict?.verdict || 'this stock')}. Reward ${rewardScore} out of 100, conviction ${convictionScore} out of 100, uncertainty ${uncertaintyScore} out of 100, action readiness ${actionScore} out of 100, zone ${zoneLabel}.`,
-      xPosition: `${clamp(rewardScore, 28, 72)}%`,
-      yPosition: `${clamp(convictionScore, 28, 72)}%`
+      xPosition: `${clamp(rewardScore, 15, 85)}%`,
+      yPosition: `${clamp(convictionScore, 15, 85)}%`
     };
   }
 
@@ -833,6 +833,15 @@
       }
 
       if (/^VERDICT:/i.test(line)) {
+        continue;
+      }
+
+      // Non-indented continuation inside a numbered list: append to current <li>
+      // instead of flushing the list and starting a new paragraph, which is what
+      // produces the repeated "1. 1. 1." bug (each flush restarts the <ol> counter).
+      if (listType === 'ol' && listItems.length) {
+        const last = listItems.length - 1;
+        listItems[last] = `${listItems[last]} ${line}`.trim();
         continue;
       }
 
