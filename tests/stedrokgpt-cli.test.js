@@ -89,8 +89,6 @@ function createHarness() {
     'reportSummary',
     'reportSections',
     'decisionMapArea',
-    'rawOutput',
-    'rawCommand',
     'accessNotice'
   ].forEach((id) => elements.set(id, new FakeElement(id)));
 
@@ -221,8 +219,6 @@ test('renders a decision map summary while preserving raw analysis output', asyn
 
   const reportSummary = harness.elements.get('reportSummary').innerHTML;
   const decisionMapArea = harness.elements.get('decisionMapArea').innerHTML;
-  const rawOutput = harness.elements.get('rawOutput').textContent;
-  const rawCommand = harness.elements.get('rawCommand').textContent;
 
   assert.match(reportSummary, /verdict-pill/i);
   assert.match(reportSummary, /decision-disclaimer/i);
@@ -230,8 +226,6 @@ test('renders a decision map summary while preserving raw analysis output', asyn
   assert.match(decisionMapArea, /decision-map/i);
   assert.match(decisionMapArea, /Decision Map/i);
   assert.match(decisionMapArea, /Not investment advice/i);
-  assert.match(rawOutput, /VERDICT=BUY/);
-  assert.equal(rawCommand, '$ /stock AAPL');
 });
 
 test('AVOID verdict maps to Stand Aside zone with capped conviction', async () => {
@@ -348,9 +342,7 @@ test('missing decisionMapArea element does not crash', async () => {
   // Should render summary without crashing
   const reportSummary = harness.elements.get('reportSummary').innerHTML;
   assert.match(reportSummary, /verdict-pill/i, 'Summary should still render');
-  const rawOutput = harness.elements.get('rawOutput').textContent;
-  assert.match(rawOutput, /VERDICT=BUY/, 'Raw output not affected');
-  // decisionMapArea doesn't exist, so no map rendered — just no crash
+  // decisionMapArea is removed — no map and no crash is the expected outcome
 });
 
 test('resetUi clears decisionMapArea', async () => {

@@ -11,11 +11,9 @@
   const reportSummary = document.getElementById('reportSummary');
   const reportSections = document.getElementById('reportSections');
   const decisionMapArea = document.getElementById('decisionMapArea');
-  const rawOutput = document.getElementById('rawOutput');
-  const rawCommand = document.getElementById('rawCommand');
   const accessNotice = document.getElementById('accessNotice');
 
-  if (!form || !tickerInput || !analyzeButton || !uiStatus || !stageFast || !stageDeep || !snapshotMeta || !snapshotCards || !reportShell || !reportSummary || !reportSections || !rawOutput || !rawCommand) {
+  if (!form || !tickerInput || !analyzeButton || !uiStatus || !stageFast || !stageDeep || !snapshotMeta || !snapshotCards || !reportShell || !reportSummary || !reportSections) {
     return;
   }
 
@@ -201,8 +199,6 @@
     reportSummary.innerHTML = '';
     if (decisionMapArea) decisionMapArea.innerHTML = '';
     reportSections.innerHTML = '';
-    rawOutput.textContent = '';
-    rawCommand.textContent = '$ /stock --';
   }
 
   function escapeHtml(value) {
@@ -857,8 +853,6 @@
     const sections = splitSections(normalizedText);
 
     reportShell.classList.add('visible');
-    rawOutput.textContent = plainText;
-    rawCommand.textContent = `$ /stock ${String(meta.symbol || '--').toUpperCase()}`;
 
     if (verdict) {
       const tone = getVerdictTone(verdict.verdict);

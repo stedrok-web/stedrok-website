@@ -348,6 +348,9 @@
       line-height: 1.68;
     }
     .decision-map-area:empty { display: none; }
+    .decision-map-area {
+      margin-top: 20px;
+    }
     .decision-map-heading {
       margin: 0 0 8px;
       padding: 0;
@@ -360,6 +363,11 @@
     @keyframes mapFadeIn {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .decision-map {
+        animation: none;
+      }
     }
     .decision-map {
       margin: 0;
@@ -385,8 +393,8 @@
       border: 1px solid rgba(var(--decision-map-rgb), 0.42);
       overflow: hidden;
       background:
-        linear-gradient(90deg, transparent 49%, rgba(148, 163, 184, 0.22) 49.6%, rgba(148, 163, 184, 0.22) 50.4%, transparent 51%),
-        linear-gradient(0deg, transparent 49%, rgba(148, 163, 184, 0.22) 49.6%, rgba(148, 163, 184, 0.22) 50.4%, transparent 51%),
+        linear-gradient(90deg, transparent 49%, rgba(255, 255, 255, 0.10) 49.6%, rgba(255, 255, 255, 0.10) 50.4%, transparent 51%),
+        linear-gradient(0deg, transparent 49%, rgba(255, 255, 255, 0.10) 49.6%, rgba(255, 255, 255, 0.10) 50.4%, transparent 51%),
         linear-gradient(160deg, rgba(var(--bg-base-rgb), 0.52), rgba(var(--bg-raised-rgb), 0.42));
       box-shadow: inset 0 0 0 1px rgba(var(--decision-map-rgb), 0.14);
     }
@@ -1230,6 +1238,9 @@
       .decision-metric .value {
         font-size: 0.94rem;
       }
+      .decision-map-axis {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -1297,22 +1308,6 @@
           <div id="reportSummary" class="report-summary"></div>
           <div id="reportSections" class="report-sections"></div>
           <div id="decisionMapArea" class="decision-map-area"></div>
-          <details class="raw-wrap">
-            <summary>Show Raw Analysis Text</summary>
-            <div class="raw-cli-shell">
-              <div class="raw-cli-top">
-                <div class="raw-cli-dots" aria-hidden="true">
-                  <span class="raw-cli-dot red"></span>
-                  <span class="raw-cli-dot yellow"></span>
-                  <span class="raw-cli-dot green"></span>
-                </div>
-                <p class="raw-cli-title">stedrok-analysis-terminal</p>
-                <p class="raw-cli-right">zsh · utf-8</p>
-              </div>
-              <p id="rawCommand" class="raw-command-line">$ /stock --</p>
-              <pre id="rawOutput" class="raw-pre"></pre>
-            </div>
-          </details>
         </section>
       </div>
     </section>
