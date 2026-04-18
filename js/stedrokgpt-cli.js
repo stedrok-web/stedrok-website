@@ -625,8 +625,8 @@
       dataIncomplete,
       summaryLine: `${rewardDescriptor} with ${convictionDescriptor}`,
       ariaLabel: `Decision Map for ${String(verdict?.verdict || 'this stock')}. Reward ${rewardScore} out of 100, conviction ${convictionScore} out of 100, uncertainty ${uncertaintyScore} out of 100, action readiness ${actionScore} out of 100, zone ${zoneLabel}.`,
-      xPosition: `${clamp(rewardScore, 20, 80)}%`,
-      yPosition: `${clamp(convictionScore, 20, 80)}%`
+      xPosition: `${clamp(rewardScore, 28, 72)}%`,
+      yPosition: `${clamp(convictionScore, 28, 72)}%`
     };
   }
 
@@ -907,11 +907,11 @@
               </div>
             </div>
             <div class="dm-scores" id="dmScores-${sym}" role="region" aria-label="Score breakdown" hidden>
-              <span class="dm-score-item"><span class="dm-label">Reward</span><strong>${escapeHtml(String(decisionMap.rewardScore))}</strong></span>
-              <span class="dm-score-item"><span class="dm-label">Conviction</span><strong>${escapeHtml(String(decisionMap.convictionScore))}</strong></span>
+              <span class="dm-score-item"><span class="dm-label">Reward</span><strong>${escapeHtml(String(decisionMap.rewardScore))} <small>/ 100</small></strong></span>
+              <span class="dm-score-item"><span class="dm-label">Conviction</span><strong>${escapeHtml(String(decisionMap.convictionScore))} <small>/ 100</small></strong></span>
               <span class="dm-score-item"><span class="dm-label">Uncertainty</span><strong>${escapeHtml(String(decisionMap.uncertaintyScore))}%</strong></span>
             </div>
-            <figcaption class="decision-map-caption">🔴→🟢 Action readiness &nbsp;·&nbsp; ◯→⬤ Uncertainty &nbsp;·&nbsp; Not financial advice.</figcaption>
+            <figcaption class="decision-map-caption">Top-right is the Buy Zone. Color reflects action readiness. Not financial advice.</figcaption>
           </figure>
         `;
         const pointWrap = decisionMapArea.querySelector('.decision-map-point-wrap');
