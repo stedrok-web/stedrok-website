@@ -10,6 +10,7 @@
   const reportShell = document.getElementById('reportShell');
   const reportSummary = document.getElementById('reportSummary');
   const reportSections = document.getElementById('reportSections');
+  const decisionMapArea = document.getElementById('decisionMapArea');
   const rawOutput = document.getElementById('rawOutput');
   const rawCommand = document.getElementById('rawCommand');
   const accessNotice = document.getElementById('accessNotice');
@@ -198,6 +199,7 @@
     snapshotCards.innerHTML = '';
     reportShell.classList.remove('visible');
     reportSummary.innerHTML = '';
+    if (decisionMapArea) decisionMapArea.innerHTML = '';
     reportSections.innerHTML = '';
     rawOutput.textContent = '';
     rawCommand.textContent = '$ /stock --';
@@ -491,6 +493,139 @@
     return chips;
   }
 
+  function clamp(value, min, max) {
+    return Math.min(Math.max(Number(value), min), max);
+  }
+
+  function confidenceToneToScore(tone) {
+    if (tone === 'high') return 84;
+    if (tone === 'medium') return 63;
+    if (tone === 'low') return 38;
+    return 52;
+  }
+
+  function findConfidenceChip(chips, label) {
+    const wanted = String(label || '').trim().toLowerCase();
+    return (chips || []).find(function eachChip(chip) {
+      return String(chip?.label || '').trim().toLowerCase() === wanted;
+    }) || null;
+  }
+
+  function parsePercentNumber(text) {
+    const match = String(text || '').match(/-?\d+(?:\.\d+)?/);
+    return match ? Number(match[0]) : null;
+  }
+
+  function scoreToActionTone(score) {
+    if (score >= 75) return 'high';
+    if (score >= 58) return 'medium';
+    return 'low';
+  }
+
+  function scoreToDescriptor(score, labels) {
+    if (score >= 75) return labels.high;
+    if (score >= 58) return labels.medium;
+    return labels.low;
+  }
+
+  function getDecisionZoneLabel(rewardScore, convictionScore, tone) {
+    if (tone === 'avoid') return 'Stand Aside';
+    if (tone === 'overvalued' && rewardScore >= 60) return 'Quality, Price Rich';
+    if (rewardScore >= 60 && convictionScore >= 65) return 'Buy Zone';
+    if (rewardScore < 60 && convictionScore >= 65) return 'Quality, Price Rich';
+    if (rewardScore >= 60 && convictionScore < 65) return 'Interesting, Needs Proof';
+    return 'Stand Aside';
+  }
+
+  function buildDecisionMapModel(verdict, confidenceChips) {
+    const tone = getVerdictTone(verdict.verdict);
+    const dataScore = confidenceToneToScore(findConfidenceChip(confidenceChips, 'Data')?.tone);
+    const valuationScore = confidenceToneToScore(findConfidenceChip(confidenceChips, 'Valuation')?.tone);
+    const forensicScore = confidenceToneToScore(findConfidenceChip(confidenceChips, 'Forensic')?.tone);
+    const actionBaseScore = confidenceToneToScore(findConfidenceChip(confidenceChips, 'Action')?.tone);
+    const percentValue = parsePercentNumber(verdict.premiumOrMosValue);
+
+    let rewardScore = 55;
+    if (Number.isFinite(percentValue)) {
+      if (/premium/i.test(verdict.premiumOrMosLabel)) {
+        rewardScore = 50 - (Math.sign(percentValue) * Math.min(Math.abs(percentValue), 30) * 1.35);
+      } else {
+        rewardScore = 50 + (Math.sign(percentValue) * Math.min(Math.abs(percentValue), 30) * 1.35);
+      }
+    } else if (tone === 'buy') {
+      rewardScore = 72;
+    } else if (tone === 'overvalued') {
+      rewardScore = 38;
+    } else if (tone === 'avoid') {
+      rewardScore = 32;
+    } else if (tone === 'hold') {
+      rewardScore = 58;
+    } else if (tone === 'watch') {
+      rewardScore = 54;
+    }
+
+    rewardScore = clamp(Math.round(rewardScore), 10, 92);
+
+    const hasAnyChip = confidenceChips.length > 0;
+    let convictionScore = clamp(Math.round(
+      (dataScore * 0.34) +
+      (forensicScore * 0.34) +
+      (valuationScore * 0.18) +
+      (actionBaseScore * 0.14)
+    ), 18, 96);
+    if (tone === 'avoid') convictionScore = Math.min(convictionScore, 55);
+
+    const uncertaintyScore = clamp(Math.round(
+      100 - (
+        (dataScore * 0.4) +
+        (forensicScore * 0.4) +
+        (valuationScore * 0.2)
+      )
+    ), 12, 88);
+
+    let actionScore = actionBaseScore;
+    if (tone === 'avoid') actionScore = Math.min(actionScore, 42);
+    if (tone === 'overvalued' || tone === 'watch') actionScore = Math.min(actionScore, 64);
+    if (tone === 'buy') actionScore = Math.max(actionScore, 72);
+
+    actionScore = clamp(Math.round(actionScore), 16, 94);
+
+    const actionTone = scoreToActionTone(actionScore);
+    const bubbleSize = clamp(Math.round(74 + (uncertaintyScore * 0.62)), 82, 128);
+    const zoneLabel = getDecisionZoneLabel(rewardScore, convictionScore, tone);
+    const dataIncomplete = !hasAnyChip;
+    const rewardDescriptor = scoreToDescriptor(rewardScore, {
+      high: 'meaningful valuation support',
+      medium: 'workable upside support',
+      low: 'thin valuation support'
+    });
+    const convictionDescriptor = scoreToDescriptor(convictionScore, {
+      high: 'high business conviction',
+      medium: 'mixed conviction',
+      low: 'fragile conviction'
+    });
+    const actionDescriptor = scoreToDescriptor(actionScore, {
+      high: 'supportive action setup',
+      medium: 'mixed action setup',
+      low: 'weak action setup'
+    });
+
+    return {
+      rewardScore,
+      convictionScore,
+      uncertaintyScore,
+      actionScore,
+      actionTone,
+      bubbleSize,
+      zoneLabel,
+      dataIncomplete,
+      summaryLine: `${rewardDescriptor}, ${convictionDescriptor}, ${actionDescriptor}.`,
+      ariaLabel: `Decision Map for ${String(verdict?.verdict || 'this stock')}. Reward ${rewardScore} out of 100, conviction ${convictionScore} out of 100, uncertainty ${uncertaintyScore} out of 100, action readiness ${actionScore} out of 100, zone ${zoneLabel}.`,
+      xPosition: `${clamp(rewardScore, 10, 92)}%`,
+      yPosition: `${clamp(convictionScore, 14, 94)}%`
+    };
+  }
+
   function splitSections(text) {
     const sections = [];
     const lines = String(text || '').split(/\r?\n/);
@@ -720,6 +855,7 @@
     if (verdict) {
       const tone = getVerdictTone(verdict.verdict);
       const confidenceChips = parseConfidenceChips(verdict.confidence);
+      const decisionMap = buildDecisionMapModel(verdict, confidenceChips);
       const confidenceHtml = confidenceChips.length
         ? confidenceChips.map(function renderChip(chip) {
           return `<span class="confidence-chip level-${escapeHtml(chip.tone)}"><span>${escapeHtml(chip.label)}</span><strong>${escapeHtml(chip.value)}</strong></span>`;
@@ -730,23 +866,58 @@
         <article class="decision-hub tone-${escapeHtml(tone)}">
           <div class="decision-top">
             <div>
-              <p class="decision-kicker">Investment Verdict</p>
+              <p class="decision-kicker">Investment Verdict · ${escapeHtml(verdict.date)}</p>
               <h3 class="decision-symbol">${escapeHtml(meta.symbol || 'N/A')}</h3>
             </div>
             <span class="verdict-pill verdict-${escapeHtml(tone)}">${escapeHtml(verdict.verdict)}</span>
           </div>
+          <p class="decision-lede">${escapeHtml(decisionMap.summaryLine)}</p>
           <div class="decision-metric-grid">
+            <article class="decision-metric"><span class="label">Reward</span><span class="value">${escapeHtml(String(decisionMap.rewardScore))}</span></article>
+            <article class="decision-metric"><span class="label">Conviction</span><span class="value">${escapeHtml(String(decisionMap.convictionScore))}</span></article>
+            <article class="decision-metric"><span class="label">Uncertainty</span><span class="value">${escapeHtml(String(decisionMap.uncertaintyScore))}</span></article>
+            <article class="decision-metric"><span class="label">Action Readiness</span><span class="value">${escapeHtml(String(decisionMap.actionScore))}</span></article>
+          </div>
+          <div class="decision-metric-grid decision-detail-grid">
             <article class="decision-metric"><span class="label">Buy Below</span><span class="value">${escapeHtml(verdict.buyBelow)}</span></article>
             <article class="decision-metric"><span class="label">Fair Value (Bear/Base/Bull)</span><span class="value">${escapeHtml(verdict.fairValue)}</span></article>
             <article class="decision-metric"><span class="label">${escapeHtml(verdict.premiumOrMosLabel)}</span><span class="value">${escapeHtml(verdict.premiumOrMosValue)}</span></article>
-            <article class="decision-metric"><span class="label">Report Date</span><span class="value">${escapeHtml(verdict.date)}</span></article>
+            <article class="decision-metric"><span class="label">Map Zone</span><span class="value">${escapeHtml(decisionMap.zoneLabel)}</span></article>
           </div>
           <div class="confidence-wrap">
             <p class="title">Confidence Breakdown</p>
             <div class="confidence-grid">${confidenceHtml}</div>
           </div>
+          <p class="decision-disclaimer">Algorithmic research signal — not investment advice. See <a href="research-trust-disclosures.html">disclosures</a>.</p>
         </article>
       `;
+
+      if (decisionMapArea) {
+        const incompleteClass = decisionMap.dataIncomplete ? ' data-incomplete' : '';
+        decisionMapArea.innerHTML = `
+          <figure class="decision-map action-${escapeHtml(decisionMap.actionTone)}${incompleteClass}" role="img" aria-label="${escapeHtml(decisionMap.ariaLabel)}">
+            <div class="decision-map-surface">
+              <span class="decision-map-zone zone-top-left">Quality, Price Rich</span>
+              <span class="decision-map-zone zone-top-right">Buy Zone</span>
+              <span class="decision-map-zone zone-bottom-left">Stand Aside</span>
+              <span class="decision-map-zone zone-bottom-right">Interesting, Needs Proof</span>
+              <span class="decision-map-axis axis-left">Lower Reward</span>
+              <span class="decision-map-axis axis-right">Higher Reward</span>
+              <span class="decision-map-axis axis-bottom">Lower Conviction</span>
+              <span class="decision-map-axis axis-top">Higher Conviction</span>
+              <div class="decision-map-point-wrap" style="--map-x:${escapeHtml(decisionMap.xPosition)}; --map-y:${escapeHtml(decisionMap.yPosition)}; --point-size:${escapeHtml(`${decisionMap.bubbleSize}px`)};">
+                <span class="decision-map-pulse" aria-hidden="true"></span>
+                <span class="decision-map-point" aria-hidden="true">
+                  <span class="decision-map-point-symbol">${escapeHtml(meta.symbol || 'N/A')}</span>
+                </span>
+              </div>
+            </div>
+            <figcaption class="decision-map-caption">
+              Decision Map derived from valuation gap and the report confidence mix. Larger bubble means more uncertainty; color reflects action readiness. Zone labels reflect model scoring thresholds, not investment recommendations. Not investment advice.
+            </figcaption>
+          </figure>
+        `;
+      }
     } else {
       reportSummary.innerHTML = `<article class="decision-hub tone-neutral"><div class="decision-top"><div><p class="decision-kicker">Investment Verdict</p><h3 class="decision-symbol">${escapeHtml(meta.symbol || 'N/A')}</h3></div><span class="verdict-pill verdict-neutral">Unavailable</span></div></article>`;
     }
