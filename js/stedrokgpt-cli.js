@@ -797,7 +797,8 @@
       if (/^\d+\.\s+/.test(line)) {
         flushParagraph();
         openList('ol');
-        listItems.push(line.replace(/^\d+\.\s+/, '').trim());
+        // Strip ALL leading numeric prefixes ("1. ", "1. 1.1 ", "2. 1.2 ") so browser ol counter is the only number shown
+        listItems.push(line.replace(/^(\d+\.[\d.]*\s+)+/, '').trim());
         continue;
       }
 
