@@ -953,6 +953,8 @@
               <span class="decision-map-zone zone-top-right${decisionMap.zonePosition === 'zone-top-right' ? ' zone-active' : ''}">Buy Zone</span>
               <span class="decision-map-zone zone-bottom-left${decisionMap.zonePosition === 'zone-bottom-left' ? ' zone-active' : ''}">Stand Aside</span>
               <span class="decision-map-zone zone-bottom-right${decisionMap.zonePosition === 'zone-bottom-right' ? ' zone-active' : ''}">Interesting,<br>Needs Proof</span>
+              <span class="dm-ax-y" aria-hidden="true">↑ Conviction</span>
+              <div class="dm-ax-row" aria-hidden="true"><span>← Low Reward</span><span>·</span><span>High Reward →</span></div>
               <div class="decision-map-point-wrap" tabindex="0" role="button" aria-expanded="false" aria-controls="dmScores-${sym}" aria-label="Tap to see ${sym} scores" style="--map-x:${escapeHtml(decisionMap.xPosition)}; --map-y:${escapeHtml(decisionMap.yPosition)}; --point-size:${escapeHtml(`${decisionMap.bubbleSize}px`)};">
                 <span class="decision-map-pulse" aria-hidden="true"></span>
                 <span class="decision-map-point" aria-hidden="true">
@@ -966,7 +968,15 @@
               <span class="dm-score-item"><span class="dm-label">Uncertainty</span><strong>${escapeHtml(String(decisionMap.uncertaintyScore))}%</strong></span>
               <span class="dm-score-item"><span class="dm-label">Action</span><strong>${escapeHtml(String(decisionMap.actionScore))}%</strong></span>
             </div>
-            <figcaption class="decision-map-caption">Top-right is the Buy Zone. Color reflects action readiness. Not financial advice.</figcaption>
+            <figcaption class="decision-map-caption">
+              <div class="dm-legend">
+                <span><b>Reward</b> — price discount vs fair value · X axis (right = deeper undervalue)</span>
+                <span><b>Conviction</b> — signal strength from fundamentals &amp; forensics · Y axis (top = stronger)</span>
+                <span><b>Uncertainty</b> — data gaps; bubble size grows with uncertainty</span>
+                <span><b>Action</b> — urgency score · teal = act &nbsp;·&nbsp; amber = monitor &nbsp;·&nbsp; red = pass</span>
+              </div>
+              <span class="dm-disclaimer">Not investment advice.</span>
+            </figcaption>
           </figure>
         `;
         const pointWrap = decisionMapArea.querySelector('.decision-map-point-wrap');
