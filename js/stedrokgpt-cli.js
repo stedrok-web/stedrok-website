@@ -17,7 +17,7 @@
     return;
   }
 
-  const SYMBOL_RE = /^[A-Za-z][A-Za-z0-9.-]{0,9}$/;
+  const SYMBOL_RE = /^[A-Za-z0-9][A-Za-z0-9.-]{0,9}$/;
   let activeAccessToken = '';
   let hasPaidAccess = false;
 
@@ -210,14 +210,20 @@
       .replace(/'/g, '&#39;');
   }
 
-  function formatCurrency(value) {
+  function formatCurrency(value, currency) {
     const numeric = Number(value);
     if (!Number.isFinite(numeric)) return 'N/A';
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: numeric >= 100 ? 2 : 3
-    }).format(numeric);
+    const cur = String(currency || 'USD').toUpperCase();
+    try {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: cur,
+        maximumFractionDigits: numeric >= 100 ? 2 : 3
+      }).format(numeric);
+    } catch {
+      // Fallback for non-standard codes (e.g., GBX pence)
+      return `${cur} ${numeric.toLocaleString('en-US', { maximumFractionDigits: 2 })}`;
+    }
   }
 
   function formatMarketCap(value) {
@@ -268,6 +274,7 @@
       return 'Profile lookup failed for this account. Please log out/in once. If it persists, contact support.';
     }
     if (status === 404) return 'Resource not found. Please refresh and try again.';
+    if (status === 429) return 'The analysis engine is busy. Please wait a minute and try again.';
     return raw || 'Analysis failed.';
   }
 
@@ -303,9 +310,9 @@
   function renderSnapshot(snapshot) {
     const cards = [
       { label: 'Company', value: `${snapshot.name || 'N/A'} (${snapshot.symbol || 'N/A'})` },
-      { label: 'Price', value: formatCurrency(snapshot.price) },
+      { label: 'Price', value: formatCurrency(snapshot.price, snapshot.currency) },
       { label: 'Change', value: formatPercent(snapshot.change_percent) },
-      { label: '52W Range', value: `${formatCurrency(snapshot.week52_low)} - ${formatCurrency(snapshot.week52_high)}` },
+      { label: '52W Range', value: `${formatCurrency(snapshot.week52_low, snapshot.currency)} - ${formatCurrency(snapshot.week52_high, snapshot.currency)}` },
       { label: 'Market Cap', value: formatMarketCap(snapshot.market_cap) },
       { label: 'P/E (TTM)', value: Number.isFinite(Number(snapshot.trailing_pe)) ? Number(snapshot.trailing_pe).toFixed(2) : 'N/A' },
       { label: 'Forward P/E', value: Number.isFinite(Number(snapshot.forward_pe)) ? Number(snapshot.forward_pe).toFixed(2) : 'N/A' },
