@@ -1281,10 +1281,17 @@
         height: 280px;
       }
       .decision-map-zone {
-        font-size: 0.58rem;
-        max-width: 76px;
-        line-height: 1.2;
+        font-size: 0.5rem;
+        max-width: 44px;
+        line-height: 1.15;
+        padding: 2px 4px;
       }
+      /* Push zone labels inward so extreme-clamped bubbles (27%..73%) don't overlap them.
+         Math: inset(18) + label-width(44) + padding(8) = 70px < bubble-left-edge(~79px) ✓ */
+      .decision-map-zone.zone-top-left    { top: 18px; left: 18px; }
+      .decision-map-zone.zone-top-right   { top: 18px; right: 18px; }
+      .decision-map-zone.zone-bottom-left { bottom: 18px; left: 18px; }
+      .decision-map-zone.zone-bottom-right{ bottom: 18px; right: 18px; }
       .decision-map-point-wrap {
         width: min(var(--point-size), 44px);
         height: min(var(--point-size), 44px);
@@ -1396,6 +1403,6 @@
   <script src="js/config.js"></script>
   <script src="js/mobile-menu.js?v=20260409c"></script>
   <script src="js/public-auth-nav.js?v=20260317"></script>
-  <script src="js/stedrokgpt-cli.js?v=20260419a"></script>
+  <script src="js/stedrokgpt-cli.js?v=20260419b"></script>
 </body>
 </html>

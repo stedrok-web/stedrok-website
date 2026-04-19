@@ -632,8 +632,11 @@
       dataIncomplete,
       summaryLine: `${rewardDescriptor} with ${convictionDescriptor}`,
       ariaLabel: `Decision Map for ${String(verdict?.verdict || 'this stock')}. Reward ${rewardScore}%, conviction ${convictionScore}%, uncertainty ${uncertaintyScore}%, action readiness ${actionScore}%, zone ${zoneLabel}.`,
-      xPosition: `${clamp(rewardScore, 15, 85)}%`,
-      yPosition: `${clamp(convictionScore, 15, 85)}%`
+      // Tighten clamp on narrow phones so the bubble can't reach the corner-label zone.
+      // Calculation: with 44px bubble (22px radius) and zone labels at 18px inset + 44px max-width
+      // (=62px), a clamp of 27% on a 375px-wide map puts the bubble left edge at ~79px > 62px.
+      xPosition: `${clamp(rewardScore, window.innerWidth <= 480 ? 27 : 15, window.innerWidth <= 480 ? 73 : 85)}%`,
+      yPosition: `${clamp(convictionScore, window.innerWidth <= 480 ? 27 : 15, window.innerWidth <= 480 ? 73 : 85)}%`
     };
   }
 
@@ -843,10 +846,9 @@
         continue;
       }
 
-      // Non-indented continuation inside a numbered list: append to current <li>
-      // instead of flushing the list and starting a new paragraph, which is what
-      // produces the repeated "1. 1. 1." bug (each flush restarts the <ol> counter).
-      if (listType === 'ol' && listItems.length) {
+      // Non-indented continuation inside any list item (ol or ul): append to current <li>
+      // instead of flushing the list, which restarted counters and split dash-bullet sections.
+      if (listType && listItems.length) {
         const last = listItems.length - 1;
         listItems[last] = `${listItems[last]} ${line}`.trim();
         continue;
@@ -910,7 +912,7 @@
         const sym = escapeHtml(meta.symbol || 'N/A');
         decisionMapArea.innerHTML = `
           <p class="decision-map-heading">Decision Map</p>
-          <figure class="decision-map action-${escapeHtml(decisionMap.actionTone)}${incompleteClass}" role="img" aria-label="${escapeHtml(decisionMap.ariaLabel)}">
+          <figure class="decision-map action-${escapeHtml(decisionMap.actionTone)}${incompleteClass}" aria-label="${escapeHtml(decisionMap.ariaLabel)}">
             <div class="decision-map-surface">
               <span class="decision-map-zone zone-top-left${decisionMap.zonePosition === 'zone-top-left' ? ' zone-active' : ''}">Quality,<br>Price Rich</span>
               <span class="decision-map-zone zone-top-right${decisionMap.zonePosition === 'zone-top-right' ? ' zone-active' : ''}">Buy Zone</span>
