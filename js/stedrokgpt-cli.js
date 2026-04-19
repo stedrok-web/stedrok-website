@@ -748,7 +748,9 @@
     let html = escapeHtml(text);
     html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-    html = html.replace(/\[(LIVE|CALC|DATA|EST|RISK)\]/g, '<span class="inline-tag">$1</span>');
+    html = html.replace(/\[(LIVE|CALC|DATA|EST|RISK|MISS)\]/g, function(m, tag) {
+      return '<span class="inline-tag' + (tag === 'MISS' ? ' tag-miss' : '') + '">' + tag + '</span>';
+    });
     return html;
   }
 
