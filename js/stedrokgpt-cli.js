@@ -543,10 +543,13 @@
 
     let rewardScore = 55;
     if (Number.isFinite(percentValue)) {
+      // Cap at 50% MOS input (was 30%) so high-MOS stocks are differentiated.
+      // Scale factor 0.85 keeps 50% MOS → ~92 reward while spreading 0-50% range.
+      // Backed by Damodaran DCF scenario ranges (bear/base/bull typically span ~50%).
       if (/premium/i.test(verdict.premiumOrMosLabel)) {
-        rewardScore = 50 - (Math.sign(percentValue) * Math.min(Math.abs(percentValue), 30) * 1.35);
+        rewardScore = 50 - (Math.sign(percentValue) * Math.min(Math.abs(percentValue), 50) * 0.85);
       } else {
-        rewardScore = 50 + (Math.sign(percentValue) * Math.min(Math.abs(percentValue), 30) * 1.35);
+        rewardScore = 50 + (Math.sign(percentValue) * Math.min(Math.abs(percentValue), 50) * 0.85);
       }
     } else if (tone === 'buy') {
       rewardScore = 72;
@@ -560,14 +563,18 @@
       rewardScore = 54;
     }
 
-    rewardScore = clamp(Math.round(rewardScore), 10, 92);
+    rewardScore = clamp(Math.round(rewardScore), 10, 95);
 
     const hasAnyChip = confidenceChips.length > 0;
+
+    // Conviction weights: Valuation promoted to 34% (was 18%) — core signal for value investing
+    // per Piotroski F-Score and Graham-Dodd multi-factor frameworks. Data/Forensic each
+    // reduced to 28% (were 34%) since data quality is already captured in uncertaintyScore.
     let convictionScore = clamp(Math.round(
-      (dataScore * 0.34) +
-      (forensicScore * 0.34) +
-      (valuationScore * 0.18) +
-      (actionBaseScore * 0.14)
+      (valuationScore * 0.34) +
+      (dataScore * 0.28) +
+      (forensicScore * 0.28) +
+      (actionBaseScore * 0.10)
     ), 18, 96);
     if (tone === 'avoid') convictionScore = Math.min(convictionScore, 55);
 
@@ -624,7 +631,7 @@
       zonePosition,
       dataIncomplete,
       summaryLine: `${rewardDescriptor} with ${convictionDescriptor}`,
-      ariaLabel: `Decision Map for ${String(verdict?.verdict || 'this stock')}. Reward ${rewardScore} out of 100, conviction ${convictionScore} out of 100, uncertainty ${uncertaintyScore} out of 100, action readiness ${actionScore} out of 100, zone ${zoneLabel}.`,
+      ariaLabel: `Decision Map for ${String(verdict?.verdict || 'this stock')}. Reward ${rewardScore}%, conviction ${convictionScore}%, uncertainty ${uncertaintyScore}%, action readiness ${actionScore}%, zone ${zoneLabel}.`,
       xPosition: `${clamp(rewardScore, 15, 85)}%`,
       yPosition: `${clamp(convictionScore, 15, 85)}%`
     };
@@ -917,9 +924,10 @@
               </div>
             </div>
             <div class="dm-scores" id="dmScores-${sym}" role="region" aria-label="Score breakdown" hidden>
-              <span class="dm-score-item"><span class="dm-label">Reward</span><strong>${escapeHtml(String(decisionMap.rewardScore))} <small>/ 100</small></strong></span>
-              <span class="dm-score-item"><span class="dm-label">Conviction</span><strong>${escapeHtml(String(decisionMap.convictionScore))} <small>/ 100</small></strong></span>
+              <span class="dm-score-item"><span class="dm-label">Reward</span><strong>${escapeHtml(String(decisionMap.rewardScore))}%</strong></span>
+              <span class="dm-score-item"><span class="dm-label">Conviction</span><strong>${escapeHtml(String(decisionMap.convictionScore))}%</strong></span>
               <span class="dm-score-item"><span class="dm-label">Uncertainty</span><strong>${escapeHtml(String(decisionMap.uncertaintyScore))}%</strong></span>
+              <span class="dm-score-item"><span class="dm-label">Action</span><strong>${escapeHtml(String(decisionMap.actionScore))}%</strong></span>
             </div>
             <figcaption class="decision-map-caption">Top-right is the Buy Zone. Color reflects action readiness. Not financial advice.</figcaption>
           </figure>
