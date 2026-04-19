@@ -356,7 +356,7 @@
 
     return {
       verdict: kv.VERDICT || 'N/A',
-      buyBelow: kv.BUY_BELOW || 'N/A',
+      buyBelow: (kv.BUY_BELOW || '').replace(/^Buy-below:\s*/i, '').trim() || 'N/A',
       fairValue: kv.FAIR_VALUE_BEAR_BASE_BULL || 'N/A',
       premiumOrMosLabel: kv.PREM_TO_FV ? 'Premium to FV' : (kv.MOS ? 'MOS (Margin of Safety)' : 'Premium/MOS'),
       premiumOrMosValue: kv.PREM_TO_FV || kv.MOS || 'N/A',
@@ -647,12 +647,6 @@
       medium: 'mixed conviction',
       low: 'fragile conviction'
     });
-    const actionDescriptor = scoreToDescriptor(actionScore, {
-      high: 'supportive action setup',
-      medium: 'mixed action setup',
-      low: 'weak action setup'
-    });
-
     return {
       rewardScore,
       convictionScore,
@@ -970,10 +964,10 @@
             </div>
             <figcaption class="decision-map-caption">
               <div class="dm-legend">
-                <span><b>Reward</b> — price discount vs fair value · X axis (right = deeper undervalue)</span>
-                <span><b>Conviction</b> — signal strength from fundamentals &amp; forensics · Y axis (top = stronger)</span>
-                <span><b>Uncertainty</b> — data gaps; bubble size grows with uncertainty</span>
-                <span><b>Action</b> — urgency score · teal = act &nbsp;·&nbsp; amber = monitor &nbsp;·&nbsp; red = pass</span>
+                <span><b>Reward</b> Price discount to fair value. Higher = more upside.</span>
+                <span><b>Conviction</b> Strength of fundamental &amp; forensic signals. Higher = cleaner story.</span>
+                <span><b>Uncertainty</b> Data quality gaps. Lower = more reliable analysis.</span>
+                <span><b>Action</b> Overall readiness score. Teal = act · Amber = monitor · Red = pass.</span>
               </div>
               <span class="dm-disclaimer">Not investment advice.</span>
             </figcaption>
