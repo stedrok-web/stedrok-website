@@ -578,13 +578,39 @@
     ), 18, 96);
     if (tone === 'avoid') convictionScore = Math.min(convictionScore, 55);
 
-    const uncertaintyScore = clamp(Math.round(
+    let uncertaintyScore = clamp(Math.round(
       100 - (
         (dataScore * 0.4) +
         (forensicScore * 0.4) +
         (valuationScore * 0.2)
       )
     ), 12, 88);
+
+    // Break the conviction/uncertainty lock that occurs when all confidence chips are HIGH.
+    // All-HIGH chips produce conviction=84 and uncertainty=16 for every stock regardless of
+    // how strong the actual buy case is. MOS/premium magnitude already drives rewardScore
+    // (X axis). Apply the same signal to convictionScore (Y axis) and uncertaintyScore
+    // (bubble size) so the map gives genuinely differentiated output per stock.
+    if (Number.isFinite(percentValue)) {
+      const absVal = Math.abs(percentValue);
+      let cvAdj = 0;
+      let ucAdj = 0;
+      if (tone === 'buy') {
+        // Higher MOS = more confident the stock is genuinely undervalued
+        cvAdj = absVal >= 40 ? 7 : absVal >= 20 ? 3 : absVal >= 10 ? -2 : -7;
+        ucAdj = absVal >= 40 ? -5 : absVal >= 20 ? -2 : absVal >= 10 ? 2 : 6;
+      } else if (tone === 'overvalued') {
+        // Higher premium = clearer the overvaluation signal
+        cvAdj = absVal >= 30 ? 5 : absVal >= 10 ? 1 : -5;
+        ucAdj = absVal >= 30 ? -4 : absVal >= 10 ? -1 : 5;
+      } else if (tone === 'watch') {
+        // WATCH near fair value → slight uncertainty nudge
+        cvAdj = absVal >= 15 ? -3 : absVal >= 5 ? -1 : 1;
+        ucAdj = absVal >= 15 ? 3 : 0;
+      }
+      if (cvAdj !== 0) convictionScore = clamp(convictionScore + cvAdj, 18, 96);
+      if (ucAdj !== 0) uncertaintyScore = clamp(uncertaintyScore + ucAdj, 12, 88);
+    }
 
     let actionScore = actionBaseScore;
     if (tone === 'avoid') actionScore = Math.min(actionScore, 42);
