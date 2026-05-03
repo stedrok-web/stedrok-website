@@ -132,7 +132,7 @@
         "name": "How do you calculate intrinsic value for a stock?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Intrinsic value is estimated by discounting projected future free cash flows back to today at a rate that reflects the risk of the business. Stedrok uses a composite model combining discounted cash flow (DCF) analysis with EV/EBITDA and FCF yield benchmarking to produce a daily estimated Fair Value for each covered company."
+          "text": "Stedrok estimates intrinsic value using five independent methods: PE-based (normalised earnings × sector P/E), PB-based (book value × sector P/B), analyst consensus target, 52-week range anchor, and PEG-based. These are combined using median aggregation so no single method dominates. A confidence score reflects how much the five methods agree with each other."
         }
       },
       {
@@ -237,8 +237,7 @@
             DCF is theoretically the most rigorous valuation approach because it anchors value
             in the actual economics of the business rather than market comparisons. In practice,
             its output is sensitive to growth rate and discount rate assumptions, which is why
-            Stedrok uses DCF as one component of a composite Fair Value estimate rather than
-            relying on it alone.
+            Stedrok’s Fair Value model does not rely on DCF — its sensitivity to growth-rate and discount-rate assumptions makes it unsuitable for a broad multi-market screener. Instead, Stedrok uses a five-method consensus (PE, PB, analyst target, 52-week anchor, PEG) aggregated by median.
           </p>
         </article>
 
@@ -337,9 +336,7 @@
           <p>
             Fair Value is Stedrok&#8217;s estimated intrinsic value per share for each covered
             stock, updated every trading day. It is calculated using a composite model that
-            combines discounted cash flow (DCF) analysis, EV/EBITDA multiples benchmarked
-            against sector medians, and free cash flow yield comparisons &#8212; reducing
-            reliance on any single method.
+            combines five independent methods — PE-based, PB-based, analyst consensus target, 52-week range anchor, and PEG-based — aggregated by median so no single estimate dominates.
           </p>
           <p>
             Fair Value is not a price target or a prediction of where the stock will trade.
@@ -428,7 +425,7 @@
             expected to generate, discounted at an appropriate rate. It is the anchor concept
             in value investing: the goal is to buy assets trading below their intrinsic value
             to create a margin of safety. Stedrok estimates intrinsic value for each covered
-            stock using a composite DCF and multiple-based model, updating the estimate each
+            stock using a multi-method fair value model, updating the estimate each
             trading day.
           </p>
         </article>
@@ -565,8 +562,7 @@
             can also signal deteriorating earnings, a cyclical trough, or structural decline.
             P/E is unreliable for companies with negative earnings, heavy non-cash charges,
             or highly cyclical profits. Stedrok uses P/E alongside EV/EBITDA, P/FCF, and
-            DCF-derived estimates to form a rounded valuation view rather than relying on
-            any single multiple.
+            multi-method estimated Fair Value alongside EV/EBITDA and earnings-yield signals to form a rounded valuation view rather than relying on any single multiple.
           </p>
         </article>
 
@@ -587,8 +583,7 @@
           </p>
           <p>
             Stedrok incorporates P/FCF as a core valuation input alongside EV/EBITDA and
-            DCF-derived intrinsic value estimates. All three are combined to reduce the noise
-            from any single metric.
+            multi-method estimated Fair Value. These are combined to reduce the noise from any single metric.
           </p>
         </article>
 
@@ -679,7 +674,7 @@
             on any single metric.
           </p>
           <p>
-            Inputs include the Discount % (market price vs DCF-derived Fair Value), EV/EBITDA
+            Inputs include the Discount % (market price vs multi-method estimated Fair Value), EV/EBITDA
             relative to sector median, P/FCF relative to sector median, and P/B where
             relevant for asset-heavy businesses. Value carries the highest weight in the
             composite Total Score because buying at a significant discount to intrinsic value
@@ -712,7 +707,7 @@
       <div class="footer-main">
         <div class="footer-left">
           <a href="index.html" class="logo footer-logo" aria-label="Stedrok home"><img src="img/logo-icon.svg?v=20260319asset9" alt="" class="logo-icon" aria-hidden="true"/><span class="logo-text">STEDROK</span></a>
-          <p>&copy; 2026 Stedrok Pty Ltd. All rights reserved.</p>
+          <p>&copy; 2026 Stedrok. All rights reserved.</p>
           <p class="footer-tagline">
             Independent stock research for long-term investors. General information only, not personal financial advice. Past results do not guarantee future performance. Always do your own research before investing.
           </p>
