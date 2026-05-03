@@ -132,7 +132,7 @@
         "name": "How do you calculate intrinsic value for a stock?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Intrinsic value is estimated by discounting projected future free cash flows back to today at a rate that reflects the risk of the business. Stedrok uses a composite model combining discounted cash flow (DCF) analysis with EV/EBITDA and FCF yield benchmarking to produce a daily estimated Fair Value for each covered company."
+          "text": "Stedrok estimates intrinsic value using five independent methods: PE-based (normalised earnings × sector P/E), PB-based (book value × sector P/B), analyst consensus target, 52-week range anchor, and PEG-based. These are combined using median aggregation so no single method dominates. A confidence score reflects how much the five methods agree with each other."
         }
       },
       {
@@ -237,8 +237,7 @@
             DCF is theoretically the most rigorous valuation approach because it anchors value
             in the actual economics of the business rather than market comparisons. In practice,
             its output is sensitive to growth rate and discount rate assumptions, which is why
-            Stedrok uses DCF as one component of a composite Fair Value estimate rather than
-            relying on it alone.
+            Stedrok’s Fair Value model does not rely on DCF — its sensitivity to growth-rate and discount-rate assumptions makes it unsuitable for a broad multi-market screener. Instead, Stedrok uses a five-method consensus (PE, PB, analyst target, 52-week anchor, PEG) aggregated by median.
           </p>
         </article>
 
@@ -337,9 +336,7 @@
           <p>
             Fair Value is Stedrok&#8217;s estimated intrinsic value per share for each covered
             stock, updated every trading day. It is calculated using a composite model that
-            combines discounted cash flow (DCF) analysis, EV/EBITDA multiples benchmarked
-            against sector medians, and free cash flow yield comparisons &#8212; reducing
-            reliance on any single method.
+            combines five independent methods — PE-based, PB-based, analyst consensus target, 52-week range anchor, and PEG-based — aggregated by median so no single estimate dominates.
           </p>
           <p>
             Fair Value is not a price target or a prediction of where the stock will trade.
