@@ -86,3 +86,7 @@ data/dashboard_ticker_summaries_swarm.json
 # Local preview files (not production assets)
 decision-map-preview.html
 decision-map-preview.png
+# Data backup files - never commit these
+data/*.prefv.*
+data/*.pre_*
+data/*.pre_polish

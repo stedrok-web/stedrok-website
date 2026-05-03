@@ -150,7 +150,7 @@
 
     <h2>Data Sources and Quality</h2>
     <p>Company financial data (earnings, cash flow, balance sheet items) and price data are sourced from third-party financial data services, including Yahoo Finance data services. These are aggregated third-party feeds &#8212; they are not primary exchange data and carry the inherent limitations of their underlying sources, including potential delays, data gaps, corporate-action adjustments, and provider errors. Stedrok does not itself originate or warehouse primary financial statement data.</p>
-    <p>Data is refreshed on each scoring run (typically 2x daily). All input fields are passed through an automated anomaly-detection step before scoring begins. Records with missing, stale, or inconsistent data are flagged and excluded or downweighted before publication.</p>
+    <p>Data is refreshed on each scoring run (typically 3x daily). All input fields are passed through an automated anomaly-detection step before scoring begins. Records with missing, stale, or inconsistent data are flagged and excluded or downweighted before publication.</p>
     <p>Despite these controls, data errors do occur. Financial API data for smaller or less-covered companies can be incomplete or delayed. Stedrok scores should be treated as a starting point for research, not as a definitive statement of a company&#39;s financial position.</p>
 
     <h2>Model Methodology Summary</h2>
