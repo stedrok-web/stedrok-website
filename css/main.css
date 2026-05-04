@@ -348,6 +348,10 @@ header {
   border-color: var(--accent-green);
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
 }
+.form-group select,
+.form-group textarea {
+  font-size: 16px;
+}
 
 .form-group small {
   display: block;
@@ -506,6 +510,10 @@ header {
   margin-top: -1px;
   pointer-events: none;
   box-shadow: -14px 0 14px -10px rgba(15, 23, 42, 0.65);
+}
+.comparison-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .stock-table {
@@ -772,7 +780,7 @@ header {
   border: 1px solid var(--border-color);
   background: var(--bg-card);
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .filters input:focus, .filters select:focus {

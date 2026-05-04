@@ -186,7 +186,7 @@
       </div>
 
     <div class="dashboard-header">
-        <h1 id="dashboardTitle">Current Ranked Stock Coverage</h1>
+        <h2 id="dashboardTitle">Current Ranked Stock Coverage</h2>
         <div id="dashboardLaneToggle" class="dashboard-lane-toggle" role="group" aria-label="Dashboard mode selector" style="display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; justify-content:center;">
           <button type="button" id="laneToggleCore" class="btn-secondary is-active" data-dashboard-lane="core" aria-pressed="true">Core</button>
           <button type="button" id="laneToggleHybrid" class="btn-secondary" data-dashboard-lane="hybrid" aria-pressed="false" aria-label="AI Hybrid (Beta)" title="AI Hybrid (Beta)">AI Hybrid <span style="font-size:0.65em;font-weight:700;letter-spacing:0.03em;background:var(--accent-orange,#e07000);color:#fff;border-radius:3px;padding:1px 5px;vertical-align:middle;margin-left:3px;">BETA</span></button>
@@ -222,7 +222,7 @@
         <input type="text" id="countryFilter" placeholder="Country...">
         <input type="text" id="sectorFilter" placeholder="Sector...">
         <input type="number" id="minScoreFilter" placeholder="Min score" min="0" max="100">
-        <select id="decisionFilter">
+        <select id="decisionFilter" aria-label="Filter by decision">
           <option value="">All Research States</option>
           <option value="BUY">BUY</option>
           <option value="WATCH">WATCH</option>
