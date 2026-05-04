@@ -74,7 +74,6 @@
           "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
           "merchantReturnDays": 30,
           "returnMethod": "https://schema.org/ReturnByMail",
-          "refundType": "https://schema.org/FullRefund"
         },
         "seller": {"@id": "https://stedrok.org/#organization"}
       },
@@ -172,14 +171,7 @@
           "text": "Your Pro access continues until the end of your current billing period. After that, your account automatically reverts to the free tier. You keep your account, saved preferences, and historical data - you just lose access to the full ranked daily stock list and premium features."
         }
       },
-      {
-        "@type": "Question",
-        "name": "Can I get a refund?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. If you're not satisfied within 30 days of your first payment, email us at contact@stedrok.org for a full refund. We typically process refunds within 3 business days. After the 30-day window, no refunds are issued except for documented billing errors."
-        }
-      },
+
       {
         "@type": "Question",
         "name": "Do you offer annual billing or discounts?",
@@ -356,7 +348,7 @@
           No hidden fees. Cancel any time.
         </p>
         <div class="trust-strip">
-          <strong>30-Day Money-Back Guarantee:</strong> Not satisfied? Get a full refund within 30 days of your first payment, no questions asked.
+          <strong>Simple, Fair Billing:</strong> Monthly subscription. Cancel anytime from Account Settings or PayPal. No lock-in contracts, no cancellation fees.
         </div>
         <div class="trust-strip security">
           <strong>Secure Billing:</strong> All payments processed by PayPal. Stedrok never sees or stores your card details.
@@ -435,7 +427,7 @@
               <li>Detailed scores across all four fundamental pillars for every stock</li>
               <li>Export full list to CSV</li>
               <li>Priority email support (within 1 business day)</li>
-              <li>30-day money-back guarantee</li>
+              
             </ul>
             <button class="btn-primary btn-large btn-block" onclick="document.getElementById('checkout-container').scrollIntoView({behavior:'smooth'})">Upgrade to Pro</button>
             <p class="payment-note">
@@ -500,11 +492,7 @@
               <td style="text-align:center;">Standard (3 business days)</td>
               <td style="text-align:center;">Priority (24h)</td>
             </tr>
-            <tr>
-              <th scope="row">Money-back guarantee</th>
-              <td style="text-align:center;">N/A</td>
-              <td style="text-align:center;">30 days</td>
-            </tr>
+
           </tbody>
         </table>
         </div>
@@ -551,15 +539,13 @@
       </div>
     </section>
 
-    <!-- Money-Back Guarantee -->
+    <!-- Cancel Anytime section -->
     <section class="section section--light">
       <div class="container">
         <div class="guarantee-box">
-          <h3>30-Day Money-Back Guarantee</h3>
+          <h3>Cancel Anytime, No Lock-In</h3>
           <p>
-            Try Stedrok Pro risk-free. If you're not satisfied within 30 days of your first payment,
-            contact us at <a href="mailto:contact@stedrok.org" style="color:var(--accent-green);text-decoration:underline;">contact@stedrok.org</a>
-            for a full refund. No questions asked. We typically process refunds within 3 business days.
+            Your subscription renews monthly until you cancel. Cancel at any time from your Account Settings or directly through PayPal &#8212; no lock-in contracts, no cancellation fees. Your Pro access continues until the end of the current billing period.
           </p>
         </div>
         <div style="max-width:700px;margin:32px auto;padding:28px 32px;background:var(--bg-card);border-left:4px solid var(--accent-green);border-radius:0 12px 12px 0;">
@@ -647,9 +633,9 @@
           </div>
 
           <div class="faq-item">
-            <h3>Can I Get a Refund?</h3>
+            <h3>What Happens When I Cancel?</h3>
             <p>
-              Yes. If you're not satisfied within 30 days of your first payment, email us at contact@stedrok.org for a full refund. We typically process refunds within 3 business days. After the 30-day window, no refunds are issued except for documented billing errors.
+              Your Pro access continues until the end of your current billing period. After that, your account reverts to the free tier automatically. No partial-period refunds apply. Cancel via Account Settings or directly through PayPal at any time.
             </p>
           </div>
 
