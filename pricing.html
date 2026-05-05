@@ -251,7 +251,7 @@
     .use-cases-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
     .use-case-card { padding: 28px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; }
     .use-case-card h3 { font-size: 18px; margin-bottom: 12px; color: var(--accent-green); }
-    .use-case-card p { color: var(--text-secondary); font-size: 15px; line-height: 1.6; }
+    .use-case-card p { color: var(--text-secondary); font-size: 15px; line-height: 1.8; }
 
     /* FAQ */
     .faq-grid { max-width: 800px; margin: 0 auto; }
@@ -301,7 +301,17 @@
         justify-content: center;
       }
     }
-    </style>
+    
+    /* W9: Paragraph alignment consistency */
+    .section .container p:not(.section-lead):not(.lead) {
+      max-width: 780px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+      margin-bottom: 18px;
+      line-height: 1.8;
+    }
+  </style>
     <meta name="geo.region" content="AU">
     <meta name="geo.placename" content="Australia">
     <meta name="geo.position" content="-25.2744;133.7751">
@@ -407,7 +417,7 @@
               <div style="font-size:12px;color:var(--text-muted);">per year ($5/month)</div>
             </div>
           </div>
-          <p style="margin-top:16px;font-size:14px;color:var(--text-muted);text-align:center;">Stedrok focuses on what individual investors actually need: a rigorous, transparent fundamental screener updated twice daily. No newsfeeds, no FX desks, no features you'll never use. Institutional pricing figures are approximate and based on publicly available information.</p>
+          <p style="margin-top:16px;font-size:14px;color:var(--text-muted);">Stedrok focuses on what individual investors actually need: a rigorous, transparent fundamental screener updated twice daily. No newsfeeds, no FX desks, no features you'll never use. Institutional pricing figures are approximate and based on publicly available information.</p>
         </div>
       </div>
     </section>
@@ -572,7 +582,7 @@
           <p style="font-size:19px;font-style:italic;color:var(--text-primary);line-height:1.7;margin:0 0 12px;">&#8220;The stock market is a device for transferring money from the impatient to the patient. A systematic value framework is how you stay patient with conviction.&#8221;</p>
           <p style="font-size:13px;color:var(--text-muted);margin:0;">&#8212; Value investing principle. The Stedrok framework is built around this idea.</p>
         </div>
-        <p style="max-width:700px;margin:24px auto 0;text-align:center;font-size:15px;color:var(--text-secondary);line-height:1.7;">
+        <p style="max-width:700px;margin:24px auto 0;font-size:15px;color:var(--text-secondary);line-height:1.7;">
           The five-dollar monthly price covers data licensing, cloud hosting, authentication services, payment processing and ongoing development. There are no add-ons, no upsells and no advertising. We set the price low enough that most long-term investors can treat it as a minor research expense &#8212; less than a single coffee &#8212; while still keeping the service sustainable.
         </p>
       </div>
@@ -583,7 +593,7 @@
       <div class="container">
         <div id="checkout-container">
           <h2 style="text-align:center; margin-bottom:24px;">Upgrade to Pro &#8212; $5/month</h2>
-          <p style="text-align:center;font-size:14px;color:var(--text-muted);margin:0 0 20px;">Subscription <strong>auto-renews monthly at $5.00</strong> until cancelled. Cancel anytime from Account Settings or PayPal. <a href="terms.html" style="color:var(--accent-green);">See billing terms</a>. Research only &#8212; not financial advice.</p>
+          <p style="font-size:14px;color:var(--text-muted);margin:0 0 20px;">Subscription <strong>auto-renews monthly at $5.00</strong> until cancelled. Cancel anytime from Account Settings or PayPal. <a href="terms.html" style="color:var(--accent-green);">See billing terms</a>. Research only &#8212; not financial advice.</p>
 
           <div id="checkout-state" class="status-msg" style="display:none;">
             <p><strong id="checkout-state-title"></strong></p>

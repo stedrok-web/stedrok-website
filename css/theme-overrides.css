@@ -2377,3 +2377,55 @@ section,
   margin-bottom: 28px;
   color: var(--text-secondary);
 }
+
+/* ═══ WAVE-9 DESKTOP LAYOUT CONSISTENCY ═══ */
+
+/* Global paragraph spacing and alignment for content sections */
+.section .container p {
+  line-height: 1.8;
+  margin-bottom: 18px;
+}
+
+/* Section content paragraphs: left-align for readability on desktop */
+@media (min-width: 769px) {
+  .section .container p:not(.section-lead):not(.lead):not(.hero-tagline):not(.hero-subtext) {
+    text-align: left;
+  }
+  /* Hero .lead — constrain width for desktop readability */
+  .hero .lead,
+  .hero-inner .lead {
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* Section lead — keep centered (intentional) */
+  .section-lead {
+    text-align: center;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 40px;
+  }
+}
+
+/* Remove empty paragraph visual gaps */
+p:empty {
+  display: none;
+}
+
+/* Fix mixed-align pattern: body paragraphs in centered-lead sections
+   → constrain width + center the block so it looks aligned with the lead */
+@media (min-width: 769px) {
+  .section .container > p {
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 18px;
+  }
+  .section .container > ul,
+  .section .container > ol {
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
