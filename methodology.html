@@ -128,14 +128,12 @@
   </script>
   <style>
     /* Hero section */
-    .hero { padding: 60px 0 40px; background: linear-gradient(135deg, rgba(34,197,94,0.03) 0%, rgba(59,130,246,0.03) 100%); }
     .hero-inner { max-width: 800px; margin: 0 auto; text-align: center; }
     .hero h1 { font-size: 42px; margin-bottom: 20px; }
     .hero-tagline { font-size: 20px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; }
     .hero-subtext { font-size: 15px; color: var(--text-secondary); font-style: italic; opacity: 0.85; }
 
     /* Section layouts */
-    .section { padding: 48px 0; }
     .section--border-top { border-top: 1px solid var(--border-color); }
     .section h2 { font-size: 32px; margin-bottom: 20px; }
     .section-lead { font-size: 18px; color: var(--text-secondary); text-align: center; max-width: 700px; margin: 0 auto 48px; line-height: 1.7; }
@@ -146,7 +144,7 @@
     .pillar-card h3 { margin-bottom: 16px; font-size: 22px; }
     .pillar-card p { color: var(--text-secondary); margin-bottom: 14px; line-height: 1.7; }
     .pillar-note { font-size: 14px; margin-top: 20px; font-style: italic; opacity: 0.85; border-left: 3px solid currentColor; padding-left: 16px; }
-    .pillar-card--value { border-color: rgba(34,197,94,0.6); color: var(--text-primary); }
+    .pillar-card--value { border-color: rgba(var(--accent-green-rgb),0.6); color: var(--text-primary); }
     .pillar-card--quality { border-color: rgba(59,130,246,0.6); color: var(--text-primary); }
     .pillar-card--resilience { border-color: rgba(239,68,68,0.6); color: var(--text-primary); }
     .pillar-card--price { border-color: rgba(250,204,21,0.6); color: var(--text-primary); }
@@ -192,7 +190,6 @@
     }
     @media (max-width: 768px) { .section h2 { font-size: 26px; } }
     @media (max-width: 480px) {
-      .hero { padding: 36px 0 24px; }
       .hero h1 { font-size: 26px; }
       .hero-tagline { font-size: 16px; }
       .section h2 { font-size: 24px; }
@@ -397,7 +394,7 @@
 
 
     <!-- Mid-page CTA -->
-    <div style="margin:0 auto 8px;max-width:900px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.25);border-radius:12px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+    <div style="margin:0 auto 8px;max-width:900px;background:rgba(var(--accent-green-rgb),.07);border:1px solid rgba(var(--accent-green-rgb),.25);border-radius:12px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
       <div>
         <strong style="color:var(--accent-green);">Access the full ranked list</strong>
         <span style="color:var(--text-secondary);font-size:14px;display:block;margin-top:4px;">Free tier available &#8212; no card required. See the methodology in action.</span>
@@ -544,7 +541,7 @@
       </div>
     </section>
 
-  <section class="cta-section" style="background:linear-gradient(135deg,rgba(34,197,94,.08) 0%,rgba(59,130,246,.08) 100%);">
+  <section class="cta-section" style="background:linear-gradient(135deg,rgba(var(--accent-green-rgb),.08) 0%,rgba(59,130,246,.08) 100%);">
     <div class="container">
       <h2 style="font-size:36px;margin-bottom:16px;">Ready to start screening?</h2>
       <p style="font-size:18px;color:var(--text-secondary);margin-bottom:32px;max-width:600px;margin-left:auto;margin-right:auto;">5,900+ stocks scored daily. Free tier &#8212; no card required. Cancel anytime.</p>

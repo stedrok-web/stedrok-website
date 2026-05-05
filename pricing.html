@@ -214,13 +214,13 @@
     .pricing-hero .subtitle { font-size: 20px; color: var(--text-secondary); margin-bottom: 32px; }
     
     /* Trust strip */
-    .trust-strip { max-width: 700px; margin: 0 auto 24px; padding: 16px 24px; background: rgba(34,197,94,0.08); border-radius: 10px; border-left: 3px solid var(--accent-green); color: var(--text-secondary); font-size: 15px; line-height: 1.6; }
+    .trust-strip { max-width: 700px; margin: 0 auto 24px; padding: 16px 24px; background: rgba(var(--accent-green-rgb),0.08); border-radius: 10px; border-left: 3px solid var(--accent-green); color: var(--text-secondary); font-size: 15px; line-height: 1.6; }
     .trust-strip.security { background: rgba(59,130,246,0.08); border-left-color: #3b82f6; }
     
     /* Pricing cards */
     .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; max-width: 1000px; margin: 0 auto 60px; }
     .pricing-card { padding: 40px; background: var(--bg-card); border: 2px solid var(--border-color); border-radius: 16px; position: relative; transition: transform 0.2s, box-shadow 0.2s; }
-    .pricing-card.featured { border-color: var(--accent-green); box-shadow: 0 20px 60px rgba(34,197,94,0.15); }
+    .pricing-card.featured { border-color: var(--accent-green); box-shadow: 0 20px 60px rgba(var(--accent-green-rgb),0.15); }
     .pricing-card:hover { transform: translateY(-4px); }
     .price-badge { display: inline-block; padding: 8px 16px; background: var(--bg-dark); border-radius: 20px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 20px; }
     .featured .price-badge { background: var(--accent-green); color: #022c22; }
@@ -234,8 +234,6 @@
     .payment-note { margin-top: 16px; font-size: 13px; color: var(--text-secondary); text-align: center; line-height: 1.5; }
 
     /* Sections */
-    .section { padding: 64px 0; }
-    .section--light { background: rgba(15, 23, 42, 0.4); }
     .section h2 { font-size: 36px; margin-bottom: 16px; text-align: center; }
     .section-lead { font-size: 18px; color: var(--text-secondary); text-align: center; max-width: 700px; margin: 0 auto 48px; line-height: 1.7; }
 
@@ -270,7 +268,7 @@
     #checkout-container { max-width: 550px; margin: 0 auto 60px; padding: 36px; background: var(--bg-card); border: 2px solid var(--accent-green); border-radius: 16px; box-shadow: 0 12px 48px rgba(34,197,94,0.1); }
     #paypal-button-container { margin-top: 20px; min-height: 50px; }
     .status-msg { margin-top: 20px; padding: 16px; border-radius: 10px; display: none; }
-    .status-success { background: rgba(34,197,94,0.15); color: var(--accent-green); border-left: 4px solid var(--accent-green); }
+    .status-success { background: rgba(var(--accent-green-rgb),0.15); color: var(--accent-green); border-left: 4px solid var(--accent-green); }
     .status-error { background: rgba(239,68,68,0.15); color: var(--accent-red); border-left: 4px solid var(--accent-red); }
 
     /* Footer */
