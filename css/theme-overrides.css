@@ -2366,3 +2366,14 @@ section,
   padding-block: clamp(72px,10vw,110px) clamp(44px,7vw,76px) !important;
 }
 .section { padding-block: clamp(60px,7vw,82px) !important; }
+
+/* WAVE-7: CTA section global sizing */
+.cta-section h2 {
+  font-size: clamp(24px, 4vw, 38px);
+  margin-bottom: 16px;
+}
+.cta-section .lead {
+  font-size: clamp(16px, 2vw, 18px);
+  margin-bottom: 28px;
+  color: var(--text-secondary);
+}
