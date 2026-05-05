@@ -576,7 +576,7 @@ textarea:disabled {
 .demo-hero h1 {
   font-size: clamp(2.35rem, 6vw, 4.4rem) !important;
   line-height: 1.05;
-  max-width: 13ch;
+  max-width: 22ch;
   margin-inline: auto;
 }
 

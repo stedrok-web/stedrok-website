@@ -132,5 +132,12 @@
     --accent-red-dark: #a92d2d;
     --card-radius: 18px;
     --shadow: var(--shadow-card);
+    .gradient-text {
+      color: var(--accent-ink) !important;
+      -webkit-text-fill-color: var(--accent-ink) !important;
+      background-image: none !important;
+      -webkit-background-clip: unset !important;
+      background-clip: unset !important;
+    }
   }
 }
