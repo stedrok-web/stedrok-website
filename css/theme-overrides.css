@@ -2331,3 +2331,38 @@ section,
 .metrics-legend-footnote {
   border-top: 1px solid rgba(var(--border-subtle-rgb), 0.58) !important;
 }
+
+/* WAVE-3 DESKTOP FIXES 2026-05-05 */
+@media (min-width: 769px) and (prefers-color-scheme: light) {
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .gradient-text {
+      background: linear-gradient(135deg, #92400e, #d97706) !important;
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+    }
+  }
+}
+@media (prefers-color-scheme: light) {
+  .audience-card h3 { color: #166534 !important; }
+  .solution-box h3  { color: #166534 !important; }
+  .solution-advanced-list strong { color: var(--text-primary) !important; }
+  .hero,.pricing-hero,.demo-hero {
+    background:
+      radial-gradient(circle at 18% 18%,rgba(var(--accent-fill-rgb),0.10),transparent 20%),
+      radial-gradient(circle at 84% 18%,rgba(var(--accent-teal-rgb),0.12),transparent 24%),
+      radial-gradient(circle at 58% 70%,rgba(var(--accent-purple-rgb),0.10),transparent 28%),
+      linear-gradient(160deg,rgba(var(--bg-surface-rgb),0.98),rgba(var(--bg-base-rgb),1) 62%) !important;
+  }
+  .section--light,.section.section--light {
+    background: rgba(15,23,42,0.04) !important;
+    border-top: 1px solid rgba(var(--border-subtle-rgb),0.3) !important;
+    border-bottom: 1px solid rgba(var(--border-subtle-rgb),0.3) !important;
+  }
+}
+@media (min-width: 1280px) {
+  .hero h1,.pricing-hero h1,.demo-hero h1 { max-width: 30ch !important; }
+}
+.hero,.pricing-hero,.demo-hero {
+  padding-block: clamp(72px,10vw,110px) clamp(44px,7vw,76px) !important;
+}
+.section { padding-block: clamp(60px,7vw,82px) !important; }
