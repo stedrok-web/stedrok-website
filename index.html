@@ -195,14 +195,14 @@
 
 <style>
     /* Hero */
-    .hero { padding: 80px 0 60px; background: linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(59,130,246,0.08) 100%); }
+    .hero { padding: 80px 0 60px; background: linear-gradient(135deg, rgba(var(--accent-green-rgb, 74, 222, 128), 0.08) 0%, rgba(59,130,246,0.08) 100%); }
     .hero h1 { font-size: 52px; line-height: 1.15; margin-bottom: 24px; }
     .hero .lead { font-size: 22px; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.6; max-width: 720px; }
     .cta-buttons { display: flex; gap: 16px; margin-bottom: 24px; }
     .trust-badges { font-size: 15px; color: var(--text-secondary); margin-bottom: 32px; }
 
     /* Trust strips */
-    .trust-strip { padding: 16px 24px; background: rgba(34,197,94,0.08); border-radius: 10px; border-left: 3px solid var(--accent-green); color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
+    .trust-strip { padding: 16px 24px; background: rgba(var(--accent-green-rgb, 74, 222, 128), 0.08); border-radius: 10px; border-left: 3px solid var(--accent-green); color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 12px; }
     .trust-strip.security { background: rgba(59,130,246,0.08); border-left-color: #3b82f6; }
     .trust-strip.disclaimer { background: rgba(250,204,21,0.08); border-left-color: #facc15; }
 
@@ -220,11 +220,11 @@
     .problem-card p { color: var(--text-secondary); font-size: 15px; line-height: 1.6; }
 
     /* Solution box */
-    .solution-box { padding: 40px; background: var(--bg-card); border: 2px solid rgba(34,197,94,0.5); border-radius: 12px; text-align: center; }
+    .solution-box { padding: 40px; background: var(--bg-card); border: 2px solid rgba(var(--accent-green-rgb, 74, 222, 128), 0.5); border-radius: 12px; text-align: center; }
     .solution-box h3 { font-size: 28px; margin-bottom: 16px; color: #4ade80; }
     .solution-box p { font-size: 17px; color: var(--text-secondary); line-height: 1.7; max-width: 680px; margin: 0 auto 24px; }
     .solution-advanced-list { list-style: none; margin: 0 auto 24px; padding: 0; max-width: 760px; display: grid; gap: 10px; text-align: left; }
-    .solution-advanced-list li { border: 1px solid rgba(74, 222, 128, 0.35); border-radius: 10px; background: rgba(34, 197, 94, 0.10); padding: 12px 14px; color: var(--text-secondary); line-height: 1.65; font-size: 15px; }
+    .solution-advanced-list li { border: 1px solid rgba(74, 222, 128, 0.35); border-radius: 10px; background: rgba(var(--accent-green-rgb, 74, 222, 128), 0.10); padding: 12px 14px; color: var(--text-secondary); line-height: 1.65; font-size: 15px; }
     .solution-advanced-list strong { color: var(--text-primary); }
 
     /* Features */
@@ -285,7 +285,7 @@
     .faq-item p { color: var(--text-secondary); font-size: 15px; line-height: 1.7; }
 
     /* CTA Section */
-    .cta-section { background: linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(59,130,246,0.08) 100%); padding: 64px 0; text-align: center; }
+    .cta-section { background: linear-gradient(135deg, rgba(var(--accent-green-rgb, 74, 222, 128), 0.08) 0%, rgba(59,130,246,0.08) 100%); padding: 64px 0; text-align: center; }
     .cta-section h2 { font-size: 38px; margin-bottom: 16px; }
     .cta-section p { font-size: 19px; color: var(--text-secondary); margin-bottom: 32px; }
 
@@ -372,7 +372,7 @@
         <p class="lead">
           Every trading day, <strong>5,900+ companies</strong> across <strong>40+ global exchanges</strong> are scored on four pillars: intrinsic value discount, business quality, balance sheet resilience, and price context. The output: a focused ranked list of the strongest fundamental candidates &#8212; updated twice daily, with a research note on every name (Pro).
         </p>
-        <div class="stat-bar" style="display:flex;flex-wrap:wrap;gap:10px 24px;margin:0 0 28px;padding:18px 24px;background:rgba(var(--bg-elevated-rgb),0.96);border:1px solid rgba(var(--border-subtle-rgb),0.75);border-radius:12px;">
+        <div class="stat-bar" style="display:flex;flex-wrap:wrap;justify-content:center;width:fit-content;max-width:100%;gap:10px 24px;margin:0 auto 28px;padding:18px 24px;background:rgba(var(--bg-elevated-rgb),0.96);border:1px solid rgba(var(--border-subtle-rgb),0.75);border-radius:12px;">
           <div class="stat-item" style="display:flex;flex-direction:column;gap:2px;">
             <span style="font-size:26px;font-weight:800;color:var(--accent-green);line-height:1;">5,900+</span>
             <span style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;">Companies Scanned</span>

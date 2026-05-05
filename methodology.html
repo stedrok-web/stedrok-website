@@ -37,8 +37,11 @@
   <meta name="twitter:image" content="https://stedrok.org/img/og-home.jpg">
   <meta name="twitter:image:alt" content="Stedrok value stock screener dashboard preview">
 
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css?v=20260409c">
-  <link rel="stylesheet" href="css/tokens.css?v=20260310i1">
+  <link rel="stylesheet" href="css/tokens.css?v=20260317b">
   <link rel="stylesheet" href="css/theme-overrides.css?v=20260409c">
 
   <!-- JSON-LD: TechArticle / methodology -->
@@ -133,7 +136,6 @@
 
     /* Section layouts */
     .section { padding: 48px 0; }
-    .section--light { background: rgba(15, 23, 42, 0.4); }
     .section--border-top { border-top: 1px solid var(--border-color); }
     .section h2 { font-size: 32px; margin-bottom: 20px; }
     .section-lead { font-size: 18px; color: var(--text-secondary); text-align: center; max-width: 700px; margin: 0 auto 48px; line-height: 1.7; }
@@ -156,8 +158,8 @@
     .rating-table td { padding: 20px 16px; border-bottom: 1px solid var(--border-color); vertical-align: top; }
     .rating-table td:first-child { width: 120px; }
     .badge { display: inline-block; padding: 6px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .badge-buy { background: var(--accent-green); color: white; }
-    .badge-watch { background: rgba(250,204,21,0.2); color: #b8860b; border: 1px solid rgba(250,204,21,0.4); }
+    .badge-buy { background: var(--accent-green); color: #022c22; }
+    .badge-watch { background: rgba(250,204,21,0.2); color: var(--watch, #f59e0b); border: 1px solid rgba(250,204,21,0.4); }
     .badge-avoid { background: rgba(239,68,68,0.15); color: var(--accent-red); border: 1px solid rgba(239,68,68,0.3); }
 
     /* Usage grid */
@@ -176,7 +178,7 @@
     .disclaimer-card h3 { color: var(--accent-red); margin-bottom: 12px; }
     .disclaimer-card p { color: var(--text-secondary); line-height: 1.8; }
 
-    .text-muted { color: var(--text-secondary); font-style: italic; }
+    .text-muted { color: var(--text-muted); font-style: italic; }
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -188,6 +190,7 @@
     @media (min-width: 769px) and (max-width: 900px) {
       .usage-grid { grid-template-columns: 1fr 1fr; }
     }
+    @media (max-width: 768px) { .section h2 { font-size: 26px; } }
     @media (max-width: 480px) {
       .hero { padding: 36px 0 24px; }
       .hero h1 { font-size: 26px; }
@@ -583,6 +586,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/config.js"></script>
   <script src="js/mobile-menu.js?v=20260409c"></script>
-  <script src="js/public-auth-nav.js?v=20260227a4"></script>
+  <script src="js/public-auth-nav.js?v=20260317"></script>
 </body>
 </html>
