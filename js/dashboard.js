@@ -1277,7 +1277,8 @@ function showError(message) {
 }
 
 function normalizeTickerKey(value) {
-  return String(value || '').trim().toUpperCase();
+  const ticker = String(value || '').trim().toUpperCase();
+  return ticker.endsWith('.ASX') ? `${ticker.slice(0, -4)}.AX` : ticker;
 }
 
 function decisionClassFromValue(decision) {
@@ -2670,10 +2671,13 @@ function applyFilters() {
   const enforceChinaBottomForPaid = isPaidUserProfile() && normalizeDashboardLane(currentLaneMode) === 'core';
 
   // Apply search filter (ticker or company name)
-  const searchTerm = document.getElementById('searchInput')?.value?.toLowerCase();
+  const searchValue = document.getElementById('searchInput')?.value || '';
+  const searchTerm = searchValue.toLowerCase();
+  const normalizedSearchTerm = normalizeTickerKey(searchValue).toLowerCase();
   if (searchTerm) {
     filtered = filtered.filter(s => 
       (s.ticker && s.ticker.toLowerCase().includes(searchTerm)) ||
+      (normalizedSearchTerm && s.ticker && s.ticker.toLowerCase().includes(normalizedSearchTerm)) ||
       (s.company_name && s.company_name.toLowerCase().includes(searchTerm))
     );
   }

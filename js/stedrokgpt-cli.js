@@ -1056,7 +1056,7 @@
     if (!SYMBOL_RE.test(symbol)) {
       return null;
     }
-    return symbol;
+    return symbol.endsWith('.ASX') ? `${symbol.slice(0, -4)}.AX` : symbol;
   }
 
   form.addEventListener('submit', async function onSubmit(event) {

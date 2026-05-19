@@ -19,7 +19,8 @@ function toNumber(value, fallback = 0) {
 }
 
 function normalizeTicker(value) {
-  return String(value || '').trim().toUpperCase();
+  const ticker = String(value || '').trim().toUpperCase();
+  return ticker.endsWith('.ASX') ? `${ticker.slice(0, -4)}.AX` : ticker;
 }
 
 function formatPct(value) {
