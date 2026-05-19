@@ -1056,7 +1056,33 @@
     if (!SYMBOL_RE.test(symbol)) {
       return null;
     }
-    return symbol.endsWith('.ASX') ? `${symbol.slice(0, -4)}.AX` : symbol;
+    const suffixAliases = {
+      ASX: 'AX',
+      LON: 'L',
+      LSE: 'L',
+      HKG: 'HK',
+      HKEX: 'HK',
+      TYO: 'T',
+      JPX: 'T',
+      NSE: 'NS',
+      BSE: 'BO',
+      TSX: 'TO',
+      TSXV: 'V',
+      NZX: 'NZ',
+      SGX: 'SI',
+      SIX: 'SW',
+      XETRA: 'DE',
+      B3: 'SA',
+      BMV: 'MX',
+      TASE: 'TA'
+    };
+    const parts = symbol.split('.');
+    const suffix = parts.length > 1 ? parts[parts.length - 1] : '';
+    if (suffixAliases[suffix]) {
+      parts[parts.length - 1] = suffixAliases[suffix];
+      return parts.join('.');
+    }
+    return symbol;
   }
 
   form.addEventListener('submit', async function onSubmit(event) {

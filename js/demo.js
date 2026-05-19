@@ -20,7 +20,33 @@ function toNumber(value, fallback = 0) {
 
 function normalizeTicker(value) {
   const ticker = String(value || '').trim().toUpperCase();
-  return ticker.endsWith('.ASX') ? `${ticker.slice(0, -4)}.AX` : ticker;
+  const suffixAliases = {
+    ASX: 'AX',
+    LON: 'L',
+    LSE: 'L',
+    HKG: 'HK',
+    HKEX: 'HK',
+    TYO: 'T',
+    JPX: 'T',
+    NSE: 'NS',
+    BSE: 'BO',
+    TSX: 'TO',
+    TSXV: 'V',
+    NZX: 'NZ',
+    SGX: 'SI',
+    SIX: 'SW',
+    XETRA: 'DE',
+    B3: 'SA',
+    BMV: 'MX',
+    TASE: 'TA'
+  };
+  const parts = ticker.split('.');
+  const suffix = parts.length > 1 ? parts[parts.length - 1] : '';
+  if (suffixAliases[suffix]) {
+    parts[parts.length - 1] = suffixAliases[suffix];
+    return parts.join('.');
+  }
+  return ticker;
 }
 
 function formatPct(value) {
